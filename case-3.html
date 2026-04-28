@@ -265,10 +265,11 @@ body {
 .nav-l2.active .icon-filled { display:inline-flex; }
 
 .sidebar-footer {
-  padding:10px 14px;
+  padding:14px 14px 32px;
   display:flex;
+  flex-direction:column;
   align-items:center;
-  gap:10px;
+  gap:8px;
   font-size:12px;
   color:rgba(255,255,255,0.85);
   cursor:pointer;
@@ -277,18 +278,18 @@ body {
 }
 .sidebar-footer:hover { background:rgba(255,255,255,0.06); }
 .sidebar-footer .avatar {
-  width:28px; height:28px;
+  width:32px; height:32px;
   border-radius:50%;
   background:var(--p3);
   display:flex; align-items:center; justify-content:center;
-  font-size:10px; font-weight:600; color:#fff;
+  font-size:11px; font-weight:600; color:#fff;
   flex-shrink:0;
 }
 .sidebar-footer-name {
-  flex:1;
+  max-width:100%;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  text-align:center;
 }
-.sidebar-footer-caret { color:var(--muted); display:flex; align-items:center; }
 .badge {
   margin-left:auto;
   background:var(--y);
@@ -374,12 +375,10 @@ body {
   gap:12px;
 }
 .hero-team {
-  width:36px; height:36px;
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  color:#fff;
-  font-weight:600; font-size:13px;
+  width:40px; height:40px;
   flex-shrink:0;
+  object-fit:contain;
+  display:block;
 }
 .hero-title {
   display:flex; flex-direction:column; gap:2px; min-width:0;
@@ -559,10 +558,9 @@ td:first-child { padding-left:20px; }
 }
 .team-logo {
   width:24px; height:24px;
-  border-radius:50%;
   flex-shrink:0;
-  display:flex; align-items:center; justify-content:center;
-  font-size:8px; font-weight:700; color:#fff;
+  object-fit:contain;
+  display:block;
 }
 .opponent-name {
   font-size:13px;
@@ -1040,9 +1038,6 @@ td:first-child { padding-left:20px; }
     <div class="sidebar-footer">
       <div class="avatar">CG</div>
       <span class="sidebar-footer-name">colin girault-matz</span>
-      <span class="sidebar-footer-caret">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
     </div>
 
   </aside>
@@ -1337,7 +1332,7 @@ matches.forEach((m, i) => {
         <div class="comp-badge">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="var(--p3)" stroke-width="1"/><path d="M2 6h8M6 2v8" stroke="var(--p3)" stroke-width="0.8" stroke-opacity="0.5"/></svg>
         </div>
-        <div class="team-logo" style="background:${color}">${initials}</div>
+        <img class="team-logo" src="logos/${m.short}.svg" alt="${m.opp}">
         <span class="opponent-name">${m.opp}</span>
         <span class="loc-badge">H</span>
       </div>
@@ -1450,7 +1445,7 @@ function renderHeroes() {
         <span class="hero-dx${dx.soon ? ' soon' : ''}">${dx.text}</span>
       </div>
       <div class="hero-main">
-        <div class="hero-team" style="background:${color}">${initials}</div>
+        <img class="hero-team" src="logos/${m.short}.svg" alt="${m.opp}">
         <div class="hero-title">
           <div class="hero-opp">J${m.j} · ${m.opp}</div>
           <div class="hero-meta">
