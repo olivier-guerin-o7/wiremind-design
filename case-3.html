@@ -181,34 +181,113 @@ body {
   overflow:hidden;
 }
 
-/* ── Sidebar ────────────────────────────────────────────────────────────── */
+/* ── Sidebar (unified L1 + L2) ─────────────────────────────────────────── */
 .sidebar {
-  width:168px;
+  width:200px;
   flex-shrink:0;
-  background:#fff;
-  border-right:1px solid var(--border);
-  padding:12px 0;
-  overflow-y:auto;
+  background:var(--p5);
+  border-right:1px solid rgba(255,255,255,0.06);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
 }
-.sidebar-item {
+.sidebar-header {
+  padding:18px 20px;
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
+}
+.sidebar-header svg { color:#fff; }
+.nav-tree {
+  flex:1;
+  overflow-y:auto;
+  padding:10px 0;
+}
+.nav-l1 {
   display:flex;
   align-items:center;
   gap:10px;
   padding:9px 20px;
-  font-size:12.5px;
-  color:var(--muted);
+  font-size:13px;
+  color:rgba(255,255,255,0.55);
   cursor:pointer;
-  transition:all 0.12s;
+  transition:color 0.12s, background 0.12s;
+  position:relative;
+  user-select:none;
+}
+.nav-l1:hover { color:#fff; background:rgba(255,255,255,0.04); }
+.nav-l1.active { color:#fff; background:rgba(255,255,255,0.08); }
+.nav-l1-label { flex:1; }
+.nav-chevron {
+  transition:transform 0.2s;
+  display:flex; align-items:center;
+  color:rgba(255,255,255,0.55);
+}
+.nav-l1.expanded .nav-chevron { transform:rotate(180deg); }
+.nav-l2-group {
+  overflow:hidden;
+  max-height:0;
+  transition:max-height 0.24s ease, background-color 0.12s;
+}
+.nav-l2-group.expanded { max-height:320px; }
+/* When L1 is active+expanded, extend the highlight to its L2 group */
+.nav-l1.active + .nav-l2-group.expanded { background:rgba(255,255,255,0.08); }
+.nav-l2 {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:7px 20px;
+  font-size:12.5px;
+  color:rgba(255,255,255,0.55);
+  cursor:pointer;
+  transition:color 0.12s, background 0.12s;
   position:relative;
 }
-.sidebar-item:hover { color:var(--p4); background:var(--pl); }
-.sidebar-item.active { color:var(--p5); font-weight:600; background:var(--pl); }
-.sidebar-item.active::before {
+.nav-l2:hover { color:#fff; background:rgba(255,255,255,0.04); }
+/* L2 items inside the active group inherit white (full opacity) */
+.nav-l1.active + .nav-l2-group .nav-l2 { color:#fff; }
+.nav-l2 svg { opacity:0.6; }
+.nav-l1.active + .nav-l2-group .nav-l2 svg { opacity:0.85; }
+/* Active L2: detached yellow accent bar + filled icon */
+.nav-l2.active::before {
   content:'';
-  position:absolute; left:0; top:4px; bottom:4px;
-  width:3px; background:var(--p3);
-  border-radius:0 3px 3px 0;
+  position:absolute;
+  left:8px;
+  top:6px; bottom:6px;
+  width:3px;
+  background:var(--y);
+  border-radius:2px;
 }
+.nav-l2.active svg { opacity:1; }
+.nav-l2 .icon-filled { display:none; }
+.nav-l2.active .icon-outline { display:none; }
+.nav-l2.active .icon-filled { display:inline-flex; }
+
+.sidebar-footer {
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+  color:rgba(255,255,255,0.85);
+  cursor:pointer;
+  flex-shrink:0;
+  transition:background 0.12s;
+}
+.sidebar-footer:hover { background:rgba(255,255,255,0.06); }
+.sidebar-footer .avatar {
+  width:28px; height:28px;
+  border-radius:50%;
+  background:var(--p3);
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:600; color:#fff;
+  flex-shrink:0;
+}
+.sidebar-footer-name {
+  flex:1;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.sidebar-footer-caret { color:var(--muted); display:flex; align-items:center; }
 .badge {
   margin-left:auto;
   background:var(--y);
@@ -873,71 +952,98 @@ td:first-child { padding-left:20px; }
 </head>
 <body>
 
-<!-- TOP BAR -->
-<header class="topbar">
-  <div class="topbar-logo">
-    <svg width="108" height="14" viewBox="0 0 272 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="EVENTORI">
-      <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
-      <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
-      <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
-      <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
-      <path d="M265.338 28.9259V1.84277H271.685V28.9259H265.338Z"/>
-      <path d="M232.297 28.9259V1.84277H250.668C252.639 1.84277 254.268 2.22386 255.556 2.98602C256.844 3.7219 257.803 4.73374 258.434 6.02154C259.065 7.30934 259.38 8.75482 259.38 10.358C259.38 12.0663 258.973 13.6169 258.158 15.0098C257.369 16.3765 256.174 17.4409 254.57 18.203L260.168 28.9259H253.112L248.302 19.3069H238.644V28.9259H232.297ZM238.644 14.3002H249.248C250.405 14.3002 251.298 13.9586 251.929 13.2752C252.586 12.5656 252.915 11.6326 252.915 10.4763C252.915 9.74038 252.77 9.10962 252.481 8.58399C252.192 8.03208 251.772 7.62471 251.22 7.3619C250.694 7.0728 250.037 6.92825 249.248 6.92825H238.644V14.3002Z"/>
-      <path d="M210.761 29.5039C207.528 29.5039 204.729 28.9782 202.364 27.927C200.025 26.8494 198.225 25.2725 196.963 23.1963C195.702 21.1201 195.071 18.5576 195.071 15.509C195.071 12.434 195.702 9.85842 196.963 7.78218C198.225 5.70594 200.025 4.14219 202.364 3.09092C204.729 2.01338 207.528 1.47461 210.761 1.47461C214.02 1.47461 216.819 2.01338 219.158 3.09092C221.523 4.14219 223.337 5.70594 224.598 7.78218C225.86 9.85842 226.49 12.434 226.49 15.509C226.49 18.5576 225.86 21.1201 224.598 23.1963C223.337 25.2725 221.523 26.8494 219.158 27.927C216.819 28.9782 214.02 29.5039 210.761 29.5039ZM210.761 24.4184C212.18 24.4184 213.455 24.2344 214.585 23.8665C215.715 23.4985 216.674 22.9598 217.463 22.2502C218.277 21.5406 218.895 20.6601 219.316 19.6089C219.762 18.5576 219.986 17.3618 219.986 16.0214V14.957C219.986 13.5904 219.762 12.3946 219.316 11.3696C218.895 10.3183 218.277 9.43792 217.463 8.72832C216.674 8.01871 215.715 7.47994 214.585 7.112C213.455 6.74406 212.18 6.56009 210.761 6.56009C209.368 6.56009 208.106 6.74406 206.976 7.112C205.846 7.47994 204.874 8.01871 204.059 8.72832C203.271 9.43792 202.666 10.3183 202.246 11.3696C201.825 12.3946 201.615 13.5904 201.615 14.957V16.0214C201.615 17.3618 201.825 18.5576 202.246 19.6089C202.666 20.6601 203.271 21.5406 204.059 22.2502C204.874 22.9598 205.846 23.4985 206.976 23.8665C208.106 24.2344 209.368 24.4184 210.761 24.4184Z"/>
-      <path d="M175.873 28.9259V7.20421H165.583V1.84277H192.548V7.20421H182.259V28.9259H175.873Z"/>
-      <path d="M133.444 28.9259V1.84277H139.278L151.972 15.956C152.209 16.1662 152.485 16.4685 152.8 16.8627C153.142 17.2569 153.484 17.6511 153.825 18.0453C154.167 18.4396 154.443 18.7812 154.653 19.0703L154.929 19.0309C154.903 18.5578 154.876 18.0191 154.85 17.4146C154.85 16.8101 154.85 16.2845 154.85 15.8377V1.84277H160.882V28.9259H155.126L142.353 14.655C141.88 14.1557 141.381 13.6038 140.855 12.9993C140.356 12.3948 139.962 11.9217 139.673 11.5801H139.436C139.436 11.948 139.436 12.4342 139.436 13.0387C139.462 13.6169 139.475 14.2477 139.475 14.931V28.9259H133.444Z"/>
-      <path d="M102.521 28.9259V1.84277H127.199V6.96767H108.868V12.6051H125.07V17.6511H108.868V23.801H127.475V28.9259H102.521Z"/>
-      <path d="M79.7305 28.9259L68.3374 1.84277H75.3152L81.5439 17.73C81.7278 18.1505 81.925 18.663 82.1352 19.2674C82.3717 19.8456 82.5951 20.4107 82.8054 20.9626C83.0156 21.5145 83.1865 22.0007 83.3179 22.4212H83.5938C83.7252 22.027 83.8961 21.5671 84.1063 21.0414C84.3166 20.4895 84.5268 19.9245 84.7371 19.3463C84.9736 18.7681 85.1839 18.2293 85.3678 17.73L91.5966 1.84277H98.2589L86.8659 28.9259H79.7305Z"/>
-      <path d="M40.1733 28.9259V1.84277H64.8517V6.96767H46.5203V12.6051H62.7229V17.6511H46.5203V23.801H65.1277V28.9259H40.1733Z"/>
-    </svg>
-  </div>
-  <nav class="topbar-nav">
-    <div class="nav-item">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 4v2.5L8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Configuration
-    </div>
-    <div class="nav-item active">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="2.5" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 1.5v2M9 1.5v2M1.5 5.5h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Calendar
-    </div>
-    <div class="nav-item">CRM</div>
-    <div class="nav-item">CMS</div>
-    <div class="nav-item">Exports</div>
-    <div class="nav-item">Analytics</div>
-  </nav>
-  <div class="topbar-user">
-    <div class="avatar">CG</div>
-    colin girault-matz
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" stroke-linecap="round"/></svg>
-  </div>
-</header>
 
 <!-- SEASON BAR -->
 <!-- APP BODY: sidebar | content -->
 <div class="app-body">
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR (unified L1 + L2) -->
   <aside class="sidebar">
-    <div class="sidebar-item active">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 1v2M10 1v2M1 5h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Events
+
+    <div class="sidebar-header">
+      <svg width="108" height="14" viewBox="0 0 272 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="EVENTORI">
+        <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
+        <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
+        <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
+        <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
+        <path d="M265.338 28.9259V1.84277H271.685V28.9259H265.338Z"/>
+        <path d="M232.297 28.9259V1.84277H250.668C252.639 1.84277 254.268 2.22386 255.556 2.98602C256.844 3.7219 257.803 4.73374 258.434 6.02154C259.065 7.30934 259.38 8.75482 259.38 10.358C259.38 12.0663 258.973 13.6169 258.158 15.0098C257.369 16.3765 256.174 17.4409 254.57 18.203L260.168 28.9259H253.112L248.302 19.3069H238.644V28.9259H232.297ZM238.644 14.3002H249.248C250.405 14.3002 251.298 13.9586 251.929 13.2752C252.586 12.5656 252.915 11.6326 252.915 10.4763C252.915 9.74038 252.77 9.10962 252.481 8.58399C252.192 8.03208 251.772 7.62471 251.22 7.3619C250.694 7.0728 250.037 6.92825 249.248 6.92825H238.644V14.3002Z"/>
+        <path d="M210.761 29.5039C207.528 29.5039 204.729 28.9782 202.364 27.927C200.025 26.8494 198.225 25.2725 196.963 23.1963C195.702 21.1201 195.071 18.5576 195.071 15.509C195.071 12.434 195.702 9.85842 196.963 7.78218C198.225 5.70594 200.025 4.14219 202.364 3.09092C204.729 2.01338 207.528 1.47461 210.761 1.47461C214.02 1.47461 216.819 2.01338 219.158 3.09092C221.523 4.14219 223.337 5.70594 224.598 7.78218C225.86 9.85842 226.49 12.434 226.49 15.509C226.49 18.5576 225.86 21.1201 224.598 23.1963C223.337 25.2725 221.523 26.8494 219.158 27.927C216.819 28.9782 214.02 29.5039 210.761 29.5039ZM210.761 24.4184C212.18 24.4184 213.455 24.2344 214.585 23.8665C215.715 23.4985 216.674 22.9598 217.463 22.2502C218.277 21.5406 218.895 20.6601 219.316 19.6089C219.762 18.5576 219.986 17.3618 219.986 16.0214V14.957C219.986 13.5904 219.762 12.3946 219.316 11.3696C218.895 10.3183 218.277 9.43792 217.463 8.72832C216.674 8.01871 215.715 7.47994 214.585 7.112C213.455 6.74406 212.18 6.56009 210.761 6.56009C209.368 6.56009 208.106 6.74406 206.976 7.112C205.846 7.47994 204.874 8.01871 204.059 8.72832C203.271 9.43792 202.666 10.3183 202.246 11.3696C201.825 12.3946 201.615 13.5904 201.615 14.957V16.0214C201.615 17.3618 201.825 18.5576 202.246 19.6089C202.666 20.6601 203.271 21.5406 204.059 22.2502C204.874 22.9598 205.846 23.4985 206.976 23.8665C208.106 24.2344 209.368 24.4184 210.761 24.4184Z"/>
+        <path d="M175.873 28.9259V7.20421H165.583V1.84277H192.548V7.20421H182.259V28.9259H175.873Z"/>
+        <path d="M133.444 28.9259V1.84277H139.278L151.972 15.956C152.209 16.1662 152.485 16.4685 152.8 16.8627C153.142 17.2569 153.484 17.6511 153.825 18.0453C154.167 18.4396 154.443 18.7812 154.653 19.0703L154.929 19.0309C154.903 18.5578 154.876 18.0191 154.85 17.4146C154.85 16.8101 154.85 16.2845 154.85 15.8377V1.84277H160.882V28.9259H155.126L142.353 14.655C141.88 14.1557 141.381 13.6038 140.855 12.9993C140.356 12.3948 139.962 11.9217 139.673 11.5801H139.436C139.436 11.948 139.436 12.4342 139.436 13.0387C139.462 13.6169 139.475 14.2477 139.475 14.931V28.9259H133.444Z"/>
+        <path d="M102.521 28.9259V1.84277H127.199V6.96767H108.868V12.6051H125.07V17.6511H108.868V23.801H127.475V28.9259H102.521Z"/>
+        <path d="M79.7305 28.9259L68.3374 1.84277H75.3152L81.5439 17.73C81.7278 18.1505 81.925 18.663 82.1352 19.2674C82.3717 19.8456 82.5951 20.4107 82.8054 20.9626C83.0156 21.5145 83.1865 22.0007 83.3179 22.4212H83.5938C83.7252 22.027 83.8961 21.5671 84.1063 21.0414C84.3166 20.4895 84.5268 19.9245 84.7371 19.3463C84.9736 18.7681 85.1839 18.2293 85.3678 17.73L91.5966 1.84277H98.2589L86.8659 28.9259H79.7305Z"/>
+        <path d="M40.1733 28.9259V1.84277H64.8517V6.96767H46.5203V12.6051H62.7229V17.6511H46.5203V23.801H65.1277V28.9259H40.1733Z"/>
+      </svg>
     </div>
-    <div class="sidebar-item">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 4v6l5 3 5-3V4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-      Seasonal
+
+    <nav class="nav-tree" id="navTree">
+      <div class="nav-l1" data-key="config">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4.5v2.5L8.5 8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="nav-l1-label">Configuration</span>
+      </div>
+
+      <div class="nav-l1 active expanded" data-key="calendar" data-has-children="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 1v2M10 1v2M1 5h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="nav-l1-label">Calendar</span>
+        <span class="nav-chevron">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+      <div class="nav-l2-group expanded" data-parent="calendar">
+        <div class="nav-l2 active">
+          <svg class="icon-outline" width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2.5" width="11" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 1.5v2M9.5 1.5v2M1 5.5h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <svg class="icon-filled" width="13" height="13" viewBox="0 0 13 13"><rect x="1" y="2.5" width="11" height="9" rx="1.5" fill="currentColor"/><path d="M3.5 1.5v2M9.5 1.5v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1 5.5h11" stroke="var(--p5)" stroke-width="1.2"/></svg>
+          Events
+        </div>
+        <div class="nav-l2">
+          <svg class="icon-outline" width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1L1.5 4v5l5 3 5-3V4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          <svg class="icon-filled" width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 1L1.5 4v5l5 3 5-3V4z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          Seasonal
+        </div>
+        <div class="nav-l2">
+          <svg class="icon-outline" width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="4" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 4V3a1.5 1.5 0 0 1 3 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+          <svg class="icon-filled" width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="4" width="9" height="7" rx="1.5" fill="currentColor"/><path d="M5 4V3a1.5 1.5 0 0 1 3 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+          Packs
+        </div>
+        <div class="nav-l2">
+          <svg class="icon-outline" width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M5 6.5h3M6.5 5v3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <svg class="icon-filled" width="13" height="13" viewBox="0 0 13 13"><circle cx="6.5" cy="6.5" r="5" fill="currentColor"/><path d="M5 6.5h3M6.5 5v3" stroke="var(--p5)" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Promo codes
+        </div>
+        <div class="nav-l2">
+          <svg class="icon-outline" width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h2l2-4 2 7 2-3h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="icon-filled" width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h2l2-4 2 7 2-3h2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Fees
+        </div>
+      </div>
+
+      <div class="nav-l1" data-key="crm">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 12c0-2.5 2.2-4 5-4s5 1.5 5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="nav-l1-label">CRM</span>
+      </div>
+      <div class="nav-l1" data-key="cms">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="2.5" width="11" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 5.5h11" stroke="currentColor" stroke-width="1.2"/></svg>
+        <span class="nav-l1-label">CMS</span>
+      </div>
+      <div class="nav-l1" data-key="exports">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 6l3 3 3-3M2.5 11h9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="nav-l1-label">Exports</span>
+      </div>
+      <div class="nav-l1" data-key="analytics">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11V6M6 11V3M10 11V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span class="nav-l1-label">Analytics</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="avatar">CG</div>
+      <span class="sidebar-footer-name">colin girault-matz</span>
+      <span class="sidebar-footer-caret">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
     </div>
-    <div class="sidebar-item">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="4" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 4V3a2 2 0 0 1 4 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
-      Packs
-    </div>
-    <div class="sidebar-item">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7h4M7 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Promo codes
-    </div>
-    <div class="sidebar-item">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h2l2-4 2 8 2-4h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Fees
-    </div>
+
   </aside>
 
   <!-- CONTENT COLUMN: seasonbar on top + main row -->
@@ -1387,6 +1493,35 @@ if (heroEl && heroToOpen) {
 }
 
 // Show scrollbar briefly while scrolling, then fade out
+// ── Sidebar nav: L1 expand/collapse + L2 active toggle ───────────────────
+document.querySelectorAll('.nav-l1').forEach(l1 => {
+  l1.addEventListener('click', () => {
+    const key = l1.dataset.key;
+    const hasChildren = l1.dataset.hasChildren === 'true';
+    const isActiveAlready = l1.classList.contains('active');
+
+    // collapse all groups, deactivate all L1s
+    document.querySelectorAll('.nav-l1').forEach(el => {
+      el.classList.remove('active', 'expanded');
+    });
+    document.querySelectorAll('.nav-l2-group').forEach(g => g.classList.remove('expanded'));
+
+    l1.classList.add('active');
+    if (hasChildren) {
+      l1.classList.add('expanded');
+      const group = document.querySelector(`.nav-l2-group[data-parent="${key}"]`);
+      if (group) group.classList.add('expanded');
+    }
+  });
+});
+document.querySelectorAll('.nav-l2').forEach(l2 => {
+  l2.addEventListener('click', e => {
+    e.stopPropagation();
+    document.querySelectorAll('.nav-l2').forEach(el => el.classList.remove('active'));
+    l2.classList.add('active');
+  });
+});
+
 document.querySelectorAll('.scroll-hide').forEach(el => {
   let t;
   el.addEventListener('scroll', () => {
