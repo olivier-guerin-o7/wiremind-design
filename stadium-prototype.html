@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EVENTORI — Stadium SVG Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+SemiExpanded:wght@600&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p6: #040013;
+  --p5: #2a0c70;
+  --p4: #462baa;
+  --p3: #6c4ddc;
+  --p1: #cbb5f6;
+  --pl: #f6f5f8;
+  --yellow: #f5d65c;
+  --white: #fafaff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--pl);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Instrument Sans', Arial, sans-serif;
+  padding: 40px 20px;
+}
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 32px 24px;
+  width: 520px;
+  box-shadow: 0 2px 20px rgba(4,0,19,0.09);
+}
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+h2 {
+  font-family: 'Archivo SemiExpanded', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--p5);
+}
+.occ-global {
+  font-family: 'Archivo SemiExpanded', Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--p3);
+}
+.meta {
+  font-size: 11px;
+  color: var(--p3);
+  margin-bottom: 24px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* Stadium 3D tilt */
+.stadium-tilt {
+  perspective: 700px;
+  display: flex;
+  justify-content: center;
+}
+.stadium-inner {
+  transform: rotateX(28deg);
+  transform-origin: 50% 60%;
+}
+
+/* SVG section interactivity */
+.stand { cursor: pointer; }
+.stand .fill { transition: opacity 0.15s ease; }
+.stand:hover .fill { opacity: 1 !important; }
+.stand .stroke { transition: stroke-width 0.15s ease; }
+.stand:hover .stroke { stroke-width: 1.2 !important; }
+
+/* Tooltip */
+#tip {
+  position: fixed;
+  background: var(--p6);
+  color: #fff;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-family: 'Instrument Sans', Arial, sans-serif;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s;
+  z-index: 999;
+  line-height: 1.5;
+}
+#tip.show { opacity: 1; }
+#tip strong { color: var(--yellow); }
+
+/* Legend */
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 20px;
+  font-size: 11px;
+  color: var(--p4);
+}
+.legend-bar {
+  width: 120px;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--p1), var(--p3), var(--p5));
+}
+
+/* Section grid */
+.sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--pl);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+  border: 1.5px solid transparent;
+}
+.section-row:hover { background: #ede9fb; border-color: var(--p1); }
+.section-row.active { background: #ede9fb; border-color: var(--p3); }
+.section-name {
+  font-size: 11px;
+  color: var(--p5);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+.section-pct {
+  font-family: 'Archivo SemiExpanded', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div id="tip"></div>
+
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2>Occupation rate</h2>
+      <p class="meta">Paul-Lignon · Rodez vs ASSE · JOURNÉE 33</p>
+    </div>
+    <span class="occ-global">83.9%</span>
+  </div>
+
+  <div class="stadium-tilt">
+    <div class="stadium-inner">
+      <svg id="stadium" width="456" height="260" viewBox="0 0 456 260" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span>Low occ.</span>
+    <div class="legend-bar"></div>
+    <span>High occ.</span>
+  </div>
+
+  <div class="sections" id="sectionGrid"></div>
+</div>
+
+<script>
+// ── Stadium geometry ─────────────────────────────────────────────────────────
+const CX = 228, CY = 130;
+const OR = 210, OY = 120; // outer ellipse rx, ry
+const IR = 136, IY = 78;  // inner ellipse (pitch edge + stand depth)
+const PR = 108, PY = 60;  // pitch
+
+// Convert angle (degrees, 0=right, 90=down) to ellipse point
+function ep(cx, cy, rx, ry, deg) {
+  const r = deg * Math.PI / 180;
+  return [cx + rx * Math.cos(r), cy + ry * Math.sin(r)];
+}
+
+// SVG arc path segment between two angles on an ellipse
+function arcPath(cx, cy, rx, ry, a1, a2, sweep) {
+  const [x1, y1] = ep(cx, cy, rx, ry, a1);
+  const [x2, y2] = ep(cx, cy, rx, ry, a2);
+  const large = Math.abs(a2 - a1) > 180 ? 1 : 0;
+  return `${x1.toFixed(2)},${y1.toFixed(2)} A ${rx},${ry} 0 ${large} ${sweep} ${x2.toFixed(2)},${y2.toFixed(2)}`;
+}
+
+// Build a stand path between angle a1→a2 (outer CW), then a2→a1 (inner CCW)
+function standPath(a1, a2) {
+  const [ox1, oy1] = ep(CX, CY, OR, OY, a1);
+  const [ox2, oy2] = ep(CX, CY, OR, OY, a2);
+  const [ix1, iy1] = ep(CX, CY, IR, IY, a1);
+  const [ix2, iy2] = ep(CX, CY, IR, IY, a2);
+  const large = (a2 - a1 + 360) % 360 > 180 ? 1 : 0;
+  return [
+    `M ${ix1.toFixed(2)},${iy1.toFixed(2)}`,
+    `L ${ox1.toFixed(2)},${oy1.toFixed(2)}`,
+    `A ${OR},${OY} 0 ${large} 1 ${ox2.toFixed(2)},${oy2.toFixed(2)}`,
+    `L ${ix2.toFixed(2)},${iy2.toFixed(2)}`,
+    `A ${IR},${IY} 0 ${large} 0 ${ix1.toFixed(2)},${iy1.toFixed(2)}`,
+    `Z`
+  ].join(' ');
+}
+
+// Row lines inside a stand (seating rows suggestion)
+function rowLines(a1, a2, count = 4) {
+  const lines = [];
+  for (let i = 1; i <= count; i++) {
+    const t = i / (count + 1);
+    const rx = IR + (OR - IR) * t;
+    const ry = IY + (OY - IY) * t;
+    const [sx, sy] = ep(CX, CY, rx, ry, a1);
+    const [ex, ey] = ep(CX, CY, rx, ry, a2);
+    const large = (a2 - a1 + 360) % 360 > 180 ? 1 : 0;
+    lines.push(`<path d="M ${sx.toFixed(1)},${sy.toFixed(1)} A ${rx.toFixed(1)},${ry.toFixed(1)} 0 ${large} 1 ${ex.toFixed(1)},${ey.toFixed(1)}" fill="none" stroke="#2a0c70" stroke-width="0.3" stroke-opacity="0.25"/>`);
+  }
+  return lines.join('');
+}
+
+// Occupancy → fill color (purple scale)
+function occColor(pct) {
+  // Map 0–100% to purple scale
+  if (pct >= 93) return { fill: '#2a0c70', opacity: 0.92 };
+  if (pct >= 85) return { fill: '#462baa', opacity: 0.82 };
+  if (pct >= 78) return { fill: '#6c4ddc', opacity: 0.72 };
+  if (pct >= 70) return { fill: '#6c4ddc', opacity: 0.52 };
+  return { fill: '#cbb5f6', opacity: 0.50 };
+}
+
+// ── Section data ─────────────────────────────────────────────────────────────
+// Angles: 0=right, 90=bottom, 180=left, 270=top
+// East=right, South=bottom, West=left, North=top
+const stands = [
+  { id: 'presidentielle', name: 'Tribune Présidentielle', a1: -50, a2: 50,  occ: 95 },
+  { id: 'sud',            name: 'Tribune Sud Ségala',     a1: 50,  a2: 130, occ: 86 },
+  { id: 'cathédrale',     name: 'Tribune Honneur',        a1: 130, a2: 230, occ: 90 },
+  { id: 'nord',           name: 'Virage Nord Aubrac',     a1: 230, a2: 310, occ: 75 },
+];
+
+// ── Render SVG ───────────────────────────────────────────────────────────────
+const svg = document.getElementById('stadium');
+
+// Outer boundary (background ring)
+svg.innerHTML += `<ellipse cx="${CX}" cy="${CY}" rx="${OR}" ry="${OY}" fill="#f6f5f8" stroke="#2a0c70" stroke-width="0.6"/>`;
+
+// Stands
+stands.forEach(s => {
+  const path = standPath(s.a1, s.a2);
+  const { fill, opacity } = occColor(s.occ);
+  const rows = rowLines(s.a1, s.a2, 5);
+  svg.innerHTML += `
+  <g class="stand" data-id="${s.id}" data-name="${s.name}" data-occ="${s.occ}">
+    <path class="fill" d="${path}" fill="${fill}" fill-opacity="${opacity}"/>
+    ${rows}
+    <path class="stroke" d="${path}" fill="none" stroke="#2a0c70" stroke-width="0.7"/>
+  </g>`;
+});
+
+// Pitch
+svg.innerHTML += `
+  <ellipse cx="${CX}" cy="${CY}" rx="${PR}" ry="${PY}" fill="#dff0d8" stroke="#2a0c70" stroke-width="0.6"/>
+  <!-- pitch markings -->
+  <line x1="${CX}" y1="${CY - PY}" x2="${CX}" y2="${CY + PY}" stroke="#2a0c70" stroke-width="0.35" stroke-opacity="0.5"/>
+  <circle cx="${CX}" cy="${CY}" r="18" fill="none" stroke="#2a0c70" stroke-width="0.35" stroke-opacity="0.5"/>
+  <circle cx="${CX}" cy="${CY}" r="1.8" fill="#2a0c70" opacity="0.5"/>
+  <rect x="${CX - PR + 2}" y="${CY - 22}" width="28" height="44" rx="2" fill="none" stroke="#2a0c70" stroke-width="0.35" stroke-opacity="0.5"/>
+  <rect x="${CX + PR - 30}" y="${CY - 22}" width="28" height="44" rx="2" fill="none" stroke="#2a0c70" stroke-width="0.35" stroke-opacity="0.5"/>
+  <rect x="${CX - PR}" y="${CY - 10}" width="9" height="20" rx="1" fill="none" stroke="#2a0c70" stroke-width="0.5" stroke-opacity="0.6"/>
+  <rect x="${CX + PR - 9}" y="${CY - 10}" width="9" height="20" rx="1" fill="none" stroke="#2a0c70" stroke-width="0.5" stroke-opacity="0.6"/>
+`;
+
+// Stand labels (positioned at midpoint angle)
+stands.forEach(s => {
+  const midAngle = (s.a1 + s.a2) / 2;
+  const labelR = (IR + OR) / 2;
+  const labelRY = (IY + OY) / 2;
+  const [lx, ly] = ep(CX, CY, labelR, labelRY, midAngle);
+  const initials = s.name.split(' ').map(w => w[0]).join('').slice(0, 2);
+  svg.innerHTML += `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="middle" font-size="9" font-family="Instrument Sans, Arial" fill="#ffffff" fill-opacity="0.85" font-weight="500" pointer-events="none">${s.occ}%</text>`;
+});
+
+// ── Tooltip ───────────────────────────────────────────────────────────────────
+const tip = document.getElementById('tip');
+document.querySelectorAll('.stand').forEach(el => {
+  el.addEventListener('mouseenter', e => {
+    const name = el.dataset.name;
+    const occ = el.dataset.occ;
+    tip.innerHTML = `${name}<br><strong>${occ}%</strong> occupied`;
+    tip.classList.add('show');
+  });
+  el.addEventListener('mousemove', e => {
+    tip.style.left = (e.clientX + 14) + 'px';
+    tip.style.top  = (e.clientY - 10) + 'px';
+  });
+  el.addEventListener('mouseleave', () => tip.classList.remove('show'));
+});
+
+// ── Section grid ──────────────────────────────────────────────────────────────
+const grid = document.getElementById('sectionGrid');
+stands.forEach(s => {
+  const { fill, opacity } = occColor(s.occ);
+  const dotColor = fill;
+  const row = document.createElement('div');
+  row.className = 'section-row';
+  row.dataset.id = s.id;
+
+  // color pct text
+  let pctColor = '#6c4ddc';
+  if (s.occ >= 90) pctColor = '#2a0c70';
+  if (s.occ < 80)  pctColor = '#cbb5f6';
+
+  row.innerHTML = `
+    <span class="section-name">
+      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dotColor};opacity:${opacity};margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>${s.name}
+    </span>
+    <span class="section-pct" style="color:${pctColor}">${s.occ}%</span>`;
+
+  // hover sync with SVG
+  row.addEventListener('mouseenter', () => {
+    document.querySelector(`.stand[data-id="${s.id}"] .fill`).style.opacity = '1';
+    row.classList.add('active');
+  });
+  row.addEventListener('mouseleave', () => {
+    const stand = document.querySelector(`.stand[data-id="${s.id}"]`);
+    const { opacity } = occColor(s.occ);
+    stand.querySelector('.fill').style.opacity = opacity;
+    row.classList.remove('active');
+  });
+
+  grid.appendChild(row);
+});
+</script>
+</body>
+</html>
