@@ -1014,7 +1014,7 @@ td:first-child { padding-left:20px; }
         <div class="panel-match-title">
           <div>
             <div class="match-vs" id="panelTitle">Rodez vs ASSE</div>
-            <div class="match-sub" id="panelSub">JOURNÉE 33 · 5/2/26 · 8:00 PM · Ligue 2 BKT</div>
+            <div class="match-sub" id="panelSub">J33 · 5/2/26 · 8:00 PM · Ligue 2 BKT</div>
           </div>
           <button class="close-btn" id="closeBtn">✕</button>
         </div>
@@ -1216,7 +1216,7 @@ matches.forEach((m, i) => {
         <div class="status-dot" style="background:${up ? '#22c55e' : '#d1d5db'}"></div>
         <div class="match-info">
           <div class="journee">
-            JOURNÉE ${m.j}
+            J${m.j}
             <span class="dx-badge${dx.soon?' soon':''}">${dx.text}</span>
           </div>
           <div class="match-date">${m.date} · ${m.time}</div>
@@ -1279,7 +1279,7 @@ function openPanel(m, source) {
 
   // update panel content
   document.getElementById('panelTitle').textContent = `Rodez vs ${m.opp}`;
-  document.getElementById('panelSub').textContent = `JOURNÉE ${m.j} · ${m.date} · ${m.time} · Ligue 2 BKT`;
+  document.getElementById('panelSub').textContent = `J${m.j} · ${m.date} · ${m.time} · Ligue 2 BKT`;
   document.getElementById('panelOcc').textContent = `${m.occ}%`;
   document.getElementById('kpiRevenue').textContent = `€${m.income.toLocaleString()}`;
   document.getElementById('kpiAvg').textContent = `avg. €${m.avg} / ticket`;
@@ -1343,7 +1343,7 @@ function renderHeroes() {
       <div class="hero-main">
         <div class="hero-team" style="background:${color}">${initials}</div>
         <div class="hero-title">
-          <div class="hero-opp">JOURNÉE ${m.j} · ${m.opp}</div>
+          <div class="hero-opp">J${m.j} · ${m.opp}</div>
           <div class="hero-meta">
             <span>${m.date} · ${m.time}</span>
             <span class="sep">·</span>
