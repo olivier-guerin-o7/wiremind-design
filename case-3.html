@@ -228,6 +228,135 @@ body {
   min-width:0;
 }
 
+/* ── Hero strip ─────────────────────────────────────────────────────────── */
+.hero-strip {
+  display:flex;
+  gap:16px;
+  padding:16px 20px;
+  background:var(--pl);
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.hero-card {
+  flex:1;
+  min-width:0;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:14px 16px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.hero-card:hover {
+  border-color:var(--p3);
+  box-shadow:0 4px 14px rgba(42,12,112,0.08);
+}
+.hero-card.active {
+  border-color:var(--p4);
+  box-shadow:0 4px 14px rgba(42,12,112,0.12);
+}
+.hero-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.hero-label {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+  display:flex; align-items:center; gap:6px;
+}
+.hero-label .dot {
+  width:6px; height:6px; border-radius:50%; background:#d1d5db;
+}
+.hero-label.next .dot { background:#22c55e; }
+.hero-dx {
+  font-family:'Instrument Sans', Arial, sans-serif;
+  font-size:11px;
+  font-weight:500;
+  padding:2px 8px;
+  border-radius:10px;
+  background:var(--pl);
+  color:var(--p4);
+}
+.hero-dx.soon { background:#fff3c4; color:#7a5400; }
+.hero-main {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.hero-team {
+  width:36px; height:36px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff;
+  font-weight:600; font-size:13px;
+  flex-shrink:0;
+}
+.hero-title {
+  display:flex; flex-direction:column; gap:2px; min-width:0;
+}
+.hero-opp {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--p5);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.hero-meta {
+  font-size:11.5px;
+  color:var(--muted);
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+.hero-meta .sep { opacity:0.4; }
+.hero-metrics {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.hero-metric {
+  background:var(--pl);
+  border-radius:var(--radius-md);
+  padding:8px 10px;
+  display:flex; flex-direction:column; gap:2px;
+}
+.hero-metric-label {
+  font-size:10px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+}
+.hero-metric-value {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:15px;
+  font-weight:600;
+  color:var(--p5);
+}
+.hero-occbar {
+  height:4px;
+  border-radius:2px;
+  background:var(--pl);
+  overflow:hidden;
+}
+.hero-occbar-fill {
+  height:100%;
+  background:var(--p3);
+  border-radius:2px;
+}
+.hero-card.past .hero-occbar-fill { background:var(--p1); }
+
+/* Stack on narrow viewports */
+@media (max-width: 900px) {
+  .hero-strip { flex-direction:column; }
+}
+
 /* ── Auto-hide scrollbars (visible on scroll/hover only) ───────────────── */
 .scroll-hide {
   scrollbar-width: thin;
@@ -837,6 +966,7 @@ td:first-child { padding-left:20px; }
 
   <!-- CALENDAR PANE -->
   <div class="calendar-pane" id="calendarPane">
+    <div class="hero-strip" id="heroStrip"></div>
     <div class="table-wrap scroll-hide">
       <table id="matchTable">
         <thead>
@@ -1143,11 +1273,12 @@ products.forEach(p => {
 const panel = document.getElementById('sidePanel');
 let activeRow = null;
 
-function openPanel(m, tr) {
-  // update active row
-  document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active'));
-  tr.classList.add('active');
-  activeRow = tr;
+function openPanel(m, source) {
+  // update active state on rows AND hero cards
+  document.querySelectorAll('tbody tr.active, .hero-card.active')
+    .forEach(el => el.classList.remove('active'));
+  if (source) source.classList.add('active');
+  activeRow = source;
 
   // update panel content
   document.getElementById('panelTitle').textContent = `Rodez vs ${m.opp}`;
@@ -1166,7 +1297,8 @@ function openPanel(m, tr) {
 
 function closePanel() {
   panel.classList.remove('open');
-  document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('tbody tr.active, .hero-card.active')
+    .forEach(el => el.classList.remove('active'));
   activeRow = null;
 }
 
@@ -1182,11 +1314,75 @@ document.querySelectorAll('.panel-nav-item').forEach(item => {
   });
 });
 
-// Auto-open last row (ASSE) for demo
-const lastRow = tbody.querySelector('tr:last-child');
-if (lastRow) {
-  const lastMatch = matches[matches.length - 1];
-  openPanel(lastMatch, lastRow);
+// ── Hero cards (next + last) ──────────────────────────────────────────────
+function renderHeroes() {
+  const sortedByDate = [...matches].sort((a,b) => matchDate(a) - matchDate(b));
+  const upcoming = sortedByDate.filter(isUpcoming);
+  const past     = sortedByDate.filter(m => !isUpcoming(m));
+  const next = upcoming[0];                  // soonest upcoming
+  const last = past[past.length - 1];        // most recent past
+
+  const heroStrip = document.getElementById('heroStrip');
+  heroStrip.innerHTML = '';
+
+  const cards = [];
+  if (next) cards.push({ m:next, kind:'next', label:'Next match' });
+  if (last) cards.push({ m:last, kind:'past', label:'Last played' });
+
+  cards.forEach(({ m, kind, label }) => {
+    const dx = dxLabel(m);
+    const color = teamColors[m.short] || '#6c4ddc';
+    const initials = m.short.slice(0,2);
+    const card = document.createElement('div');
+    card.className = `hero-card ${kind}`;
+    card.dataset.match = m.j;
+    card.innerHTML = `
+      <div class="hero-head">
+        <div class="hero-label ${kind}">
+          <span class="dot"></span>${label}
+        </div>
+        <span class="hero-dx${dx.soon ? ' soon' : ''}">${dx.text}</span>
+      </div>
+      <div class="hero-main">
+        <div class="hero-team" style="background:${color}">${initials}</div>
+        <div class="hero-title">
+          <div class="hero-opp">JOURNÉE ${m.j} · ${m.opp}</div>
+          <div class="hero-meta">
+            <span>${m.date} · ${m.time}</span>
+            <span class="sep">·</span>
+            <span>Paul-Lignon</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-metrics">
+        <div class="hero-metric">
+          <div class="hero-metric-label">Revenue</div>
+          <div class="hero-metric-value">€${(m.income/1000).toFixed(0)}k</div>
+        </div>
+        <div class="hero-metric">
+          <div class="hero-metric-label">Occupancy</div>
+          <div class="hero-metric-value">${m.occ}%</div>
+        </div>
+        <div class="hero-metric">
+          <div class="hero-metric-label">Tickets</div>
+          <div class="hero-metric-value">${m.sales.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="hero-occbar"><div class="hero-occbar-fill" style="width:${m.occ}%"></div></div>
+    `;
+    card.addEventListener('click', () => openPanel(m, card));
+    heroStrip.appendChild(card);
+  });
+
+  return { next, last };
+}
+const { next: heroNext } = renderHeroes();
+
+// Auto-open the next match for demo (or last past if no upcoming)
+const heroToOpen = heroNext || matches[matches.length - 1];
+const heroEl = document.querySelector('.hero-card');
+if (heroEl && heroToOpen) {
+  openPanel(heroToOpen, heroEl);
 }
 
 // Show scrollbar briefly while scrolling, then fade out
