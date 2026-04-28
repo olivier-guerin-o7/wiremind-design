@@ -192,7 +192,8 @@ body {
   overflow:hidden;
 }
 .sidebar-header {
-  padding:18px 20px;
+  height:48px;
+  padding:0 20px;
   display:flex;
   align-items:center;
   flex-shrink:0;
@@ -1069,10 +1070,8 @@ td:first-child { padding-left:20px; }
       </div>
     </div>
 
-    <div class="main">
-
-  <!-- CALENDAR PANE -->
-  <div class="calendar-pane" id="calendarPane">
+    <!-- CALENDAR PANE -->
+    <div class="calendar-pane" id="calendarPane">
     <div class="hero-strip" id="heroStrip"></div>
     <div class="table-wrap scroll-hide">
       <table id="matchTable">
@@ -1116,7 +1115,9 @@ td:first-child { padding-left:20px; }
     </div>
   </div>
 
-  <!-- SIDE PANEL -->
+  </div><!-- content-col -->
+
+  <!-- SIDE PANEL (full height, sibling of content-col) -->
   <div class="side-panel" id="sidePanel">
     <div class="panel-inner">
       <!-- Panel header -->
@@ -1237,8 +1238,6 @@ td:first-child { padding-left:20px; }
     </div><!-- panel-inner -->
   </div><!-- side-panel -->
 
-    </div><!-- main -->
-  </div><!-- content-col -->
 </div><!-- app-body -->
 
 <script>
