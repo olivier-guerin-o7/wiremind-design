@@ -580,6 +580,42 @@ body {
   color:var(--p5);
 }
 
+/* ── Deep-dive v2 — newspaper grid skeleton ─────────────────────────── */
+.dd-body--v2 { padding:20px; overflow:hidden; }
+.dd-grid--v2 {
+  display:grid;
+  grid-template-columns:repeat(12, 1fr);
+  grid-auto-rows:1fr;
+  gap:14px;
+  height:100%;
+}
+.dd-grid--v2 .dd-card { min-height:0; }
+.dd-span-3  { grid-column:span 3; }
+.dd-span-4  { grid-column:span 4; }
+.dd-span-6  { grid-column:span 6; }
+.dd-span-8  { grid-column:span 8; }
+.dd-span-12 { grid-column:span 12; }
+.dd-stack {
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  gap:14px;
+  min-height:0;
+}
+.dd-stack--13 { grid-template-rows:1fr 2fr; }
+.dd-stack .dd-card { min-height:0; }
+.dd-card--placeholder .dd-card-body {
+  background:rgba(108,77,220,0.06);
+  border:1px dashed rgba(108,77,220,0.18);
+  border-radius:var(--radius-md);
+  align-items:center;
+  justify-content:center;
+  color:var(--p3);
+  font-size:12px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  font-weight:600;
+}
+
 /* Stadium triptych: image | seats | legend */
 .stadium-triptych {
   display:grid;
@@ -1658,116 +1694,70 @@ tfoot td::before {
     </button>
   </header>
 
-  <div class="dd-body scroll-hide">
+  <div class="dd-body dd-body--v2 scroll-hide">
+    <div class="dd-grid--v2">
 
-    <!-- Stadium deep dive -->
-    <section class="dd-section" id="dd-stadium">
-      <h2 class="dd-section-title">Stadium</h2>
-      <div class="dd-grid">
-        <div class="dd-card dd-card-wide">
-          <div class="dd-card-body" id="ddSeatGrid"></div>
+      <!-- Row 1: Stadium hero (8) + Key figures + bullet (4) -->
+      <div class="dd-card dd-span-8 dd-card--placeholder">
+        <div class="dd-card-header">
+          <div class="dd-card-title">Stadium · zones · booking by stand</div>
+          <div class="dd-card-sub">Triptych: image · selected stand seats · booking-date legend</div>
         </div>
-        <div class="dd-card">
+        <div class="dd-card-body" id="ddSeatGrid">Stadium triptych</div>
+      </div>
+
+      <div class="dd-stack dd-stack--13 dd-span-4">
+        <div class="dd-card dd-card--placeholder">
           <div class="dd-card-header">
-            <div class="dd-card-title">Booking curves per stand</div>
-            <div class="dd-card-sub">% sold over the 60 days before kickoff</div>
+            <div class="dd-card-title">Headline figures</div>
+            <div class="dd-card-sub">Revenue · Occupancy · Avg ticket</div>
           </div>
-          <div class="dd-card-body" id="ddCurves"></div>
+          <div class="dd-card-body">KPIs</div>
         </div>
-        <div class="dd-card">
+        <div class="dd-card dd-card--placeholder">
           <div class="dd-card-header">
-            <div class="dd-card-title">Daily sales</div>
-            <div class="dd-card-sub">Last 30 days — bars with season avg line</div>
+            <div class="dd-card-title">vs benchmark</div>
+            <div class="dd-card-sub">Bullet bars · current · season avg · target</div>
           </div>
-          <div class="dd-card-body" id="ddHistogram"></div>
+          <div class="dd-card-body">Bullets</div>
         </div>
       </div>
-    </section>
 
-    <!-- Key figures deep dive -->
-    <section class="dd-section" id="dd-kpi">
-      <h2 class="dd-section-title">Key figures</h2>
-      <div class="dd-grid dd-grid--compact">
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Cumulative revenue curve</div>
-            <div class="dd-card-sub">This match · Season avg · Same fixture last season</div>
-          </div>
-          <div class="dd-card-body" id="ddRevenue"></div>
+      <!-- Row 2: Products (3) + Booking dynamics (6) + Channels stack (3) -->
+      <div class="dd-card dd-span-3 dd-card--placeholder">
+        <div class="dd-card-header">
+          <div class="dd-card-title">Products mix</div>
+          <div class="dd-card-sub">Donut + ranked top categories</div>
         </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Avg ticket price evolution</div>
-            <div class="dd-card-sub">Weekly bars over the booking window</div>
-          </div>
-          <div class="dd-card-body" id="ddPriceEvol"></div>
+        <div class="dd-card-body">Products</div>
+      </div>
+
+      <div class="dd-card dd-span-6 dd-card--placeholder">
+        <div class="dd-card-header">
+          <div class="dd-card-title">Booking dynamics</div>
+          <div class="dd-card-sub">Daily sales bars + cumulative % line · 60 days</div>
         </div>
-        <div class="dd-card">
+        <div class="dd-card-body">Dual-axis chart</div>
+      </div>
+
+      <div class="dd-stack dd-span-3">
+        <div class="dd-card dd-card--placeholder">
           <div class="dd-card-header">
-            <div class="dd-card-title">KPIs vs benchmark</div>
-            <div class="dd-card-sub">Current · season avg · target</div>
+            <div class="dd-card-title">Sales channels</div>
+            <div class="dd-card-sub">Compact horizontal bars</div>
           </div>
-          <div class="dd-card-body" id="ddBullets"></div>
+          <div class="dd-card-body">Channels</div>
+        </div>
+        <div class="dd-card dd-card--placeholder">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Promo / discount mix</div>
+            <div class="dd-card-sub">Top codes & redemption</div>
+          </div>
+          <div class="dd-card-body">Promo</div>
         </div>
       </div>
-    </section>
 
-    <!-- Products mix deep dive -->
-    <section class="dd-section" id="dd-products">
-      <h2 class="dd-section-title">Products mix</h2>
-      <div class="dd-grid">
-        <div class="dd-card dd-card-wide">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Mix evolution over the booking window</div>
-            <div class="dd-card-sub">100% stacked — share of revenue per category</div>
-          </div>
-          <div class="dd-card-body">[ stacked area ]</div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Current mix snapshot</div>
-            <div class="dd-card-sub">Single horizontal stacked bar</div>
-          </div>
-          <div class="dd-card-body">[ stacked bar ]</div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Top movers vs season median</div>
-            <div class="dd-card-sub">Diverging bars — over/under-indexed categories</div>
-          </div>
-          <div class="dd-card-body">[ diverging bars ]</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Channels deep dive -->
-    <section class="dd-section" id="dd-channels">
-      <h2 class="dd-section-title">Sales channels</h2>
-      <div class="dd-grid">
-        <div class="dd-card dd-card-wide">
-          <div class="dd-card-header">
-            <div class="dd-card-title">This match vs season average</div>
-            <div class="dd-card-sub">Side-by-side stacked horizontal bars</div>
-          </div>
-          <div class="dd-card-body">[ comparative bars ]</div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Per-channel performance</div>
-            <div class="dd-card-sub">Bullet charts: current vs season avg</div>
-          </div>
-          <div class="dd-card-body">[ bullets ]</div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Channel mix evolution</div>
-            <div class="dd-card-sub">Stacked area over the booking window</div>
-          </div>
-          <div class="dd-card-body">[ stacked area ]</div>
-        </div>
-      </div>
-    </section>
-
+    </div>
   </div>
 </div>
 
@@ -1947,8 +1937,9 @@ function openDeepDive(m) {
   document.getElementById('ddSub').textContent = `${m.date} · ${m.time} · Paul-Lignon · Ligue 2 BKT`;
   document.getElementById('ddEmblem').src = `logos/${m.short}.svg`;
   document.getElementById('ddEmblem').alt = m.opp;
-  buildStadiumDeepDive(m);
-  buildKPIDeepDive(m);
+  // v2 skeleton: charts disabled, judging layout only
+  // buildStadiumDeepDive(m);
+  // buildKPIDeepDive(m);
   dd.classList.add('open');
   ddBackdrop.classList.add('open');
   dd.setAttribute('aria-hidden', 'false');
