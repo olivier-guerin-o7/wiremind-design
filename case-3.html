@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EVENTORI — Calendar & Match — Redesign concept</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+SemiExpanded:wght@600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ── Tokens ─────────────────────────────────────────────────────────────── */
 :root {
@@ -22,7 +22,7 @@
   --text: var(--p5);
   --p2:   #7060a8;
   --muted:var(--p2);
-  --border: rgba(4,0,19,0.08);
+  --border: rgba(108,77,220,0.12);
   --radius-sm: 3px;
   --radius-md: 5px;
   --radius-lg: 8px;
@@ -37,7 +37,7 @@
 *,*::before,*::after { box-sizing: border-box; margin:0; padding:0; }
 html, body { height:100%; overflow:hidden; }
 body {
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   color: var(--text);
   background: var(--pl);
@@ -57,7 +57,7 @@ body {
   user-select:none;
 }
 .topbar-logo {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:14px;
   font-weight:600;
   color:#fff;
@@ -130,7 +130,7 @@ body {
   display:inline-flex;
   align-items:center;
   gap:8px;
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:16px;
   font-weight:600;
   color: var(--p5);
@@ -150,7 +150,7 @@ body {
   border-radius:var(--radius-md);
   font-size:12px;
   font-weight:500;
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   cursor:pointer;
   border:none;
   display:flex; align-items:center; gap:6px;
@@ -160,7 +160,7 @@ body {
 .btn-ghost {
   background:transparent;
   border:1px solid var(--p3);
-  color:var(--p4);
+  color:var(--p3);
 }
 .btn-ghost:hover { background:var(--pl); }
 .btn-icon {
@@ -171,7 +171,7 @@ body {
 .filter-count {
   font-size:11px;
   font-weight:600;
-  color:var(--p4);
+  color:var(--p3);
   margin-left:-4px;
 }
 
@@ -198,7 +198,7 @@ body {
 .sidebar {
   width:200px;
   flex-shrink:0;
-  background:var(--p5);
+  background:radial-gradient(ellipse at bottom right, rgba(231,90,124,0.12) 0%, transparent 65%), var(--p5);
   border-right:1px solid rgba(255,255,255,0.06);
   display:flex;
   flex-direction:column;
@@ -284,11 +284,23 @@ body {
 .sidebar-footer [data-lucide], .sidebar-footer .lucide { width:14px; height:14px; }
 .nav-chevron [data-lucide], .nav-chevron .lucide { width:10px; height:10px; }
 
+.sidebar-watermark {
+  padding:0 20px 28px;
+  display:flex;
+  justify-content:center;
+  flex-shrink:0;
+}
+.sidebar-watermark svg {
+  width:80px;
+  height:auto;
+  opacity:0.07;
+  color:#fff;
+}
 .sidebar-footer {
   display:flex;
   align-items:center;
   gap:10px;
-  padding:9px 20px 20px;
+  padding:9px 20px 28px;
   font-size:13px;
   color:#fff;
   cursor:pointer;
@@ -326,7 +338,7 @@ body {
   display:flex;
   gap:16px;
   padding:16px 20px;
-  background:var(--pl);
+  background:#f6f3fd;
   border-bottom:1px solid var(--border);
   flex-shrink:0;
 }
@@ -334,7 +346,7 @@ body {
   flex:1;
   min-width:0;
   background:#fff;
-  border:1px solid var(--border);
+  border:1px solid rgba(108,77,220,0.15);
   border-radius:var(--radius-lg);
   padding:16px 18px;
   cursor:pointer;
@@ -344,11 +356,11 @@ body {
   transition:border-color 0.15s, box-shadow 0.15s, transform 0.15s;
 }
 .hero-card:hover {
-  border-color:var(--p3);
+  border-color:rgba(108,77,220,0.25);
   box-shadow:0 4px 14px rgba(42,12,112,0.08);
 }
 .hero-card.active {
-  border-color:var(--p4);
+  border-color:rgba(108,77,220,0.35);
   box-shadow:0 4px 14px rgba(42,12,112,0.12);
 }
 .hero-head {
@@ -358,7 +370,7 @@ body {
   gap:8px;
 }
 .hero-label {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:10px;
   font-weight:600;
   letter-spacing:0.08em;
@@ -371,13 +383,13 @@ body {
 }
 .hero-label.next .dot { background:#22c55e; }
 .hero-dx {
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:11px;
   font-weight:500;
   padding:2px 8px;
   border-radius:10px;
   background:var(--pl);
-  color:var(--p4);
+  color:var(--p5);
 }
 .hero-dx.soon { background:#fff3c4; color:#7a5400; }
 .hero-main {
@@ -395,7 +407,7 @@ body {
   display:flex; flex-direction:column; gap:2px; min-width:0;
 }
 .hero-opp {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:18px;
   font-weight:600;
   color:var(--p5);
@@ -423,7 +435,7 @@ body {
   color:var(--p5);
 }
 .hero-metric-value {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:15px;
   font-weight:600;
   color:var(--p5);
@@ -469,14 +481,13 @@ body {
   width:calc(100% - 380px);
   max-width:none;
   background:var(--pl);
-  box-shadow:-8px 0 24px rgba(4,0,19,0.18);
   display:flex;
   flex-direction:column;
   transform:translateX(100%);
   transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);
   z-index:50;
 }
-.deep-dive.open { transform:translateX(0); }
+.deep-dive.open { transform:translateX(0); box-shadow:-8px 0 24px rgba(4,0,19,0.18); }
 
 .dd-header {
   display:flex;
@@ -494,7 +505,7 @@ body {
 }
 .dd-title { flex:1; min-width:0; }
 .dd-match {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:18px;
   font-weight:600;
   color:var(--p5);
@@ -526,7 +537,7 @@ body {
 .dd-section { margin-bottom:32px; }
 .dd-section:last-child { margin-bottom:0; }
 .dd-section-title {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:14px;
   font-weight:600;
   color:var(--muted);
@@ -593,7 +604,7 @@ body {
   gap:1px;
 }
 .stadium-pict-title {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -637,7 +648,7 @@ body {
   align-items:baseline;
 }
 .stand-seats-name {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -686,7 +697,7 @@ body {
   gap:6px;
 }
 .stadium-legend-title {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -707,7 +718,7 @@ body {
   user-select:none;
 }
 .legend-chip:hover { border-color:var(--p3); }
-.legend-chip.active { border-color:var(--p4); background:#fff; box-shadow:0 1px 3px rgba(4,0,19,0.06); }
+.legend-chip.active { border-color:var(--p5); background:#fff; box-shadow:0 1px 3px rgba(4,0,19,0.06); }
 .legend-swatch {
   width:12px; height:12px;
   border-radius:2px;
@@ -715,11 +726,11 @@ body {
 }
 .legend-count {
   margin-left:auto;
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:11px;
   color:var(--muted);
 }
-.legend-chip.active .legend-count { color:var(--p4); }
+.legend-chip.active .legend-count { color:var(--p5); }
 
 /* Bullet charts (KPIs vs benchmark) */
 .kpi-bullets { display:flex; flex-direction:column; gap:12px; flex:1; justify-content:center; }
@@ -732,7 +743,7 @@ body {
 }
 .kpi-bullet-name { color:var(--p5); font-weight:500; }
 .kpi-bullet-val {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -843,8 +854,6 @@ tbody tr {
 tbody tr:hover { background: #f8f7ff; }
 tbody tr.active { background: #ede9fb; }
 tbody tr.upcoming td { opacity:1; }
-tbody tr.past td { opacity:0.72; }
-tbody tr.past td:nth-child(4) { opacity:1; }
 
 td {
   padding:10px 14px;
@@ -865,7 +874,7 @@ td:first-child { padding-left:20px; }
 }
 .match-info { display:flex; flex-direction:column; gap:1px; }
 .journee {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:12px;
   font-weight:600;
   color:var(--p5);
@@ -874,13 +883,13 @@ td:first-child { padding-left:20px; }
   gap:6px;
 }
 .dx-badge {
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:10px;
   font-weight:500;
   padding:1px 5px;
   border-radius:4px;
   background:var(--pl);
-  color:var(--p4);
+  color:var(--p5);
   white-space:nowrap;
 }
 .dx-badge.soon {
@@ -950,7 +959,7 @@ td:first-child { padding-left:20px; }
 /* Occ cell */
 .cell-occ { width:100px; }
 .occ-pct {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p3);
@@ -984,19 +993,18 @@ td:first-child { padding-left:20px; }
 /* Table footer */
 tfoot td {
   position:sticky; bottom:0;
-  background:#fff;
-  border-top:1px solid var(--border);
-  padding:12px 14px;
+  background:#f6f3fd;
+  box-shadow:inset 0 1px 0 var(--border);
+  padding:12px 14px 20px;
   vertical-align:middle;
 }
 tfoot td:first-child { padding-left:37px; }
-/* Soft white gradient above the sticky footer to fade incoming rows */
 tfoot td::before {
   content:'';
   position:absolute;
   left:0; right:0;
   bottom:100%;
-  height:24px;
+  height:40px;
   background:linear-gradient(to bottom, rgba(255,255,255,0), #fff);
   pointer-events:none;
 }
@@ -1006,7 +1014,7 @@ tfoot td::before {
   font-weight:500;
   color:var(--p5);
   background:#fff;
-  border:1px solid var(--border);
+  border:1px solid rgba(108,77,220,0.30);
   border-radius:var(--radius-md);
   padding:6px 28px 6px 10px;
   cursor:pointer;
@@ -1023,10 +1031,17 @@ tfoot td::before {
   margin-top:1px;
 }
 .footer-stat-val {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
+  display:inline-block;
+  background:#fff;
+  border-radius:999px;
+  padding:3px 10px;
+  border:1px solid rgba(108,77,220,0.20);
+  position:relative;
+  left:-10px;
 }
 
 /* ── Side panel ─────────────────────────────────────────────────────────── */
@@ -1066,7 +1081,7 @@ tfoot td::before {
 }
 .panel-match-text { flex:1; min-width:0; }
 .match-vs {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:17px;
   font-weight:600;
   color:var(--p5);
@@ -1116,11 +1131,19 @@ tfoot td::before {
   padding:12px;
   position:relative;
 }
+.stadium-img-wrap::after {
+  content:'';
+  position:absolute;
+  top:14px; right:14px;
+  width:40px; height:36px;
+  background:#fff;
+  z-index:1;
+}
 .stadium-img-wrap img {
   width:100%;
   max-height:200px;
   object-fit:contain;
-  filter: grayscale(1) contrast(1.05);
+  filter: none;
   display:block;
 }
 .stadium-occ-overlay {
@@ -1130,7 +1153,7 @@ tfoot td::before {
   color:#fff;
   padding:4px 10px;
   border-radius:6px;
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
 }
@@ -1149,7 +1172,7 @@ tfoot td::before {
 }
 .sec-name {
   font-size:11px;
-  color:var(--p5);
+  color:var(--p4);
   font-weight:500;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -1157,7 +1180,7 @@ tfoot td::before {
   flex:1;
 }
 .sec-pct {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:12px;
   font-weight:600;
   margin-left:6px;
@@ -1189,23 +1212,26 @@ tfoot td::before {
 }
 .kpi-item.hero {
   grid-column:span 2;
+  background:#ede9fb;
 }
+.kpi-item.dim { background:#faf8ff; }
 .kpi-label {
   font-size:10px;
-  color:var(--muted);
+  color:var(--p4);
   margin-bottom:4px;
   font-weight:500;
 }
 .kpi-value {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:18px;
   font-weight:600;
-  color:var(--p5);
+  color:var(--p4);
 }
 .kpi-item.hero .kpi-value { font-size:22px; }
+.sec-pct { color:var(--p4); }
 .kpi-sub {
   font-size:10px;
-  color:var(--muted);
+  color:var(--p4);
   margin-top:2px;
 }
 
@@ -1275,7 +1301,7 @@ tfoot td::before {
   flex:1;
 }
 .channel-count {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -1297,14 +1323,14 @@ tfoot td::before {
   background:#fff;
 }
 .venue-name {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:14px;
   font-weight:600;
   color:var(--p5);
 }
 .venue-meta {
   font-size:11px;
-  color:var(--muted);
+  color:var(--p4);
 }
 .venue-meta strong { color:var(--p5); font-weight:600; }
 
@@ -1316,7 +1342,7 @@ tfoot td::before {
   margin-top:14px;
 }
 .occ-block {
-  background:#f6f3fd;
+  background:#ede9fb;
   border-radius:var(--radius-md);
   padding:16px;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
@@ -1324,13 +1350,13 @@ tfoot td::before {
 }
 .occ-block-label {
   font-size:11px;
-  color:var(--muted);
+  color:var(--p4);
 }
 .occ-block-value {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:32px;
   font-weight:600;
-  color:var(--p5);
+  color:var(--p4);
   line-height:1;
 }
 
@@ -1421,6 +1447,14 @@ tfoot td::before {
       </div>
     </nav>
 
+    <div class="sidebar-watermark">
+      <svg viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
+        <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
+        <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
+        <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
+      </svg>
+    </div>
     <div class="sidebar-footer">
       <i data-lucide="user"></i>
       <span class="sidebar-footer-name">Colin Girault-Matz</span>
@@ -1507,7 +1541,7 @@ tfoot td::before {
       <!-- Venue row -->
       <div class="venue-row">
         <div class="venue-name">Paul-Lignon</div>
-        <div class="venue-meta">Invitations <strong>11%</strong></div>
+        <div class="venue-meta">Invitations : <strong>11%</strong></div>
       </div>
 
       <!-- Panel body (scrollable) -->
@@ -1527,19 +1561,19 @@ tfoot td::before {
               <div class="stadium-sections">
                 <div class="stadium-section-row">
                   <span class="sec-name">Tribune Présidentielle</span>
-                  <span class="sec-pct" style="color:var(--p5)">95%</span>
+                  <span class="sec-pct">95%</span>
                 </div>
                 <div class="stadium-section-row">
                   <span class="sec-name">Tribune Honneur</span>
-                  <span class="sec-pct" style="color:var(--p4)">90%</span>
+                  <span class="sec-pct">90%</span>
                 </div>
                 <div class="stadium-section-row">
                   <span class="sec-name">Tribune Sud Ségala</span>
-                  <span class="sec-pct" style="color:var(--p3)">86%</span>
+                  <span class="sec-pct">86%</span>
                 </div>
                 <div class="stadium-section-row">
                   <span class="sec-name">Virage Nord Aubrac</span>
-                  <span class="sec-pct" style="color:var(--p1)">75%</span>
+                  <span class="sec-pct">75%</span>
                 </div>
               </div>
             </div>
@@ -1565,13 +1599,13 @@ tfoot td::before {
                 <div class="kpi-value" style="font-size:16px" id="kpiSales">5,767</div>
                 <div class="kpi-sub" id="kpiCap">of 6,694</div>
               </div>
-              <div class="kpi-item">
+              <div class="kpi-item dim">
                 <div class="kpi-label">Options rev.</div>
                 <div class="kpi-value" style="font-size:16px">€0</div>
               </div>
-              <div class="kpi-item">
+              <div class="kpi-item dim">
                 <div class="kpi-label">Live</div>
-                <div class="kpi-value" style="font-size:16px;color:var(--p3)">0</div>
+                <div class="kpi-value" style="font-size:16px">0</div>
               </div>
             </div>
           </div>
