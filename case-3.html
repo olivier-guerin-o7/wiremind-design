@@ -1426,7 +1426,18 @@ tbody tr {
   transition:background 0.12s;
 }
 tbody tr:hover { background: #f8f7ff; }
-tbody tr.active { background: #ede9fb; }
+tbody tr.active { background: rgba(108,77,220,0.03); }
+tbody tr.active td:first-child { position: relative; }
+tbody tr.active td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  background: var(--p5);
+  border-radius: 2px;
+}
 tbody tr.upcoming td { opacity:1; }
 
 td {
@@ -1704,6 +1715,7 @@ tfoot td::before {
   border-radius:var(--radius-lg);
   padding:12px;
   position:relative;
+  margin-bottom:16px;
 }
 .stadium-img-wrap::after {
   content:'';
