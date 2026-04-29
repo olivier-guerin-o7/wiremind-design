@@ -2428,11 +2428,27 @@ function renderHeroes() {
           <div class="hero-metric-value">${m.sales.toLocaleString()}</div>
         </div>
       </div>
-      <div class="hero-occbar">${Array.from({length:33},(_,i)=>`<div class="hero-occ-dot ${i<Math.round(m.occ/3)?'filled':'empty'}"></div>`).join('')}</div>
+      <div class="hero-occbar" data-occ="${m.occ}"></div>
     `;
     card.addEventListener('click', () => openPanel(m, card));
     heroStrip.appendChild(card);
   });
+
+  // Render dots sized to actual container width
+  function fillHeroOccBars() {
+    const DOT = 4, GAP = 4;
+    document.querySelectorAll('.hero-occbar[data-occ]').forEach(bar => {
+      const occ  = +bar.dataset.occ;
+      const kind = bar.closest('.hero-card').classList.contains('next') ? 'next' : 'past';
+      const count = Math.floor((bar.offsetWidth + GAP) / (DOT + GAP));
+      const filled = Math.round(occ * count / 100);
+      bar.innerHTML = Array.from({length: count}, (_, i) =>
+        `<div class="hero-occ-dot ${i < filled ? 'filled' : 'empty'}"></div>`
+      ).join('');
+    });
+  }
+  fillHeroOccBars();
+  new ResizeObserver(fillHeroOccBars).observe(document.querySelector('.hero-strip'));
 
   return { next, last };
 }
