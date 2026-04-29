@@ -25,6 +25,11 @@
   --radius-sm: 3px;
   --radius-md: 5px;
   --radius-lg: 8px;
+  /* Dataviz palette */
+  --c-cyan:   #009DDC;
+  --c-coral:  #E75A7C;
+  --c-orange: #FAA916;
+  --c-ink:    #272727;
 }
 
 /* ── Reset ──────────────────────────────────────────────────────────────── */
@@ -440,6 +445,342 @@ body {
   .hero-strip { flex-direction:column; }
 }
 
+/* ── Deep-dive overlay ──────────────────────────────────────────────────── */
+.dd-backdrop {
+  position:fixed;
+  inset:0;
+  background:rgba(4,0,19,0.45);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.24s ease;
+  z-index:40;
+}
+.dd-backdrop.open { opacity:1; pointer-events:auto; }
+
+.deep-dive {
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  width:calc(100% - 380px);
+  max-width:none;
+  background:var(--pl);
+  box-shadow:-8px 0 24px rgba(4,0,19,0.18);
+  display:flex;
+  flex-direction:column;
+  transform:translateX(100%);
+  transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  z-index:50;
+}
+.deep-dive.open { transform:translateX(0); }
+
+.dd-header {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 24px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.dd-emblem {
+  width:32px; height:32px;
+  flex-shrink:0;
+  object-fit:contain;
+}
+.dd-title { flex:1; min-width:0; }
+.dd-match {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--p5);
+}
+.dd-sub {
+  font-size:12px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.dd-close {
+  width:32px; height:32px;
+  border-radius:var(--radius-md);
+  border:none;
+  background:var(--p3);
+  color:#fff;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.12s;
+  flex-shrink:0;
+}
+.dd-close:hover { background:var(--p4); }
+.dd-close [data-lucide], .dd-close .lucide { width:14px; height:14px; }
+
+.dd-body {
+  flex:1;
+  overflow-y:auto;
+  padding:24px;
+}
+.dd-section { margin-bottom:32px; }
+.dd-section:last-child { margin-bottom:0; }
+.dd-section-title {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:14px;
+  font-weight:600;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  margin-bottom:14px;
+}
+.dd-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.dd-grid--compact { grid-template-columns:repeat(3, 1fr); }
+.dd-card {
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:16px 18px;
+  display:flex;
+  flex-direction:column;
+  min-height:240px;
+}
+.dd-grid--compact .dd-card { min-height:200px; padding:14px 16px; }
+.dd-card-wide { grid-column:1 / -1; }
+.dd-card-header { margin-bottom:12px; }
+.dd-card-title {
+  font-size:13px;
+  font-weight:600;
+  color:var(--p5);
+}
+.dd-card-sub {
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.dd-card-body {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  color:var(--p5);
+}
+
+/* Stadium triptych: image | seats | legend */
+.stadium-triptych {
+  display:grid;
+  grid-template-columns:1.2fr 1.6fr 1fr;
+  gap:14px;
+  width:100%;
+  align-items:stretch;
+}
+
+/* Stadium image with clickable hotspots */
+.stadium-pict {
+  background:#fff;
+  border-radius:var(--radius-md);
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.stadium-pict-head {
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+}
+.stadium-pict-title {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--p5);
+}
+.stadium-pict-sub {
+  font-size:11px;
+  color:var(--muted);
+}
+.stadium-pict-image {
+  position:relative;
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.stadium-pict-image img {
+  width:88%;
+  max-height:220px;
+  object-fit:contain;
+  filter:grayscale(1) contrast(1.05);
+  display:block;
+}
+.stand-hotspot {
+  position:absolute;
+  cursor:pointer;
+  background:transparent;
+}
+
+/* Selected stand seat layout */
+.stand-seats {
+  background:var(--pl);
+  border-radius:var(--radius-md);
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.stand-seats-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+}
+.stand-seats-name {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--p5);
+}
+.stand-seats-pct {
+  font-size:11px;
+  color:var(--muted);
+}
+.stand-seats-grid {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  align-items:center;
+  justify-content:center;
+  padding:6px 0;
+}
+.stand-seats-row {
+  display:flex;
+  gap:5px;
+}
+.seat {
+  width:7px; height:7px;
+  border-radius:1px;
+  background:rgba(108,77,220,0.10);
+  flex-shrink:0;
+  transition:opacity 0.15s, transform 0.15s;
+}
+.seat.aisle { background:transparent; }
+.seat[data-status="abo"]    { background:var(--p5); }
+.seat[data-status="early"]  { background:var(--c-cyan); }
+.seat[data-status="main"]   { background:var(--p3); }
+.seat[data-status="last"]   { background:var(--c-coral); }
+.seat[data-status="empty"]  { background:#fff; box-shadow:inset 0 0 0 1px rgba(39,39,39,0.5); }
+/* Filter dim */
+.stand-seats.filtered .seat { opacity:0.18; }
+.stand-seats.filtered .seat.match { opacity:1; }
+
+/* Legend chips */
+.stadium-legend {
+  background:var(--pl);
+  border-radius:var(--radius-md);
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.stadium-legend-title {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--p5);
+  margin-bottom:6px;
+}
+.legend-chip {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 8px;
+  border-radius:var(--radius-sm);
+  font-size:11px;
+  color:var(--p5);
+  cursor:pointer;
+  background:#fff;
+  border:1px solid transparent;
+  transition:all 0.12s;
+  user-select:none;
+}
+.legend-chip:hover { border-color:var(--p3); }
+.legend-chip.active { border-color:var(--p4); background:#fff; box-shadow:0 1px 3px rgba(4,0,19,0.06); }
+.legend-swatch {
+  width:12px; height:12px;
+  border-radius:2px;
+  flex-shrink:0;
+}
+.legend-count {
+  margin-left:auto;
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:11px;
+  color:var(--muted);
+}
+.legend-chip.active .legend-count { color:var(--p4); }
+
+/* Bullet charts (KPIs vs benchmark) */
+.kpi-bullets { display:flex; flex-direction:column; gap:12px; flex:1; justify-content:center; }
+.kpi-bullet { display:flex; flex-direction:column; gap:6px; }
+.kpi-bullet-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  font-size:11px;
+}
+.kpi-bullet-name { color:var(--p5); font-weight:500; }
+.kpi-bullet-val {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--p5);
+}
+.kpi-bullet-track {
+  height:10px;
+  background:rgba(108,77,220,0.10);
+  border-radius:2px;
+  position:relative;
+}
+.kpi-bullet-fill {
+  position:absolute; left:0; top:0; height:100%;
+  background:var(--p3);
+  border-radius:2px;
+}
+.kpi-bullet-marker {
+  position:absolute; top:-3px; bottom:-3px;
+  width:2px;
+}
+.kpi-bullet-marker.avg    { background:var(--c-cyan); }
+.kpi-bullet-marker.target { background:var(--c-coral); }
+.kpi-bullet-legend {
+  display:flex;
+  gap:14px;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.kpi-bullet-legend-item { display:flex; align-items:center; gap:5px; }
+.kpi-bullet-legend-swatch {
+  width:2px; height:10px;
+  background:var(--c-cyan);
+}
+
+/* Booking curves + histogram SVG charts */
+.chart {
+  width:100%;
+  flex:1;
+  min-height:160px;
+  display:block;
+}
+.chart-legend {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:8px;
+}
+.chart-legend-item { display:flex; align-items:center; gap:5px; }
+.chart-legend-swatch { width:10px; height:2px; border-radius:1px; }
+
 /* ── Auto-hide scrollbars (visible on scroll/hover only) ───────────────── */
 .scroll-hide {
   scrollbar-width: thin;
@@ -636,21 +977,38 @@ td:first-child { padding-left:20px; }
 tfoot td {
   position:sticky; bottom:0;
   background:#fff;
-  border-top:2px solid var(--border);
-  padding:10px 14px;
+  border-top:1px solid var(--border);
+  padding:12px 14px;
   vertical-align:middle;
 }
-tfoot td:first-child { padding-left:20px; }
-.footer-tabs { display:flex; gap:0; }
-.footer-tab {
-  padding:5px 14px;
-  font-size:11px;
-  font-weight:500;
-  color:var(--muted);
-  cursor:pointer;
-  border-radius:var(--radius-md);
+tfoot td:first-child { padding-left:37px; }
+/* Soft white gradient above the sticky footer to fade incoming rows */
+tfoot td::before {
+  content:'';
+  position:absolute;
+  left:0; right:0;
+  bottom:100%;
+  height:24px;
+  background:linear-gradient(to bottom, rgba(255,255,255,0), #fff);
+  pointer-events:none;
 }
-.footer-tab.active { background:var(--pl); color:var(--p4); font-weight:600; }
+.footer-select {
+  font-family:inherit;
+  font-size:12px;
+  font-weight:500;
+  color:var(--p5);
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:6px 28px 6px 10px;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none'%3E%3Cpath d='M2 4l3 3 3-3' stroke='%23462baa' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+}
+.footer-select:hover { border-color:var(--p3); }
+.footer-select:focus { outline:none; border-color:var(--p3); }
 .footer-stat-sub {
   font-size:10px;
   color:var(--muted);
@@ -665,16 +1023,14 @@ tfoot td:first-child { padding-left:20px; }
 
 /* ── Side panel ─────────────────────────────────────────────────────────── */
 .side-panel {
-  width:0;
+  width:400px;
   flex-shrink:0;
   overflow:hidden;
-  transition:width 0.32s cubic-bezier(0.4,0,0.2,1);
   background:var(--pl);
   border-left:1px solid var(--border);
   display:flex;
   flex-direction:column;
 }
-.side-panel.open { width:400px; }
 .panel-inner {
   width:400px;
   height:100%;
@@ -687,58 +1043,45 @@ tfoot td:first-child { padding-left:20px; }
 .panel-header {
   background:#fff;
   border-bottom:1px solid var(--border);
-  padding:12px 16px 0;
+  padding:14px 16px;
   flex-shrink:0;
 }
 .panel-match-title {
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin-bottom:10px;
+  gap:12px;
 }
+.panel-match-emblem {
+  width:24px; height:24px;
+  flex-shrink:0;
+  object-fit:contain;
+}
+.panel-match-text { flex:1; min-width:0; }
 .match-vs {
   font-family:'Archivo SemiExpanded', Arial, sans-serif;
-  font-size:14px;
+  font-size:17px;
   font-weight:600;
   color:var(--p5);
 }
 .match-sub {
   font-size:11px;
   color:var(--muted);
-  margin-top:1px;
+  margin-top:2px;
 }
-.close-btn {
-  width:28px; height:28px;
-  border-radius:50%;
-  border:1px solid var(--border);
-  background:none;
+.expand-btn {
+  width:30px; height:30px;
+  border-radius:var(--radius-md);
+  border:none;
+  background:var(--p3);
   cursor:pointer;
   display:flex; align-items:center; justify-content:center;
-  color:var(--muted);
-  font-size:14px;
-  transition:all 0.12s;
+  color:#fff;
+  transition:background 0.12s;
   flex-shrink:0;
 }
-.close-btn:hover { background:var(--pl); color:var(--p5); }
+.expand-btn:hover { background:var(--p4); }
+.expand-btn [data-lucide], .expand-btn .lucide { width:14px; height:14px; }
 
-/* Panel sticky nav */
-.panel-nav {
-  display:flex;
-  gap:0;
-  border-top:1px solid var(--border);
-}
-.panel-nav-item {
-  padding:8px 16px;
-  font-size:11px;
-  font-weight:500;
-  color:var(--muted);
-  cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:all 0.12s;
-  white-space:nowrap;
-}
-.panel-nav-item:hover { color:var(--p4); }
-.panel-nav-item.active { color:var(--p4); border-bottom-color:var(--p3); font-weight:600; }
 
 /* Panel scroll body */
 .panel-body {
@@ -784,10 +1127,9 @@ tfoot td:first-child { padding-left:20px; }
   font-weight:600;
 }
 .stadium-sections {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:6px;
-  margin-top:12px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
 }
 .stadium-section-row {
   background:var(--pl);
@@ -937,19 +1279,52 @@ tfoot td:first-child { padding-left:20px; }
   text-align:right;
 }
 
-/* Meta row */
-.meta-row {
+/* Venue row */
+.venue-row {
   display:flex;
-  gap:16px;
-  padding:10px 16px;
-  background:var(--pl);
-  flex-wrap:wrap;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 16px 4px;
+  background:#fff;
 }
-.meta-item {
+.venue-name {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:14px;
+  font-weight:600;
+  color:var(--p5);
+}
+.venue-meta {
   font-size:11px;
   color:var(--muted);
 }
-.meta-item strong { color:var(--p5); font-weight:600; }
+.venue-meta strong { color:var(--p5); font-weight:600; }
+
+/* Stadium occupancy + stands grid */
+.stadium-occ-stands {
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:10px;
+  margin-top:14px;
+}
+.occ-block {
+  background:var(--pl);
+  border-radius:var(--radius-md);
+  padding:16px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+  text-align:center;
+}
+.occ-block-label {
+  font-size:11px;
+  color:var(--muted);
+}
+.occ-block-value {
+  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-size:32px;
+  font-weight:600;
+  color:var(--p5);
+  line-height:1;
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar { width:4px; height:4px; }
@@ -1087,24 +1462,15 @@ tfoot td:first-child { padding-left:20px; }
         <tfoot>
           <tr>
             <td colspan="2">
-              <div class="footer-tabs">
-                <div class="footer-tab">Summary</div>
-                <div class="footer-tab active">Average</div>
-                <div class="footer-tab">Total</div>
-              </div>
+              <select class="footer-select">
+                <option>Summary</option>
+                <option selected>Average</option>
+                <option>Total</option>
+              </select>
             </td>
-            <td>
-              <div class="footer-stat-val">5,727</div>
-              <div class="footer-stat-sub">avg</div>
-            </td>
-            <td>
-              <div class="footer-stat-val">85%</div>
-              <div class="footer-stat-sub">avg</div>
-            </td>
-            <td>
-              <div class="footer-stat-val">€148k</div>
-              <div class="footer-stat-sub">avg · €29.80 / ticket</div>
-            </td>
+            <td><div class="footer-stat-val">5,727</div></td>
+            <td><div class="footer-stat-val">85%</div></td>
+            <td><div class="footer-stat-val">€148k</div></td>
           </tr>
         </tfoot>
       </table>
@@ -1119,26 +1485,21 @@ tfoot td:first-child { padding-left:20px; }
       <!-- Panel header -->
       <div class="panel-header">
         <div class="panel-match-title">
-          <div>
-            <div class="match-vs" id="panelTitle">Rodez vs ASSE</div>
-            <div class="match-sub" id="panelSub">J33 · 5/2/26 · 8:00 PM · Ligue 2 BKT</div>
+          <img class="panel-match-emblem" id="panelEmblem" src="logos/ASS.svg" alt="">
+          <div class="panel-match-text">
+            <div class="match-vs" id="panelTitle">J33 · ASSE</div>
+            <div class="match-sub" id="panelSub">5/2/26 · 8:00 PM · Ligue 2 BKT</div>
           </div>
-          <button class="close-btn" id="closeBtn">✕</button>
+          <button class="expand-btn" id="expandBtn" title="Expand to deep dive">
+            <i data-lucide="maximize-2"></i>
+          </button>
         </div>
-        <nav class="panel-nav">
-          <div class="panel-nav-item active" data-section="stadium">Stadium</div>
-          <div class="panel-nav-item" data-section="kpi">KPI</div>
-          <div class="panel-nav-item" data-section="products">Products</div>
-          <div class="panel-nav-item" data-section="channel">Channel</div>
-        </nav>
       </div>
 
-      <!-- Meta row -->
-      <div class="meta-row">
-        <div class="meta-item"><strong>Paul-Lignon</strong></div>
-        <div class="meta-item">Home <strong>H</strong></div>
-        <div class="meta-item">Live <strong style="color:var(--p3)">0</strong></div>
-        <div class="meta-item">Invitations <strong>11%</strong></div>
+      <!-- Venue row -->
+      <div class="venue-row">
+        <div class="venue-name">Paul-Lignon</div>
+        <div class="venue-meta">Invitations <strong>11%</strong></div>
       </div>
 
       <!-- Panel body (scrollable) -->
@@ -1149,24 +1510,29 @@ tfoot td:first-child { padding-left:20px; }
           <div class="stadium-card">
             <div class="stadium-img-wrap">
               <img src="./stadium.png" alt="Paul-Lignon stadium" id="stadiumImg">
-              <div class="stadium-occ-overlay" id="panelOcc">83.9%</div>
             </div>
-            <div class="stadium-sections">
-              <div class="stadium-section-row">
-                <span class="sec-name">Tribune Présidentielle</span>
-                <span class="sec-pct" style="color:var(--p5)">95%</span>
+            <div class="stadium-occ-stands">
+              <div class="occ-block">
+                <div class="occ-block-label">Occupancy</div>
+                <div class="occ-block-value" id="panelOcc">83.9%</div>
               </div>
-              <div class="stadium-section-row">
-                <span class="sec-name">Tribune Honneur</span>
-                <span class="sec-pct" style="color:var(--p4)">90%</span>
-              </div>
-              <div class="stadium-section-row">
-                <span class="sec-name">Tribune Sud Ségala</span>
-                <span class="sec-pct" style="color:var(--p3)">86%</span>
-              </div>
-              <div class="stadium-section-row">
-                <span class="sec-name">Virage Nord Aubrac</span>
-                <span class="sec-pct" style="color:var(--p1)">75%</span>
+              <div class="stadium-sections">
+                <div class="stadium-section-row">
+                  <span class="sec-name">Tribune Présidentielle</span>
+                  <span class="sec-pct" style="color:var(--p5)">95%</span>
+                </div>
+                <div class="stadium-section-row">
+                  <span class="sec-name">Tribune Honneur</span>
+                  <span class="sec-pct" style="color:var(--p4)">90%</span>
+                </div>
+                <div class="stadium-section-row">
+                  <span class="sec-name">Tribune Sud Ségala</span>
+                  <span class="sec-pct" style="color:var(--p3)">86%</span>
+                </div>
+                <div class="stadium-section-row">
+                  <span class="sec-name">Virage Nord Aubrac</span>
+                  <span class="sec-pct" style="color:var(--p1)">75%</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1235,6 +1601,133 @@ tfoot td:first-child { padding-left:20px; }
   </div><!-- side-panel -->
 
 </div><!-- app-body -->
+
+<!-- ── DEEP-DIVE OVERLAY ────────────────────────────────────────────────── -->
+<div class="dd-backdrop" id="ddBackdrop"></div>
+<div class="deep-dive" id="deepDive" aria-hidden="true">
+  <header class="dd-header">
+    <img class="dd-emblem" id="ddEmblem" src="logos/ASS.svg" alt="">
+    <div class="dd-title">
+      <div class="dd-match" id="ddTitle">J33 · ASSE</div>
+      <div class="dd-sub" id="ddSub">5/2/26 · 8:00 PM · Paul-Lignon · Ligue 2 BKT</div>
+    </div>
+    <button class="dd-close" id="ddCloseBtn" title="Collapse">
+      <i data-lucide="minimize-2"></i>
+    </button>
+  </header>
+
+  <div class="dd-body scroll-hide">
+
+    <!-- Stadium deep dive -->
+    <section class="dd-section" id="dd-stadium">
+      <h2 class="dd-section-title">Stadium</h2>
+      <div class="dd-grid">
+        <div class="dd-card dd-card-wide">
+          <div class="dd-card-body" id="ddSeatGrid"></div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Booking curves per stand</div>
+            <div class="dd-card-sub">% sold over the 60 days before kickoff</div>
+          </div>
+          <div class="dd-card-body" id="ddCurves"></div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Daily sales</div>
+            <div class="dd-card-sub">Last 30 days — bars with season avg line</div>
+          </div>
+          <div class="dd-card-body" id="ddHistogram"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key figures deep dive -->
+    <section class="dd-section" id="dd-kpi">
+      <h2 class="dd-section-title">Key figures</h2>
+      <div class="dd-grid dd-grid--compact">
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Cumulative revenue curve</div>
+            <div class="dd-card-sub">This match · Season avg · Same fixture last season</div>
+          </div>
+          <div class="dd-card-body" id="ddRevenue"></div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Avg ticket price evolution</div>
+            <div class="dd-card-sub">Weekly bars over the booking window</div>
+          </div>
+          <div class="dd-card-body" id="ddPriceEvol"></div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">KPIs vs benchmark</div>
+            <div class="dd-card-sub">Current · season avg · target</div>
+          </div>
+          <div class="dd-card-body" id="ddBullets"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products mix deep dive -->
+    <section class="dd-section" id="dd-products">
+      <h2 class="dd-section-title">Products mix</h2>
+      <div class="dd-grid">
+        <div class="dd-card dd-card-wide">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Mix evolution over the booking window</div>
+            <div class="dd-card-sub">100% stacked — share of revenue per category</div>
+          </div>
+          <div class="dd-card-body">[ stacked area ]</div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Current mix snapshot</div>
+            <div class="dd-card-sub">Single horizontal stacked bar</div>
+          </div>
+          <div class="dd-card-body">[ stacked bar ]</div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Top movers vs season median</div>
+            <div class="dd-card-sub">Diverging bars — over/under-indexed categories</div>
+          </div>
+          <div class="dd-card-body">[ diverging bars ]</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Channels deep dive -->
+    <section class="dd-section" id="dd-channels">
+      <h2 class="dd-section-title">Sales channels</h2>
+      <div class="dd-grid">
+        <div class="dd-card dd-card-wide">
+          <div class="dd-card-header">
+            <div class="dd-card-title">This match vs season average</div>
+            <div class="dd-card-sub">Side-by-side stacked horizontal bars</div>
+          </div>
+          <div class="dd-card-body">[ comparative bars ]</div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Per-channel performance</div>
+            <div class="dd-card-sub">Bullet charts: current vs season avg</div>
+          </div>
+          <div class="dd-card-body">[ bullets ]</div>
+        </div>
+        <div class="dd-card">
+          <div class="dd-card-header">
+            <div class="dd-card-title">Channel mix evolution</div>
+            <div class="dd-card-sub">Stacked area over the booking window</div>
+          </div>
+          <div class="dd-card-body">[ stacked area ]</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script>
@@ -1378,8 +1871,10 @@ products.forEach(p => {
 // ── Panel logic ───────────────────────────────────────────────────────────
 const panel = document.getElementById('sidePanel');
 let activeRow = null;
+let currentPanelMatch = null;
 
 function openPanel(m, source) {
+  currentPanelMatch = m;
   // update active state on rows AND hero cards
   document.querySelectorAll('tbody tr.active, .hero-card.active')
     .forEach(el => el.classList.remove('active'));
@@ -1387,8 +1882,10 @@ function openPanel(m, source) {
   activeRow = source;
 
   // update panel content
-  document.getElementById('panelTitle').textContent = `Rodez vs ${m.opp}`;
-  document.getElementById('panelSub').textContent = `J${m.j} · ${m.date} · ${m.time} · Ligue 2 BKT`;
+  document.getElementById('panelTitle').textContent = `J${m.j} · ${m.opp}`;
+  document.getElementById('panelSub').textContent = `${m.date} · ${m.time} · Ligue 2 BKT`;
+  document.getElementById('panelEmblem').src = `logos/${m.short}.svg`;
+  document.getElementById('panelEmblem').alt = m.opp;
   document.getElementById('panelOcc').textContent = `${m.occ}%`;
   document.getElementById('kpiRevenue').textContent = `€${m.income.toLocaleString()}`;
   document.getElementById('kpiAvg').textContent = `avg. €${m.avg} / ticket`;
@@ -1396,28 +1893,479 @@ function openPanel(m, source) {
   document.getElementById('kpiSales').textContent = m.sales.toLocaleString();
   document.getElementById('kpiCap').textContent = `of ${m.cap.toLocaleString()}`;
 
-  // open panel
-  panel.classList.add('open');
   document.getElementById('panelBody').scrollTop = 0;
 }
 
-function closePanel() {
-  panel.classList.remove('open');
-  document.querySelectorAll('tbody tr.active, .hero-card.active')
-    .forEach(el => el.classList.remove('active'));
-  activeRow = null;
+// Deep-dive overlay
+const dd = document.getElementById('deepDive');
+const ddBackdrop = document.getElementById('ddBackdrop');
+let lastDeepDiveMatch = null;
+
+function openDeepDive(m) {
+  lastDeepDiveMatch = m;
+  document.getElementById('ddTitle').textContent = `J${m.j} · ${m.opp}`;
+  document.getElementById('ddSub').textContent = `${m.date} · ${m.time} · Paul-Lignon · Ligue 2 BKT`;
+  document.getElementById('ddEmblem').src = `logos/${m.short}.svg`;
+  document.getElementById('ddEmblem').alt = m.opp;
+  buildStadiumDeepDive(m);
+  buildKPIDeepDive(m);
+  dd.classList.add('open');
+  ddBackdrop.classList.add('open');
+  dd.setAttribute('aria-hidden', 'false');
+  document.querySelector('.dd-body').scrollTop = 0;
 }
 
-document.getElementById('closeBtn').addEventListener('click', closePanel);
+// ── Deep-dive: Stadium viz ─────────────────────────────────────────────────
+const STADIUM_STANDS = [
+  // Mock booking distribution per stand: [abo, early, main, last] as % of total seats
+  // empty = 100 - sum of those. Hotspot box uses % coords on the stadium image.
+  { key:'presi',   name:'Tribune Présidentielle', pct:95, capacity:800,
+    rows:[14,16,18,20,22,22,20,18], aisles:[3,7], pad:[3,3],
+    mix:{ abo:30, early:35, main:25, last:5 },
+    hotspot:{ left:'18%', top:'58%', width:'62%', height:'24%' } },
+  { key:'honneur', name:'Tribune Honneur',     pct:90, capacity:1500,
+    rows:[20,22,24,24,24,22,20,18], aisles:[3,6], pad:[2,2],
+    mix:{ abo:20, early:30, main:30, last:10 },
+    hotspot:{ left:'18%', top:'18%', width:'62%', height:'22%' } },
+  { key:'segala',  name:'Tribune Sud Ségala',  pct:86, capacity:2400,
+    rows:[10,12,12,14,14,14,12,12,10], aisles:[4,8], pad:[1,1],
+    mix:{ abo:15, early:25, main:30, last:16 },
+    hotspot:{ left:'2%', top:'30%', width:'14%', height:'40%' } },
+  { key:'aubrac',  name:'Virage Nord Aubrac',  pct:75, capacity:1994,
+    rows:[8,10,12,14,14,12,10,8], aisles:[3,6], pad:[1,1],
+    mix:{ abo:5, early:15, main:25, last:30 },
+    hotspot:{ left:'82%', top:'30%', width:'14%', height:'40%' } },
+];
 
-// Panel nav scroll
-document.querySelectorAll('.panel-nav-item').forEach(item => {
-  item.addEventListener('click', () => {
-    document.querySelectorAll('.panel-nav-item').forEach(i => i.classList.remove('active'));
-    item.classList.add('active');
-    const target = document.getElementById('sec-' + item.dataset.section);
-    if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+const BOOKING_CATS = [
+  { key:'abo',   label:'Subscribers (ABO)', color:'#2a0c70' },
+  { key:'early', label:'Early window',      color:'#009DDC', sub:'D-60 → D-30' },
+  { key:'main',  label:'Main window',       color:'#6c4ddc', sub:'D-30 → D-7' },
+  { key:'last',  label:'Last week',         color:'#E75A7C', sub:'D-7 → D-1' },
+  { key:'empty', label:'Available',         color:'#fff', borderless:false },
+];
+
+let activeStandKey = 'presi';
+let activeCatKey = null;
+
+function buildStadiumDeepDive(m) {
+  // 1) Triptych shell
+  const seatHost = document.getElementById('ddSeatGrid');
+  seatHost.innerHTML = `
+    <div class="stadium-triptych">
+      <div class="stadium-pict">
+        <div class="stadium-pict-head">
+          <div class="stadium-pict-title">Stadium</div>
+          <div class="stadium-pict-sub">Click to select a zone</div>
+        </div>
+        <div class="stadium-pict-image" id="stadiumPict">
+          <img src="./stadium.png" alt="Paul-Lignon stadium">
+          ${STADIUM_STANDS.map(s => `
+            <div class="stand-hotspot ${s.key === activeStandKey ? 'active' : ''}"
+                 data-stand="${s.key}"
+                 style="left:${s.hotspot.left};top:${s.hotspot.top};width:${s.hotspot.width};height:${s.hotspot.height}"
+                 title="${s.name}"></div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="stand-seats" id="standSeats"></div>
+      <div class="stadium-legend" id="stadiumLegend"></div>
+    </div>`;
+
+  renderSelectedStand();
+  renderLegend();
+
+  // Wire up hotspots
+  document.querySelectorAll('#stadiumPict .stand-hotspot').forEach(el => {
+    el.addEventListener('click', () => {
+      activeStandKey = el.dataset.stand;
+      document.querySelectorAll('.stand-hotspot').forEach(h => h.classList.toggle('active', h.dataset.stand === activeStandKey));
+      renderSelectedStand();
+      renderLegend();
+    });
   });
+
+  // 2) Booking curves
+  buildBookingCurves();
+
+  // 3) Daily sales
+  buildDailySales();
+}
+
+function renderSelectedStand() {
+  const s = STADIUM_STANDS.find(x => x.key === activeStandKey);
+  const sold = s.pct;
+  const soldCount = Math.round(s.capacity * s.pct / 100);
+
+  // Distribute seat statuses based on s.mix percentages
+  // total seats in the visible grid:
+  const total = s.rows.reduce((a, b) => a + b, 0);
+  const counts = {
+    abo:   Math.round(total * s.mix.abo   / 100),
+    early: Math.round(total * s.mix.early / 100),
+    main:  Math.round(total * s.mix.main  / 100),
+    last:  Math.round(total * s.mix.last  / 100),
+  };
+  counts.empty = total - counts.abo - counts.early - counts.main - counts.last;
+
+  // Build a flat array of statuses, distributed pseudo-randomly but deterministically
+  const statuses = [];
+  ['abo','early','main','last','empty'].forEach(k => {
+    for (let i = 0; i < counts[k]; i++) statuses.push(k);
+  });
+  // Sort by a hash so distribution looks scattered but stable
+  statuses.sort((a, b) => {
+    const order = { abo:0, early:1, main:2, last:3, empty:4 };
+    return (order[a] * 17 + a.charCodeAt(0)) - (order[b] * 17 + b.charCodeAt(0));
+  });
+  // Fisher-Yates shuffle with seeded pseudo-random for stability
+  let seed = activeStandKey.charCodeAt(0) + activeStandKey.charCodeAt(1);
+  for (let i = statuses.length - 1; i > 0; i--) {
+    seed = (seed * 9301 + 49297) % 233280;
+    const j = Math.floor((seed / 233280) * (i + 1));
+    [statuses[i], statuses[j]] = [statuses[j], statuses[i]];
+  }
+
+  // Render rows with aisles (gaps between seats)
+  let cursor = 0;
+  const rowsHtml = s.rows.map((cols, rowIdx) => {
+    const seats = [];
+    for (let c = 0; c < cols; c++) {
+      // Insert aisle gap if needed
+      if (s.aisles && s.aisles.includes(c) && c > 0) {
+        seats.push(`<span class="seat aisle"></span>`);
+      }
+      const status = statuses[cursor++] || 'empty';
+      const matchCls = (activeCatKey && status === activeCatKey) ? ' match' : '';
+      seats.push(`<span class="seat${matchCls}" data-status="${status}"></span>`);
+    }
+    return `<div class="stand-seats-row">${seats.join('')}</div>`;
+  }).join('');
+
+  document.getElementById('standSeats').innerHTML = `
+    <div class="stand-seats-head">
+      <span class="stand-seats-name">${s.name}</span>
+      <span class="stand-seats-pct">${sold}% · ${soldCount.toLocaleString()} / ${s.capacity.toLocaleString()}</span>
+    </div>
+    <div class="stand-seats-grid">${rowsHtml}</div>`;
+
+  document.getElementById('standSeats').classList.toggle('filtered', !!activeCatKey);
+}
+
+function renderLegend() {
+  const s = STADIUM_STANDS.find(x => x.key === activeStandKey);
+  const total = s.rows.reduce((a, b) => a + b, 0);
+  const counts = {
+    abo:   Math.round(total * s.mix.abo   / 100),
+    early: Math.round(total * s.mix.early / 100),
+    main:  Math.round(total * s.mix.main  / 100),
+    last:  Math.round(total * s.mix.last  / 100),
+  };
+  counts.empty = total - counts.abo - counts.early - counts.main - counts.last;
+  const sumSold = counts.abo + counts.early + counts.main + counts.last;
+
+  document.getElementById('stadiumLegend').innerHTML = `
+    <div class="stadium-legend-title">Booking date</div>
+    ${BOOKING_CATS.map(cat => {
+      const pct = Math.round(counts[cat.key] / total * 100);
+      const isActive = activeCatKey === cat.key;
+      const swatchStyle = cat.key === 'empty'
+        ? 'background:#fff;box-shadow:inset 0 0 0 1px rgba(39,39,39,0.5)'
+        : `background:${cat.color}`;
+      return `<div class="legend-chip ${isActive ? 'active' : ''}" data-cat="${cat.key}">
+        <span class="legend-swatch" style="${swatchStyle}"></span>
+        <div style="display:flex;flex-direction:column;line-height:1.25;flex:1">
+          <span>${cat.label}</span>
+          ${cat.sub ? `<span style="font-size:9.5px;color:var(--muted)">${cat.sub}</span>` : ''}
+        </div>
+        <span class="legend-count">${pct}%</span>
+      </div>`;
+    }).join('')}`;
+
+  document.querySelectorAll('#stadiumLegend .legend-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      activeCatKey = (activeCatKey === chip.dataset.cat) ? null : chip.dataset.cat;
+      renderSelectedStand();
+      renderLegend();
+    });
+  });
+}
+
+// ── Booking curves (3-phase realistic shape) ─────────────────────────────
+function buildBookingCurves() {
+  const W = 320, H = 180, PAD_L = 28, PAD_B = 22, PAD_T = 10, PAD_R = 10;
+  const innerW = W - PAD_L - PAD_R;
+  const innerH = H - PAD_T - PAD_B;
+  const colors = { presi:'#2a0c70', honneur:'#009DDC', segala:'#E75A7C', aubrac:'#6c4ddc', avg:'#7c7a8a' };
+
+  // Low-granularity trend lines: 6 milestone points, straight segments between
+  // (clearer "trend" read than dense wavy curves)
+  const milestones = [
+    { d: 60, frac: 0.00 },  // D-60: start
+    { d: 45, frac: 0.20 },  // D-45: end of ABO phase
+    { d: 30, frac: 0.45 },  // D-30: mid main sale
+    { d: 15, frac: 0.60 },  // D-15: end main sale
+    { d:  7, frac: 0.80 },  // D-7:  sprint mid
+    { d:  0, frac: 1.00 },  // D-0:  kickoff
+  ];
+  function curvePoints(finalPct, seed) {
+    let s = seed;
+    return milestones.map(({ d, frac }) => {
+      // Tiny per-point noise so stands aren't perfectly parallel
+      s = (s * 9301 + 49297) % 233280;
+      const noise = ((s/233280) - 0.5) * 4;
+      const pct = Math.max(0, Math.min(100, finalPct * frac + noise));
+      const t = (60 - d) / 60;
+      const x = PAD_L + t * innerW;
+      const y = PAD_T + (1 - pct/100) * innerH;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+  }
+
+  const yTicks = [0, 25, 50, 75, 100];
+  const xTicks = [60, 45, 30, 15, 0];
+
+  const svg = `
+    <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+      ${yTicks.map(v => {
+        const y = PAD_T + (1 - v/100) * innerH;
+        return `<line x1="${PAD_L}" x2="${W-PAD_R}" y1="${y}" y2="${y}" stroke="rgba(4,0,19,0.06)" stroke-width="1"/>
+                <text x="${PAD_L-6}" y="${y+3}" font-size="9" fill="#7c7a8a" text-anchor="end">${v}%</text>`;
+      }).join('')}
+      ${xTicks.map(v => {
+        const x = PAD_L + (1 - v/60) * innerW;
+        return `<text x="${x}" y="${H-6}" font-size="9" fill="#7c7a8a" text-anchor="middle">D-${v}</text>`;
+      }).join('')}
+      ${STADIUM_STANDS.map((s, i) => `<polyline points="${curvePoints(s.pct, 11 + i * 7)}" fill="none" stroke="${colors[s.key]}" stroke-width="1.8" stroke-linejoin="round"/>`).join('')}
+    </svg>
+    <div class="chart-legend">
+      ${STADIUM_STANDS.map(s => `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${colors[s.key]}"></span>${s.name}</span>`).join('')}
+    </div>`;
+  document.getElementById('ddCurves').innerHTML = svg;
+}
+
+// ── Daily sales (bars + varying season avg line) ─────────────────────────
+function buildDailySales() {
+  const days = 30;
+  // Current match: ramps up with phase shape
+  const sales = [];
+  for (let i = 0; i < days; i++) {
+    const t = i / (days - 1);
+    let base;
+    if (t < 0.4)      base = 40 + 80 * (t/0.4);
+    else if (t < 0.85) base = 120 + 130 * ((t-0.4)/0.45);
+    else               base = 250 + 90 * ((t-0.85)/0.15);
+    const noise = (Math.sin(i * 1.3) + Math.cos(i * 0.6)) * 22 + (Math.sin(i * 0.4) * 14);
+    sales.push(Math.max(10, Math.round(base + noise)));
+  }
+  // Season avg per day: similar overall shape but with its own phase + amplitude
+  // so under/over balances out (~half the days each).
+  const avg = sales.map((v, i) => {
+    const noise = (Math.sin(i * 0.7 + 1.5) + Math.cos(i * 1.1 + 0.8)) * 32;
+    return Math.max(10, Math.round(v * 1.02 + noise));
+  });
+  const maxV = Math.max(...sales, ...avg) * 1.1;
+
+  const W = 320, H = 180, PAD_L = 26, PAD_B = 22, PAD_T = 10, PAD_R = 10;
+  const innerW = W - PAD_L - PAD_R;
+  const innerH = H - PAD_T - PAD_B;
+  const barSlot = innerW / days;
+  const barW = barSlot * 0.7;
+  const barGap = barSlot * 0.3;
+
+  const yTicks = [0, Math.round(maxV/2), Math.round(maxV)];
+
+  const svg = `
+    <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+      ${yTicks.map(v => {
+        const y = PAD_T + (1 - v/maxV) * innerH;
+        return `<line x1="${PAD_L}" x2="${W-PAD_R}" y1="${y}" y2="${y}" stroke="rgba(4,0,19,0.06)" stroke-width="1"/>
+                <text x="${PAD_L-6}" y="${y+3}" font-size="9" fill="#7c7a8a" text-anchor="end">${v}</text>`;
+      }).join('')}
+      ${sales.map((daily, i) => {
+        const x = PAD_L + i * barSlot + barGap/2;
+        const a = avg[i];
+        const base = Math.min(daily, a);
+        const delta = Math.abs(daily - a);
+        const isOver = daily > a;
+        const baseH = (base / maxV) * innerH;
+        const baseY = PAD_T + innerH - baseH;
+        const deltaH = (delta / maxV) * innerH;
+        const deltaY = baseY - deltaH;
+        const deltaColor = isOver ? '#E75A7C' : '#009DDC';
+        return `
+          <rect x="${x.toFixed(1)}" y="${baseY.toFixed(1)}" width="${barW.toFixed(1)}" height="${baseH.toFixed(1)}" fill="#6c4ddc"/>
+          <rect x="${x.toFixed(1)}" y="${deltaY.toFixed(1)}" width="${barW.toFixed(1)}" height="${deltaH.toFixed(1)}" fill="${deltaColor}"/>
+        `;
+      }).join('')}
+      <text x="${PAD_L}" y="${H-6}" font-size="9" fill="#7c7a8a" text-anchor="start">D-30</text>
+      <text x="${W-PAD_R}" y="${H-6}" font-size="9" fill="#7c7a8a" text-anchor="end">D-1</text>
+    </svg>
+    <div class="chart-legend">
+      <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#6c4ddc"></span>Daily sales (vs avg)</span>
+      <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#E75A7C"></span>Above season avg</span>
+      <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#009DDC"></span>Below season avg</span>
+    </div>`;
+  document.getElementById('ddHistogram').innerHTML = svg;
+}
+
+// ── Deep-dive: Key figures ─────────────────────────────────────────────────
+function buildKPIDeepDive(m) {
+  // 1) Cumulative revenue curve: this match · season avg · last season same fixture
+  const revFinal     = m.income;
+  const seasonAvgRev = 148000;
+  const lastSeasonRev = Math.round(m.income * 0.84);
+
+  const W = 320, H = 180, PAD_L = 36, PAD_R = 10, PAD_T = 10, PAD_B = 22;
+  const innerW = W - PAD_L - PAD_R;
+  const innerH = H - PAD_T - PAD_B;
+
+  const milestones = [
+    { d:60, frac:0.00 },
+    { d:45, frac:0.20 },
+    { d:30, frac:0.45 },
+    { d:15, frac:0.60 },
+    { d: 7, frac:0.80 },
+    { d: 0, frac:1.00 },
+  ];
+  const yMax = Math.ceil(Math.max(revFinal, seasonAvgRev, lastSeasonRev) / 50000) * 50000;
+
+  function curveFor(finalVal, seed) {
+    let s = seed;
+    return milestones.map(({ d, frac }) => {
+      s = (s * 9301 + 49297) % 233280;
+      const noise = ((s/233280) - 0.5) * (finalVal * 0.025);
+      const v = Math.max(0, finalVal * frac + noise);
+      const t = (60 - d) / 60;
+      const x = PAD_L + t * innerW;
+      const y = PAD_T + (1 - v/yMax) * innerH;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+  }
+
+  const yTicks = [0, yMax/2, yMax];
+  const xTicks = [60, 45, 30, 15, 0];
+  function fmtK(v) { return v >= 1000 ? `€${Math.round(v/1000)}k` : `€${v}`; }
+
+  const revColors = { match:'#6c4ddc', season:'#009DDC', last:'#E75A7C' };
+  const revSvg = `
+    <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+      ${yTicks.map(v => {
+        const y = PAD_T + (1 - v/yMax) * innerH;
+        return `<line x1="${PAD_L}" x2="${W-PAD_R}" y1="${y}" y2="${y}" stroke="rgba(4,0,19,0.06)" stroke-width="1"/>
+                <text x="${PAD_L-6}" y="${y+3}" font-size="10" fill="#7c7a8a" text-anchor="end">${fmtK(v)}</text>`;
+      }).join('')}
+      ${xTicks.map(v => {
+        const x = PAD_L + (1 - v/60) * innerW;
+        return `<text x="${x}" y="${H-8}" font-size="10" fill="#7c7a8a" text-anchor="middle">D-${v}</text>`;
+      }).join('')}
+      <polyline points="${curveFor(seasonAvgRev, 23)}"  fill="none" stroke="${revColors.season}" stroke-width="1.4"/>
+      <polyline points="${curveFor(lastSeasonRev, 51)}" fill="none" stroke="${revColors.last}"   stroke-width="1.4"/>
+      <polyline points="${curveFor(revFinal, 7)}"        fill="none" stroke="${revColors.match}"  stroke-width="2.4"/>
+    </svg>
+    <div class="chart-legend">
+      <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${revColors.match};height:3px"></span>This match (${fmtK(revFinal)})</span>
+      <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${revColors.season}"></span>Season avg (${fmtK(seasonAvgRev)})</span>
+      <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${revColors.last}"></span>Last season vs ${m.opp} (${fmtK(lastSeasonRev)})</span>
+    </div>`;
+  document.getElementById('ddRevenue').innerHTML = revSvg;
+
+  // 2) Avg ticket price evolution — 8 weekly bars
+  const weeks = [
+    { w:1, label:'D-60', price:23.50 },
+    { w:2, label:'',     price:25.10 },
+    { w:3, label:'',     price:27.20 },
+    { w:4, label:'D-30', price:28.40 },
+    { w:5, label:'',     price:29.30 },
+    { w:6, label:'',     price:30.10 },
+    { w:7, label:'D-7',  price:31.20 },
+    { w:8, label:'D-0',  price:32.80 },
+  ];
+  const PW = 320, PH = 180, PP_L = 30, PP_R = 12, PP_T = 16, PP_B = 22;
+  const pInnerW = PW - PP_L - PP_R;
+  const pInnerH = PH - PP_T - PP_B;
+  const priceMax = 36, priceMin = 20;
+  const slot = pInnerW / weeks.length;
+  const bw = slot * 0.62;
+  const startPrice = weeks[0].price;
+  const endPrice   = weeks[weeks.length - 1].price;
+  const trendPct = Math.round((endPrice - startPrice) / startPrice * 100);
+
+  const priceSvg = `
+    <svg class="chart" viewBox="0 0 ${PW} ${PH}" preserveAspectRatio="xMidYMid meet">
+      ${[priceMin, (priceMin+priceMax)/2, priceMax].map(v => {
+        const y = PP_T + (1 - (v-priceMin)/(priceMax-priceMin)) * pInnerH;
+        return `<line x1="${PP_L}" x2="${PW-PP_R}" y1="${y}" y2="${y}" stroke="rgba(4,0,19,0.06)" stroke-width="1"/>
+                <text x="${PP_L-6}" y="${y+3}" font-size="9" fill="#7c7a8a" text-anchor="end">€${v.toFixed(0)}</text>`;
+      }).join('')}
+      ${weeks.map((w, i) => {
+        const x = PP_L + i * slot + (slot - bw)/2;
+        const norm = (w.price - priceMin) / (priceMax - priceMin);
+        const h = norm * pInnerH;
+        const y = PP_T + pInnerH - h;
+        return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="#6c4ddc"/>`;
+      }).join('')}
+      ${weeks.filter(w => w.label).map((w, i) => {
+        const idx = weeks.indexOf(w);
+        const x = PP_L + idx * slot + slot/2;
+        return `<text x="${x.toFixed(1)}" y="${PH-8}" font-size="9" fill="#7c7a8a" text-anchor="middle">${w.label}</text>`;
+      }).join('')}
+    </svg>
+    <div class="chart-legend">
+      <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#6c4ddc"></span>€${startPrice.toFixed(2)} → €${endPrice.toFixed(2)}</span>
+      <span class="chart-legend-item" style="color:${trendPct >= 0 ? '#E75A7C' : '#009DDC'};font-weight:600">${trendPct >= 0 ? '▲' : '▼'} ${Math.abs(trendPct)}%</span>
+    </div>`;
+  document.getElementById('ddPriceEvol').innerHTML = priceSvg;
+
+  // 3) KPI bullet charts — current bar + season avg marker + target marker
+  const bullets = [
+    { name:'Revenue',     curr:revFinal,    avg:seasonAvgRev, target:Math.round(revFinal * 1.08), fmt:fmtK },
+    { name:'Tickets',     curr:m.sales,     avg:4800,         target:Math.round(m.cap * 0.95),    fmt:v => v.toLocaleString() },
+    { name:'Avg ticket',  curr:m.avg,       avg:31.50,        target:33.00,                         fmt:v => `€${v.toFixed(2)}` },
+  ];
+
+  const bulletsHtml = `
+    <div class="kpi-bullets">
+      ${bullets.map(b => {
+        const max = Math.max(b.curr, b.avg, b.target) * 1.05;
+        const fillPct = (b.curr / max) * 100;
+        const avgPct  = (b.avg  / max) * 100;
+        const tgtPct  = (b.target / max) * 100;
+        return `
+          <div class="kpi-bullet">
+            <div class="kpi-bullet-head">
+              <span class="kpi-bullet-name">${b.name}</span>
+              <span class="kpi-bullet-val">${b.fmt(b.curr)}</span>
+            </div>
+            <div class="kpi-bullet-track">
+              <div class="kpi-bullet-fill" style="width:${fillPct.toFixed(1)}%"></div>
+              <div class="kpi-bullet-marker avg"    style="left:${avgPct.toFixed(1)}%" title="Season avg ${b.fmt(b.avg)}"></div>
+              <div class="kpi-bullet-marker target" style="left:${tgtPct.toFixed(1)}%" title="Target ${b.fmt(b.target)}"></div>
+            </div>
+          </div>`;
+      }).join('')}
+      <div class="kpi-bullet-legend">
+        <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="background:#6c4ddc"></span>Current</span>
+        <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="background:#009DDC"></span>Season avg</span>
+        <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="background:#E75A7C"></span>Target</span>
+      </div>
+    </div>`;
+  document.getElementById('ddBullets').innerHTML = bulletsHtml;
+}
+
+function closeDeepDive() {
+  dd.classList.remove('open');
+  ddBackdrop.classList.remove('open');
+  dd.setAttribute('aria-hidden', 'true');
+}
+
+document.getElementById('expandBtn').addEventListener('click', () => {
+  if (currentPanelMatch) openDeepDive(currentPanelMatch);
+});
+document.getElementById('ddCloseBtn').addEventListener('click', closeDeepDive);
+ddBackdrop.addEventListener('click', closeDeepDive);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && dd.classList.contains('open')) closeDeepDive();
 });
 
 // ── Hero cards (next + last) ──────────────────────────────────────────────
