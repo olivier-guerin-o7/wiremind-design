@@ -603,7 +603,8 @@ body {
   min-height:0;
 }
 .dd-stack--13 { grid-template-rows:1fr 2fr; }
-.dd-stack .dd-card { min-height:0; }
+.dd-stack .dd-card { min-height:0; overflow:hidden; }
+.dd-grid--v2 .dd-stack { overflow:hidden; }
 .dd-card--placeholder .dd-card-body {
   background:rgba(108,77,220,0.06);
   border:1px dashed rgba(108,77,220,0.18);
@@ -1886,6 +1887,84 @@ tfoot td::before {
   text-align:right;
 }
 
+/* ── Deep-dive: Sales channels & Promo mix ───────────────────────────── */
+.ch-row {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:2px 0;
+}
+.ch-name {
+  font-size:10px;
+  color:var(--muted);
+  width:66px;
+  flex-shrink:0;
+  text-transform:lowercase;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.ch-bar-wrap {
+  flex:1;
+  height:4px;
+  background:rgba(108,77,220,0.08);
+  border-radius:2px;
+  overflow:hidden;
+}
+.ch-bar {
+  height:100%;
+  border-radius:2px;
+  transition:width 0.3s ease;
+}
+.ch-val {
+  font-size:10px;
+  font-weight:600;
+  color:var(--p5);
+  width:34px;
+  text-align:right;
+  flex-shrink:0;
+}
+.ch-pct {
+  font-size:9px;
+  color:var(--muted);
+  width:22px;
+  text-align:right;
+  flex-shrink:0;
+}
+.promo-summary {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding-bottom:7px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:7px;
+  flex-shrink:0;
+  flex-wrap:nowrap;
+}
+.promo-summary-val {
+  font-size:16px;
+  font-weight:700;
+  color:var(--p5);
+  line-height:1;
+  flex-shrink:0;
+}
+.promo-summary-label {
+  font-size:10px;
+  color:var(--muted);
+  text-transform:lowercase;
+  white-space:nowrap;
+  flex:1;
+}
+.promo-summary-none {
+  font-size:10px;
+  color:var(--muted);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.promo-list { flex:1; display:flex; flex-direction:column; justify-content:center; }
+.promo-footer { flex-shrink:0; font-size:10px; color:var(--muted); text-align:right; padding-top:5px; }
+#ddChannels { justify-content:center; }
+
 /* Venue row */
 .venue-row {
   display:flex;
@@ -2272,19 +2351,19 @@ tfoot td::before {
       </div>
 
       <div class="dd-stack dd-span-3">
-        <div class="dd-card dd-card--placeholder">
+        <div class="dd-card">
           <div class="dd-card-header">
             <div class="dd-card-title">Sales channels</div>
-            <div class="dd-card-sub">Compact horizontal bars</div>
+            <div class="dd-card-sub">Volume by acquisition channel</div>
           </div>
-          <div class="dd-card-body">Channels</div>
+          <div class="dd-card-body" id="ddChannels"></div>
         </div>
-        <div class="dd-card dd-card--placeholder">
+        <div class="dd-card">
           <div class="dd-card-header">
             <div class="dd-card-title">Promo / discount mix</div>
-            <div class="dd-card-sub">Top codes & redemption</div>
+            <div class="dd-card-sub">Top codes &amp; redemption</div>
           </div>
-          <div class="dd-card-body">Promo</div>
+          <div class="dd-card-body" id="ddPromo"></div>
         </div>
       </div>
 
@@ -2473,6 +2552,8 @@ function openDeepDive(m) {
   renderSeasonStanding();
   renderProductsMix();
   renderBookingDynamics();
+  renderSalesChannels();
+  renderPromoMix();
   dd.classList.add('open');
   ddBackdrop.classList.add('open');
   dd.setAttribute('aria-hidden', 'false');
@@ -3297,6 +3378,77 @@ function renderBookingDynamics() {
         <span style="display:inline-block;width:14px;height:2px;background:rgba(42,12,112,0.75);vertical-align:middle;border-radius:1px;margin-right:4px"></span>cumul. fill rate
       </span>
     </div>`;
+}
+
+function renderSalesChannels() {
+  const el = document.getElementById('ddChannels');
+  if (!el || !lastDeepDiveMatch) return;
+  const m = lastDeepDiveMatch;
+  const seed = matches.findIndex(x => x.j === m.j);
+
+  const channels = [
+    { name: 'website',    color: 'var(--c-cyan)',              base: 0.48 },
+    { name: 'ticketing',  color: 'rgba(108,77,220,0.72)',      base: 0.25 },
+    { name: 'box office', color: 'rgba(108,77,220,0.48)',      base: 0.14 },
+    { name: 'agency',     color: 'var(--c-orange)',            base: 0.09 },
+    { name: 'phone',      color: 'rgba(108,77,220,0.28)',      base: 0.04 },
+  ];
+
+  const raw   = channels.map((c, i) => Math.max(0.01, c.base + Math.sin(seed * 1.7 + i * 2.3) * 0.055));
+  const tot   = raw.reduce((s, v) => s + v, 0);
+  const pcts  = raw.map(v => v / tot);
+  const counts = pcts.map(p => Math.round(m.sales * p));
+  const maxP  = Math.max(...pcts);
+
+  el.innerHTML = channels.map((c, i) => `
+    <div class="ch-row">
+      <div class="ch-name">${c.name}</div>
+      <div class="ch-bar-wrap">
+        <div class="ch-bar" style="width:${(pcts[i]/maxP*100).toFixed(1)}%;background:${c.color}"></div>
+      </div>
+      <div class="ch-pct">${Math.round(pcts[i]*100)}%</div>
+    </div>`).join('');
+}
+
+function renderPromoMix() {
+  const el = document.getElementById('ddPromo');
+  if (!el || !lastDeepDiveMatch) return;
+  const m = lastDeepDiveMatch;
+  const seed = matches.findIndex(x => x.j === m.j);
+
+  const promoPct   = Math.max(0.18, Math.min(0.46, 0.32 + Math.sin(seed * 1.2) * 0.08));
+  const promoCount = Math.round(m.sales * promoPct);
+  const noneCount  = m.sales - promoCount;
+
+  const codes = [
+    { code: 'EARLY10',  disc: '−10%', base: 0.38 },
+    { code: 'LOYAL15',  disc: '−15%', base: 0.26 },
+    { code: 'STUD20',   disc: '−20%', base: 0.20 },
+    { code: 'PART25',   disc: '−25%', base: 0.16 },
+  ];
+  const raw   = codes.map((c, i) => Math.max(0.01, c.base + Math.sin(seed * 0.9 + i * 1.7) * 0.07));
+  const tot   = raw.reduce((s, v) => s + v, 0);
+  const pcts  = raw.map(v => v / tot);
+  const counts = pcts.map(p => Math.round(promoCount * p));
+  const maxP  = Math.max(...pcts);
+
+  el.innerHTML = `
+    <div class="promo-summary">
+      <span class="promo-summary-val">${Math.round(promoPct*100)}%</span>
+      <span class="promo-summary-label">with promo code</span>
+    </div>
+    <div class="promo-list">
+      ${codes.map((c, i) => `
+        <div class="ch-row">
+          <div class="ch-name" style="width:54px;font-weight:600;color:var(--p5)">${c.code}</div>
+          <div class="ch-bar-wrap">
+            <div class="ch-bar" style="width:${(pcts[i]/maxP*100).toFixed(1)}%;background:var(--c-coral)"></div>
+          </div>
+          <div class="ch-val">${counts[i].toLocaleString()}</div>
+          <div class="ch-pct" style="color:var(--c-coral)">${c.disc}</div>
+        </div>`).join('')}
+    </div>
+    <div class="promo-footer">${noneCount.toLocaleString()} full price</div>`;
 }
 
 function closeDeepDive() {
