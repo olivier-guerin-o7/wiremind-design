@@ -19,8 +19,9 @@
   --blue: #2d62ff;
   --white:#fafaff;
   --card: #ffffff;
-  --text: #040013;
-  --muted:#7c7a8a;
+  --text: var(--p5);
+  --p2:   #7060a8;
+  --muted:var(--p2);
   --border: rgba(4,0,19,0.08);
   --radius-sm: 3px;
   --radius-md: 5px;
@@ -366,7 +367,7 @@ body {
   display:flex; align-items:center; gap:6px;
 }
 .hero-label .dot {
-  width:6px; height:6px; border-radius:50%; background:#d1d5db;
+  width:6px; height:6px; border-radius:50%; background:var(--p1);
 }
 .hero-label.next .dot { background:#22c55e; }
 .hero-dx {
@@ -428,17 +429,20 @@ body {
   color:var(--p5);
 }
 .hero-occbar {
-  height:4px;
-  border-radius:2px;
-  background:var(--pl);
-  overflow:hidden;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-.hero-occbar-fill {
-  height:100%;
-  background:var(--p3);
-  border-radius:2px;
+.hero-occ-dot {
+  width:5px;
+  height:5px;
+  flex-shrink:0;
+  border-radius:50%;
 }
-.hero-card.past .hero-occbar-fill { background:var(--p1); }
+.hero-occ-dot.filled { background:var(--p3); }
+.hero-occ-dot.empty  { background:#ddd5f2; }
+.hero-card.next .hero-occ-dot.filled  { background:var(--p5); }
+.hero-card.past .hero-occ-dot.filled  { background:var(--p3); }
 
 /* Stack on narrow viewports */
 @media (max-width: 900px) {
@@ -840,6 +844,7 @@ tbody tr:hover { background: #f8f7ff; }
 tbody tr.active { background: #ede9fb; }
 tbody tr.upcoming td { opacity:1; }
 tbody tr.past td { opacity:0.72; }
+tbody tr.past td:nth-child(4) { opacity:1; }
 
 td {
   padding:10px 14px;
@@ -943,24 +948,27 @@ td:first-child { padding-left:20px; }
 }
 
 /* Occ cell */
-.cell-occ { width:90px; }
+.cell-occ { width:100px; }
 .occ-pct {
   font-family:'Archivo SemiExpanded', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
-  margin-bottom:4px;
+  color:var(--p3);
+  margin-bottom:5px;
 }
-.occ-bar-bg {
+.occ-dots {
+  display:flex;
+  gap:2px;
+  align-items:center;
+}
+.occ-dot {
+  width:3px;
   height:3px;
-  background:var(--pl);
-  border-radius:2px;
-  overflow:hidden;
+  border-radius:50%;
+  flex-shrink:0;
 }
-.occ-bar-fill {
-  height:100%;
-  border-radius:2px;
-  transition:width 0.3s;
-}
+.occ-dot.filled { background:var(--p3); }
+.occ-dot.empty  { background:#ddd5f2; }
 
 /* Revenue cell */
 .revenue-main {
@@ -1132,7 +1140,7 @@ tfoot td::before {
   gap:4px;
 }
 .stadium-section-row {
-  background:var(--pl);
+  background:#f6f3fd;
   border-radius:var(--radius-md);
   padding:7px 10px;
   display:flex;
@@ -1175,7 +1183,7 @@ tfoot td::before {
   gap:8px;
 }
 .kpi-item {
-  background:var(--pl);
+  background:#f6f3fd;
   border-radius:var(--radius-md);
   padding:10px 12px;
 }
@@ -1308,7 +1316,7 @@ tfoot td::before {
   margin-top:14px;
 }
 .occ-block {
-  background:var(--pl);
+  background:#f6f3fd;
   border-radius:var(--radius-md);
   padding:16px;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
@@ -1454,7 +1462,7 @@ tfoot td::before {
             <th style="width:220px">Match</th>
             <th style="width:180px">Opponent</th>
             <th style="width:110px">Sales</th>
-            <th style="width:90px">Occ.</th>
+            <th style="width:100px">Occ.</th>
             <th>Revenue</th>
           </tr>
         </thead>
@@ -1773,11 +1781,11 @@ const teamColors = {
 };
 
 // Occ color
-function occColor(v) {
-  if (v >= 93) return 'var(--p5)';
-  if (v >= 85) return 'var(--p4)';
-  if (v >= 78) return 'var(--p3)';
-  return 'var(--p1)';
+function renderOccDots(occ) {
+  const filled = Math.round(occ / 5);
+  return Array.from({length:20}, (_,i) =>
+    `<div class="occ-dot ${i < filled ? 'filled' : 'empty'}"></div>`
+  ).join('');
 }
 
 // "Today" — set mid-season so we see both past and upcoming rows
@@ -1841,10 +1849,8 @@ matches.forEach((m, i) => {
     </td>
     <td>
       <div class="cell-occ">
-        <div class="occ-pct" style="color:${occColor(m.occ)}">${m.occ}%</div>
-        <div class="occ-bar-bg">
-          <div class="occ-bar-fill" style="width:${m.occ}%;background:${occColor(m.occ)}"></div>
-        </div>
+        <div class="occ-pct">${m.occ}%</div>
+        <div class="occ-dots">${renderOccDots(m.occ)}</div>
       </div>
     </td>
     <td>
@@ -2422,7 +2428,7 @@ function renderHeroes() {
           <div class="hero-metric-value">${m.sales.toLocaleString()}</div>
         </div>
       </div>
-      <div class="hero-occbar"><div class="hero-occbar-fill" style="width:${m.occ}%"></div></div>
+      <div class="hero-occbar">${Array.from({length:33},(_,i)=>`<div class="hero-occ-dot ${i<Math.round(m.occ/3)?'filled':'empty'}"></div>`).join('')}</div>
     `;
     card.addEventListener('click', () => openPanel(m, card));
     heroStrip.appendChild(card);
