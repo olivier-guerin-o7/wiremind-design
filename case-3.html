@@ -160,7 +160,7 @@ body {
 .btn-ghost {
   background:transparent;
   border:1px solid var(--p3);
-  color:var(--p4);
+  color:var(--p5);
 }
 .btn-ghost:hover { background:var(--pl); }
 .btn-icon {
@@ -171,7 +171,7 @@ body {
 .filter-count {
   font-size:11px;
   font-weight:600;
-  color:var(--p4);
+  color:var(--p5);
   margin-left:-4px;
 }
 
@@ -326,7 +326,7 @@ body {
   display:flex;
   gap:16px;
   padding:16px 20px;
-  background:var(--pl);
+  background:#f6f3fd;
   border-bottom:1px solid var(--border);
   flex-shrink:0;
 }
@@ -348,7 +348,7 @@ body {
   box-shadow:0 4px 14px rgba(42,12,112,0.08);
 }
 .hero-card.active {
-  border-color:var(--p4);
+  border-color:var(--p5);
   box-shadow:0 4px 14px rgba(42,12,112,0.12);
 }
 .hero-head {
@@ -377,7 +377,7 @@ body {
   padding:2px 8px;
   border-radius:10px;
   background:var(--pl);
-  color:var(--p4);
+  color:var(--p5);
 }
 .hero-dx.soon { background:#fff3c4; color:#7a5400; }
 .hero-main {
@@ -707,7 +707,7 @@ body {
   user-select:none;
 }
 .legend-chip:hover { border-color:var(--p3); }
-.legend-chip.active { border-color:var(--p4); background:#fff; box-shadow:0 1px 3px rgba(4,0,19,0.06); }
+.legend-chip.active { border-color:var(--p5); background:#fff; box-shadow:0 1px 3px rgba(4,0,19,0.06); }
 .legend-swatch {
   width:12px; height:12px;
   border-radius:2px;
@@ -719,7 +719,7 @@ body {
   font-size:11px;
   color:var(--muted);
 }
-.legend-chip.active .legend-count { color:var(--p4); }
+.legend-chip.active .legend-count { color:var(--p5); }
 
 /* Bullet charts (KPIs vs benchmark) */
 .kpi-bullets { display:flex; flex-direction:column; gap:12px; flex:1; justify-content:center; }
@@ -880,7 +880,7 @@ td:first-child { padding-left:20px; }
   padding:1px 5px;
   border-radius:4px;
   background:var(--pl);
-  color:var(--p4);
+  color:var(--p5);
   white-space:nowrap;
 }
 .dx-badge.soon {
@@ -1149,7 +1149,7 @@ tfoot td::before {
 }
 .sec-name {
   font-size:11px;
-  color:var(--p5);
+  color:var(--p4);
   font-weight:500;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -1191,9 +1191,10 @@ tfoot td::before {
   grid-column:span 2;
   background:#ede9fb;
 }
+.kpi-item.dim { background:#faf8ff; }
 .kpi-label {
   font-size:10px;
-  color:var(--muted);
+  color:var(--p4);
   margin-bottom:4px;
   font-weight:500;
 }
@@ -1201,14 +1202,13 @@ tfoot td::before {
   font-family:'Archivo SemiExpanded', Arial, sans-serif;
   font-size:18px;
   font-weight:600;
-  color:var(--p5);
+  color:var(--p4);
 }
 .kpi-item.hero .kpi-value { font-size:22px; }
-.kpi-item:not(.hero) .kpi-value { color:var(--p3); }
-.sec-pct { color:var(--p5); }
+.sec-pct { color:var(--p4); }
 .kpi-sub {
   font-size:10px;
-  color:var(--muted);
+  color:var(--p4);
   margin-top:2px;
 }
 
@@ -1327,13 +1327,13 @@ tfoot td::before {
 }
 .occ-block-label {
   font-size:11px;
-  color:var(--muted);
+  color:var(--p4);
 }
 .occ-block-value {
   font-family:'Archivo SemiExpanded', Arial, sans-serif;
   font-size:32px;
   font-weight:600;
-  color:var(--p5);
+  color:var(--p4);
   line-height:1;
 }
 
@@ -1568,11 +1568,11 @@ tfoot td::before {
                 <div class="kpi-value" style="font-size:16px" id="kpiSales">5,767</div>
                 <div class="kpi-sub" id="kpiCap">of 6,694</div>
               </div>
-              <div class="kpi-item">
+              <div class="kpi-item dim">
                 <div class="kpi-label">Options rev.</div>
                 <div class="kpi-value" style="font-size:16px">€0</div>
               </div>
-              <div class="kpi-item">
+              <div class="kpi-item dim">
                 <div class="kpi-label">Live</div>
                 <div class="kpi-value" style="font-size:16px">0</div>
               </div>
