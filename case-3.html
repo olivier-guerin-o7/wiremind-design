@@ -1298,6 +1298,51 @@ body {
 .dd-kpi-delta--down { color:var(--c-coral); }
 .dd-kpi-delta--flat { color:var(--muted); }
 
+/* Products mix: donut + legend list */
+.prod-donut-wrap {
+  flex:1;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-bottom:20px;
+}
+.prod-donut-wrap svg { width:100%; height:100%; max-height:100%; }
+.prod-list {
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.prod-item {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+}
+.prod-swatch {
+  flex-shrink:0;
+  width:8px;
+  height:8px;
+  border-radius:2px;
+}
+.prod-name {
+  flex:1;
+  font-size:10px;
+  color:var(--p5);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+.prod-price {
+  flex-shrink:0;
+  font-size:9px;
+  color:var(--muted);
+  font-weight:500;
+  white-space:nowrap;
+}
+
 /* Booking curves + histogram SVG charts */
 .chart {
   width:100%;
@@ -2203,12 +2248,11 @@ tfoot td::before {
       </div>
 
       <!-- Row 2: Products (3) + Booking dynamics (6) + Channels stack (3) -->
-      <div class="dd-card dd-span-3 dd-card--placeholder">
+      <div class="dd-card dd-span-3">
         <div class="dd-card-header">
           <div class="dd-card-title">Products mix</div>
-          <div class="dd-card-sub">Donut + ranked top categories</div>
         </div>
-        <div class="dd-card-body">Products</div>
+        <div class="dd-card-body" id="ddProducts"></div>
       </div>
 
       <div class="dd-card dd-span-6 dd-card--placeholder">
@@ -2419,6 +2463,7 @@ function openDeepDive(m) {
   buildStadiumDeepDive(m);
   renderHeadlineKPIs();
   renderSeasonStanding();
+  renderProductsMix();
   dd.classList.add('open');
   ddBackdrop.classList.add('open');
   dd.setAttribute('aria-hidden', 'false');
@@ -3063,6 +3108,70 @@ function renderSeasonStanding() {
     <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="border-left:2px solid rgba(42,12,112,0.5)"></span>season avg</span>
     <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="border-left:2px dashed rgba(42,12,112,0.55)"></span>target</span>
   </div></div>`;
+}
+
+function renderProductsMix() {
+  const el = document.getElementById('ddProducts');
+  if (!el) return;
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+
+  const META = [
+    { color:'rgba(108,77,220,0.70)', solid:'#6c4ddc' },
+    { color:'rgba(0,157,220,0.70)',  solid:'#009DDC'  },
+    { color:'rgba(108,77,220,0.45)', solid:'#9b82e8'  },
+    { color:'rgba(250,169,22,0.75)', solid:'#FAA916'  },
+    { color:'rgba(108,77,220,0.28)', solid:'#c4b5f4'  },
+    { color:'rgba(231,90,124,0.75)', solid:'#E75A7C'  },
+    { color:'rgba(0,157,220,0.45)',  solid:'#5ab8e6'  },
+    { color:'rgba(231,90,124,0.48)', solid:'#f0a0b8'  },
+  ];
+
+  const seed = matches.findIndex(x => x.j === m.j);
+  const varied = products.map((p, i) => {
+    const jitter = ((seed * 17 + i * 31) % 30) / 100;
+    return { ...p, vol: Math.round(p.max * (0.86 + jitter)) };
+  });
+  const total = varied.reduce((s, p) => s + p.vol, 0);
+
+  // SVG donut — thinner ring (SW=11), no background circle
+  const R = 42, SW = 11, CX = 60, CY = 60;
+  const circ = 2 * Math.PI * R;
+  const GAP  = 2.5;
+  let cumulative = 0;
+  const arcs = varied.map((p, i) => {
+    const frac   = p.vol / total;
+    const arcLen = Math.max(0, frac * circ - GAP);
+    const offset = -(cumulative * circ - GAP / 2);
+    cumulative  += frac;
+    return `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none"
+      stroke="${META[i].color}" stroke-width="${SW}"
+      stroke-dasharray="${arcLen.toFixed(2)} ${circ.toFixed(2)}"
+      stroke-dashoffset="${offset.toFixed(2)}"
+      transform="rotate(-90 ${CX} ${CY})"
+      stroke-linecap="butt"/>`;
+  }).join('');
+
+  const donutSvg = `
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      ${arcs}
+      <text x="${CX}" y="${CY - 2}" text-anchor="middle" dominant-baseline="middle"
+        font-family="Plus Jakarta Sans,Arial,sans-serif"
+        font-size="14" font-weight="700" fill="#2a0c70">${total.toLocaleString()}</text>
+      <text x="${CX}" y="${CY + 11}" text-anchor="middle" dominant-baseline="middle"
+        font-family="Plus Jakarta Sans,Arial,sans-serif"
+        font-size="8" font-weight="500" fill="#7060a8">tickets</text>
+    </svg>`;
+
+  const legend = varied.map((p, i) => `
+    <div class="prod-item">
+      <span class="prod-swatch" style="background:${META[i].solid}"></span>
+      <span class="prod-name">${p.name}</span>
+      <span class="prod-price">${p.price}</span>
+    </div>`).join('');
+
+  el.innerHTML = `<div class="prod-donut-wrap">${donutSvg}</div>
+    <div class="prod-list">${legend}</div>`;
 }
 
 function closeDeepDive() {
