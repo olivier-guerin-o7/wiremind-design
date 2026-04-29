@@ -1189,6 +1189,7 @@ tfoot td::before {
 }
 .kpi-item.hero {
   grid-column:span 2;
+  background:#ede9fb;
 }
 .kpi-label {
   font-size:10px;
@@ -1203,6 +1204,8 @@ tfoot td::before {
   color:var(--p5);
 }
 .kpi-item.hero .kpi-value { font-size:22px; }
+.kpi-item:not(.hero) .kpi-value { color:var(--p3); }
+.sec-pct { color:var(--p5); }
 .kpi-sub {
   font-size:10px;
   color:var(--muted);
@@ -1316,7 +1319,7 @@ tfoot td::before {
   margin-top:14px;
 }
 .occ-block {
-  background:#f6f3fd;
+  background:#ede9fb;
   border-radius:var(--radius-md);
   padding:16px;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
@@ -1527,19 +1530,19 @@ tfoot td::before {
               <div class="stadium-sections">
                 <div class="stadium-section-row">
                   <span class="sec-name">Tribune Présidentielle</span>
-                  <span class="sec-pct" style="color:var(--p5)">95%</span>
+                  <span class="sec-pct">95%</span>
                 </div>
                 <div class="stadium-section-row">
                   <span class="sec-name">Tribune Honneur</span>
-                  <span class="sec-pct" style="color:var(--p4)">90%</span>
+                  <span class="sec-pct">90%</span>
                 </div>
                 <div class="stadium-section-row">
                   <span class="sec-name">Tribune Sud Ségala</span>
-                  <span class="sec-pct" style="color:var(--p3)">86%</span>
+                  <span class="sec-pct">86%</span>
                 </div>
                 <div class="stadium-section-row">
                   <span class="sec-name">Virage Nord Aubrac</span>
-                  <span class="sec-pct" style="color:var(--p1)">75%</span>
+                  <span class="sec-pct">75%</span>
                 </div>
               </div>
             </div>
@@ -1571,7 +1574,7 @@ tfoot td::before {
               </div>
               <div class="kpi-item">
                 <div class="kpi-label">Live</div>
-                <div class="kpi-value" style="font-size:16px;color:var(--p3)">0</div>
+                <div class="kpi-value" style="font-size:16px">0</div>
               </div>
             </div>
           </div>
