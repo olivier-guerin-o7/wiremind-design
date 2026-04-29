@@ -1189,51 +1189,114 @@ body {
 }
 .legend-chip.active .legend-count { color:var(--p5); }
 
-/* Bullet charts (KPIs vs benchmark) */
-.kpi-bullets { display:flex; flex-direction:column; gap:12px; flex:1; justify-content:center; }
-.kpi-bullet { display:flex; flex-direction:column; gap:6px; }
-.kpi-bullet-head {
+/* Bullet charts — Season standing */
+.kpi-bullets { display:flex; flex-direction:column; gap:16px; flex:1; justify-content:center; }
+.kpi-bullet { display:flex; align-items:center; gap:14px; }
+.kpi-bullet-meta {
+  flex-shrink:0;
+  width:68px;
   display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  font-size:11px;
+  flex-direction:column;
+  gap:1px;
 }
-.kpi-bullet-name { color:var(--p5); font-weight:500; }
 .kpi-bullet-val {
   font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
-  font-weight:600;
+  font-weight:700;
   color:var(--p5);
+  line-height:1.2;
+}
+.kpi-bullet-name {
+  font-size:10px;
+  text-transform:lowercase;
+  letter-spacing:0.02em;
+  color:var(--muted);
+  font-weight:400;
 }
 .kpi-bullet-track {
-  height:10px;
-  background:rgba(108,77,220,0.10);
+  flex:1;
+  height:4px;
+  background:rgba(4,0,19,0.07);
   border-radius:2px;
   position:relative;
 }
 .kpi-bullet-fill {
   position:absolute; left:0; top:0; height:100%;
-  background:var(--p3);
   border-radius:2px;
 }
 .kpi-bullet-marker {
-  position:absolute; top:-3px; bottom:-3px;
+  position:absolute; top:-5px; bottom:-5px;
   width:2px;
 }
-.kpi-bullet-marker.avg    { background:var(--c-cyan); }
-.kpi-bullet-marker.target { background:var(--c-coral); }
+.kpi-bullet-marker.avg {
+  background:rgba(42,12,112,0.5);
+}
+.kpi-bullet-marker.target {
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(42,12,112,0.55) 0px,
+    rgba(42,12,112,0.55) 3px,
+    transparent 3px,
+    transparent 5px
+  );
+}
 .kpi-bullet-legend {
   display:flex;
-  gap:14px;
+  gap:12px;
   font-size:10px;
+  text-transform:lowercase;
+  letter-spacing:0.02em;
   color:var(--muted);
+  font-weight:400;
   margin-top:6px;
 }
 .kpi-bullet-legend-item { display:flex; align-items:center; gap:5px; }
 .kpi-bullet-legend-swatch {
-  width:2px; height:10px;
-  background:var(--c-cyan);
+  display:block;
+  flex-shrink:0;
+  width:0;
+  height:10px;
+  align-self:center;
 }
+
+/* Headline KPI strip */
+.dd-kpi-strip {
+  display:flex;
+  flex:1;
+  min-height:0;
+  align-items:stretch;
+}
+.dd-kpi-item {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:6px;
+  padding:10px 6px;
+  border-right:1px solid var(--border);
+}
+.dd-kpi-item:last-child { border-right:none; }
+.dd-kpi-value {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--p5);
+  line-height:1;
+}
+.dd-kpi-label {
+  font-size:10px;
+  text-transform:lowercase;
+  letter-spacing:0.02em;
+  color:var(--muted);
+  font-weight:400;
+  margin-top:-2px;
+}
+.dd-kpi-delta { font-size:10px; font-weight:600; }
+.dd-kpi-delta--up   { color:#22a55b; }
+.dd-kpi-delta--down { color:var(--c-coral); }
+.dd-kpi-delta--flat { color:var(--muted); }
 
 /* Booking curves + histogram SVG charts */
 .chart {
@@ -2124,19 +2187,18 @@ tfoot td::before {
       </div>
 
       <div class="dd-stack dd-stack--13 dd-span-4">
-        <div class="dd-card dd-card--placeholder">
+        <div class="dd-card">
           <div class="dd-card-header">
             <div class="dd-card-title">Headline figures</div>
-            <div class="dd-card-sub">Revenue · Occupancy · Avg ticket</div>
           </div>
-          <div class="dd-card-body">KPIs</div>
+          <div class="dd-card-body" id="ddKPIs"></div>
         </div>
-        <div class="dd-card dd-card--placeholder">
+        <div class="dd-card">
           <div class="dd-card-header">
-            <div class="dd-card-title">vs benchmark</div>
-            <div class="dd-card-sub">Bullet bars · current · season avg · target</div>
+            <div class="dd-card-title">Season standing</div>
+            <div class="dd-card-sub">vs season avg &amp; targets</div>
           </div>
-          <div class="dd-card-body">Bullets</div>
+          <div class="dd-card-body" id="ddBullets"></div>
         </div>
       </div>
 
@@ -2355,8 +2417,8 @@ function openDeepDive(m) {
   document.getElementById('ddEmblem').src = `logos/${m.short}.svg`;
   document.getElementById('ddEmblem').alt = m.opp;
   buildStadiumDeepDive(m);
-  // KPI charts disabled until v2 cards are designed
-  // buildKPIDeepDive(m);
+  renderHeadlineKPIs();
+  renderSeasonStanding();
   dd.classList.add('open');
   ddBackdrop.classList.add('open');
   dd.setAttribute('aria-hidden', 'false');
@@ -2927,6 +2989,80 @@ function buildKPIDeepDive(m) {
       </div>
     </div>`;
   document.getElementById('ddBullets').innerHTML = bulletsHtml;
+}
+
+function renderHeadlineKPIs() {
+  const el = document.getElementById('ddKPIs');
+  if (!el) return;
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+  const past = matches.filter(x => !x.upcoming);
+  const avgIncome = past.reduce((s, x) => s + x.income, 0) / past.length;
+  const avgOcc    = past.reduce((s, x) => s + x.occ,    0) / past.length;
+  const avgTicket = past.reduce((s, x) => s + x.avg,    0) / past.length;
+  function delta(curr, ref) {
+    const pct = (curr - ref) / ref * 100;
+    if (Math.abs(pct) < 1.5) return `<span class="dd-kpi-delta dd-kpi-delta--flat">≈ avg</span>`;
+    const cls = pct > 0 ? 'dd-kpi-delta--up' : 'dd-kpi-delta--down';
+    return `<span class="dd-kpi-delta ${cls}">${pct > 0 ? '▲' : '▼'} ${Math.abs(pct).toFixed(1)}%</span>`;
+  }
+  const kpis = [
+    { label:'Revenue',    value:`€${(m.income/1000).toFixed(0)}k`, delt:delta(m.income, avgIncome) },
+    { label:'Occupancy',  value:`${m.occ}%`,                       delt:delta(m.occ,    avgOcc)    },
+    { label:'Avg ticket', value:`€${m.avg.toFixed(2)}`,            delt:delta(m.avg,    avgTicket) },
+  ];
+  el.innerHTML = `<div class="dd-kpi-strip">${kpis.map(k => `
+    <div class="dd-kpi-item">
+      <div class="dd-kpi-value">${k.value}</div>
+      <div class="dd-kpi-label">${k.label}</div>
+      ${k.delt}
+    </div>`).join('')}</div>`;
+}
+
+function renderSeasonStanding() {
+  const el = document.getElementById('ddBullets');
+  if (!el) return;
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+  // Prior matches only (matches before this one in the season) — gives "where the season stood"
+  const mIdx  = matches.findIndex(x => x.j === m.j);
+  const prior = matches.slice(0, mIdx).filter(x => !x.upcoming);
+  const ref   = prior.length ? prior : matches.filter(x => !x.upcoming && x.j !== m.j);
+  const priorAvgRev    = Math.round(ref.reduce((s, x) => s + x.income, 0) / ref.length);
+  const priorAvgOcc    = Math.round(ref.reduce((s, x) => s + x.occ,    0) / ref.length);
+  const priorAvgTicket = +(ref.reduce((s, x) => s + x.avg, 0) / ref.length).toFixed(2);
+  const bullets = [
+    // Revenue: typically curr < prior avg — bar stops before avg marker
+    { name:'Revenue',    curr:m.income, avg:priorAvgRev,    target:155000, scale:175000,
+      fmt:v => `€${Math.round(v/1000)}k`, color:'rgba(108,77,220,0.6)' },
+    // Occupancy: curr ≈ prior avg, target higher
+    { name:'Occupancy',  curr:m.occ,    avg:priorAvgOcc,    target:90,     scale:100,
+      fmt:v => `${v}%`,                  color:'rgba(0,157,220,0.6)'   },
+    // Avg ticket: curr typically above prior avg — bar overshoots avg marker
+    { name:'Avg ticket', curr:m.avg,    avg:priorAvgTicket, target:30.50,  scale:36,
+      fmt:v => `€${(+v).toFixed(2)}`,   color:'rgba(250,169,22,0.7)'  },
+  ];
+  el.innerHTML = `<div class="kpi-bullets">${bullets.map(b => {
+    const max     = b.scale;
+    const fillPct = (b.curr   / max) * 100;
+    const avgPct  = (b.avg    / max) * 100;
+    const tgtPct  = (b.target / max) * 100;
+    return `<div class="kpi-bullet">
+      <div class="kpi-bullet-meta">
+        <span class="kpi-bullet-val">${b.fmt(b.curr)}</span>
+        <span class="kpi-bullet-name">${b.name}</span>
+      </div>
+      <div class="kpi-bullet-track">
+        <div class="kpi-bullet-fill" style="width:${fillPct.toFixed(1)}%;background:${b.color}"></div>
+        <div class="kpi-bullet-marker avg"    style="left:${avgPct.toFixed(1)}%" title="Season avg ${b.fmt(b.avg)}"></div>
+        <div class="kpi-bullet-marker target" style="left:${tgtPct.toFixed(1)}%" title="Target ${b.fmt(b.target)}"></div>
+      </div>
+    </div>`;
+  }).join('')}
+  <div class="kpi-bullet-legend">
+    <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="border-left:2px solid rgba(42,12,112,0.5)"></span>season avg</span>
+    <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="border-left:2px dashed rgba(42,12,112,0.55)"></span>target</span>
+  </div></div>`;
 }
 
 function closeDeepDive() {
