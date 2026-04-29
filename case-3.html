@@ -580,13 +580,470 @@ body {
   color:var(--p5);
 }
 
+/* ── Deep-dive v2 — newspaper grid skeleton ─────────────────────────── */
+.dd-body--v2 { padding:20px; overflow:hidden; }
+.dd-grid--v2 {
+  display:grid;
+  grid-template-columns:repeat(12, 1fr);
+  grid-auto-rows:1fr;
+  gap:14px;
+  height:100%;
+}
+.dd-grid--v2 .dd-card { min-height:0; }
+.dd-grid--v2 .dd-card-body { min-height:0; overflow:hidden; }
+.dd-span-3  { grid-column:span 3; }
+.dd-span-4  { grid-column:span 4; }
+.dd-span-6  { grid-column:span 6; }
+.dd-span-8  { grid-column:span 8; }
+.dd-span-12 { grid-column:span 12; }
+.dd-stack {
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  gap:14px;
+  min-height:0;
+}
+.dd-stack--13 { grid-template-rows:1fr 2fr; }
+.dd-stack .dd-card { min-height:0; overflow:hidden; }
+.dd-grid--v2 .dd-stack { overflow:hidden; }
+.dd-card--placeholder .dd-card-body {
+  background:rgba(108,77,220,0.06);
+  border:1px dashed rgba(108,77,220,0.18);
+  border-radius:var(--radius-md);
+  align-items:center;
+  justify-content:center;
+  color:var(--p3);
+  font-size:12px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  font-weight:600;
+}
+
+/* ── Stadium card v2 — toggleable views ───────────────────────────────── */
+.stadium-card-shell {
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  gap:14px;
+  min-height:0;
+}
+.stadium-card-head {
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:8px;
+}
+.stadium-card-meta-block {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:var(--muted);
+}
+.stadium-card-head .view-pills { justify-self:end; }
+.stadium-card-title-block {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  flex:1;
+}
+.tribune-nav {
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+.tribune-nav-btn {
+  width:22px; height:22px;
+  border:none;
+  background:transparent;
+  border-radius:var(--radius-sm);
+  color:var(--p3);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:inherit;
+  font-size:14px;
+  line-height:1;
+  transition:background 0.12s, color 0.12s;
+}
+.tribune-nav-btn:hover { background:rgba(108,77,220,0.08); color:var(--p5); }
+.tribune-nav-btn:disabled { color:rgba(108,77,220,0.25); cursor:not-allowed; background:transparent; }
+.tribune-select {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-size:14px;
+  font-weight:600;
+  color:var(--p5);
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  padding:3px 6px 3px 18px;
+  border-radius:var(--radius-sm);
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none' stroke='%236c4ddc' stroke-width='1.6'><path d='M2 4l3 3 3-3'/></svg>");
+  background-repeat:no-repeat;
+  background-position:left 2px center;
+  transition:background-color 0.12s;
+}
+.tribune-select:hover { background-color:rgba(108,77,220,0.06); }
+.stadium-card-title {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-size:14px;
+  font-weight:600;
+  color:var(--p5);
+}
+.stadium-card-meta {
+  font-size:12px;
+  color:var(--muted);
+}
+.view-pills {
+  display:inline-flex;
+  background:rgba(108,77,220,0.06);
+  border-radius:999px;
+  padding:2px;
+  gap:0;
+  flex-shrink:0;
+}
+.view-pill {
+  border:none;
+  background:transparent;
+  padding:5px 12px;
+  font-size:11px;
+  font-weight:500;
+  color:var(--p4);
+  cursor:pointer;
+  border-radius:999px;
+  font-family:inherit;
+  transition:background 0.12s, color 0.12s;
+}
+.view-pill:hover { color:var(--p5); }
+.view-pill.active {
+  background:#fff;
+  color:var(--p5);
+  font-weight:600;
+  box-shadow:0 1px 2px rgba(4,0,19,0.08);
+}
+
+.stadium-card-content { flex:1; min-height:0; display:flex; flex-direction:column; }
+
+.seats-view, .stadium-view-mode {
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.stadium-view-body {
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:row;
+  gap:16px;
+}
+.seat-grid-nav {
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:0;
+}
+.seat-nav-btn {
+  flex-shrink:0;
+  width:32px;
+  height:100%;
+  min-height:40px;
+  border:none;
+  background:transparent;
+  border-radius:var(--radius-sm);
+  color:rgba(42,12,112,0.70);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  line-height:1;
+  font-family:inherit;
+  transition:background 0.12s, color 0.12s;
+}
+.seat-nav-btn:hover { background:rgba(108,77,220,0.07); color:var(--p5); }
+.seat-nav-btn:disabled { color:rgba(108,77,220,0.12); cursor:not-allowed; background:transparent; }
+.seats-view .stand-seats {
+  flex:1;
+  background:transparent;
+  padding:0;
+  min-height:0;
+}
+.seats-view .stadium-legend {
+  background:transparent;
+  padding:0;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+}
+.seats-view .stadium-legend-chips {
+  display:flex;
+  flex-direction:row;
+  gap:10px;
+  width:100%;
+  flex-wrap:nowrap;
+}
+.seats-view .legend-chip {
+  flex:1 1 0;
+  min-width:0;
+  padding:6px 8px;
+  background:transparent;
+  border:1px solid transparent;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:flex-start;
+  cursor:pointer;
+  border-radius:var(--radius-sm);
+}
+.seats-view .legend-chip:hover { background:rgba(108,77,220,0.06); }
+.seats-view .legend-chip.active { background:rgba(108,77,220,0.10); border-color:rgba(108,77,220,0.20); }
+.seats-view .legend-label {
+  font-size:11px;
+  color:var(--p5);
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.seats-view .legend-row {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+}
+.seats-view .legend-swatch { width:10px; height:10px; flex-shrink:0; }
+.seats-view .legend-count {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--p4);
+  margin-left:0;
+}
+[data-view-mode] { display:none; }
+.stadium-card-shell[data-view="seats"] [data-view-mode="seats"],
+.stadium-card-shell[data-view="stadium"] [data-view-mode="stadium"] { display:flex; }
+
+/* Perspective tabs (under the title within Seats view) */
+.persp-tabs {
+  display:flex;
+  gap:2px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:0;
+}
+.persp-tab {
+  border:none;
+  background:transparent;
+  padding:6px 0;
+  margin-right:18px;
+  font-size:11px;
+  font-weight:500;
+  color:var(--muted);
+  cursor:pointer;
+  font-family:inherit;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  transition:color 0.12s, border-color 0.12s;
+}
+.persp-tab:hover:not(:disabled):not(.active) { color:var(--p4); }
+.persp-tab.active {
+  color:var(--p5);
+  font-weight:600;
+  border-bottom-color:var(--p3);
+}
+.persp-tab:disabled { color:rgba(108,77,220,0.30); cursor:not-allowed; }
+
+/* Stadium view (overview): centered image with 4 KPIs in the corners */
+.stadium-overview {
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  grid-template-rows:auto 1fr auto;
+  gap:14px 18px;
+}
+.stadium-overview-img {
+  grid-column:1 / -1;
+  grid-row:2;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  min-height:0;
+  min-width:0;
+  overflow:hidden;
+}
+.stadium-overview-img img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:none;
+  display:block;
+}
+.stadium-overview-img::after {
+  content:'';
+  position:absolute;
+  top:0;
+  left:72%;
+  width:9%;
+  height:14%;
+  background:#fff;
+  z-index:1;
+  pointer-events:none;
+}
+.hf-item {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+.hf-item--tl { grid-column:1; grid-row:1; align-self:start; }
+.hf-item--tr { grid-column:3; grid-row:1; align-self:start; text-align:right; }
+.hf-item--bl { grid-column:1; grid-row:3; align-self:end; }
+.hf-item--br { grid-column:3; grid-row:3; align-self:end; text-align:right; }
+.hf-label {
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  color:var(--muted);
+  font-weight:600;
+}
+.hf-value {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-size:20px;
+  font-weight:600;
+  color:var(--p5);
+  line-height:1.1;
+}
+
+.tribune-table {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  background:rgba(108,77,220,0.10);
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  align-self:flex-start;
+}
+.tribune-row {
+  display:grid;
+  grid-template-columns:1.4fr 0.7fr 0.6fr 0.7fr;
+  gap:8px;
+  padding:7px 10px;
+  background:#fff;
+  font-size:11px;
+  align-items:center;
+  cursor:pointer;
+  transition:background 0.12s;
+}
+.tribune-row:hover { background:rgba(108,77,220,0.06); }
+.tribune-row.active { background:rgba(108,77,220,0.12); }
+.tribune-head {
+  background:rgba(108,77,220,0.04);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  color:var(--muted);
+  font-weight:600;
+  cursor:default;
+}
+.tribune-head:hover { background:rgba(108,77,220,0.04); }
+.tribune-name { color:var(--p5); font-weight:500; }
+.tribune-row .num {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-weight:600;
+  color:var(--p4);
+}
+
 /* Stadium triptych: image | seats | legend */
 .stadium-triptych {
   display:grid;
-  grid-template-columns:1.2fr 1.6fr 1fr;
-  gap:14px;
+  grid-template-columns:1fr 2fr;
+  grid-template-rows:1fr auto;
+  grid-template-areas:
+    "pict seats"
+    "legend legend";
+  gap:12px;
   width:100%;
+  height:100%;
   align-items:stretch;
+}
+.stadium-triptych .stadium-pict {
+  grid-area:pict;
+  background:transparent;
+  padding:0;
+  min-width:0;
+  min-height:0;
+}
+.stadium-triptych .stand-seats {
+  grid-area:seats;
+  background:transparent;
+  padding:0;
+  min-width:0;
+  min-height:0;
+}
+.stadium-triptych .stadium-legend {
+  grid-area:legend;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:0;
+  background:transparent;
+  gap:8px;
+}
+.stadium-triptych .stadium-legend-title { margin-bottom:0; }
+.stadium-triptych .stadium-legend-chips {
+  display:flex;
+  flex-direction:row;
+  gap:10px;
+  width:100%;
+  flex-wrap:nowrap;
+}
+.stadium-triptych .legend-chip {
+  flex:1 1 0;
+  min-width:0;
+  padding:6px 8px;
+  background:transparent;
+  border:1px solid transparent;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:flex-start;
+  cursor:pointer;
+  border-radius:var(--radius-sm);
+}
+.stadium-triptych .legend-chip:hover { background:rgba(108,77,220,0.06); border-color:transparent; }
+.stadium-triptych .legend-chip.active { background:rgba(108,77,220,0.10); border-color:rgba(108,77,220,0.20); box-shadow:none; }
+.stadium-triptych .legend-label {
+  font-size:11px;
+  color:var(--p5);
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.stadium-triptych .legend-row {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  color:var(--p5);
+}
+.stadium-triptych .legend-swatch { width:10px; height:10px; flex-shrink:0; }
+.stadium-triptych .legend-count {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--p4);
+  margin-left:0;
 }
 
 /* Stadium image with clickable hotspots */
@@ -617,15 +1074,24 @@ body {
   position:relative;
   flex:1;
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content:center;
 }
 .stadium-pict-image img {
-  width:88%;
-  max-height:220px;
+  width:100%;
+  max-height:100%;
   object-fit:contain;
-  filter:grayscale(1) contrast(1.05);
+  filter:none;
   display:block;
+}
+.stadium-pict-image::after {
+  content:'';
+  position:absolute;
+  top:0; right:0;
+  width:80px; height:60px;
+  background:#fff;
+  z-index:1;
+  pointer-events:none;
 }
 .stand-hotspot {
   position:absolute;
@@ -661,18 +1127,18 @@ body {
   flex:1;
   display:flex;
   flex-direction:column;
-  gap:5px;
+  gap:6px;
   align-items:center;
   justify-content:center;
   padding:6px 0;
 }
 .stand-seats-row {
   display:flex;
-  gap:5px;
+  gap:6px;
 }
 .seat {
-  width:7px; height:7px;
-  border-radius:1px;
+  width:10px; height:10px;
+  border-radius:2px;
   background:rgba(108,77,220,0.10);
   flex-shrink:0;
   transition:opacity 0.15s, transform 0.15s;
@@ -732,50 +1198,158 @@ body {
 }
 .legend-chip.active .legend-count { color:var(--p5); }
 
-/* Bullet charts (KPIs vs benchmark) */
-.kpi-bullets { display:flex; flex-direction:column; gap:12px; flex:1; justify-content:center; }
-.kpi-bullet { display:flex; flex-direction:column; gap:6px; }
-.kpi-bullet-head {
+/* Bullet charts — Season standing */
+.kpi-bullets { display:flex; flex-direction:column; gap:16px; flex:1; justify-content:center; }
+.kpi-bullet { display:flex; align-items:center; gap:14px; }
+.kpi-bullet-meta {
+  flex-shrink:0;
+  width:68px;
   display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  font-size:11px;
+  flex-direction:column;
+  gap:1px;
 }
-.kpi-bullet-name { color:var(--p5); font-weight:500; }
 .kpi-bullet-val {
   font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
-  font-weight:600;
+  font-weight:700;
   color:var(--p5);
+  line-height:1.2;
+}
+.kpi-bullet-name {
+  font-size:10px;
+  text-transform:lowercase;
+  letter-spacing:0.02em;
+  color:var(--muted);
+  font-weight:400;
 }
 .kpi-bullet-track {
-  height:10px;
-  background:rgba(108,77,220,0.10);
+  flex:1;
+  height:4px;
+  background:rgba(4,0,19,0.07);
   border-radius:2px;
   position:relative;
 }
 .kpi-bullet-fill {
   position:absolute; left:0; top:0; height:100%;
-  background:var(--p3);
   border-radius:2px;
 }
 .kpi-bullet-marker {
-  position:absolute; top:-3px; bottom:-3px;
+  position:absolute; top:-5px; bottom:-5px;
   width:2px;
 }
-.kpi-bullet-marker.avg    { background:var(--c-cyan); }
-.kpi-bullet-marker.target { background:var(--c-coral); }
+.kpi-bullet-marker.avg {
+  background:rgba(42,12,112,0.5);
+}
+.kpi-bullet-marker.target {
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(42,12,112,0.55) 0px,
+    rgba(42,12,112,0.55) 3px,
+    transparent 3px,
+    transparent 5px
+  );
+}
 .kpi-bullet-legend {
   display:flex;
-  gap:14px;
+  gap:12px;
   font-size:10px;
+  text-transform:lowercase;
+  letter-spacing:0.02em;
   color:var(--muted);
+  font-weight:400;
   margin-top:6px;
 }
 .kpi-bullet-legend-item { display:flex; align-items:center; gap:5px; }
 .kpi-bullet-legend-swatch {
-  width:2px; height:10px;
-  background:var(--c-cyan);
+  display:block;
+  flex-shrink:0;
+  width:0;
+  height:10px;
+  align-self:center;
+}
+
+/* Headline KPI strip */
+.dd-kpi-strip {
+  display:flex;
+  flex:1;
+  min-height:0;
+  align-items:stretch;
+}
+.dd-kpi-item {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:6px;
+  padding:10px 6px;
+  border-right:1px solid var(--border);
+}
+.dd-kpi-item:last-child { border-right:none; }
+.dd-kpi-value {
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--p5);
+  line-height:1;
+}
+.dd-kpi-label {
+  font-size:10px;
+  text-transform:lowercase;
+  letter-spacing:0.02em;
+  color:var(--muted);
+  font-weight:400;
+  margin-top:-2px;
+}
+.dd-kpi-delta { font-size:10px; font-weight:600; }
+.dd-kpi-delta--up   { color:#22a55b; }
+.dd-kpi-delta--down { color:var(--c-coral); }
+.dd-kpi-delta--flat { color:var(--muted); }
+
+/* Products mix: donut + legend list */
+.prod-donut-wrap {
+  flex:1;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-bottom:20px;
+}
+.prod-donut-wrap svg { width:100%; height:100%; max-height:100%; }
+.prod-list {
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.prod-item {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+}
+.prod-swatch {
+  flex-shrink:0;
+  width:8px;
+  height:8px;
+  border-radius:2px;
+}
+.prod-name {
+  flex:1;
+  font-size:10px;
+  color:var(--p5);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+.prod-price {
+  flex-shrink:0;
+  font-size:9px;
+  color:var(--muted);
+  font-weight:500;
+  white-space:nowrap;
 }
 
 /* Booking curves + histogram SVG charts */
@@ -852,7 +1426,18 @@ tbody tr {
   transition:background 0.12s;
 }
 tbody tr:hover { background: #f8f7ff; }
-tbody tr.active { background: #ede9fb; }
+tbody tr.active { background: rgba(108,77,220,0.03); }
+tbody tr.active td:first-child { position: relative; }
+tbody tr.active td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  background: var(--p5);
+  border-radius: 2px;
+}
 tbody tr.upcoming td { opacity:1; }
 
 td {
@@ -1130,6 +1715,7 @@ tfoot td::before {
   border-radius:var(--radius-lg);
   padding:12px;
   position:relative;
+  margin-bottom:16px;
 }
 .stadium-img-wrap::after {
   content:'';
@@ -1312,6 +1898,84 @@ tfoot td::before {
   width:36px;
   text-align:right;
 }
+
+/* ── Deep-dive: Sales channels & Promo mix ───────────────────────────── */
+.ch-row {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:2px 0;
+}
+.ch-name {
+  font-size:10px;
+  color:var(--muted);
+  width:66px;
+  flex-shrink:0;
+  text-transform:lowercase;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.ch-bar-wrap {
+  flex:1;
+  height:4px;
+  background:rgba(108,77,220,0.08);
+  border-radius:2px;
+  overflow:hidden;
+}
+.ch-bar {
+  height:100%;
+  border-radius:2px;
+  transition:width 0.3s ease;
+}
+.ch-val {
+  font-size:10px;
+  font-weight:600;
+  color:var(--p5);
+  width:34px;
+  text-align:right;
+  flex-shrink:0;
+}
+.ch-pct {
+  font-size:9px;
+  color:var(--muted);
+  width:22px;
+  text-align:right;
+  flex-shrink:0;
+}
+.promo-summary {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding-bottom:7px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:7px;
+  flex-shrink:0;
+  flex-wrap:nowrap;
+}
+.promo-summary-val {
+  font-size:16px;
+  font-weight:700;
+  color:var(--p5);
+  line-height:1;
+  flex-shrink:0;
+}
+.promo-summary-label {
+  font-size:10px;
+  color:var(--muted);
+  text-transform:lowercase;
+  white-space:nowrap;
+  flex:1;
+}
+.promo-summary-none {
+  font-size:10px;
+  color:var(--muted);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.promo-list { flex:1; display:flex; flex-direction:column; justify-content:center; }
+.promo-footer { flex-shrink:0; font-size:10px; color:var(--muted); text-align:right; padding-top:5px; }
+#ddChannels { justify-content:center; }
 
 /* Venue row */
 .venue-row {
@@ -1658,116 +2322,64 @@ tfoot td::before {
     </button>
   </header>
 
-  <div class="dd-body scroll-hide">
+  <div class="dd-body dd-body--v2 scroll-hide">
+    <div class="dd-grid--v2">
 
-    <!-- Stadium deep dive -->
-    <section class="dd-section" id="dd-stadium">
-      <h2 class="dd-section-title">Stadium</h2>
-      <div class="dd-grid">
-        <div class="dd-card dd-card-wide">
-          <div class="dd-card-body" id="ddSeatGrid"></div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Booking curves per stand</div>
-            <div class="dd-card-sub">% sold over the 60 days before kickoff</div>
-          </div>
-          <div class="dd-card-body" id="ddCurves"></div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Daily sales</div>
-            <div class="dd-card-sub">Last 30 days — bars with season avg line</div>
-          </div>
-          <div class="dd-card-body" id="ddHistogram"></div>
-        </div>
+      <!-- Row 1: Stadium hero (8) + Key figures + bullet (4) -->
+      <div class="dd-card dd-span-8">
+        <div class="dd-card-body" id="ddSeatGrid"></div>
       </div>
-    </section>
 
-    <!-- Key figures deep dive -->
-    <section class="dd-section" id="dd-kpi">
-      <h2 class="dd-section-title">Key figures</h2>
-      <div class="dd-grid dd-grid--compact">
+      <div class="dd-stack dd-stack--13 dd-span-4">
         <div class="dd-card">
           <div class="dd-card-header">
-            <div class="dd-card-title">Cumulative revenue curve</div>
-            <div class="dd-card-sub">This match · Season avg · Same fixture last season</div>
+            <div class="dd-card-title">Headline figures</div>
           </div>
-          <div class="dd-card-body" id="ddRevenue"></div>
+          <div class="dd-card-body" id="ddKPIs"></div>
         </div>
         <div class="dd-card">
           <div class="dd-card-header">
-            <div class="dd-card-title">Avg ticket price evolution</div>
-            <div class="dd-card-sub">Weekly bars over the booking window</div>
-          </div>
-          <div class="dd-card-body" id="ddPriceEvol"></div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">KPIs vs benchmark</div>
-            <div class="dd-card-sub">Current · season avg · target</div>
+            <div class="dd-card-title">Season standing</div>
+            <div class="dd-card-sub">vs season avg &amp; targets</div>
           </div>
           <div class="dd-card-body" id="ddBullets"></div>
         </div>
       </div>
-    </section>
 
-    <!-- Products mix deep dive -->
-    <section class="dd-section" id="dd-products">
-      <h2 class="dd-section-title">Products mix</h2>
-      <div class="dd-grid">
-        <div class="dd-card dd-card-wide">
+      <!-- Row 2: Products (3) + Booking dynamics (6) + Channels stack (3) -->
+      <div class="dd-card dd-span-3">
+        <div class="dd-card-header">
+          <div class="dd-card-title">Products mix</div>
+        </div>
+        <div class="dd-card-body" id="ddProducts"></div>
+      </div>
+
+      <div class="dd-card dd-span-6">
+        <div class="dd-card-header">
+          <div class="dd-card-title">Booking dynamics</div>
+          <div class="dd-card-sub">Daily sales vs season avg · cumulative fill rate</div>
+        </div>
+        <div class="dd-card-body" id="ddBooking"></div>
+      </div>
+
+      <div class="dd-stack dd-span-3">
+        <div class="dd-card">
           <div class="dd-card-header">
-            <div class="dd-card-title">Mix evolution over the booking window</div>
-            <div class="dd-card-sub">100% stacked — share of revenue per category</div>
+            <div class="dd-card-title">Sales channels</div>
+            <div class="dd-card-sub">Volume by acquisition channel</div>
           </div>
-          <div class="dd-card-body">[ stacked area ]</div>
+          <div class="dd-card-body" id="ddChannels"></div>
         </div>
         <div class="dd-card">
           <div class="dd-card-header">
-            <div class="dd-card-title">Current mix snapshot</div>
-            <div class="dd-card-sub">Single horizontal stacked bar</div>
+            <div class="dd-card-title">Promo / discount mix</div>
+            <div class="dd-card-sub">Top codes &amp; redemption</div>
           </div>
-          <div class="dd-card-body">[ stacked bar ]</div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Top movers vs season median</div>
-            <div class="dd-card-sub">Diverging bars — over/under-indexed categories</div>
-          </div>
-          <div class="dd-card-body">[ diverging bars ]</div>
+          <div class="dd-card-body" id="ddPromo"></div>
         </div>
       </div>
-    </section>
 
-    <!-- Channels deep dive -->
-    <section class="dd-section" id="dd-channels">
-      <h2 class="dd-section-title">Sales channels</h2>
-      <div class="dd-grid">
-        <div class="dd-card dd-card-wide">
-          <div class="dd-card-header">
-            <div class="dd-card-title">This match vs season average</div>
-            <div class="dd-card-sub">Side-by-side stacked horizontal bars</div>
-          </div>
-          <div class="dd-card-body">[ comparative bars ]</div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Per-channel performance</div>
-            <div class="dd-card-sub">Bullet charts: current vs season avg</div>
-          </div>
-          <div class="dd-card-body">[ bullets ]</div>
-        </div>
-        <div class="dd-card">
-          <div class="dd-card-header">
-            <div class="dd-card-title">Channel mix evolution</div>
-            <div class="dd-card-sub">Stacked area over the booking window</div>
-          </div>
-          <div class="dd-card-body">[ stacked area ]</div>
-        </div>
-      </div>
-    </section>
-
+    </div>
   </div>
 </div>
 
@@ -1948,7 +2560,12 @@ function openDeepDive(m) {
   document.getElementById('ddEmblem').src = `logos/${m.short}.svg`;
   document.getElementById('ddEmblem').alt = m.opp;
   buildStadiumDeepDive(m);
-  buildKPIDeepDive(m);
+  renderHeadlineKPIs();
+  renderSeasonStanding();
+  renderProductsMix();
+  renderBookingDynamics();
+  renderSalesChannels();
+  renderPromoMix();
   dd.classList.add('open');
   ddBackdrop.classList.add('open');
   dd.setAttribute('aria-hidden', 'false');
@@ -1957,109 +2574,237 @@ function openDeepDive(m) {
 
 // ── Deep-dive: Stadium viz ─────────────────────────────────────────────────
 const STADIUM_STANDS = [
-  // Mock booking distribution per stand: [abo, early, main, last] as % of total seats
-  // empty = 100 - sum of those. Hotspot box uses % coords on the stadium image.
-  { key:'presi',   name:'Tribune Présidentielle', pct:95, capacity:800,
+  // Mock booking + price distribution per stand. empty = 100 - sum.
+  { key:'presi',   name:'Tribune Présidentielle', pct:95, capacity:800,  avgTicket:120,
     rows:[14,16,18,20,22,22,20,18], aisles:[3,7], pad:[3,3],
     mix:{ abo:30, early:35, main:25, last:5 },
+    priceMix:{ sub:30, std:15, prem:30, vip:20 },
     hotspot:{ left:'18%', top:'58%', width:'62%', height:'24%' } },
-  { key:'honneur', name:'Tribune Honneur',     pct:90, capacity:1500,
+  { key:'honneur', name:'Tribune Honneur',     pct:90, capacity:1500, avgTicket:60,
     rows:[20,22,24,24,24,22,20,18], aisles:[3,6], pad:[2,2],
     mix:{ abo:20, early:30, main:30, last:10 },
+    priceMix:{ sub:20, std:35, prem:25, vip:10 },
     hotspot:{ left:'18%', top:'18%', width:'62%', height:'22%' } },
-  { key:'segala',  name:'Tribune Sud Ségala',  pct:86, capacity:2400,
+  { key:'segala',  name:'Tribune Sud Ségala',  pct:86, capacity:2400, avgTicket:30,
     rows:[10,12,12,14,14,14,12,12,10], aisles:[4,8], pad:[1,1],
     mix:{ abo:15, early:25, main:30, last:16 },
+    priceMix:{ sub:15, std:55, prem:12, vip:4 },
     hotspot:{ left:'2%', top:'30%', width:'14%', height:'40%' } },
-  { key:'aubrac',  name:'Virage Nord Aubrac',  pct:75, capacity:1994,
+  { key:'aubrac',  name:'Virage Nord Aubrac',  pct:75, capacity:1994, avgTicket:25,
     rows:[8,10,12,14,14,12,10,8], aisles:[3,6], pad:[1,1],
     mix:{ abo:5, early:15, main:25, last:30 },
+    priceMix:{ sub:10, std:60, prem:5, vip:0 },
     hotspot:{ left:'82%', top:'30%', width:'14%', height:'40%' } },
 ];
 
 const BOOKING_CATS = [
-  { key:'abo',   label:'Subscribers (ABO)', color:'#2a0c70' },
-  { key:'early', label:'Early window',      color:'#009DDC', sub:'D-60 → D-30' },
-  { key:'main',  label:'Main window',       color:'#6c4ddc', sub:'D-30 → D-7' },
-  { key:'last',  label:'Last week',         color:'#E75A7C', sub:'D-7 → D-1' },
-  { key:'empty', label:'Available',         color:'#fff', borderless:false },
+  { key:'abo',   label:'Subscribers',       short:'ABO',   color:'#2a0c70' },
+  { key:'early', label:'Early window',      short:'Early', color:'#009DDC', sub:'D-60 → D-30' },
+  { key:'main',  label:'Main window',       short:'Main',  color:'#6c4ddc', sub:'D-30 → D-7' },
+  { key:'last',  label:'Last week',         short:'Last',  color:'#E75A7C', sub:'D-7 → D-1' },
+  { key:'empty', label:'Available',         short:'Avail', color:'#fff', borderless:false },
 ];
+
+const PRICE_CATS = [
+  { key:'sub',   label:'Subscriber',        short:'Sub',   color:'#2a0c70' },
+  { key:'std',   label:'Standard',          short:'Std',   color:'#6c4ddc' },
+  { key:'prem',  label:'Premium',           short:'Prem',  color:'#FAA916' },
+  { key:'vip',   label:'VIP',               short:'VIP',   color:'#E75A7C' },
+  { key:'empty', label:'Available',         short:'Avail', color:'#fff' },
+];
+
+const PERSPECTIVES = {
+  booking: { mixField:'mix',      cats:BOOKING_CATS, title:'Booking date' },
+  price:   { mixField:'priceMix', cats:PRICE_CATS,   title:'Price tier' },
+};
 
 let activeStandKey = 'presi';
 let activeCatKey = null;
+let activeViewMode = 'seats';
+let activePerspective = 'booking';
 
 function buildStadiumDeepDive(m) {
-  // 1) Triptych shell
   const seatHost = document.getElementById('ddSeatGrid');
   seatHost.innerHTML = `
-    <div class="stadium-triptych">
-      <div class="stadium-pict">
-        <div class="stadium-pict-head">
-          <div class="stadium-pict-title">Stadium</div>
-          <div class="stadium-pict-sub">Click to select a zone</div>
-        </div>
-        <div class="stadium-pict-image" id="stadiumPict">
-          <img src="./stadium.png" alt="Paul-Lignon stadium">
-          ${STADIUM_STANDS.map(s => `
-            <div class="stand-hotspot ${s.key === activeStandKey ? 'active' : ''}"
-                 data-stand="${s.key}"
-                 style="left:${s.hotspot.left};top:${s.hotspot.top};width:${s.hotspot.width};height:${s.hotspot.height}"
-                 title="${s.name}"></div>
-          `).join('')}
+    <div class="stadium-card-shell" id="stadiumCardShell" data-view="${activeViewMode}">
+      <div class="stadium-card-head">
+        <div class="stadium-card-title-block" id="stadiumCardTitleBlock"></div>
+        <div class="stadium-card-meta-block" id="stadiumCardMetaBlock"></div>
+        <div class="view-pills">
+          <button class="view-pill ${activeViewMode==='seats'?'active':''}" data-view="seats">Seats</button>
+          <button class="view-pill ${activeViewMode==='stadium'?'active':''}" data-view="stadium">Stadium</button>
         </div>
       </div>
-      <div class="stand-seats" id="standSeats"></div>
-      <div class="stadium-legend" id="stadiumLegend"></div>
+      <div class="stadium-card-content">
+        <div class="seats-view" data-view-mode="seats">
+          <div class="persp-tabs" id="perspTabsSeats">
+            <button class="persp-tab ${activePerspective==='booking'?'active':''}" data-persp="booking">Booking date</button>
+            <button class="persp-tab ${activePerspective==='price'?'active':''}" data-persp="price">Price tier</button>
+            <button class="persp-tab" disabled>Channel</button>
+            <button class="persp-tab" disabled>Status</button>
+          </div>
+          <div class="seat-grid-nav">
+            <button class="seat-nav-btn" id="tribunePrev" title="Previous tribune">‹</button>
+            <div class="stand-seats" id="standSeats"></div>
+            <button class="seat-nav-btn" id="tribuneNext" title="Next tribune">›</button>
+          </div>
+          <div class="stadium-legend" id="stadiumLegend"></div>
+        </div>
+        <div class="stadium-view-mode" data-view-mode="stadium">
+          <div class="stadium-overview" id="stadiumOverview">
+            <div class="hf-item hf-item--tl" data-hf="0"></div>
+            <div class="hf-item hf-item--tr" data-hf="1"></div>
+            <div class="stadium-overview-img" id="stadiumPict">
+              <img src="./stadium.png" alt="Paul-Lignon stadium">
+              ${STADIUM_STANDS.map(s => `
+                <div class="stand-hotspot ${s.key === activeStandKey ? 'active' : ''}"
+                     data-stand="${s.key}"
+                     style="left:${s.hotspot.left};top:${s.hotspot.top};width:${s.hotspot.width};height:${s.hotspot.height}"
+                     title="${s.name}"></div>
+              `).join('')}
+            </div>
+            <div class="hf-item hf-item--bl" data-hf="2"></div>
+            <div class="hf-item hf-item--br" data-hf="3"></div>
+          </div>
+        </div>
+      </div>
     </div>`;
 
+  renderHeaderForView();
   renderSelectedStand();
   renderLegend();
+  renderTribuneTable();
 
-  // Wire up hotspots
-  document.querySelectorAll('#stadiumPict .stand-hotspot').forEach(el => {
-    el.addEventListener('click', () => {
-      activeStandKey = el.dataset.stand;
-      document.querySelectorAll('.stand-hotspot').forEach(h => h.classList.toggle('active', h.dataset.stand === activeStandKey));
+  // View pill toggles
+  document.querySelectorAll('#stadiumCardShell .view-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      activeViewMode = p.dataset.view;
+      document.getElementById('stadiumCardShell').dataset.view = activeViewMode;
+      document.querySelectorAll('#stadiumCardShell .view-pill').forEach(b => b.classList.toggle('active', b.dataset.view === activeViewMode));
+      renderHeaderForView();
+    });
+  });
+
+  // Perspective tabs (both Seats and Stadium views)
+  document.querySelectorAll('#stadiumCardShell .persp-tab:not(:disabled)').forEach(t => {
+    t.addEventListener('click', () => {
+      activePerspective = t.dataset.persp;
+      activeCatKey = null;
+      document.querySelectorAll('#stadiumCardShell .persp-tab').forEach(b => b.classList.toggle('active', b.dataset.persp === activePerspective));
       renderSelectedStand();
       renderLegend();
     });
   });
 
-  // 2) Booking curves
-  buildBookingCurves();
+  // Hotspot + table row clicks update active tribune (highlight only, view doesn't change)
+  const selectStandFromOverview = (key) => {
+    activeStandKey = key;
+    document.querySelectorAll('.stand-hotspot').forEach(h => h.classList.toggle('active', h.dataset.stand === activeStandKey));
+    document.querySelectorAll('#tribuneTable .tribune-row[data-stand]').forEach(r => r.classList.toggle('active', r.dataset.stand === activeStandKey));
+  };
+  document.querySelectorAll('#stadiumPict .stand-hotspot').forEach(el => {
+    el.addEventListener('click', () => selectStandFromOverview(el.dataset.stand));
+  });
+  document.querySelectorAll('#tribuneTable .tribune-row[data-stand]').forEach(el => {
+    el.addEventListener('click', () => selectStandFromOverview(el.dataset.stand));
+  });
 
-  // 3) Daily sales
+  buildBookingCurves();
   buildDailySales();
+}
+
+function renderHeaderForView() {
+  const block = document.getElementById('stadiumCardTitleBlock');
+  const metaBlock = document.getElementById('stadiumCardMetaBlock');
+  if (!block) return;
+  if (activeViewMode === 'stadium') {
+    const totalCap  = STADIUM_STANDS.reduce((sum, s) => sum + s.capacity, 0);
+    const totalSold = STADIUM_STANDS.reduce((sum, s) => sum + Math.round(s.capacity * s.pct / 100), 0);
+    const overallPct = Math.round(totalSold / totalCap * 100);
+    block.innerHTML = `<span class="stadium-card-title">Paul-Lignon stadium</span>`;
+    if (metaBlock) metaBlock.textContent = `${overallPct}% · ${totalSold.toLocaleString()} / ${totalCap.toLocaleString()}`;
+  } else {
+    const idx = STADIUM_STANDS.findIndex(s => s.key === activeStandKey);
+    const s = STADIUM_STANDS[idx];
+    const sold = Math.round(s.capacity * s.pct / 100);
+    block.innerHTML = `
+      <select class="tribune-select" id="tribuneSelect">
+        ${STADIUM_STANDS.map(t => `<option value="${t.key}" ${t.key === activeStandKey ? 'selected' : ''}>${t.name}</option>`).join('')}
+      </select>`;
+    if (metaBlock) metaBlock.textContent = `${s.pct}% · ${sold.toLocaleString()} / ${s.capacity.toLocaleString()}`;
+
+    const prev = document.getElementById('tribunePrev');
+    const next = document.getElementById('tribuneNext');
+    const sel  = document.getElementById('tribuneSelect');
+    const goTo = (newIdx) => {
+      const wrapped = (newIdx + STADIUM_STANDS.length) % STADIUM_STANDS.length;
+      activeStandKey = STADIUM_STANDS[wrapped].key;
+      activeCatKey = null;
+      document.querySelectorAll('.stand-hotspot').forEach(h => h.classList.toggle('active', h.dataset.stand === activeStandKey));
+      renderHeaderForView();
+      renderSelectedStand();
+      renderLegend();
+      renderTribuneTable();
+    };
+    if (prev) prev.addEventListener('click', () => goTo(idx - 1));
+    if (next) next.addEventListener('click', () => goTo(idx + 1));
+    sel.addEventListener('change', (e) => {
+      const newIdx = STADIUM_STANDS.findIndex(s => s.key === e.target.value);
+      goTo(newIdx);
+    });
+  }
+}
+
+function renderTribuneTable() {
+  // The Stadium view is now an image with corner KPIs — no tribune list.
+  renderHeadlineFigures();
+}
+
+function renderHeadlineFigures() {
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+  const totalCap  = STADIUM_STANDS.reduce((sum, s) => sum + s.capacity, 0);
+  const totalSold = STADIUM_STANDS.reduce((sum, s) => sum + Math.round(s.capacity * s.pct / 100), 0);
+  const subscribers = STADIUM_STANDS.reduce((sum, s) => sum + Math.round(s.capacity * s.pct / 100 * (s.mix.abo / 100)), 0);
+  const subscriberPct = Math.round(subscribers / totalSold * 100);
+  const items = [
+    { label:'Avg ticket',  value:`€${m.avg.toFixed(2)}` },
+    { label:'Subscribers', value:`${subscriberPct}%` },
+    { label:'Available',   value:(totalCap - totalSold).toLocaleString() },
+    { label:'To kickoff',  value:dxLabel(m).text },
+  ];
+  items.forEach((i, idx) => {
+    const host = document.querySelector(`#stadiumOverview [data-hf="${idx}"]`);
+    if (!host) return;
+    // bottom items (bl=2, br=3): label below value
+    if (idx >= 2) {
+      host.innerHTML = `<div class="hf-value">${i.value}</div><div class="hf-label">${i.label}</div>`;
+    } else {
+      host.innerHTML = `<div class="hf-label">${i.label}</div><div class="hf-value">${i.value}</div>`;
+    }
+  });
 }
 
 function renderSelectedStand() {
   const s = STADIUM_STANDS.find(x => x.key === activeStandKey);
-  const sold = s.pct;
-  const soldCount = Math.round(s.capacity * s.pct / 100);
+  const persp = PERSPECTIVES[activePerspective];
+  const mix = s[persp.mixField];
+  const cats = persp.cats;
+  const dataKeys = cats.filter(c => c.key !== 'empty').map(c => c.key);
 
-  // Distribute seat statuses based on s.mix percentages
-  // total seats in the visible grid:
+  // Distribute seat statuses based on the selected perspective's mix percentages
   const total = s.rows.reduce((a, b) => a + b, 0);
-  const counts = {
-    abo:   Math.round(total * s.mix.abo   / 100),
-    early: Math.round(total * s.mix.early / 100),
-    main:  Math.round(total * s.mix.main  / 100),
-    last:  Math.round(total * s.mix.last  / 100),
-  };
-  counts.empty = total - counts.abo - counts.early - counts.main - counts.last;
+  const counts = {};
+  dataKeys.forEach(k => { counts[k] = Math.round(total * (mix[k] || 0) / 100); });
+  counts.empty = total - dataKeys.reduce((sum, k) => sum + counts[k], 0);
 
   // Build a flat array of statuses, distributed pseudo-randomly but deterministically
   const statuses = [];
-  ['abo','early','main','last','empty'].forEach(k => {
+  [...dataKeys, 'empty'].forEach(k => {
     for (let i = 0; i < counts[k]; i++) statuses.push(k);
   });
-  // Sort by a hash so distribution looks scattered but stable
-  statuses.sort((a, b) => {
-    const order = { abo:0, early:1, main:2, last:3, empty:4 };
-    return (order[a] * 17 + a.charCodeAt(0)) - (order[b] * 17 + b.charCodeAt(0));
-  });
   // Fisher-Yates shuffle with seeded pseudo-random for stability
-  let seed = activeStandKey.charCodeAt(0) + activeStandKey.charCodeAt(1);
+  let seed = activeStandKey.charCodeAt(0) + activeStandKey.charCodeAt(1) + activePerspective.charCodeAt(0);
   for (let i = statuses.length - 1; i > 0; i--) {
     seed = (seed * 9301 + 49297) % 233280;
     const j = Math.floor((seed / 233280) * (i + 1));
@@ -2068,59 +2813,58 @@ function renderSelectedStand() {
 
   // Render rows with aisles (gaps between seats)
   let cursor = 0;
-  const rowsHtml = s.rows.map((cols, rowIdx) => {
+  const rowsHtml = s.rows.map((cols) => {
     const seats = [];
     for (let c = 0; c < cols; c++) {
-      // Insert aisle gap if needed
       if (s.aisles && s.aisles.includes(c) && c > 0) {
         seats.push(`<span class="seat aisle"></span>`);
       }
       const status = statuses[cursor++] || 'empty';
       const matchCls = (activeCatKey && status === activeCatKey) ? ' match' : '';
-      seats.push(`<span class="seat${matchCls}" data-status="${status}"></span>`);
+      const cat = cats.find(c => c.key === status);
+      const colorStyle = (status === 'empty') ? '' : `style="background:${cat ? cat.color : '#ccc'}"`;
+      seats.push(`<span class="seat${matchCls}" data-status="${status}" ${colorStyle}></span>`);
     }
     return `<div class="stand-seats-row">${seats.join('')}</div>`;
   }).join('');
 
-  document.getElementById('standSeats').innerHTML = `
-    <div class="stand-seats-head">
-      <span class="stand-seats-name">${s.name}</span>
-      <span class="stand-seats-pct">${sold}% · ${soldCount.toLocaleString()} / ${s.capacity.toLocaleString()}</span>
-    </div>
-    <div class="stand-seats-grid">${rowsHtml}</div>`;
-
-  document.getElementById('standSeats').classList.toggle('filtered', !!activeCatKey);
+  const seatsEl = document.getElementById('standSeats');
+  if (!seatsEl) return;
+  seatsEl.innerHTML = `<div class="stand-seats-grid">${rowsHtml}</div>`;
+  seatsEl.classList.toggle('filtered', !!activeCatKey);
 }
 
 function renderLegend() {
   const s = STADIUM_STANDS.find(x => x.key === activeStandKey);
-  const total = s.rows.reduce((a, b) => a + b, 0);
-  const counts = {
-    abo:   Math.round(total * s.mix.abo   / 100),
-    early: Math.round(total * s.mix.early / 100),
-    main:  Math.round(total * s.mix.main  / 100),
-    last:  Math.round(total * s.mix.last  / 100),
-  };
-  counts.empty = total - counts.abo - counts.early - counts.main - counts.last;
-  const sumSold = counts.abo + counts.early + counts.main + counts.last;
+  const persp = PERSPECTIVES[activePerspective];
+  const mix = s[persp.mixField];
+  const cats = persp.cats;
+  const dataKeys = cats.filter(c => c.key !== 'empty').map(c => c.key);
 
-  document.getElementById('stadiumLegend').innerHTML = `
-    <div class="stadium-legend-title">Booking date</div>
-    ${BOOKING_CATS.map(cat => {
-      const pct = Math.round(counts[cat.key] / total * 100);
+  const total = s.rows.reduce((a, b) => a + b, 0);
+  const counts = {};
+  dataKeys.forEach(k => { counts[k] = Math.round(total * (mix[k] || 0) / 100); });
+  counts.empty = total - dataKeys.reduce((sum, k) => sum + counts[k], 0);
+
+  const host = document.getElementById('stadiumLegend');
+  if (!host) return;
+  host.innerHTML = `
+    <div class="stadium-legend-chips">
+    ${cats.map(cat => {
+      const pct = Math.round((counts[cat.key] || 0) / total * 100);
       const isActive = activeCatKey === cat.key;
       const swatchStyle = cat.key === 'empty'
         ? 'background:#fff;box-shadow:inset 0 0 0 1px rgba(39,39,39,0.5)'
         : `background:${cat.color}`;
       return `<div class="legend-chip ${isActive ? 'active' : ''}" data-cat="${cat.key}">
-        <span class="legend-swatch" style="${swatchStyle}"></span>
-        <div style="display:flex;flex-direction:column;line-height:1.25;flex:1">
-          <span>${cat.label}</span>
-          ${cat.sub ? `<span style="font-size:9.5px;color:var(--muted)">${cat.sub}</span>` : ''}
+        <span class="legend-label">${cat.label}</span>
+        <div class="legend-row">
+          <span class="legend-swatch" style="${swatchStyle}"></span>
+          <span class="legend-count">${pct}%</span>
         </div>
-        <span class="legend-count">${pct}%</span>
       </div>`;
-    }).join('')}`;
+    }).join('')}
+    </div>`;
 
   document.querySelectorAll('#stadiumLegend .legend-chip').forEach(chip => {
     chip.addEventListener('click', () => {
@@ -2181,7 +2925,8 @@ function buildBookingCurves() {
     <div class="chart-legend">
       ${STADIUM_STANDS.map(s => `<span class="chart-legend-item"><span class="chart-legend-swatch" style="background:${colors[s.key]}"></span>${s.name}</span>`).join('')}
     </div>`;
-  document.getElementById('ddCurves').innerHTML = svg;
+  const curvesEl = document.getElementById('ddCurves');
+  if (curvesEl) curvesEl.innerHTML = svg;
 }
 
 // ── Daily sales (bars + varying season avg line) ─────────────────────────
@@ -2246,7 +2991,8 @@ function buildDailySales() {
       <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#E75A7C"></span>Above season avg</span>
       <span class="chart-legend-item"><span class="chart-legend-swatch" style="background:#009DDC"></span>Below season avg</span>
     </div>`;
-  document.getElementById('ddHistogram').innerHTML = svg;
+  const histEl = document.getElementById('ddHistogram');
+  if (histEl) histEl.innerHTML = svg;
 }
 
 // ── Deep-dive: Key figures ─────────────────────────────────────────────────
@@ -2391,6 +3137,330 @@ function buildKPIDeepDive(m) {
       </div>
     </div>`;
   document.getElementById('ddBullets').innerHTML = bulletsHtml;
+}
+
+function renderHeadlineKPIs() {
+  const el = document.getElementById('ddKPIs');
+  if (!el) return;
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+  const past = matches.filter(x => !x.upcoming);
+  const avgIncome = past.reduce((s, x) => s + x.income, 0) / past.length;
+  const avgOcc    = past.reduce((s, x) => s + x.occ,    0) / past.length;
+  const avgTicket = past.reduce((s, x) => s + x.avg,    0) / past.length;
+  function delta(curr, ref) {
+    const pct = (curr - ref) / ref * 100;
+    if (Math.abs(pct) < 1.5) return `<span class="dd-kpi-delta dd-kpi-delta--flat">≈ avg</span>`;
+    const cls = pct > 0 ? 'dd-kpi-delta--up' : 'dd-kpi-delta--down';
+    return `<span class="dd-kpi-delta ${cls}">${pct > 0 ? '▲' : '▼'} ${Math.abs(pct).toFixed(1)}%</span>`;
+  }
+  const kpis = [
+    { label:'Revenue',    value:`€${(m.income/1000).toFixed(0)}k`, delt:delta(m.income, avgIncome) },
+    { label:'Occupancy',  value:`${m.occ}%`,                       delt:delta(m.occ,    avgOcc)    },
+    { label:'Avg ticket', value:`€${m.avg.toFixed(2)}`,            delt:delta(m.avg,    avgTicket) },
+  ];
+  el.innerHTML = `<div class="dd-kpi-strip">${kpis.map(k => `
+    <div class="dd-kpi-item">
+      <div class="dd-kpi-value">${k.value}</div>
+      <div class="dd-kpi-label">${k.label}</div>
+      ${k.delt}
+    </div>`).join('')}</div>`;
+}
+
+function renderSeasonStanding() {
+  const el = document.getElementById('ddBullets');
+  if (!el) return;
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+  // Prior matches only (matches before this one in the season) — gives "where the season stood"
+  const mIdx  = matches.findIndex(x => x.j === m.j);
+  const prior = matches.slice(0, mIdx).filter(x => !x.upcoming);
+  const ref   = prior.length ? prior : matches.filter(x => !x.upcoming && x.j !== m.j);
+  const priorAvgRev    = Math.round(ref.reduce((s, x) => s + x.income, 0) / ref.length);
+  const priorAvgOcc    = Math.round(ref.reduce((s, x) => s + x.occ,    0) / ref.length);
+  const priorAvgTicket = +(ref.reduce((s, x) => s + x.avg, 0) / ref.length).toFixed(2);
+  const bullets = [
+    // Revenue: typically curr < prior avg — bar stops before avg marker
+    { name:'Revenue',    curr:m.income, avg:priorAvgRev,    target:155000, scale:175000,
+      fmt:v => `€${Math.round(v/1000)}k`, color:'rgba(108,77,220,0.6)' },
+    // Occupancy: curr ≈ prior avg, target higher
+    { name:'Occupancy',  curr:m.occ,    avg:priorAvgOcc,    target:90,     scale:100,
+      fmt:v => `${v}%`,                  color:'rgba(0,157,220,0.6)'   },
+    // Avg ticket: curr typically above prior avg — bar overshoots avg marker
+    { name:'Avg ticket', curr:m.avg,    avg:priorAvgTicket, target:30.50,  scale:36,
+      fmt:v => `€${(+v).toFixed(2)}`,   color:'rgba(250,169,22,0.7)'  },
+  ];
+  el.innerHTML = `<div class="kpi-bullets">${bullets.map(b => {
+    const max     = b.scale;
+    const fillPct = (b.curr   / max) * 100;
+    const avgPct  = (b.avg    / max) * 100;
+    const tgtPct  = (b.target / max) * 100;
+    return `<div class="kpi-bullet">
+      <div class="kpi-bullet-meta">
+        <span class="kpi-bullet-val">${b.fmt(b.curr)}</span>
+        <span class="kpi-bullet-name">${b.name}</span>
+      </div>
+      <div class="kpi-bullet-track">
+        <div class="kpi-bullet-fill" style="width:${fillPct.toFixed(1)}%;background:${b.color}"></div>
+        <div class="kpi-bullet-marker avg"    style="left:${avgPct.toFixed(1)}%" title="Season avg ${b.fmt(b.avg)}"></div>
+        <div class="kpi-bullet-marker target" style="left:${tgtPct.toFixed(1)}%" title="Target ${b.fmt(b.target)}"></div>
+      </div>
+    </div>`;
+  }).join('')}
+  <div class="kpi-bullet-legend">
+    <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="border-left:2px solid rgba(42,12,112,0.5)"></span>season avg</span>
+    <span class="kpi-bullet-legend-item"><span class="kpi-bullet-legend-swatch" style="border-left:2px dashed rgba(42,12,112,0.55)"></span>target</span>
+  </div></div>`;
+}
+
+function renderProductsMix() {
+  const el = document.getElementById('ddProducts');
+  if (!el) return;
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+
+  const META = [
+    { color:'rgba(108,77,220,0.70)', solid:'#6c4ddc' },
+    { color:'rgba(0,157,220,0.70)',  solid:'#009DDC'  },
+    { color:'rgba(108,77,220,0.45)', solid:'#9b82e8'  },
+    { color:'rgba(250,169,22,0.75)', solid:'#FAA916'  },
+    { color:'rgba(108,77,220,0.28)', solid:'#c4b5f4'  },
+    { color:'rgba(231,90,124,0.75)', solid:'#E75A7C'  },
+    { color:'rgba(0,157,220,0.45)',  solid:'#5ab8e6'  },
+    { color:'rgba(231,90,124,0.48)', solid:'#f0a0b8'  },
+  ];
+
+  const seed = matches.findIndex(x => x.j === m.j);
+  const varied = products.map((p, i) => {
+    const jitter = ((seed * 17 + i * 31) % 30) / 100;
+    return { ...p, vol: Math.round(p.max * (0.86 + jitter)) };
+  });
+  const total = varied.reduce((s, p) => s + p.vol, 0);
+
+  // SVG donut — thinner ring (SW=11), no background circle
+  const R = 42, SW = 11, CX = 60, CY = 60;
+  const circ = 2 * Math.PI * R;
+  const GAP  = 2.5;
+  let cumulative = 0;
+  const arcs = varied.map((p, i) => {
+    const frac   = p.vol / total;
+    const arcLen = Math.max(0, frac * circ - GAP);
+    const offset = -(cumulative * circ - GAP / 2);
+    cumulative  += frac;
+    return `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none"
+      stroke="${META[i].color}" stroke-width="${SW}"
+      stroke-dasharray="${arcLen.toFixed(2)} ${circ.toFixed(2)}"
+      stroke-dashoffset="${offset.toFixed(2)}"
+      transform="rotate(-90 ${CX} ${CY})"
+      stroke-linecap="butt"/>`;
+  }).join('');
+
+  const donutSvg = `
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      ${arcs}
+      <text x="${CX}" y="${CY - 2}" text-anchor="middle" dominant-baseline="middle"
+        font-family="Plus Jakarta Sans,Arial,sans-serif"
+        font-size="14" font-weight="700" fill="#2a0c70">${total.toLocaleString()}</text>
+      <text x="${CX}" y="${CY + 11}" text-anchor="middle" dominant-baseline="middle"
+        font-family="Plus Jakarta Sans,Arial,sans-serif"
+        font-size="8" font-weight="500" fill="#7060a8">tickets</text>
+    </svg>`;
+
+  const legend = varied.map((p, i) => `
+    <div class="prod-item">
+      <span class="prod-swatch" style="background:${META[i].solid}"></span>
+      <span class="prod-name">${p.name}</span>
+      <span class="prod-price">${p.price}</span>
+    </div>`).join('');
+
+  el.innerHTML = `<div class="prod-donut-wrap">${donutSvg}</div>
+    <div class="prod-list">${legend}</div>`;
+}
+
+function renderBookingDynamics() {
+  const el = document.getElementById('ddBooking');
+  if (!el) return;
+  const m = lastDeepDiveMatch;
+  if (!m) return;
+
+  const DAYS = 30;
+  const mSeed = matches.findIndex(x => x.j === m.j);
+
+  // Daily sales curve — phase-shaped with per-match seed noise
+  const sales = [];
+  for (let i = 0; i < DAYS; i++) {
+    const t = i / (DAYS - 1);
+    let base = t < 0.4  ? 40  + 80  * (t / 0.4)
+             : t < 0.85 ? 120 + 130 * ((t - 0.4) / 0.45)
+             :             250 +  90 * ((t - 0.85) / 0.15);
+    const n = (Math.sin(i * 1.3 + mSeed) + Math.cos(i * 0.6 + mSeed * 0.3)) * 22
+            + Math.sin(i * 0.4 + mSeed * 0.7) * 14;
+    sales.push(Math.max(5, Math.round(base + n)));
+  }
+  // Season avg per day — same shape but offset so ~half days are above/below
+  const avgDaily = sales.map((v, i) => {
+    const n = (Math.sin(i * 0.7 + 1.5) + Math.cos(i * 1.1 + 0.8)) * 30;
+    return Math.max(5, Math.round(v * 1.02 + n));
+  });
+
+  const totalSales  = sales.reduce((s, v) => s + v, 0);
+  const maxV        = Math.max(...sales, ...avgDaily) * 1.12;
+
+  // Cumulative % per day
+  let cumSum = 0;
+  const cumPct = sales.map(v => { cumSum += v; return (cumSum / totalSales) * 100; });
+
+  const W = 480, H = 252, PL = 38, PR = 42, PT = 12, PB = 28;
+  const iW = W - PL - PR, iH = H - PT - PB;
+  const slot = iW / DAYS, bw = slot * 0.42;
+
+  // Y-axis grid (left: count)
+  const maxTick = Math.ceil(maxV / 100) * 100;
+  const yTicks  = [0, Math.round(maxTick / 2), maxTick];
+  const grid    = yTicks.map(v => {
+    const y = PT + (1 - v / maxV) * iH;
+    return `<line x1="${PL}" x2="${W - PR}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"
+      stroke="rgba(4,0,19,0.06)" stroke-width="1"/>
+      <text x="${PL - 5}" y="${(y + 3).toFixed(1)}" font-size="12" fill="#7060a8" font-family="Plus Jakarta Sans,Arial,sans-serif" text-anchor="end">${v}</text>`;
+  }).join('');
+
+  // Bars (base = purple, delta vs avg = coral/cyan)
+  const bars = sales.map((daily, i) => {
+    const x   = PL + i * slot + (slot - bw) / 2;
+    const a   = avgDaily[i];
+    const base = Math.min(daily, a);
+    const delta = Math.abs(daily - a);
+    const over  = daily > a;
+    const bH  = (base  / maxV) * iH;
+    const dH  = (delta / maxV) * iH;
+    const bY  = PT + iH - bH;
+    const dY  = bY - dH;
+    const sep = dH > 0.5 ? `<rect x="${x.toFixed(1)}" y="${(bY - 0.5).toFixed(1)}" width="${bw.toFixed(1)}" height="1.5" fill="white"/>` : '';
+    return `<rect x="${x.toFixed(1)}" y="${bY.toFixed(1)}" width="${bw.toFixed(1)}" height="${bH.toFixed(1)}" fill="rgba(108,77,220,0.88)"/>
+      <rect x="${x.toFixed(1)}" y="${dY.toFixed(1)}" width="${bw.toFixed(1)}" height="${dH.toFixed(1)}" fill="${over ? 'rgba(231,90,124,0.62)' : 'rgba(108,77,220,0.28)'}"/>
+      ${sep}`;
+  }).join('');
+
+  // Cumulative % line
+  const linePoints = cumPct.map((pct, i) => {
+    const x = PL + i * slot + slot / 2;
+    const y = PT + (1 - pct / 100) * iH;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+
+  // Right-axis % ticks
+  const pctTicks = [0, 50, 100].map(v => {
+    const y = PT + (1 - v / 100) * iH;
+    return `<text x="${W - PR + 4}" y="${(y + 3).toFixed(1)}" font-size="12" fill="#7060a8" font-family="Plus Jakarta Sans,Arial,sans-serif" text-anchor="start">${v}%</text>`;
+  }).join('');
+
+  // X-axis labels
+  const xLabels = [0, 10, 20, 29].map(i => {
+    const x = PL + i * slot + slot / 2;
+    const label = i === 29 ? 'D-1' : `D-${DAYS - i}`;
+    return `<text x="${x.toFixed(1)}" y="${H - 6}" font-size="12" fill="#7060a8" font-family="Plus Jakarta Sans,Arial,sans-serif" text-anchor="middle">${label}</text>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div style="flex:1"></div>
+    <div style="flex:0 0 60%;min-height:0">
+      <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet"
+           overflow="visible"
+           style="width:100%;height:100%;display:block">
+        ${grid}
+        ${bars}
+        <polyline points="${linePoints}" fill="none" stroke="rgba(42,12,112,0.75)"
+          stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+        ${pctTicks}
+        ${xLabels}
+      </svg>
+    </div>
+    <div style="flex:1"></div>
+    <div class="chart-legend" style="flex-shrink:0;margin-bottom:2px">
+      <span class="chart-legend-item">
+        <span class="chart-legend-swatch" style="background:rgba(108,77,220,0.88)"></span>daily sales
+      </span>
+      <span class="chart-legend-item">
+        <span class="chart-legend-swatch" style="background:rgba(231,90,124,0.62)"></span>above avg
+      </span>
+      <span class="chart-legend-item">
+        <span class="chart-legend-swatch" style="background:rgba(108,77,220,0.28)"></span>below avg
+      </span>
+      <span class="chart-legend-item" style="margin-left:4px">
+        <span style="display:inline-block;width:14px;height:2px;background:rgba(42,12,112,0.75);vertical-align:middle;border-radius:1px;margin-right:4px"></span>cumul. fill rate
+      </span>
+    </div>`;
+}
+
+function renderSalesChannels() {
+  const el = document.getElementById('ddChannels');
+  if (!el || !lastDeepDiveMatch) return;
+  const m = lastDeepDiveMatch;
+  const seed = matches.findIndex(x => x.j === m.j);
+
+  const channels = [
+    { name: 'website',    color: 'var(--c-cyan)',              base: 0.48 },
+    { name: 'ticketing',  color: 'rgba(108,77,220,0.72)',      base: 0.25 },
+    { name: 'box office', color: 'rgba(108,77,220,0.48)',      base: 0.14 },
+    { name: 'agency',     color: 'var(--c-orange)',            base: 0.09 },
+    { name: 'phone',      color: 'rgba(108,77,220,0.28)',      base: 0.04 },
+  ];
+
+  const raw   = channels.map((c, i) => Math.max(0.01, c.base + Math.sin(seed * 1.7 + i * 2.3) * 0.055));
+  const tot   = raw.reduce((s, v) => s + v, 0);
+  const pcts  = raw.map(v => v / tot);
+  const counts = pcts.map(p => Math.round(m.sales * p));
+  const maxP  = Math.max(...pcts);
+
+  el.innerHTML = channels.map((c, i) => `
+    <div class="ch-row">
+      <div class="ch-name">${c.name}</div>
+      <div class="ch-bar-wrap">
+        <div class="ch-bar" style="width:${(pcts[i]/maxP*100).toFixed(1)}%;background:${c.color}"></div>
+      </div>
+      <div class="ch-pct">${Math.round(pcts[i]*100)}%</div>
+    </div>`).join('');
+}
+
+function renderPromoMix() {
+  const el = document.getElementById('ddPromo');
+  if (!el || !lastDeepDiveMatch) return;
+  const m = lastDeepDiveMatch;
+  const seed = matches.findIndex(x => x.j === m.j);
+
+  const promoPct   = Math.max(0.18, Math.min(0.46, 0.32 + Math.sin(seed * 1.2) * 0.08));
+  const promoCount = Math.round(m.sales * promoPct);
+  const noneCount  = m.sales - promoCount;
+
+  const codes = [
+    { code: 'EARLY10',  disc: '−10%', base: 0.38 },
+    { code: 'LOYAL15',  disc: '−15%', base: 0.26 },
+    { code: 'STUD20',   disc: '−20%', base: 0.20 },
+    { code: 'PART25',   disc: '−25%', base: 0.16 },
+  ];
+  const raw   = codes.map((c, i) => Math.max(0.01, c.base + Math.sin(seed * 0.9 + i * 1.7) * 0.07));
+  const tot   = raw.reduce((s, v) => s + v, 0);
+  const pcts  = raw.map(v => v / tot);
+  const counts = pcts.map(p => Math.round(promoCount * p));
+  const maxP  = Math.max(...pcts);
+
+  el.innerHTML = `
+    <div class="promo-summary">
+      <span class="promo-summary-val">${Math.round(promoPct*100)}%</span>
+      <span class="promo-summary-label">with promo code</span>
+    </div>
+    <div class="promo-list">
+      ${codes.map((c, i) => `
+        <div class="ch-row">
+          <div class="ch-name" style="width:54px;font-weight:600;color:var(--p5)">${c.code}</div>
+          <div class="ch-bar-wrap">
+            <div class="ch-bar" style="width:${(pcts[i]/maxP*100).toFixed(1)}%;background:var(--c-coral)"></div>
+          </div>
+          <div class="ch-val">${counts[i].toLocaleString()}</div>
+          <div class="ch-pct" style="color:var(--c-coral)">${c.disc}</div>
+        </div>`).join('')}
+    </div>
+    <div class="promo-footer">${noneCount.toLocaleString()} full price</div>`;
 }
 
 function closeDeepDive() {
