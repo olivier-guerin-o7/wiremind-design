@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EVENTORI — Calendar & Match — Redesign concept</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+SemiExpanded:wght@600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ── Tokens ─────────────────────────────────────────────────────────────── */
 :root {
@@ -37,7 +37,7 @@
 *,*::before,*::after { box-sizing: border-box; margin:0; padding:0; }
 html, body { height:100%; overflow:hidden; }
 body {
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   color: var(--text);
   background: var(--pl);
@@ -57,7 +57,7 @@ body {
   user-select:none;
 }
 .topbar-logo {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:14px;
   font-weight:600;
   color:#fff;
@@ -130,7 +130,7 @@ body {
   display:inline-flex;
   align-items:center;
   gap:8px;
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:16px;
   font-weight:600;
   color: var(--p5);
@@ -150,7 +150,7 @@ body {
   border-radius:var(--radius-md);
   font-size:12px;
   font-weight:500;
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   cursor:pointer;
   border:none;
   display:flex; align-items:center; gap:6px;
@@ -284,11 +284,23 @@ body {
 .sidebar-footer [data-lucide], .sidebar-footer .lucide { width:14px; height:14px; }
 .nav-chevron [data-lucide], .nav-chevron .lucide { width:10px; height:10px; }
 
+.sidebar-watermark {
+  padding:0 20px 28px;
+  display:flex;
+  justify-content:center;
+  flex-shrink:0;
+}
+.sidebar-watermark svg {
+  width:80px;
+  height:auto;
+  opacity:0.07;
+  color:#fff;
+}
 .sidebar-footer {
   display:flex;
   align-items:center;
   gap:10px;
-  padding:9px 20px 20px;
+  padding:9px 20px 28px;
   font-size:13px;
   color:#fff;
   cursor:pointer;
@@ -358,7 +370,7 @@ body {
   gap:8px;
 }
 .hero-label {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:10px;
   font-weight:600;
   letter-spacing:0.08em;
@@ -371,7 +383,7 @@ body {
 }
 .hero-label.next .dot { background:#22c55e; }
 .hero-dx {
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:11px;
   font-weight:500;
   padding:2px 8px;
@@ -395,7 +407,7 @@ body {
   display:flex; flex-direction:column; gap:2px; min-width:0;
 }
 .hero-opp {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:18px;
   font-weight:600;
   color:var(--p5);
@@ -423,7 +435,7 @@ body {
   color:var(--p5);
 }
 .hero-metric-value {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:15px;
   font-weight:600;
   color:var(--p5);
@@ -493,7 +505,7 @@ body {
 }
 .dd-title { flex:1; min-width:0; }
 .dd-match {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:18px;
   font-weight:600;
   color:var(--p5);
@@ -525,7 +537,7 @@ body {
 .dd-section { margin-bottom:32px; }
 .dd-section:last-child { margin-bottom:0; }
 .dd-section-title {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:14px;
   font-weight:600;
   color:var(--muted);
@@ -592,7 +604,7 @@ body {
   gap:1px;
 }
 .stadium-pict-title {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -636,7 +648,7 @@ body {
   align-items:baseline;
 }
 .stand-seats-name {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -685,7 +697,7 @@ body {
   gap:6px;
 }
 .stadium-legend-title {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -714,7 +726,7 @@ body {
 }
 .legend-count {
   margin-left:auto;
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:11px;
   color:var(--muted);
 }
@@ -731,7 +743,7 @@ body {
 }
 .kpi-bullet-name { color:var(--p5); font-weight:500; }
 .kpi-bullet-val {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -862,7 +874,7 @@ td:first-child { padding-left:20px; }
 }
 .match-info { display:flex; flex-direction:column; gap:1px; }
 .journee {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:12px;
   font-weight:600;
   color:var(--p5);
@@ -871,7 +883,7 @@ td:first-child { padding-left:20px; }
   gap:6px;
 }
 .dx-badge {
-  font-family:'Instrument Sans', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:10px;
   font-weight:500;
   padding:1px 5px;
@@ -947,7 +959,7 @@ td:first-child { padding-left:20px; }
 /* Occ cell */
 .cell-occ { width:100px; }
 .occ-pct {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p3);
@@ -1019,7 +1031,7 @@ tfoot td::before {
   margin-top:1px;
 }
 .footer-stat-val {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -1027,6 +1039,7 @@ tfoot td::before {
   background:#fff;
   border-radius:999px;
   padding:3px 10px;
+  border:1px solid rgba(108,77,220,0.20);
   position:relative;
   left:-10px;
 }
@@ -1068,7 +1081,7 @@ tfoot td::before {
 }
 .panel-match-text { flex:1; min-width:0; }
 .match-vs {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:17px;
   font-weight:600;
   color:var(--p5);
@@ -1140,7 +1153,7 @@ tfoot td::before {
   color:#fff;
   padding:4px 10px;
   border-radius:6px;
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
 }
@@ -1167,7 +1180,7 @@ tfoot td::before {
   flex:1;
 }
 .sec-pct {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:12px;
   font-weight:600;
   margin-left:6px;
@@ -1209,7 +1222,7 @@ tfoot td::before {
   font-weight:500;
 }
 .kpi-value {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:18px;
   font-weight:600;
   color:var(--p4);
@@ -1288,7 +1301,7 @@ tfoot td::before {
   flex:1;
 }
 .channel-count {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:13px;
   font-weight:600;
   color:var(--p5);
@@ -1310,7 +1323,7 @@ tfoot td::before {
   background:#fff;
 }
 .venue-name {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:14px;
   font-weight:600;
   color:var(--p5);
@@ -1340,7 +1353,7 @@ tfoot td::before {
   color:var(--p4);
 }
 .occ-block-value {
-  font-family:'Archivo SemiExpanded', Arial, sans-serif;
+  font-family:'Plus Jakarta Sans', Arial, sans-serif;
   font-size:32px;
   font-weight:600;
   color:var(--p4);
@@ -1434,6 +1447,14 @@ tfoot td::before {
       </div>
     </nav>
 
+    <div class="sidebar-watermark">
+      <svg viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
+        <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
+        <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
+        <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
+      </svg>
+    </div>
     <div class="sidebar-footer">
       <i data-lucide="user"></i>
       <span class="sidebar-footer-name">Colin Girault-Matz</span>
