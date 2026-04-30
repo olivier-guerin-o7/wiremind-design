@@ -18,7 +18,7 @@
     :root {
       /* ── Shared Wiremind primitive blue scale ── */
       --b6: #02263a;        /* near-black, cyan-tinted */
-      --b5: #053f5e;        /* sidebar bg — dark cyan-blue (CAYZN family of #009DDC) */
+      --b5: #4A8AB8;        /* sidebar bg — soft blue, slightly darkened for legibility */
       --b4: #0081a8;        /* workhorse — body emphasis */
       --b3: #009DDC;        /* primary chrome — interactive (cross-product shared cyan) */
       --b2: #6fd2ff;        /* light highlight */
@@ -48,27 +48,27 @@
       --danger-bg: #FEE2E2;
       --danger-strong: #ef4444;
 
-      /* ── Neutrals ── */
-      --ink: #1a1d1f;
-      --text: #2e3133;
-      --text-secondary: #5c5f61;
-      --text-grey: #8f9193;
-      --text-muted: #a9abad;
-      --border: #e5e7eb;
-      --border-light: #f1f3f5;
-      --bg: #fafaff;        /* page bg — slight cool tint */
+      /* ── Neutrals — blue-tinted (same logic Eventori does with purple) ── */
+      --ink: #0f172a;
+      --text: #1e293b;
+      --text-secondary: #475569;
+      --text-grey: #64748b;
+      --text-muted: #94a3b8;
+      --border: #dbe2eb;
+      --border-light: #eef2f7;
+      --bg: #f5f8fc;        /* page bg — blue cool tint */
       --bg-card: #ffffff;
-      --bg-tint: #f6f7fa;
+      --bg-tint: #edf3f9;
 
-      /* ── Type ── */
+      /* ── Type — newspaper-dashboard scale (analyst-density, +1pt vs Eventori 13px) ── */
       --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      --fs-xs: 10px;
-      --fs-sm: 11px;
-      --fs-base: 12px;
-      --fs-md: 13px;
-      --fs-lg: 14px;
-      --fs-xl: 16px;
-      --fs-2xl: 20px;
+      --fs-xs: 10px;        /* eyebrow labels, tickers */
+      --fs-sm: 12px;        /* sub-labels, captions */
+      --fs-base: 14px;      /* body */
+      --fs-md: 15px;
+      --fs-lg: 16px;
+      --fs-xl: 18px;
+      --fs-2xl: 22px;
       --fs-3xl: 28px;
       --fs-4xl: 36px;
 
@@ -146,9 +146,7 @@
     .sidebar {
       width: 200px;
       flex-shrink: 0;
-      background:
-        radial-gradient(ellipse at bottom right, rgba(108, 77, 220, 0.22) 0%, transparent 62%),
-        var(--primary-deep);
+      background: var(--primary-deep);
       color: rgba(255, 255, 255, 0.85);
       display: flex;
       flex-direction: column;
@@ -185,7 +183,7 @@
       gap: 10px;
       padding: 9px 20px;
       cursor: pointer;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.75);
       font-size: 13px;
       transition: background 0.12s, color 0.12s;
       user-select: none;
@@ -199,7 +197,7 @@
     .nav-chevron {
       transition: transform 0.2s;
       display: flex; align-items: center;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.75);
     }
     .nav-l1.expanded .nav-chevron { transform: rotate(180deg); }
 
@@ -217,7 +215,7 @@
       gap: 10px;
       padding: 7px 20px;
       font-size: 12.5px;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.75);
       cursor: pointer;
       transition: color 0.12s, background 0.12s;
       position: relative;
@@ -344,10 +342,682 @@
       padding: 0;
     }
     .page-inner {
-      max-width: 1100px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 40px 48px 96px;
+      padding: 18px 22px 48px;
     }
+
+    /* ============================================================
+       NEWSPAPER DASHBOARD — analyst-density, AI-vibes
+       ============================================================ */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .dashboard > [data-span="12"] { grid-column: span 12; }
+    .dashboard > [data-span="8"]  { grid-column: span 8; }
+    .dashboard > [data-span="6"]  { grid-column: span 6; }
+    .dashboard > [data-span="5"]  { grid-column: span 5; }
+    .dashboard > [data-span="4"]  { grid-column: span 4; }
+    .dashboard > [data-span="3"]  { grid-column: span 3; }
+    .dash-stack { display: flex; flex-direction: column; gap: 12px; }
+
+    /* ── Card primitive (thin lines, compact, no shadow) ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.1px;
+    }
+    .card-meta {
+      font-size: 11px;
+      color: var(--text-grey);
+      letter-spacing: 0.2px;
+    }
+    .card-zoom-cue {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 22px; height: 22px;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s;
+      cursor: pointer;
+    }
+    .card-zoom-cue [data-lucide] { width: 13px; height: 13px; }
+    .card.clickable { cursor: pointer; transition: border-color 0.15s; }
+    .card.clickable:hover { border-color: var(--primary); }
+    .card.clickable:hover .card-zoom-cue { opacity: 1; color: var(--primary); }
+
+    /* ── Outcomes ticker — stock-market style ── */
+    .ticker {
+      grid-column: span 12;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 18px;
+      height: 56px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      font-feature-settings: 'tnum' 1;
+    }
+    .ticker:hover { border-color: var(--primary); }
+    .ticker-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 22px;
+      flex: 0 0 auto;
+    }
+    .ticker-item.headline { padding-left: 0; }
+    .ticker-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .ticker-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .ticker-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.3px;
+    }
+    .ticker-value.muted { color: var(--text-secondary); font-weight: 600; }
+    .ticker-trend {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1px;
+    }
+    .ticker-trend.up { color: var(--success); }
+    .ticker-trend.down { color: var(--danger); }
+    .ticker-meta {
+      font-size: 11px;
+      color: var(--text-grey);
+      font-weight: 500;
+    }
+    .ticker-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--border-light);
+      margin: 12px 0;
+    }
+    .ticker-cta {
+      margin-left: auto;
+      padding: 0 6px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .ticker:hover .ticker-cta { color: var(--primary); }
+    .ticker-cta [data-lucide] { width: 12px; height: 12px; }
+
+    /* ── Sticky context strip — slimmed ── */
+    .context-strip { height: 36px; padding: 0 22px; }
+    .ctx-pill .label { font-size: 10px; }
+
+    /* ── Compact ledger (hero card) ── */
+    .ledger-compact { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
+    .ledger-compact-row {
+      display: grid;
+      grid-template-columns: 30px 1fr auto auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .ledger-compact-row:last-child { border-bottom: none; }
+    .ledger-compact-row:hover { background: var(--bg-tint); }
+    .lc-icon {
+      width: 26px; height: 26px;
+      border-radius: 5px;
+      background: var(--bg-tint);
+      color: var(--primary-strong);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lc-icon [data-lucide] { width: 13px; height: 13px; }
+    .lc-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .lc-name-sub {
+      font-size: 11px;
+      color: var(--text-grey);
+      margin-top: 1px;
+      font-weight: 500;
+    }
+    .lc-bar-block {
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .lc-bar-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-feature-settings: 'tnum' 1;
+    }
+    .lc-bar-line .used { color: var(--ink); font-weight: 600; }
+    .lc-bar-line .pct { color: var(--text-grey); font-weight: 500; }
+    .lc-bar {
+      position: relative;
+      height: 4px;
+      background: var(--bg-tint);
+      border-radius: 2px;
+      overflow: visible;
+    }
+    .lc-bar-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      border-radius: 2px;
+      background: var(--primary);
+    }
+    .lc-bar-fill.watch { background: var(--warning-strong); }
+    .lc-bar-fill.danger { background: var(--danger-strong); }
+    .lc-bar-projected {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--primary) 0 3px,
+        transparent 3px 6px
+      );
+      opacity: 0.5;
+    }
+    .lc-bar-projected.watch {
+      background: repeating-linear-gradient(90deg, var(--warning-strong) 0 3px, transparent 3px 6px);
+    }
+    .lc-bar-projected.danger {
+      background: repeating-linear-gradient(90deg, var(--danger-strong) 0 3px, transparent 3px 6px);
+    }
+    .lc-bar-cap {
+      position: absolute;
+      top: -2px; bottom: -2px;
+      width: 1px;
+      background: var(--text-secondary);
+      opacity: 0.4;
+    }
+    .lc-trajectory {
+      width: 150px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+    .lc-trajectory strong { color: var(--text); font-weight: 600; }
+    .lc-trajectory .label {
+      display: block;
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      font-weight: 500;
+      margin-bottom: 1px;
+    }
+    .lc-status {
+      justify-self: end;
+    }
+
+    /* status-pill: slightly smaller in compact ledger */
+    .ledger-compact .status-pill {
+      font-size: 9.5px;
+      padding: 2px 7px;
+    }
+
+    /* ── Insight cards (Approaching / Watch) ── */
+    .card-insight {
+      border-color: var(--border);
+      gap: 6px;
+    }
+    .insight-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      align-self: flex-start;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .insight-tag::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .insight-approaching .insight-tag { background: var(--danger-bg); color: var(--danger); }
+    .insight-watch       .insight-tag { background: var(--warning-bg); color: var(--warning); }
+    .insight-ok          .insight-tag { background: var(--success-bg); color: var(--success); }
+
+    .card-insight.approaching { border-color: rgba(239, 68, 68, 0.3); }
+    .card-insight.watch       { border-color: rgba(245, 158, 11, 0.3); }
+
+    .insight-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.1px;
+    }
+    .insight-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+    .insight-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .insight-btn {
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.12s, color 0.12s;
+    }
+    .insight-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .insight-btn.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .insight-btn.primary:hover { background: var(--primary-strong); border-color: var(--primary-strong); }
+
+    /* ── Plan summary mini-card ── */
+    .card-plan-mini {
+      gap: 8px;
+    }
+    .plan-mini-tier {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .plan-mini-tier-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary-strong);
+      letter-spacing: -0.3px;
+    }
+    .plan-mini-tier-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .plan-mini-since {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .plan-mini-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    /* ── Asks chips bar ── */
+    .asks-chips-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .ask-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .ask-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .ask-chip [data-lucide] { width: 13px; height: 13px; }
+    .ask-chip-sla {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding-left: 6px;
+      border-left: 1px solid var(--border);
+      margin-left: 2px;
+    }
+    .ask-chip:hover .ask-chip-sla { color: var(--primary); border-left-color: var(--primary-bg); }
+    .ask-chip.priority {
+      background: var(--warning-bg);
+      border-color: var(--warning-strong);
+      color: var(--warning);
+    }
+    .ask-chip.priority:hover {
+      background: var(--warning-strong);
+      color: white;
+    }
+    .ask-chip.priority .ask-chip-sla { color: var(--warning); }
+
+    /* ── Compact docs list ── */
+    .docs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .doc-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .doc-row:hover { background: var(--bg-tint); }
+    .doc-row [data-lucide].doc-icon { width: 14px; height: 14px; color: var(--primary-strong); }
+    .doc-row-body { flex: 1; min-width: 0; }
+    .doc-row-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .doc-row-meta {
+      font-size: 10px;
+      color: var(--text-grey);
+      margin-top: 1px;
+    }
+    .doc-row [data-lucide].doc-action {
+      width: 13px; height: 13px;
+      color: var(--text-muted);
+    }
+    .doc-row:hover [data-lucide].doc-action { color: var(--primary); }
+
+    /* ── Methodology / FAQ list ── */
+    .meth-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0;
+      margin: 4px 0 0;
+    }
+    .meth-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.12s;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .meth-item:hover { background: var(--bg-tint); color: var(--primary); }
+    .meth-item [data-lucide] { width: 13px; height: 13px; color: var(--text-muted); flex-shrink: 0; }
+    .meth-item:hover [data-lucide] { color: var(--primary); }
+    .meth-item-meta {
+      margin-left: auto;
+      font-size: 10px;
+      color: var(--text-grey);
+    }
+
+    /* ============================================================
+       MODAL — zoom layer
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-md  { max-width: 620px; }
+    .modal-lg  { max-width: 960px; }
+    .modal-xl  { max-width: 1240px; }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .modal-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .modal-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-grey);
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      color: var(--text-grey);
+      transition: background 0.12s, color 0.12s;
+      cursor: pointer;
+    }
+    .modal-close:hover { background: var(--bg-tint); color: var(--ink); }
+    .modal-close [data-lucide] { width: 15px; height: 15px; }
+
+    .modal-body {
+      padding: 22px;
+      overflow-y: auto;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* Modal-inside-modal type — slightly larger for reading comfort */
+    .modal-body { font-size: 14px; }
+    .modal-body p { margin-bottom: 12px; }
+    .modal-body strong { color: var(--ink); font-weight: 600; }
+
+    /* Modal: Outcomes — sensitivity controls */
+    .modal-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .modal-hero-tile {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: var(--bg-card);
+    }
+    .modal-hero-tile.earned { background: linear-gradient(180deg, var(--primary-bg) 0%, var(--bg-card) 70%); }
+    .modal-hero-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--text-grey);
+      margin-bottom: 6px;
+    }
+    .modal-hero-number {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      color: var(--primary-strong);
+      font-feature-settings: 'tnum' 1;
+    }
+    .modal-hero-tile.trajectory .modal-hero-number {
+      color: var(--ink);
+      opacity: 0.78;
+    }
+    .modal-hero-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .sensitivity-block {
+      border-top: 1px solid var(--border-light);
+      padding-top: 14px;
+      margin-top: 6px;
+    }
+    .sensitivity-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .sensitivity-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .sensitivity-controls {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 10px 14px;
+      align-items: center;
+    }
+    .sens-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .sens-options {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .sens-opt {
+      padding: 5px 11px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .sens-opt:hover { border-color: var(--primary); color: var(--primary); }
+    .sens-opt.active {
+      background: var(--primary-bg);
+      border-color: var(--primary);
+      color: var(--primary-strong);
+      font-weight: 600;
+    }
+
+    /* Modal: admin toggle */
+    .admin-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 6px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--bg-tint);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .admin-toggle-opt {
+      padding: 4px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .admin-toggle-opt.active {
+      background: var(--bg-card);
+      color: var(--ink);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    }
+    .admin-toggle-opt.admin.active {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .admin-only { display: none; }
+    [data-mode="admin"] .admin-only { display: revert; }
+    [data-mode="admin"] .client-only { display: none; }
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .modal-actions.admin-only { display: none; }
+    [data-mode="admin"] .modal-actions.admin-only { display: flex; }
+    [data-mode="admin"] .modal-actions.client-only { display: none; }
 
     /* ============================================================
        SECTIONS — common
@@ -1153,18 +1823,10 @@
         <span class="nav-l1-label">Configuration</span>
       </div>
 
-      <!-- Active L1 — Pricing — with anchored L2 -->
-      <div class="nav-l1 active expanded" data-key="pricing" data-has-children="true">
+      <!-- Active L1 — Pricing — single page, no L2 anchors (newspaper-dashboard) -->
+      <div class="nav-l1 active" data-key="pricing">
         <i data-lucide="receipt-text"></i>
         <span class="nav-l1-label">Pricing</span>
-        <span class="nav-chevron"><i data-lucide="chevron-down"></i></span>
-      </div>
-      <div class="nav-l2-group expanded" data-parent="pricing">
-        <div class="nav-l2 active" data-anchor="outcomes"><i data-lucide="award"></i>Outcomes</div>
-        <div class="nav-l2" data-anchor="usage"><i data-lucide="gauge"></i>Usage</div>
-        <div class="nav-l2" data-anchor="plan"><i data-lucide="layers"></i>Plan</div>
-        <div class="nav-l2" data-anchor="asks"><i data-lucide="inbox"></i>Asks</div>
-        <div class="nav-l2" data-anchor="documents"><i data-lucide="file-text"></i>Documents</div>
       </div>
     </nav>
 
@@ -1206,6 +1868,501 @@
 
     <div class="page scroll-hide">
       <div class="page-inner">
+
+        <!-- ============================================================
+             NEWSPAPER DASHBOARD — single page for "Pricing"
+             ============================================================ -->
+        <div class="dashboard">
+
+          <!-- ROW 1 — Outcomes ticker (full-width, compact) -->
+          <div class="ticker" data-modal="outcomes-modal" role="button" tabindex="0">
+            <div class="ticker-item headline">
+              <span class="ticker-label">YTD attributed lift</span>
+              <div class="ticker-line">
+                <span class="ticker-value">€18.3M</span>
+                <span class="ticker-trend up">↗ since 1 Sep</span>
+              </div>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="ticker-item">
+              <span class="ticker-label">Trajectory · 31 Aug</span>
+              <div class="ticker-line">
+                <span class="ticker-value muted">€34M</span>
+                <span class="ticker-meta">range €30–38M</span>
+              </div>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="ticker-item">
+              <span class="ticker-label">CAYZN cost YTD</span>
+              <div class="ticker-line">
+                <span class="ticker-value">€42K</span>
+                <span class="ticker-meta">≈ 437× spend</span>
+              </div>
+            </div>
+            <div class="ticker-divider"></div>
+            <div class="ticker-item">
+              <span class="ticker-label">Optimisation runs</span>
+              <div class="ticker-line">
+                <span class="ticker-value">14.2K</span>
+              </div>
+            </div>
+            <span class="ticker-cta">
+              <i data-lucide="maximize-2"></i> Open
+            </span>
+          </div>
+
+          <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
+          <div class="card clickable" data-span="8" data-modal="resource-modal">
+            <div class="card-header">
+              <h3 class="card-title">Resources</h3>
+              <span class="card-meta">6 tracked · sorted by time-to-cap · click any row for detail</span>
+            </div>
+            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="ledger-compact">
+
+              <!-- Ancillary -->
+              <div class="ledger-compact-row">
+                <div class="lc-icon"><i data-lucide="package-plus"></i></div>
+                <div>
+                  <div class="lc-name">Ancillary Tokens</div>
+                  <div class="lc-name-sub">Premium · 2.0M / yr</div>
+                </div>
+                <div class="lc-bar-block">
+                  <div class="lc-bar-line">
+                    <span><span class="used">1.7M</span> / 2.0M</span>
+                    <span class="pct">85%</span>
+                  </div>
+                  <div class="lc-bar">
+                    <div class="lc-bar-fill danger" style="width: 80%"></div>
+                    <div class="lc-bar-projected danger" style="left: 80%; width: 20%"></div>
+                    <div class="lc-bar-cap" style="left: 94%"></div>
+                  </div>
+                </div>
+                <div class="lc-trajectory">
+                  <span class="label">Trajectory</span>
+                  cap reached <strong>~5 Jul</strong>
+                </div>
+                <div class="lc-status"><span class="status-pill danger">Approaching</span></div>
+              </div>
+
+              <!-- GenAI -->
+              <div class="ledger-compact-row">
+                <div class="lc-icon"><i data-lucide="sparkles"></i></div>
+                <div>
+                  <div class="lc-name">GenAI Tokens</div>
+                  <div class="lc-name-sub">Premium · 1.5B / yr</div>
+                </div>
+                <div class="lc-bar-block">
+                  <div class="lc-bar-line">
+                    <span><span class="used">1.38B</span> / 1.5B</span>
+                    <span class="pct">92%</span>
+                  </div>
+                  <div class="lc-bar">
+                    <div class="lc-bar-fill danger" style="width: 87%"></div>
+                    <div class="lc-bar-projected danger" style="left: 87%; width: 13%"></div>
+                    <div class="lc-bar-cap" style="left: 94%"></div>
+                  </div>
+                </div>
+                <div class="lc-trajectory">
+                  <span class="label">Trajectory</span>
+                  cap reached <strong>~12 Aug</strong>
+                </div>
+                <div class="lc-status"><span class="status-pill danger">Approaching</span></div>
+              </div>
+
+              <!-- F&O -->
+              <div class="ledger-compact-row">
+                <div class="lc-icon"><i data-lucide="target"></i></div>
+                <div>
+                  <div class="lc-name">F&amp;O Executions</div>
+                  <div class="lc-name-sub">Premium · 8.0M / yr</div>
+                </div>
+                <div class="lc-bar-block">
+                  <div class="lc-bar-line">
+                    <span><span class="used">5.0M</span> / 8.0M</span>
+                    <span class="pct">63%</span>
+                  </div>
+                  <div class="lc-bar">
+                    <div class="lc-bar-fill watch" style="width: 59%"></div>
+                    <div class="lc-bar-projected watch" style="left: 59%; width: 41%"></div>
+                    <div class="lc-bar-cap" style="left: 94%"></div>
+                  </div>
+                </div>
+                <div class="lc-trajectory">
+                  <span class="label">Trajectory</span>
+                  <strong>~8.5M</strong> · +6%
+                </div>
+                <div class="lc-status"><span class="status-pill watch">Watch</span></div>
+              </div>
+
+              <!-- BR -->
+              <div class="ledger-compact-row">
+                <div class="lc-icon"><i data-lucide="zap"></i></div>
+                <div>
+                  <div class="lc-name">BR Executions</div>
+                  <div class="lc-name-sub">Premium · 15M / yr</div>
+                </div>
+                <div class="lc-bar-block">
+                  <div class="lc-bar-line">
+                    <span><span class="used">9.5M</span> / 15M</span>
+                    <span class="pct">63%</span>
+                  </div>
+                  <div class="lc-bar">
+                    <div class="lc-bar-fill watch" style="width: 59%"></div>
+                    <div class="lc-bar-projected watch" style="left: 59%; width: 41%"></div>
+                    <div class="lc-bar-cap" style="left: 94%"></div>
+                  </div>
+                </div>
+                <div class="lc-trajectory">
+                  <span class="label">Trajectory</span>
+                  <strong>~16M</strong> · +7%
+                </div>
+                <div class="lc-status"><span class="status-pill watch">Watch</span></div>
+              </div>
+
+              <!-- PSEG -->
+              <div class="ledger-compact-row">
+                <div class="lc-icon"><i data-lucide="users"></i></div>
+                <div>
+                  <div class="lc-name">PSEG</div>
+                  <div class="lc-name-sub">Premium · 50M / yr</div>
+                </div>
+                <div class="lc-bar-block">
+                  <div class="lc-bar-line">
+                    <span><span class="used">24M</span> / 50M</span>
+                    <span class="pct">48%</span>
+                  </div>
+                  <div class="lc-bar">
+                    <div class="lc-bar-fill" style="width: 45%"></div>
+                    <div class="lc-bar-projected" style="left: 45%; width: 32%"></div>
+                    <div class="lc-bar-cap" style="left: 94%"></div>
+                  </div>
+                </div>
+                <div class="lc-trajectory">
+                  <span class="label">Trajectory</span>
+                  <strong>~41M</strong> · 82%
+                </div>
+                <div class="lc-status"><span class="status-pill ok">On track</span></div>
+              </div>
+
+              <!-- DWH -->
+              <div class="ledger-compact-row">
+                <div class="lc-icon"><i data-lucide="database"></i></div>
+                <div>
+                  <div class="lc-name">DWH Extracted Rows</div>
+                  <div class="lc-name-sub">Premium · 18M / yr</div>
+                </div>
+                <div class="lc-bar-block">
+                  <div class="lc-bar-line">
+                    <span><span class="used">7.0M</span> / 18M</span>
+                    <span class="pct">39%</span>
+                  </div>
+                  <div class="lc-bar">
+                    <div class="lc-bar-fill" style="width: 37%"></div>
+                    <div class="lc-bar-projected" style="left: 37%; width: 26%"></div>
+                    <div class="lc-bar-cap" style="left: 94%"></div>
+                  </div>
+                </div>
+                <div class="lc-trajectory">
+                  <span class="label">Trajectory</span>
+                  <strong>~12M</strong> · 67%
+                </div>
+                <div class="lc-status"><span class="status-pill ok">On track</span></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right column stack: insights + plan -->
+          <div class="dash-stack" data-span="4">
+
+            <!-- Approaching: GenAI -->
+            <div class="card card-insight insight-approaching approaching">
+              <span class="insight-tag">Approaching</span>
+              <h4 class="insight-title">GenAI Tokens · 92%</h4>
+              <p class="insight-desc">
+                Cap reached <strong>~12 Aug</strong> at current pace. A 30% top-up covers the projected overage and nets ~€8K vs. plan upgrade.
+              </p>
+              <div class="insight-actions">
+                <button class="insight-btn primary">Top up</button>
+                <button class="insight-btn">Compare upgrade</button>
+              </div>
+            </div>
+
+            <!-- Approaching: Ancillary -->
+            <div class="card card-insight insight-approaching approaching">
+              <span class="insight-tag">Approaching</span>
+              <h4 class="insight-title">Ancillary Tokens · 85%</h4>
+              <p class="insight-desc">
+                Faster trajectory than GenAI — cap reached <strong>~5 Jul</strong>. Top-up or in-cycle plan move both available.
+              </p>
+              <div class="insight-actions">
+                <button class="insight-btn primary">Top up</button>
+              </div>
+            </div>
+
+            <!-- Plan summary mini -->
+            <div class="card card-plan-mini clickable" data-modal="plan-modal">
+              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+              <div class="plan-mini-tier">
+                <span class="plan-mini-tier-label">Plan</span>
+                <span class="plan-mini-tier-name">Premium</span>
+              </div>
+              <div class="plan-mini-since">Since 1 Sep 2025 · renews 31 Aug 2026 · 27 modules</div>
+              <div class="plan-mini-actions">
+                <button class="insight-btn">Compare plans</button>
+                <button class="insight-btn">Plan history</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ROW 3 — Asks chip bar -->
+          <div class="card" data-span="12">
+            <div class="card-header">
+              <h3 class="card-title">Asks</h3>
+              <span class="card-meta">Structured requests · SLAs disclosed · trackable in your inbox</span>
+            </div>
+            <div class="asks-chips-bar">
+              <button class="ask-chip priority">
+                <i data-lucide="zap"></i>
+                Top up GenAI
+                <span class="ask-chip-sla">1 day</span>
+              </button>
+              <button class="ask-chip">
+                <i data-lucide="layers"></i>
+                Simulate upgrade
+                <span class="ask-chip-sla">instant</span>
+              </button>
+              <button class="ask-chip">
+                <i data-lucide="calendar"></i>
+                Schedule QBR
+                <span class="ask-chip-sla">3 days</span>
+              </button>
+              <button class="ask-chip">
+                <i data-lucide="user-plus"></i>
+                Add user
+                <span class="ask-chip-sla">1 hour</span>
+              </button>
+              <button class="ask-chip">
+                <i data-lucide="file-pen-line"></i>
+                Amend contract
+                <span class="ask-chip-sla">2 days</span>
+              </button>
+              <button class="ask-chip">
+                <i data-lucide="message-circle"></i>
+                Ask anything
+                <span class="ask-chip-sla">4 hours</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ROW 4 — Documents + Methodology -->
+          <div class="card" data-span="6">
+            <div class="card-header">
+              <h3 class="card-title">Documents</h3>
+              <span class="card-meta">QBR-ready · stakeholders read without login</span>
+            </div>
+            <div class="docs-list">
+              <div class="doc-row">
+                <i data-lucide="file-text" class="doc-icon"></i>
+                <div class="doc-row-body">
+                  <div class="doc-row-name">Contract summary · April 2026</div>
+                  <div class="doc-row-meta">PDF · 8 pages · auto-refreshed monthly</div>
+                </div>
+                <i data-lucide="download" class="doc-action"></i>
+              </div>
+              <div class="doc-row">
+                <i data-lucide="file-spreadsheet" class="doc-icon"></i>
+                <div class="doc-row-body">
+                  <div class="doc-row-name">Usage CSV · YTD</div>
+                  <div class="doc-row-meta">CSV · 6 resources × daily</div>
+                </div>
+                <i data-lucide="download" class="doc-action"></i>
+              </div>
+              <div class="doc-row">
+                <i data-lucide="link-2" class="doc-icon"></i>
+                <div class="doc-row-body">
+                  <div class="doc-row-name">Share read-only link</div>
+                  <div class="doc-row-meta">URL · expires in 30 days</div>
+                </div>
+                <i data-lucide="copy" class="doc-action"></i>
+              </div>
+              <div class="doc-row">
+                <i data-lucide="mail" class="doc-icon"></i>
+                <div class="doc-row-body">
+                  <div class="doc-row-name">Subscribe to monthly digest</div>
+                  <div class="doc-row-meta">Email · sent on the 1st of each month</div>
+                </div>
+                <i data-lucide="bell" class="doc-action"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" data-span="6">
+            <div class="card-header">
+              <h3 class="card-title">Methodology &amp; FAQ</h3>
+              <span class="card-meta">Math, assumptions, and what other clients ask</span>
+            </div>
+            <ul class="meth-list">
+              <li class="meth-item">
+                <i data-lucide="info"></i>
+                How attribution works (forecast vs. baseline)
+                <span class="meth-item-meta">PDF · 4 pages</span>
+              </li>
+              <li class="meth-item">
+                <i data-lucide="trending-up"></i>
+                Why we project with last-year seasonality (+15% Jun–Aug)
+                <span class="meth-item-meta">methodology note</span>
+              </li>
+              <li class="meth-item">
+                <i data-lucide="bell-ring"></i>
+                What "Approaching" means and when alerts fire
+                <span class="meth-item-meta">methodology note</span>
+              </li>
+              <li class="meth-item">
+                <i data-lucide="help-circle"></i>
+                FAQ — 7 questions other clients ask
+                <span class="meth-item-meta">curated by CSM team</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+
+        <!-- ============================================================
+             MODALS — zoom layer
+             ============================================================ -->
+
+        <!-- Outcomes modal — value attribution + sensitivity -->
+        <div class="modal-overlay" id="outcomes-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Value attribution · Year 1</span>
+                <span class="modal-title">What CAYZN added to Transavia's revenue</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+
+              <div class="modal-hero">
+                <div class="modal-hero-tile earned">
+                  <div class="modal-hero-eyebrow">Earned · YTD</div>
+                  <div class="modal-hero-number">€18.3M</div>
+                  <div class="modal-hero-sub">Attributed lift since 1 Sep 2025 · anchored in actuals</div>
+                </div>
+                <div class="modal-hero-tile trajectory">
+                  <div class="modal-hero-eyebrow">Trajectory · 31 Aug 2026</div>
+                  <div class="modal-hero-number">€34M</div>
+                  <div class="modal-hero-sub"><em>Projected at current pace, adjusted for last year's Jun–Aug seasonality. Range €30–38M.</em></div>
+                </div>
+              </div>
+
+              <p>
+                <strong>Method.</strong> For each route × day, we compute the difference between actual revenue and the model's pre-CAYZN baseline. Lift = ∑(actual − baseline). YTD figures are point-in-time actuals; trajectory uses last-year same-period multipliers as the seasonality anchor.
+              </p>
+
+              <div class="sensitivity-block">
+                <div class="sensitivity-title">Sensitivity</div>
+                <p class="sensitivity-desc">
+                  Try a different baseline assumption. Numbers above re-compute live; the methodology is documented in the Methodology PDF.
+                </p>
+                <div class="sensitivity-controls">
+                  <span class="sens-label">Baseline</span>
+                  <div class="sens-options">
+                    <button class="sens-opt active">Pre-CAYZN model</button>
+                    <button class="sens-opt">Static</button>
+                    <button class="sens-opt">Industry avg</button>
+                  </div>
+                  <span class="sens-label">Scope</span>
+                  <div class="sens-options">
+                    <button class="sens-opt active">All routes</button>
+                    <button class="sens-opt">Optimised only</button>
+                  </div>
+                  <span class="sens-label">Period</span>
+                  <div class="sens-options">
+                    <button class="sens-opt active">This contract year</button>
+                    <button class="sens-opt">Last 12 months</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Resource modal — detail + Admin toggle (continuity proof) -->
+        <div class="modal-overlay" id="resource-modal" aria-hidden="true" data-mode="client">
+          <div class="modal modal-lg">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Resource · Year 1</span>
+                <span class="modal-title">GenAI Tokens — 1.38B / 1.5B</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:14px;">
+                <div class="admin-toggle" role="tablist">
+                  <span class="admin-toggle-opt client active" data-mode-set="client">Client view</span>
+                  <span class="admin-toggle-opt admin" data-mode-set="admin">Admin (WM CSM)</span>
+                </div>
+                <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+              </div>
+            </header>
+            <div class="modal-body">
+
+              <p>
+                <strong>92% used.</strong> At current pace adjusted for last year's Jun–Aug seasonality (+15%), the cap is reached on <strong>~12 Aug 2026</strong>, with a projected end-of-year usage of <strong>~1.85B</strong> tokens (overage ≈ +23%).
+              </p>
+
+              <p class="client-only">
+                Three options are available, each with a disclosed SLA. Top-up covers the projected overage at a unit cost lower than the plan upgrade for the remaining cycle. Plan comparison shows the break-even and net cost-impact.
+              </p>
+
+              <p class="admin-only">
+                <strong>WM CSM controls.</strong> Override cap, simulate plan change, compare against 12 Premium peers (anonymised), or export the audit log. All write actions are logged and reversible within 24h.
+              </p>
+
+              <div class="modal-actions client-only">
+                <button class="insight-btn primary">Request top-up</button>
+                <button class="insight-btn">Compare upgrade</button>
+                <button class="insight-btn">Schedule call</button>
+              </div>
+
+              <div class="modal-actions admin-only">
+                <button class="insight-btn primary">Override cap</button>
+                <button class="insight-btn">Compare 12 peers</button>
+                <button class="insight-btn">Audit log</button>
+                <button class="insight-btn">Change plan</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Plan modal — placeholder, expands later -->
+        <div class="modal-overlay" id="plan-modal" aria-hidden="true">
+          <div class="modal modal-xl">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Plan</span>
+                <span class="modal-title">Premium · since 1 Sep 2025</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p><strong>Premium plan</strong> — full module list, plan comparison side-by-side, and history timeline. Plan-comparison detail will live here in a future iteration; for V1 we gesture at the surface so the modal-as-zoom pattern is visible end-to-end.</p>
+              <p>The compare-plans view would render Standard / Advanced / Premium / Premium-Plus side by side with module rows, quotas, and unit-cost differences. At ~XL width because comparison is the job.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================================================
+             LEGACY SECTIONS — hidden, kept only as visual reference.
+             Will be removed in a polish pass.
+             ============================================================ -->
+        <div style="display:none">
 
         <!-- ============================================================
              SECTION 1 — OUTCOMES
@@ -1755,6 +2912,9 @@
           </div>
         </section>
 
+        </div>
+        <!-- /legacy -->
+
       </div>
     </div>
 
@@ -1796,6 +2956,57 @@
       el.classList.add('is-scrolling');
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => el.classList.remove('is-scrolling'), 700);
+    });
+  });
+
+  // ── Modal triggers (zoom layer) ──
+  document.querySelectorAll('[data-modal]').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      // ignore clicks on inner buttons / links — they have their own handlers
+      if (e.target.closest('button, a, [data-modal-close]')) return;
+      const id = trigger.dataset.modal;
+      const overlay = document.getElementById(id);
+      if (overlay) {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    });
+  });
+  document.querySelectorAll('[data-modal-close]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.modal-overlay').classList.remove('open');
+    });
+  });
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(o => o.classList.remove('open'));
+    }
+  });
+
+  // ── Admin toggle inside modals (continuity proof) ──
+  document.querySelectorAll('.admin-toggle-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const modal = opt.closest('.modal-overlay');
+      const mode = opt.dataset.modeSet;
+      modal.dataset.mode = mode;
+      modal.querySelectorAll('.admin-toggle-opt').forEach(x => x.classList.remove('active'));
+      opt.classList.add('active');
+    });
+  });
+
+  // ── Sensitivity option toggles (visual only) ──
+  document.querySelectorAll('.sens-options').forEach(group => {
+    group.querySelectorAll('.sens-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        group.querySelectorAll('.sens-opt').forEach(x => x.classList.remove('active'));
+        opt.classList.add('active');
+      });
     });
   });
 </script>
