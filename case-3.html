@@ -1446,6 +1446,60 @@ td {
 }
 td:first-child { padding-left:20px; }
 
+/* Responsive columns */
+[data-col].col-hidden { display:none; }
+.col-avg-sub.col-hidden { display:none; }
+
+.col-overflow-th {
+  width:36px;
+  padding:0 10px !important;
+  text-align:right;
+  position:relative;
+}
+.col-overflow-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:22px; height:22px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  background:none;
+  cursor:pointer;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1;
+  transition:color 0.12s, border-color 0.12s, background 0.12s;
+}
+.col-overflow-btn:hover { background:var(--pl); }
+.col-overflow-btn.has-hidden { color:var(--p3); border-color:var(--p3); }
+.col-overflow-btn[style*="none"] { display:none !important; }
+.col-menu {
+  position:absolute;
+  right:0; top:calc(100% + 4px);
+  z-index:200;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  box-shadow:0 4px 16px rgba(0,0,0,0.1);
+  padding:6px;
+  min-width:150px;
+  display:none;
+}
+.col-menu.open { display:block; }
+.col-menu-item {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 8px;
+  font-size:12px;
+  color:var(--p5);
+  cursor:pointer;
+  border-radius:var(--radius-sm);
+  user-select:none;
+}
+.col-menu-item:hover { background:var(--pl); }
+.col-menu-item input[type=checkbox] { accent-color:var(--p3); cursor:pointer; }
+
 /* Match cell */
 .cell-match {
   display:flex;
@@ -2159,9 +2213,11 @@ tfoot td::before {
           <tr>
             <th style="width:220px">Match</th>
             <th style="width:180px">Opponent</th>
-            <th style="width:110px">Sales</th>
-            <th style="width:100px">Occ.</th>
+            <th data-col="sales" style="width:110px">Sales</th>
+            <th data-col="occ" style="width:100px">Occ.</th>
             <th>Revenue</th>
+            <th data-col="avg" style="width:110px">Avg. Ticket</th>
+            <th class="col-overflow-th"><button class="col-overflow-btn" id="colOverflowBtn" title="More columns">···</button><div class="col-menu" id="colMenu"></div></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -2174,9 +2230,11 @@ tfoot td::before {
                 <option>Total</option>
               </select>
             </td>
-            <td><div class="footer-stat-val">5,727</div></td>
-            <td><div class="footer-stat-val">85%</div></td>
+            <td data-col="sales"><div class="footer-stat-val">5,727</div></td>
+            <td data-col="occ"><div class="footer-stat-val">85%</div></td>
             <td><div class="footer-stat-val">€148k</div></td>
+            <td data-col="avg"><div class="footer-stat-val">€29.27</div></td>
+            <td class="col-overflow-th"></td>
           </tr>
         </tfoot>
       </table>
@@ -2487,13 +2545,13 @@ matches.forEach((m, i) => {
         <span class="opponent-name">${m.opp}</span>
       </div>
     </td>
-    <td>
+    <td data-col="sales">
       <div class="cell-sales">
         <span>${m.sales.toLocaleString()}</span>
         ${m.cap !== baselineCap ? `<span class="cap-label" title="Adjusted capacity (default ${baselineCap.toLocaleString()})">of ${m.cap.toLocaleString()}</span>` : ''}
       </div>
     </td>
-    <td>
+    <td data-col="occ">
       <div class="cell-occ">
         <div class="occ-pct">${m.occ}%</div>
         <div class="occ-dots">${renderOccDots(m.occ)}</div>
@@ -2501,12 +2559,57 @@ matches.forEach((m, i) => {
     </td>
     <td>
       <div class="revenue-main">€${m.income.toLocaleString()}</div>
-      <div class="revenue-avg">avg. €${m.avg}</div>
-    </td>`;
+      <div class="revenue-avg col-avg-sub">avg. €${m.avg}</div>
+    </td>
+    <td data-col="avg">
+      <div class="revenue-main">€${m.avg}</div>
+    </td>
+    <td class="col-overflow-th"></td>`;
 
   tr.addEventListener('click', () => openPanel(m, tr));
   tbody.appendChild(tr);
 });
+
+// ── Responsive columns ────────────────────────────────────────────────────
+const COLUMNS = [
+  { key:'avg',   label:'Avg. Ticket', minWidth:820 },
+  { key:'occ',   label:'Occ.',        minWidth:710 },
+  { key:'sales', label:'Sales',       minWidth:600 },
+];
+const userOverrides = {};
+let lastContentWidth = 0;
+
+function updateColumns(w) {
+  lastContentWidth = w;
+  COLUMNS.forEach(col => {
+    const show = col.key in userOverrides ? userOverrides[col.key] : w >= col.minWidth;
+    document.querySelectorAll(`[data-col="${col.key}"]`).forEach(el => el.classList.toggle('col-hidden', !show));
+    if (col.key === 'avg') {
+      document.querySelectorAll('.col-avg-sub').forEach(el => el.classList.toggle('col-hidden', show));
+    }
+  });
+  const btn = document.getElementById('colOverflowBtn');
+  const hiddenCols = COLUMNS.filter(col => col.key in userOverrides ? !userOverrides[col.key] : w < col.minWidth);
+  btn.style.display = hiddenCols.length ? '' : 'none';
+  btn.classList.toggle('has-hidden', hiddenCols.length > 0);
+  const menu = document.getElementById('colMenu');
+  menu.innerHTML = COLUMNS.map(col => {
+    const checked = col.key in userOverrides ? userOverrides[col.key] : w >= col.minWidth;
+    return `<label class="col-menu-item"><input type="checkbox" data-toggle="${col.key}"${checked?' checked':''}> ${col.label}</label>`;
+  }).join('');
+  menu.querySelectorAll('input[data-toggle]').forEach(inp => {
+    inp.addEventListener('change', () => { userOverrides[inp.dataset.toggle] = inp.checked; updateColumns(lastContentWidth); });
+  });
+}
+
+new ResizeObserver(entries => updateColumns(entries[0].contentRect.width))
+  .observe(document.querySelector('.content-col'));
+
+document.getElementById('colOverflowBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('colMenu').classList.toggle('open');
+});
+document.addEventListener('click', () => document.getElementById('colMenu').classList.remove('open'));
 
 // Render products
 const pList = document.getElementById('productsList');
