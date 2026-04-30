@@ -2629,6 +2629,7 @@ document.body.appendChild(colMenu);
 
 document.getElementById('colOverflowBtn').addEventListener('click', e => {
   e.stopPropagation();
+  e.currentTarget.blur();
   const rect = e.currentTarget.getBoundingClientRect();
   colMenu.style.top  = (rect.bottom + 4) + 'px';
   colMenu.style.right = (window.innerWidth - rect.right) + 'px';
