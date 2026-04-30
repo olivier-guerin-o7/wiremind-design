@@ -1450,36 +1450,7 @@ td:first-child { padding-left:20px; }
 [data-col].col-hidden { display:none; }
 .col-avg-sub.col-hidden { display:none; }
 
-.col-overflow-th {
-  width:36px;
-  padding:0 10px !important;
-  text-align:right;
-  position:sticky;
-  right:0;
-  z-index:4;
-}
-thead .col-overflow-th { background:#fff; }
-tfoot .col-overflow-th { background:#f6f3fd; }
-tbody .col-overflow-th { background:#fff; }
-tbody tr:hover .col-overflow-th { background:#f8f7ff; }
-tbody tr.active .col-overflow-th { background:rgba(108,77,220,0.03); }
-.col-overflow-btn {
-  -webkit-appearance:none;
-  appearance:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:28px; height:28px;
-  border:1px solid var(--p3);
-  border-radius:var(--radius-md);
-  background:transparent;
-  cursor:pointer;
-  color:var(--p3);
-  font-size:14px;
-  line-height:1;
-  transition:background 0.12s;
-}
-.col-overflow-btn:hover { background:var(--pl); }
+.col-overflow-btn { -webkit-appearance:none; appearance:none; font-size:14px; }
 .col-overflow-btn.has-hidden { background:var(--pl); }
 [data-col="avg"] { text-align:left; }
 .col-menu {
@@ -2209,8 +2180,10 @@ tfoot td::before {
           <i data-lucide="plus"></i>
           Add event
         </button>
+        <button class="btn btn-ghost btn-icon col-overflow-btn" id="colOverflowBtn" title="Column settings">···</button>
       </div>
     </div>
+<div class="col-menu" id="colMenu"></div>
 
     <!-- CALENDAR PANE -->
     <div class="calendar-pane" id="calendarPane">
@@ -2227,7 +2200,6 @@ tfoot td::before {
             <th data-col="avg" style="width:110px">Avg. Ticket</th>
             <th data-col="optRev" style="width:110px">Options Rev.</th>
             <th data-col="live" style="width:80px">Live</th>
-            <th class="col-overflow-th"><button class="col-overflow-btn" id="colOverflowBtn" title="Column settings">···</button><div class="col-menu" id="colMenu"></div></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -2246,7 +2218,6 @@ tfoot td::before {
             <td data-col="avg"><div class="footer-stat-val">€29.27</div></td>
             <td data-col="optRev"><div class="footer-stat-val">€0</div></td>
             <td data-col="live"><div class="footer-stat-val">—</div></td>
-            <td class="col-overflow-th"></td>
           </tr>
         </tfoot>
       </table>
@@ -2582,7 +2553,7 @@ matches.forEach((m, i) => {
     <td data-col="live">
       <div class="revenue-main">${m.live > 0 ? m.live.toLocaleString() : '—'}</div>
     </td>
-    <td class="col-overflow-th"></td>`;
+    `;
 
   tr.addEventListener('click', () => openPanel(m, tr));
   tbody.appendChild(tr);
