@@ -35,6 +35,7 @@
 
       /* ── Brand spike — EVENTORI's primary, CAYZN's accent ── */
       --accent: #6c4ddc;
+      --accent-bright: #b8a6f7;     /* lighter purple — selection signal */
       --accent-light: #ede9fb;
 
       /* ── Semantic ── */
@@ -230,7 +231,7 @@
       left: 8px;
       top: 6px; bottom: 6px;
       width: 3px;
-      background: var(--accent);
+      background: var(--accent-bright);
       border-radius: 2px;
     }
     .nav-l2.active [data-lucide] { opacity: 1; }
@@ -346,38 +347,214 @@
       padding: 40px 48px 96px;
     }
 
-    /* ── Section placeholder (shell-only stage) ── */
-    .shell-placeholder {
-      padding: 80px 32px;
-      text-align: center;
-      border: 1px dashed var(--border);
-      border-radius: var(--radius);
-      color: var(--text-grey);
+    /* ============================================================
+       SECTIONS — common
+       ============================================================ */
+    .section {
       background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      margin-bottom: 24px;
+      scroll-margin-top: 56px;
     }
-    .shell-placeholder h2 {
-      font-size: var(--fs-xl);
-      font-weight: 600;
-      color: var(--text-secondary);
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
       margin-bottom: 8px;
     }
-    .shell-placeholder p {
-      font-size: var(--fs-md);
-      color: var(--text-grey);
-      margin-bottom: 16px;
-    }
-    .shell-placeholder .anchors {
-      display: inline-flex;
-      gap: 18px;
-      font-size: var(--fs-sm);
-      color: var(--text-muted);
-      letter-spacing: 0.4px;
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
       text-transform: uppercase;
+      color: var(--text-grey);
     }
-    .shell-placeholder .anchors span {
-      padding: 4px 10px;
+    .section-eyebrow-dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      margin: 0 6px 2px;
+      vertical-align: middle;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: var(--ink);
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 24px;
+      max-width: 640px;
+    }
+    .section-footer {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding-top: 18px;
+      margin-top: 24px;
+      border-top: 1px solid var(--border-light);
+      font-size: 12px;
+    }
+    .section-footer-aside {
+      color: var(--text-muted);
+      font-size: 11.5px;
+    }
+
+    /* ── Methodology / footnote link (dotted underline) ── */
+    .footnote-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary-strong);
+      font-weight: 500;
+      cursor: pointer;
+      border-bottom: 1px dotted currentColor;
+      padding-bottom: 1px;
+      transition: color 0.15s;
+    }
+    .footnote-link:hover { color: var(--primary); }
+    .footnote-link [data-lucide] { width: 13px; height: 13px; }
+
+    /* ============================================================
+       OUTCOMES — value attribution lede (Earned + Trajectory)
+       ============================================================ */
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .outcome-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px 20px;
+      background: var(--bg-card);
+      transition: border-color 0.15s;
+    }
+    .outcome-card.earned {
+      border-color: var(--primary-light);
+      background: linear-gradient(180deg, #f4fbff 0%, #ffffff 60%);
+    }
+    .outcome-card.trajectory {
+      border-color: var(--border);
+      background:
+        linear-gradient(180deg, #fafbfc 0%, #ffffff 60%);
+    }
+    .outcome-card.trajectory::before {
+      /* dotted left edge marker — visual signal for "projection" */
+      content: '';
+      position: absolute;
+      top: 22px; bottom: 20px;
+      left: -1px;
+      width: 2px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--text-muted) 0 4px,
+        transparent 4px 8px
+      );
+      opacity: 0.5;
+    }
+
+    .outcome-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .outcome-eyebrow [data-lucide] {
+      width: 12px;
+      height: 12px;
+      color: var(--text-muted);
+    }
+    .outcome-eyebrow .eyebrow-period {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .outcome-number {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1;
+      color: var(--primary-strong);
+      font-feature-settings: 'tnum' 1;
+    }
+    .outcome-card.trajectory .outcome-number {
+      color: var(--primary-ink);
+      opacity: 0.78;
+    }
+    .outcome-number-suffix {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-grey);
+      margin-left: 6px;
+      letter-spacing: 0;
+    }
+
+    .outcome-descriptor {
+      margin-top: 6px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .outcome-descriptor .descriptor-conditional {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .outcome-meta {
+      display: flex;
+      gap: 22px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-light);
+    }
+    .outcome-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 11.5px;
+    }
+    .outcome-meta-item .label {
+      color: var(--text-muted);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      font-weight: 500;
+    }
+    .outcome-meta-item .value {
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .outcome-meta-item .value-trajectory {
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .outcome-band {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
       border-radius: 4px;
       background: var(--bg-tint);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 500;
+      margin-left: 6px;
     }
   </style>
 </head>
@@ -489,18 +666,93 @@
     <div class="page scroll-hide">
       <div class="page-inner">
 
-        <!-- Shell-only placeholder. Sections will hang from here. -->
-        <div class="shell-placeholder">
-          <h2>Shell ready · sections to follow</h2>
-          <p>The Pricing page (active L1) will be composed of five anchored sections, navigable from the sidebar.</p>
-          <div class="anchors">
-            <span>Outcomes</span>
-            <span>Usage</span>
-            <span>Plan</span>
-            <span>Asks</span>
-            <span>Documents</span>
+        <!-- ============================================================
+             SECTION 1 — OUTCOMES
+             Value attribution lede: what CAYZN earned for Transavia.
+             Two layers: Earned (YTD, backward-looking, defensible)
+             and Trajectory (forward-looking, methodology disclosed).
+             ============================================================ -->
+        <section class="section" id="outcomes">
+          <header class="section-header">
+            <span class="section-eyebrow">Outcomes<span class="section-eyebrow-dot"></span>Year 1, since 1 Sep 2025</span>
+          </header>
+          <h2 class="section-title">What CAYZN added to Transavia's revenue</h2>
+          <p class="section-desc">
+            Attributed revenue lift since the contract started. Methodology is disclosed inline; baseline assumptions can be adjusted with the sensitivity controls below. Trajectory is a current-pace projection adjusted for last year's seasonality.
+          </p>
+
+          <div class="outcomes-grid">
+
+            <!-- Earned · YTD — backward-looking, defensible -->
+            <article class="outcome-card earned">
+              <div class="outcome-eyebrow">
+                <i data-lucide="check-circle-2"></i>
+                Earned
+                <span class="eyebrow-period">· YTD</span>
+              </div>
+              <div class="outcome-number">
+                €18.3M<span class="outcome-number-suffix">attributed lift</span>
+              </div>
+              <div class="outcome-descriptor">
+                Between <strong>1 Sep 2025</strong> and today (15 Apr 2026 · 7 months 14 days). Anchored in actuals — every euro is backed by paired transaction data.
+              </div>
+              <div class="outcome-meta">
+                <div class="outcome-meta-item">
+                  <span class="label">CAYZN cost YTD</span>
+                  <span class="value">€42K</span>
+                </div>
+                <div class="outcome-meta-item">
+                  <span class="label">Net ratio</span>
+                  <span class="value">≈ 437× spend</span>
+                </div>
+                <div class="outcome-meta-item">
+                  <span class="label">Optimisation runs</span>
+                  <span class="value">14.2K</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Trajectory · year-end — forward-looking, cautious -->
+            <article class="outcome-card trajectory">
+              <div class="outcome-eyebrow">
+                <i data-lucide="trending-up"></i>
+                Trajectory
+                <span class="eyebrow-period">· to 31 Aug 2026</span>
+              </div>
+              <div class="outcome-number">
+                €34M<span class="outcome-band">range €30–38M</span>
+              </div>
+              <div class="outcome-descriptor">
+                <span class="descriptor-conditional">Projected at current pace, adjusted for the Jun–Aug traffic uplift observed last year (+15%).</span> Confidence: medium — see methodology.
+              </div>
+              <div class="outcome-meta">
+                <div class="outcome-meta-item">
+                  <span class="label">CAYZN cost full year</span>
+                  <span class="value value-trajectory">€68K planned</span>
+                </div>
+                <div class="outcome-meta-item">
+                  <span class="label">Net ratio at year-end</span>
+                  <span class="value value-trajectory">≈ 500× spend</span>
+                </div>
+                <div class="outcome-meta-item">
+                  <span class="label">Anchored on</span>
+                  <span class="value value-trajectory">Y-1 same period</span>
+                </div>
+              </div>
+            </article>
+
           </div>
-        </div>
+
+          <footer class="section-footer">
+            <a class="footnote-link" href="#methodology-outcomes">
+              <i data-lucide="info"></i>
+              How we calculate this
+            </a>
+            <span class="section-footer-aside">Sensitivity controls below let you re-compute with a different baseline assumption.</span>
+          </footer>
+        </section>
+
+        <!-- Sections 2–5 (Usage · Plan · Asks · Documents) to follow. -->
 
       </div>
     </div>
