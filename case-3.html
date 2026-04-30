@@ -1472,7 +1472,7 @@ td:first-child { padding-left:20px; }
 }
 .col-overflow-btn:hover { background:var(--pl); }
 .col-overflow-btn.has-hidden { color:var(--p3); border-color:var(--p3); }
-.col-overflow-btn[style*="none"] { display:none !important; }
+[data-col="avg"] { text-align:left; }
 .col-menu {
   position:absolute;
   right:0; top:calc(100% + 4px);
@@ -2590,7 +2590,6 @@ function updateColumns(w) {
   });
   const btn = document.getElementById('colOverflowBtn');
   const hiddenCols = COLUMNS.filter(col => col.key in userOverrides ? !userOverrides[col.key] : w < col.minWidth);
-  btn.style.display = hiddenCols.length ? '' : 'none';
   btn.classList.toggle('has-hidden', hiddenCols.length > 0);
   const menu = document.getElementById('colMenu');
   menu.innerHTML = COLUMNS.map(col => {
