@@ -479,7 +479,7 @@ body {
   right:0;
   bottom:0;
   width:calc(100% - 380px);
-  max-width:none;
+  max-width:1100px;
   background:var(--pl);
   display:flex;
   flex-direction:column;
@@ -3822,6 +3822,16 @@ if (window.lucide) lucide.createIcons({ attrs: { 'stroke-width': 1.6 } });
     handle.classList.remove('dragging');
     document.body.style.cursor     = '';
     document.body.style.userSelect = '';
+  });
+
+  window.addEventListener('resize', () => {
+    if (!panel.style.width) return; // no user override — CSS clamp handles it
+    const containerW = panel.parentElement.getBoundingClientRect().width;
+    const sidebarW   = document.querySelector('.sidebar').getBoundingClientRect().width;
+    const newMax = containerW - sidebarW - MIN_CONTENT;
+    const current = panel.getBoundingClientRect().width;
+    const clamped = Math.min(newMax, Math.max(MIN, current));
+    panel.style.width = clamped + 'px';
   });
 })();
 </script>
