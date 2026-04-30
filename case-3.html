@@ -1454,8 +1454,15 @@ td:first-child { padding-left:20px; }
   width:36px;
   padding:0 10px !important;
   text-align:right;
-  position:relative;
+  position:sticky;
+  right:0;
+  z-index:4;
 }
+thead .col-overflow-th { background:#fff; }
+tfoot .col-overflow-th { background:#f6f3fd; }
+tbody .col-overflow-th { background:#fff; }
+tbody tr:hover .col-overflow-th { background:#f8f7ff; }
+tbody tr.active .col-overflow-th { background:rgba(108,77,220,0.03); }
 .col-overflow-btn {
   display:inline-flex;
   align-items:center;
@@ -2215,9 +2222,11 @@ tfoot td::before {
             <th style="width:180px">Opponent</th>
             <th data-col="sales" style="width:110px">Sales</th>
             <th data-col="occ" style="width:100px">Occ.</th>
+            <th style="width:130px">Revenue</th>
             <th data-col="avg" style="width:110px">Avg. Ticket</th>
-            <th>Revenue</th>
-            <th class="col-overflow-th"><button class="col-overflow-btn" id="colOverflowBtn" title="More columns">···</button><div class="col-menu" id="colMenu"></div></th>
+            <th data-col="optRev" style="width:110px">Options Rev.</th>
+            <th data-col="live" style="width:80px">Live</th>
+            <th class="col-overflow-th"><button class="col-overflow-btn" id="colOverflowBtn" title="Column settings">···</button><div class="col-menu" id="colMenu"></div></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -2232,8 +2241,10 @@ tfoot td::before {
             </td>
             <td data-col="sales"><div class="footer-stat-val">5,727</div></td>
             <td data-col="occ"><div class="footer-stat-val">85%</div></td>
-            <td data-col="avg"><div class="footer-stat-val">€29.27</div></td>
             <td><div class="footer-stat-val">€148k</div></td>
+            <td data-col="avg"><div class="footer-stat-val">€29.27</div></td>
+            <td data-col="optRev"><div class="footer-stat-val">€0</div></td>
+            <td data-col="live"><div class="footer-stat-val">—</div></td>
             <td class="col-overflow-th"></td>
           </tr>
         </tfoot>
@@ -2445,23 +2456,23 @@ tfoot td::before {
 <script>
 // ── Data ──────────────────────────────────────────────────────────────────
 const matches = [
-  { j:1,  date:'8/9/25',  time:'8:00 PM', opp:'Nancy',         short:'NCY', sales:5976, cap:6694, occ:89, income:137173, avg:25.22, upcoming:false },
-  { j:3,  date:'8/22/25', time:'8:00 PM', opp:'Laval',         short:'LAV', sales:5528, cap:6694, occ:83, income:129692, avg:26.50, upcoming:false },
-  { j:4,  date:'8/29/25', time:'8:00 PM', opp:'Boulogne',      short:'BOU', sales:5100, cap:6694, occ:76, income:122871, avg:27.36, upcoming:false },
-  { j:6,  date:'9/19/25', time:'8:00 PM', opp:'Clermont Foot', short:'CLF', sales:5454, cap:6694, occ:81, income:137484, avg:28.89, upcoming:false },
-  { j:8,  date:'9/26/25', time:'8:00 PM', opp:'PAU',           short:'PAU', sales:5052, cap:6694, occ:75, income:128992, avg:29.23, upcoming:false },
-  { j:10, date:'10/17/25',time:'8:00 PM', opp:'Reims',         short:'REI', sales:5804, cap:6694, occ:87, income:159461, avg:31.89, upcoming:false },
-  { j:12, date:'10/28/25',time:'8:30 PM', opp:'Annecy',        short:'ANN', sales:5912, cap:6694, occ:88, income:144703, avg:28.74, upcoming:false },
-  { j:15, date:'11/21/25',time:'8:00 PM', opp:'Dunkerque',     short:'DKE', sales:5231, cap:6694, occ:78, income:135156, avg:31.45, upcoming:false },
-  { j:17, date:'12/12/25',time:'8:00 PM', opp:'Guingamp',      short:'GNG', sales:5483, cap:6694, occ:82, income:142873, avg:30.48, upcoming:false },
-  { j:19, date:'1/16/26', time:'8:00 PM', opp:'Le Mans',       short:'LMA', sales:5502, cap:6694, occ:82, income:135576, avg:29.27, upcoming:false },
-  { j:21, date:'1/30/26', time:'8:00 PM', opp:'RED Star FC 93',short:'RED', sales:5214, cap:6694, occ:78, income:138459, avg:30.86, upcoming:false },
-  { j:24, date:'2/20/26', time:'8:00 PM', opp:'Montpellier',   short:'MTP', sales:6514, cap:6809, occ:96, income:178128, avg:31.18, upcoming:false },
-  { j:26, date:'3/6/26',  time:'8:00 PM', opp:'Grenoble',      short:'GRE', sales:5868, cap:6694, occ:88, income:145990, avg:28.67, upcoming:false },
-  { j:28, date:'3/20/26', time:'8:00 PM', opp:'Bastia',        short:'BAS', sales:6243, cap:6691, occ:93, income:152190, avg:28.28, upcoming:false },
-  { j:30, date:'4/13/26', time:'8:45 PM', opp:'ESTAC',         short:'EST', sales:6309, cap:6865, occ:92, income:175586, avg:32.14, upcoming:false },
-  { j:31, date:'4/17/26', time:'8:00 PM', opp:'Amiens',        short:'AMI', sales:6403, cap:6865, occ:93, income:176532, avg:32.62, upcoming:false },
-  { j:33, date:'5/2/26',  time:'8:00 PM', opp:'ASSE',          short:'ASS', sales:5767, cap:6694, occ:86, income:176477, avg:34.29, upcoming:true  },
+  { j:1,  date:'8/9/25',  time:'8:00 PM', opp:'Nancy',         short:'NCY', sales:5976, cap:6694, occ:89, income:137173, avg:25.22, optRev:0, live:0, upcoming:false },
+  { j:3,  date:'8/22/25', time:'8:00 PM', opp:'Laval',         short:'LAV', sales:5528, cap:6694, occ:83, income:129692, avg:26.50, optRev:0, live:0, upcoming:false },
+  { j:4,  date:'8/29/25', time:'8:00 PM', opp:'Boulogne',      short:'BOU', sales:5100, cap:6694, occ:76, income:122871, avg:27.36, optRev:0, live:0, upcoming:false },
+  { j:6,  date:'9/19/25', time:'8:00 PM', opp:'Clermont Foot', short:'CLF', sales:5454, cap:6694, occ:81, income:137484, avg:28.89, optRev:0, live:0, upcoming:false },
+  { j:8,  date:'9/26/25', time:'8:00 PM', opp:'PAU',           short:'PAU', sales:5052, cap:6694, occ:75, income:128992, avg:29.23, optRev:0, live:0, upcoming:false },
+  { j:10, date:'10/17/25',time:'8:00 PM', opp:'Reims',         short:'REI', sales:5804, cap:6694, occ:87, income:159461, avg:31.89, optRev:0, live:0, upcoming:false },
+  { j:12, date:'10/28/25',time:'8:30 PM', opp:'Annecy',        short:'ANN', sales:5912, cap:6694, occ:88, income:144703, avg:28.74, optRev:0, live:0, upcoming:false },
+  { j:15, date:'11/21/25',time:'8:00 PM', opp:'Dunkerque',     short:'DKE', sales:5231, cap:6694, occ:78, income:135156, avg:31.45, optRev:0, live:0, upcoming:false },
+  { j:17, date:'12/12/25',time:'8:00 PM', opp:'Guingamp',      short:'GNG', sales:5483, cap:6694, occ:82, income:142873, avg:30.48, optRev:0, live:0, upcoming:false },
+  { j:19, date:'1/16/26', time:'8:00 PM', opp:'Le Mans',       short:'LMA', sales:5502, cap:6694, occ:82, income:135576, avg:29.27, optRev:0, live:0, upcoming:false },
+  { j:21, date:'1/30/26', time:'8:00 PM', opp:'RED Star FC 93',short:'RED', sales:5214, cap:6694, occ:78, income:138459, avg:30.86, optRev:0, live:0, upcoming:false },
+  { j:24, date:'2/20/26', time:'8:00 PM', opp:'Montpellier',   short:'MTP', sales:6514, cap:6809, occ:96, income:178128, avg:31.18, optRev:0, live:0, upcoming:false },
+  { j:26, date:'3/6/26',  time:'8:00 PM', opp:'Grenoble',      short:'GRE', sales:5868, cap:6694, occ:88, income:145990, avg:28.67, optRev:0, live:0, upcoming:false },
+  { j:28, date:'3/20/26', time:'8:00 PM', opp:'Bastia',        short:'BAS', sales:6243, cap:6691, occ:93, income:152190, avg:28.28, optRev:0, live:0, upcoming:false },
+  { j:30, date:'4/13/26', time:'8:45 PM', opp:'ESTAC',         short:'EST', sales:6309, cap:6865, occ:92, income:175586, avg:32.14, optRev:0, live:0, upcoming:false },
+  { j:31, date:'4/17/26', time:'8:00 PM', opp:'Amiens',        short:'AMI', sales:6403, cap:6865, occ:93, income:176532, avg:32.62, optRev:0, live:0, upcoming:false },
+  { j:33, date:'5/2/26',  time:'8:00 PM', opp:'ASSE',          short:'ASS', sales:5767, cap:6694, occ:86, income:176477, avg:34.29, optRev:0, live:47, upcoming:true  },
 ];
 
 const products = [
@@ -2557,12 +2568,18 @@ matches.forEach((m, i) => {
         <div class="occ-dots">${renderOccDots(m.occ)}</div>
       </div>
     </td>
-    <td data-col="avg">
-      <div class="revenue-main">€${m.avg}</div>
-    </td>
     <td>
       <div class="revenue-main">€${m.income.toLocaleString()}</div>
       <div class="revenue-avg col-avg-sub">avg. €${m.avg}</div>
+    </td>
+    <td data-col="avg">
+      <div class="revenue-main">€${m.avg}</div>
+    </td>
+    <td data-col="optRev">
+      <div class="revenue-main">${m.optRev > 0 ? '€'+m.optRev.toLocaleString() : '€0'}</div>
+    </td>
+    <td data-col="live">
+      <div class="revenue-main">${m.live > 0 ? m.live.toLocaleString() : '—'}</div>
     </td>
     <td class="col-overflow-th"></td>`;
 
@@ -2572,9 +2589,11 @@ matches.forEach((m, i) => {
 
 // ── Responsive columns ────────────────────────────────────────────────────
 const COLUMNS = [
-  { key:'avg',   label:'Avg. Ticket', minWidth:820 },
-  { key:'occ',   label:'Occ.',        minWidth:710 },
-  { key:'sales', label:'Sales',       minWidth:600 },
+  { key:'live',   label:'Live',         minWidth:1100 },
+  { key:'optRev', label:'Options Rev.', minWidth:950  },
+  { key:'avg',    label:'Avg. Ticket',  minWidth:820  },
+  { key:'occ',    label:'Occ.',         minWidth:710  },
+  { key:'sales',  label:'Sales',        minWidth:600  },
 ];
 const userOverrides = {};
 let lastContentWidth = 0;
