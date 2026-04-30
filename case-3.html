@@ -1479,8 +1479,8 @@ tbody tr.active .col-overflow-th { background:rgba(108,77,220,0.03); }
   line-height:1;
   transition:background 0.12s;
 }
-.col-overflow-btn:hover { background:var(--pl); }
-.col-overflow-btn.has-hidden { background:var(--pl); }
+.col-overflow-btn:hover,
+.col-overflow-btn:focus { background:transparent !important; outline:none; }
 [data-col="avg"] { text-align:left; }
 .col-menu {
   position:fixed;
