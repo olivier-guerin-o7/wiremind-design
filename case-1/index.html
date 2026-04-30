@@ -17,8 +17,8 @@
 
     :root {
       /* ── Shared Wiremind primitive blue scale ── */
-      --b6: #061625;        /* near-black, cooler */
-      --b5: #0d2236;        /* modern navy — sidebar bg */
+      --b6: #02263a;        /* near-black, cyan-tinted */
+      --b5: #053f5e;        /* sidebar bg — dark cyan-blue (CAYZN family of #009DDC) */
       --b4: #0081a8;        /* workhorse — body emphasis */
       --b3: #009DDC;        /* primary chrome — interactive (cross-product shared cyan) */
       --b2: #6fd2ff;        /* light highlight */
@@ -146,7 +146,9 @@
     .sidebar {
       width: 200px;
       flex-shrink: 0;
-      background: var(--primary-deep);
+      background:
+        radial-gradient(ellipse at bottom right, rgba(108, 77, 220, 0.22) 0%, transparent 62%),
+        var(--primary-deep);
       color: rgba(255, 255, 255, 0.85);
       display: flex;
       flex-direction: column;
@@ -556,6 +558,545 @@
       font-weight: 500;
       margin-left: 6px;
     }
+
+    /* ============================================================
+       USAGE — resource ledger
+       ============================================================ */
+    .ledger {
+      border-top: 1px solid var(--border-light);
+    }
+    .ledger-row {
+      display: grid;
+      grid-template-columns: 200px 1fr 220px 110px;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 4px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .ledger-row:hover { background: var(--bg-tint); }
+    .ledger-row:last-child { border-bottom: none; }
+
+    .ledger-resource {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .ledger-resource-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-tint);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary-strong);
+      flex-shrink: 0;
+    }
+    .ledger-resource-icon [data-lucide] { width: 14px; height: 14px; }
+    .ledger-resource-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .ledger-resource-sub {
+      font-size: 11px;
+      color: var(--text-grey);
+      margin-top: 2px;
+    }
+
+    .ledger-bar-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+    .ledger-bar-figures {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      font-feature-settings: 'tnum' 1;
+    }
+    .ledger-bar-figures .used {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .ledger-bar-figures .pct {
+      margin-left: 8px;
+      color: var(--text-grey);
+      font-weight: 500;
+    }
+    .ledger-bar {
+      position: relative;
+      height: 6px;
+      background: var(--bg-tint);
+      border-radius: 3px;
+      overflow: visible;
+    }
+    .ledger-bar-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      border-radius: 3px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    .ledger-bar-fill.watch { background: var(--warning-strong); }
+    .ledger-bar-fill.danger { background: var(--danger-strong); }
+    .ledger-bar-projected {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--primary) 0 3px,
+        transparent 3px 6px
+      );
+      opacity: 0.5;
+    }
+    .ledger-bar-projected.watch {
+      background: repeating-linear-gradient(
+        90deg,
+        var(--warning-strong) 0 3px,
+        transparent 3px 6px
+      );
+    }
+    .ledger-bar-projected.danger {
+      background: repeating-linear-gradient(
+        90deg,
+        var(--danger-strong) 0 3px,
+        transparent 3px 6px
+      );
+    }
+    .ledger-bar-cap {
+      position: absolute;
+      top: -3px; bottom: -3px;
+      width: 1px;
+      background: var(--text-secondary);
+      opacity: 0.5;
+    }
+    .ledger-bar-cap::after {
+      content: '100%';
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .ledger-trajectory {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+    .ledger-trajectory .trajectory-label {
+      color: var(--text-muted);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .ledger-trajectory strong { color: var(--text); font-weight: 600; }
+
+    .ledger-status {
+      justify-self: end;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .status-pill.ok { background: var(--success-bg); color: var(--success); }
+    .status-pill.watch { background: var(--warning-bg); color: var(--warning); }
+    .status-pill.danger { background: var(--danger-bg); color: var(--danger); }
+    .status-pill::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ── Continuity demo (dual-render proof) ── */
+    .continuity-demo {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px dashed var(--border);
+    }
+    .continuity-demo-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .continuity-demo-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .continuity-demo-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .continuity-demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .continuity-pane {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      background: var(--bg-card);
+    }
+    .continuity-pane-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .continuity-pane-tag.client { background: var(--primary-bg); color: var(--primary-strong); }
+    .continuity-pane-tag.admin  { background: var(--accent-light); color: var(--accent); }
+
+    .continuity-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 8px 0;
+    }
+    .continuity-row .ledger-resource-name { font-size: 12px; }
+    .continuity-row .ledger-bar { height: 5px; }
+    .continuity-row .ledger-bar-figures { font-size: 11px; }
+
+    .continuity-admin-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-light);
+    }
+    .ctrl-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: border-color 0.12s, color 0.12s;
+    }
+    .ctrl-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .ctrl-chip [data-lucide] { width: 12px; height: 12px; }
+
+    .continuity-demo-caption {
+      margin-top: 14px;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ============================================================
+       PLAN — current tier, modules summary, history timeline
+       ============================================================ */
+    .plan-card {
+      border: 1px solid var(--primary-light);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      background: linear-gradient(180deg, #f4fbff 0%, #ffffff 70%);
+      margin-bottom: 24px;
+    }
+    .plan-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .plan-tier-block {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .plan-tier-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary-strong);
+      letter-spacing: -0.3px;
+    }
+    .plan-tier-since {
+      font-size: 12px;
+      color: var(--text-grey);
+    }
+    .plan-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      transition: border-color 0.12s, color 0.12s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .btn-secondary [data-lucide] { width: 13px; height: 13px; }
+
+    .plan-summary {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .plan-modules {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 0;
+      margin: 0;
+    }
+    .plan-modules li {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .plan-modules li::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 8px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+    .plan-modules li strong { color: var(--ink); font-weight: 600; }
+
+    .plan-history-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-grey);
+      margin-bottom: 12px;
+    }
+    .plan-history-timeline {
+      display: flex;
+      gap: 0;
+      align-items: stretch;
+      position: relative;
+    }
+    .history-step {
+      flex: 1;
+      padding: 10px 12px 10px 18px;
+      position: relative;
+      border-left: 1px dashed var(--border);
+    }
+    .history-step:first-child { border-left: none; padding-left: 0; }
+    .history-step::before {
+      content: '';
+      position: absolute;
+      left: -5px; top: 14px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+    }
+    .history-step:first-child::before { left: -1px; }
+    .history-step.current::before {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .history-step.past::before { background: var(--text-muted); border-color: var(--text-muted); }
+    .history-date {
+      display: block;
+      font-size: 11px;
+      color: var(--text-grey);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .history-action {
+      font-size: 12.5px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .history-step.current .history-action {
+      color: var(--primary-strong);
+      font-weight: 600;
+    }
+    .history-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      background: var(--primary);
+      color: white;
+    }
+
+    /* ============================================================
+       ASKS — request flows
+       ============================================================ */
+    .asks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .ask-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+      text-align: left;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    .ask-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 157, 220, 0.08);
+    }
+    .ask-card.priority {
+      border-color: var(--warning-strong);
+      background: linear-gradient(180deg, #fffaf2 0%, #ffffff 70%);
+    }
+    .ask-card.priority:hover {
+      box-shadow: 0 0 0 3px rgba(245, 162, 37, 0.12);
+    }
+    .ask-card-icon {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-bg);
+      color: var(--primary-strong);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 4px;
+    }
+    .ask-card.priority .ask-card-icon {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+    .ask-card-icon [data-lucide] { width: 16px; height: 16px; }
+
+    .ask-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .ask-card-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .ask-card-sla {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-light);
+      width: 100%;
+    }
+    .ask-card.priority .ask-card-sla { color: var(--warning); }
+
+    /* ============================================================
+       DOCUMENTS — downloads, share, subscribe
+       ============================================================ */
+    .documents-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      transition: border-color 0.15s, background 0.15s;
+      cursor: pointer;
+    }
+    .doc-item:hover {
+      border-color: var(--primary);
+      background: var(--primary-bg);
+    }
+    .doc-item-icon {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-tint);
+      color: var(--primary-strong);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-item-icon [data-lucide] { width: 15px; height: 15px; }
+    .doc-item-body { flex: 1; min-width: 0; }
+    .doc-item-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-item-meta {
+      font-size: 11px;
+      color: var(--text-grey);
+    }
+    .doc-item-action {
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+    .doc-item-action [data-lucide] { width: 14px; height: 14px; }
+    .doc-item:hover .doc-item-action { color: var(--primary); }
   </style>
 </head>
 <body>
@@ -752,7 +1293,467 @@
           </footer>
         </section>
 
-        <!-- Sections 2–5 (Usage · Plan · Asks · Documents) to follow. -->
+        <!-- ============================================================
+             SECTION 2 — USAGE
+             Resource ledger: 6 contracted resources, sorted by time-to-cap.
+             Each row: name + bar (used + projected) + trajectory + status.
+             Closes with a continuity demo (dual-render proof).
+             ============================================================ -->
+        <section class="section" id="usage">
+          <header class="section-header">
+            <span class="section-eyebrow">Usage<span class="section-eyebrow-dot"></span>Premium · 6 resources tracked</span>
+          </header>
+          <h2 class="section-title">Resources you consume</h2>
+          <p class="section-desc">
+            Sorted by time-to-cap. Each row shows used and contracted today, plus a current-pace trajectory adjusted for last-year same-period seasonality. Methodology disclosed inline.
+          </p>
+
+          <div class="ledger">
+
+            <!-- 1. Ancillary Tokens — approaching cap (cap reached early Jul) -->
+            <div class="ledger-row">
+              <div class="ledger-resource">
+                <div class="ledger-resource-icon"><i data-lucide="package-plus"></i></div>
+                <div>
+                  <div class="ledger-resource-name">Ancillary Tokens</div>
+                  <div class="ledger-resource-sub">Premium · 2.0M / contract year</div>
+                </div>
+              </div>
+              <div class="ledger-bar-block">
+                <div class="ledger-bar-figures">
+                  <span><span class="used">1.7M</span> used / 2.0M contracted<span class="pct">85%</span></span>
+                </div>
+                <div class="ledger-bar">
+                  <div class="ledger-bar-fill danger" style="width: 80%"></div>
+                  <div class="ledger-bar-projected danger" style="left: 80%; width: 20%"></div>
+                  <div class="ledger-bar-cap" style="left: 94%"></div>
+                </div>
+              </div>
+              <div class="ledger-trajectory">
+                <span class="trajectory-label">Trajectory</span>
+                <strong>~3.0M by 31 Aug</strong> · cap reached <strong>~5 Jul</strong>
+              </div>
+              <div class="ledger-status">
+                <span class="status-pill danger">Approaching</span>
+              </div>
+            </div>
+
+            <!-- 2. GenAI Tokens — approaching cap (cap reached ~12 Aug) -->
+            <div class="ledger-row">
+              <div class="ledger-resource">
+                <div class="ledger-resource-icon"><i data-lucide="sparkles"></i></div>
+                <div>
+                  <div class="ledger-resource-name">GenAI Tokens</div>
+                  <div class="ledger-resource-sub">Premium · 1.5B / year · 80K / min burst</div>
+                </div>
+              </div>
+              <div class="ledger-bar-block">
+                <div class="ledger-bar-figures">
+                  <span><span class="used">1.38B</span> used / 1.5B contracted<span class="pct">92%</span></span>
+                </div>
+                <div class="ledger-bar">
+                  <div class="ledger-bar-fill danger" style="width: 87%"></div>
+                  <div class="ledger-bar-projected danger" style="left: 87%; width: 13%"></div>
+                  <div class="ledger-bar-cap" style="left: 94%"></div>
+                </div>
+              </div>
+              <div class="ledger-trajectory">
+                <span class="trajectory-label">Trajectory</span>
+                <strong>~1.85B by 31 Aug</strong> · cap reached <strong>~12 Aug</strong>
+              </div>
+              <div class="ledger-status">
+                <span class="status-pill danger">Approaching</span>
+              </div>
+            </div>
+
+            <!-- 3. F&O Executions — small overage projected -->
+            <div class="ledger-row">
+              <div class="ledger-resource">
+                <div class="ledger-resource-icon"><i data-lucide="target"></i></div>
+                <div>
+                  <div class="ledger-resource-name">F&amp;O Executions</div>
+                  <div class="ledger-resource-sub">Premium · 8.0M / year · 25 exec / service</div>
+                </div>
+              </div>
+              <div class="ledger-bar-block">
+                <div class="ledger-bar-figures">
+                  <span><span class="used">5.0M</span> used / 8.0M contracted<span class="pct">63%</span></span>
+                </div>
+                <div class="ledger-bar">
+                  <div class="ledger-bar-fill watch" style="width: 59%"></div>
+                  <div class="ledger-bar-projected watch" style="left: 59%; width: 41%"></div>
+                  <div class="ledger-bar-cap" style="left: 94%"></div>
+                </div>
+              </div>
+              <div class="ledger-trajectory">
+                <span class="trajectory-label">Trajectory</span>
+                <strong>~8.5M by 31 Aug</strong> · slight overage (+6%)
+              </div>
+              <div class="ledger-status">
+                <span class="status-pill watch">Watch</span>
+              </div>
+            </div>
+
+            <!-- 4. BR Executions — small overage projected -->
+            <div class="ledger-row">
+              <div class="ledger-resource">
+                <div class="ledger-resource-icon"><i data-lucide="zap"></i></div>
+                <div>
+                  <div class="ledger-resource-name">BR Executions</div>
+                  <div class="ledger-resource-sub">Premium · 15M / year · 25 exec / service</div>
+                </div>
+              </div>
+              <div class="ledger-bar-block">
+                <div class="ledger-bar-figures">
+                  <span><span class="used">9.5M</span> used / 15M contracted<span class="pct">63%</span></span>
+                </div>
+                <div class="ledger-bar">
+                  <div class="ledger-bar-fill watch" style="width: 59%"></div>
+                  <div class="ledger-bar-projected watch" style="left: 59%; width: 41%"></div>
+                  <div class="ledger-bar-cap" style="left: 94%"></div>
+                </div>
+              </div>
+              <div class="ledger-trajectory">
+                <span class="trajectory-label">Trajectory</span>
+                <strong>~16M by 31 Aug</strong> · slight overage (+7%)
+              </div>
+              <div class="ledger-status">
+                <span class="status-pill watch">Watch</span>
+              </div>
+            </div>
+
+            <!-- 5. PSEG — well under cap -->
+            <div class="ledger-row">
+              <div class="ledger-resource">
+                <div class="ledger-resource-icon"><i data-lucide="users"></i></div>
+                <div>
+                  <div class="ledger-resource-name">PSEG</div>
+                  <div class="ledger-resource-sub">Premium · 50M passenger segments / year</div>
+                </div>
+              </div>
+              <div class="ledger-bar-block">
+                <div class="ledger-bar-figures">
+                  <span><span class="used">24M</span> used / 50M contracted<span class="pct">48%</span></span>
+                </div>
+                <div class="ledger-bar">
+                  <div class="ledger-bar-fill" style="width: 45%"></div>
+                  <div class="ledger-bar-projected" style="left: 45%; width: 32%"></div>
+                  <div class="ledger-bar-cap" style="left: 94%"></div>
+                </div>
+              </div>
+              <div class="ledger-trajectory">
+                <span class="trajectory-label">Trajectory</span>
+                <strong>~41M by 31 Aug</strong> · 82% of cap
+              </div>
+              <div class="ledger-status">
+                <span class="status-pill ok">On track</span>
+              </div>
+            </div>
+
+            <!-- 6. DWH Extracted Rows — well under cap -->
+            <div class="ledger-row">
+              <div class="ledger-resource">
+                <div class="ledger-resource-icon"><i data-lucide="database"></i></div>
+                <div>
+                  <div class="ledger-resource-name">DWH Extracted Rows</div>
+                  <div class="ledger-resource-sub">Premium · 18M / year · ×5 base / day</div>
+                </div>
+              </div>
+              <div class="ledger-bar-block">
+                <div class="ledger-bar-figures">
+                  <span><span class="used">7.0M</span> used / 18M contracted<span class="pct">39%</span></span>
+                </div>
+                <div class="ledger-bar">
+                  <div class="ledger-bar-fill" style="width: 37%"></div>
+                  <div class="ledger-bar-projected" style="left: 37%; width: 26%"></div>
+                  <div class="ledger-bar-cap" style="left: 94%"></div>
+                </div>
+              </div>
+              <div class="ledger-trajectory">
+                <span class="trajectory-label">Trajectory</span>
+                <strong>~12M by 31 Aug</strong> · 67% of cap
+              </div>
+              <div class="ledger-status">
+                <span class="status-pill ok">On track</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ── Continuity demo: dual-render proof ── -->
+          <div class="continuity-demo">
+            <div class="continuity-demo-eyebrow">Continuity demo · same skeleton, role-gated levers</div>
+            <div class="continuity-demo-title">One row, two roles</div>
+            <p class="continuity-demo-desc">
+              Admin mode adds an inline override toggle and a portfolio-comparison affordance &mdash; without changing the row layout. The CSM never has to apologise when the screen rotates toward the client during a meeting.
+            </p>
+
+            <div class="continuity-demo-grid">
+
+              <!-- Client mode -->
+              <div class="continuity-pane">
+                <span class="continuity-pane-tag client"><i data-lucide="eye"></i> Client mode</span>
+                <div class="continuity-row">
+                  <div class="ledger-resource">
+                    <div class="ledger-resource-icon"><i data-lucide="sparkles"></i></div>
+                    <div>
+                      <div class="ledger-resource-name">GenAI Tokens</div>
+                      <div class="ledger-resource-sub">92% used</div>
+                    </div>
+                  </div>
+                  <div class="ledger-bar-block">
+                    <div class="ledger-bar">
+                      <div class="ledger-bar-fill danger" style="width: 87%"></div>
+                      <div class="ledger-bar-projected danger" style="left: 87%; width: 13%"></div>
+                      <div class="ledger-bar-cap" style="left: 94%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin mode -->
+              <div class="continuity-pane">
+                <span class="continuity-pane-tag admin"><i data-lucide="settings-2"></i> Admin mode (WM CSM)</span>
+                <div class="continuity-row">
+                  <div class="ledger-resource">
+                    <div class="ledger-resource-icon"><i data-lucide="sparkles"></i></div>
+                    <div>
+                      <div class="ledger-resource-name">GenAI Tokens</div>
+                      <div class="ledger-resource-sub">92% used</div>
+                    </div>
+                  </div>
+                  <div class="ledger-bar-block">
+                    <div class="ledger-bar">
+                      <div class="ledger-bar-fill danger" style="width: 87%"></div>
+                      <div class="ledger-bar-projected danger" style="left: 87%; width: 13%"></div>
+                      <div class="ledger-bar-cap" style="left: 94%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="continuity-admin-controls">
+                  <button class="ctrl-chip"><i data-lucide="sliders-horizontal"></i> Override cap</button>
+                  <button class="ctrl-chip"><i data-lucide="users"></i> Compare 12 Premium peers</button>
+                  <button class="ctrl-chip"><i data-lucide="history"></i> Audit log</button>
+                </div>
+              </div>
+
+            </div>
+
+            <p class="continuity-demo-caption">
+              Same data, same row, same forecast bar. Admin mode adds three affordances inline; the layout doesn't shift. Visual rule: <em>if a difference doesn't earn its existence, it shouldn't exist</em>.
+            </p>
+          </div>
+
+          <footer class="section-footer">
+            <a class="footnote-link" href="#methodology-usage">
+              <i data-lucide="info"></i>
+              How forecasts work
+            </a>
+            <span class="section-footer-aside">When a resource trends red, the Asks section below offers structured paths.</span>
+          </footer>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 3 — PLAN
+             Current tier, included modules summary, plan history timeline.
+             Read-only at this depth; advanced toggle and admin mode go deeper.
+             ============================================================ -->
+        <section class="section" id="plan">
+          <header class="section-header">
+            <span class="section-eyebrow">Plan<span class="section-eyebrow-dot"></span>Active tier</span>
+          </header>
+          <h2 class="section-title">Premium</h2>
+          <p class="section-desc">
+            Active since 1 September 2025. Renews 31 August 2026. Premium bundles features that scale together &mdash; à-la-carte exists for negotiation, not for self-service.
+          </p>
+
+          <div class="plan-card">
+            <div class="plan-card-top">
+              <div class="plan-tier-block">
+                <span class="plan-tier-name">Premium</span>
+                <span class="plan-tier-since">since 1 Sep 2025 · renews 31 Aug 2026</span>
+              </div>
+              <div class="plan-actions">
+                <button class="btn-secondary">
+                  <i data-lucide="layers"></i>
+                  Compare plans
+                </button>
+                <button class="btn-secondary">
+                  <i data-lucide="list"></i>
+                  View all 27 modules
+                </button>
+              </div>
+            </div>
+
+            <div class="plan-summary">Premium includes everything in Advanced plus:</div>
+            <ul class="plan-modules">
+              <li><strong>AI Cockpit · Scenarios</strong> &mdash; save and reuse optimisation parameter presets across networks</li>
+              <li><strong>Monitoring dashboards</strong> &mdash; Spectrum + Horizon Premium tier with cross-route drilldowns</li>
+              <li><strong>Full GenAI capacity</strong> &mdash; 1.5B tokens / year, 80K tokens / minute burst</li>
+              <li><strong>Ancillary AI</strong> &mdash; full forecasting and optimisation on add-on revenue (Recovery + Ancillary modules)</li>
+            </ul>
+          </div>
+
+          <div class="plan-history-eyebrow">Plan history</div>
+          <div class="plan-history-timeline">
+            <div class="history-step past">
+              <span class="history-date">Sep 2024</span>
+              <span class="history-action">Started on Standard</span>
+            </div>
+            <div class="history-step past">
+              <span class="history-date">Jan 2025</span>
+              <span class="history-action">Upgraded to Advanced</span>
+            </div>
+            <div class="history-step current">
+              <span class="history-date">Sep 2025</span>
+              <span class="history-action">Upgraded to Premium <span class="history-badge">current</span></span>
+            </div>
+          </div>
+
+          <footer class="section-footer">
+            <a class="footnote-link" href="#advanced-modules">
+              <i data-lucide="chevron-right"></i>
+              Show advanced details — full module list, contract clauses, override history
+            </a>
+          </footer>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 4 — ASKS
+             Structured request flows. Each carries an SLA. No silent walls.
+             Priority ask appears first when a resource trends concerning.
+             ============================================================ -->
+        <section class="section" id="asks">
+          <header class="section-header">
+            <span class="section-eyebrow">Asks<span class="section-eyebrow-dot"></span>Self-service paths</span>
+          </header>
+          <h2 class="section-title">Request what you need</h2>
+          <p class="section-desc">
+            Every request goes to your Wiremind contact and is tracked end-to-end. Each carries an SLA. When a resource is trending red, the relevant ask surfaces first.
+          </p>
+
+          <div class="asks-grid">
+
+            <!-- Priority ask — surfaced because GenAI is approaching cap -->
+            <button class="ask-card priority">
+              <div class="ask-card-icon"><i data-lucide="zap"></i></div>
+              <div class="ask-card-title">Request a top-up on GenAI Tokens</div>
+              <div class="ask-card-desc">You're at 92% &mdash; on trajectory to hit cap on 12 Aug. A 30% top-up covers the projected overage.</div>
+              <div class="ask-card-sla">CSM responds within 1 business day · trackable in your inbox</div>
+            </button>
+
+            <button class="ask-card">
+              <div class="ask-card-icon"><i data-lucide="layers"></i></div>
+              <div class="ask-card-title">Compare plans · simulate upgrade</div>
+              <div class="ask-card-desc">Run a what-if on your remaining contract months. The simulation shows net cost, covered overage, and break-even date.</div>
+              <div class="ask-card-sla">Self-service · simulation runs in product</div>
+            </button>
+
+            <button class="ask-card">
+              <div class="ask-card-icon"><i data-lucide="calendar"></i></div>
+              <div class="ask-card-title">Schedule a QBR with your CSM</div>
+              <div class="ask-card-desc">Quarterly Business Review. Same screen, plus peer benchmarks, methodology Q&amp;A, and roadmap.</div>
+              <div class="ask-card-sla">Booked within 3 business days · 60-min slot</div>
+            </button>
+
+            <button class="ask-card">
+              <div class="ask-card-icon"><i data-lucide="user-plus"></i></div>
+              <div class="ask-card-title">Add a user to your team</div>
+              <div class="ask-card-desc">Premium includes unlimited users. Send an invite from here and we'll provision access.</div>
+              <div class="ask-card-sla">Provisioned within 1 hour · email notification</div>
+            </button>
+
+            <button class="ask-card">
+              <div class="ask-card-icon"><i data-lucide="file-pen-line"></i></div>
+              <div class="ask-card-title">Request a contract amendment</div>
+              <div class="ask-card-desc">Adjust scope, add modules, change billing terms. Routed to your CSM for review.</div>
+              <div class="ask-card-sla">Initial response within 2 business days</div>
+            </button>
+
+            <button class="ask-card">
+              <div class="ask-card-icon"><i data-lucide="message-circle"></i></div>
+              <div class="ask-card-title">Ask anything else</div>
+              <div class="ask-card-desc">If your question isn't here, send it to your CSM with full page context. We file it as a support ticket.</div>
+              <div class="ask-card-sla">Acknowledged within 4 business hours</div>
+            </button>
+
+          </div>
+        </section>
+
+
+        <!-- ============================================================
+             SECTION 5 — DOCUMENTS
+             QBR-ready exports + sharing primitives + methodology + FAQ.
+             ============================================================ -->
+        <section class="section" id="documents">
+          <header class="section-header">
+            <span class="section-eyebrow">Documents<span class="section-eyebrow-dot"></span>Download · share · subscribe</span>
+          </header>
+          <h2 class="section-title">QBR-ready, every day</h2>
+          <p class="section-desc">
+            Stakeholders, finance, and your CSM can all read this without logging in. PDFs auto-refresh monthly; share links expire after 30 days.
+          </p>
+
+          <div class="documents-grid">
+
+            <a class="doc-item">
+              <div class="doc-item-icon"><i data-lucide="file-text"></i></div>
+              <div class="doc-item-body">
+                <div class="doc-item-name">Contract summary · April 2026</div>
+                <div class="doc-item-meta">PDF · 8 pages · 240 KB · auto-refreshed monthly</div>
+              </div>
+              <div class="doc-item-action"><i data-lucide="download"></i></div>
+            </a>
+
+            <a class="doc-item">
+              <div class="doc-item-icon"><i data-lucide="file-spreadsheet"></i></div>
+              <div class="doc-item-body">
+                <div class="doc-item-name">Usage CSV · YTD</div>
+                <div class="doc-item-meta">CSV · 6 resources × daily granularity · 220 KB</div>
+              </div>
+              <div class="doc-item-action"><i data-lucide="download"></i></div>
+            </a>
+
+            <a class="doc-item">
+              <div class="doc-item-icon"><i data-lucide="link-2"></i></div>
+              <div class="doc-item-body">
+                <div class="doc-item-name">Share read-only link</div>
+                <div class="doc-item-meta">URL · expires in 30 days · view-only</div>
+              </div>
+              <div class="doc-item-action"><i data-lucide="copy"></i></div>
+            </a>
+
+            <a class="doc-item">
+              <div class="doc-item-icon"><i data-lucide="mail"></i></div>
+              <div class="doc-item-body">
+                <div class="doc-item-name">Subscribe to monthly digest</div>
+                <div class="doc-item-meta">Email · sent on the 1st of each month</div>
+              </div>
+              <div class="doc-item-action"><i data-lucide="bell"></i></div>
+            </a>
+
+            <a class="doc-item">
+              <div class="doc-item-icon"><i data-lucide="book-open"></i></div>
+              <div class="doc-item-body">
+                <div class="doc-item-name">Methodology — forecasts &amp; attribution</div>
+                <div class="doc-item-meta">PDF · 4 pages · technical addendum</div>
+              </div>
+              <div class="doc-item-action"><i data-lucide="external-link"></i></div>
+            </a>
+
+            <a class="doc-item">
+              <div class="doc-item-icon"><i data-lucide="help-circle"></i></div>
+              <div class="doc-item-body">
+                <div class="doc-item-name">FAQ — what other clients ask</div>
+                <div class="doc-item-meta">7 questions · curated by your CSM team</div>
+              </div>
+              <div class="doc-item-action"><i data-lucide="external-link"></i></div>
+            </a>
+
+          </div>
+        </section>
 
       </div>
     </div>
