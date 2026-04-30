@@ -2599,8 +2599,7 @@ const COLUMNS = [
 const userOverrides = {};
 let lastContentWidth = 0;
 
-function updateColumns(w) {
-  lastContentWidth = w;
+function applyColumns(w) {
   COLUMNS.forEach(col => {
     const show = col.key in userOverrides ? userOverrides[col.key] : w >= col.minWidth;
     document.querySelectorAll(`[data-col="${col.key}"]`).forEach(el => el.classList.toggle('col-hidden', !show));
@@ -2611,14 +2610,26 @@ function updateColumns(w) {
   const btn = document.getElementById('colOverflowBtn');
   const hiddenCols = COLUMNS.filter(col => col.key in userOverrides ? !userOverrides[col.key] : w < col.minWidth);
   btn.classList.toggle('has-hidden', hiddenCols.length > 0);
+}
+
+function buildMenu(w) {
   const menu = document.getElementById('colMenu');
   menu.innerHTML = COLUMNS.map(col => {
     const checked = col.key in userOverrides ? userOverrides[col.key] : w >= col.minWidth;
     return `<label class="col-menu-item"><input type="checkbox" data-toggle="${col.key}"${checked?' checked':''}> ${col.label}</label>`;
   }).join('');
   menu.querySelectorAll('input[data-toggle]').forEach(inp => {
-    inp.addEventListener('change', () => { userOverrides[inp.dataset.toggle] = inp.checked; updateColumns(lastContentWidth); });
+    inp.addEventListener('change', () => {
+      userOverrides[inp.dataset.toggle] = inp.checked;
+      applyColumns(lastContentWidth);
+    });
   });
+}
+
+function updateColumns(w) {
+  lastContentWidth = w;
+  applyColumns(w);
+  buildMenu(w);
 }
 
 new ResizeObserver(entries => updateColumns(entries[0].contentRect.width))
