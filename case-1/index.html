@@ -17,10 +17,10 @@
 
     :root {
       /* ── Shared Wiremind primitive blue scale ── */
-      --b6: #001a33;        /* near-black */
-      --b5: #00405e;        /* deep navy — sidebar bg */
+      --b6: #061625;        /* near-black, cooler */
+      --b5: #0d2236;        /* modern navy — sidebar bg */
       --b4: #0081a8;        /* workhorse — body emphasis */
-      --b3: #009DDC;        /* primary chrome — interactive */
+      --b3: #009DDC;        /* primary chrome — interactive (cross-product shared cyan) */
       --b2: #6fd2ff;        /* light highlight */
       --b1: #c0e8ff;        /* tint */
       --b-bg: #e1f3ff;      /* subtle background */
@@ -158,10 +158,10 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 0 18px;
+      padding: 0 20px;
       color: white;
+      flex-shrink: 0;
     }
-    .wm-mark { color: white; opacity: 0.95; }
     .cayzn-mark {
       font-size: 14px;
       font-weight: 800;
@@ -171,105 +171,93 @@
 
     .nav-tree {
       flex: 1;
-      padding: 8px 0;
+      padding: 10px 0;
       overflow-y: auto;
       overflow-x: hidden;
     }
 
-    .nav-l1, .nav-l2 {
+    .nav-l1 {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 18px;
+      padding: 9px 20px;
       cursor: pointer;
-      color: rgba(255, 255, 255, 0.65);
-      font-size: var(--fs-base);
-      font-weight: 500;
-      transition: background 0.15s, color 0.15s;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 13px;
+      transition: background 0.12s, color 0.12s;
       user-select: none;
       position: relative;
     }
-    .nav-l1:hover, .nav-l2:hover {
-      background: rgba(255, 255, 255, 0.04);
-      color: white;
-    }
-    .nav-l1.active, .nav-l2.active { color: white; }
-    .nav-l1.active.expanded { background: rgba(255, 255, 255, 0.06); }
+    .nav-l1:hover { color: white; background: rgba(255, 255, 255, 0.04); }
+    .nav-l1.active { color: white; background: rgba(255, 255, 255, 0.08); }
 
-    .nav-l1 [data-lucide] { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.85; }
-    .nav-l1.active [data-lucide] { opacity: 1; fill: currentColor; }
+    .nav-l1-label { flex: 1; }
 
     .nav-chevron {
-      margin-left: auto;
       transition: transform 0.2s;
-      opacity: 0.5;
+      display: flex; align-items: center;
+      color: rgba(255, 255, 255, 0.55);
     }
-    .nav-chevron [data-lucide] { width: 12px; height: 12px; }
-    .nav-l1.expanded .nav-chevron { transform: rotate(0deg); }
+    .nav-l1.expanded .nav-chevron { transform: rotate(180deg); }
 
     .nav-l2-group {
-      max-height: 0;
       overflow: hidden;
-      transition: max-height 0.2s ease;
+      max-height: 0;
+      transition: max-height 0.24s ease, background-color 0.12s;
     }
-    .nav-l2-group.expanded {
-      max-height: 400px;
-      padding-bottom: 6px;
-    }
+    .nav-l2-group.expanded { max-height: 400px; }
+    .nav-l1.active + .nav-l2-group.expanded { background: rgba(255, 255, 255, 0.08); }
+
     .nav-l2 {
-      padding: 6px 18px 6px 42px;
-      font-size: 11.5px;
-      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 20px;
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.55);
+      cursor: pointer;
+      transition: color 0.12s, background 0.12s;
+      position: relative;
     }
-    .nav-l2.active {
-      color: white;
-    }
+    .nav-l2:hover { color: white; background: rgba(255, 255, 255, 0.04); }
+    .nav-l1.active + .nav-l2-group .nav-l2 { color: white; }
+    .nav-l2 [data-lucide] { opacity: 0.6; }
+    .nav-l1.active + .nav-l2-group .nav-l2 [data-lucide] { opacity: 0.85; }
+
     .nav-l2.active::before {
       content: '';
       position: absolute;
-      left: 12px;
-      top: 8px;
-      bottom: 8px;
+      left: 8px;
+      top: 6px; bottom: 6px;
       width: 3px;
       background: var(--accent);
       border-radius: 2px;
     }
+    .nav-l2.active [data-lucide] { opacity: 1; }
 
-    .sidebar-watermark {
-      position: absolute;
-      bottom: -20px;
-      right: -20px;
-      width: 140px;
-      height: 140px;
-      color: rgba(255, 255, 255, 0.04);
-      pointer-events: none;
-    }
-    .sidebar-watermark svg { width: 100%; height: 100%; }
+    /* ── Lucide icon sizing per context ── */
+    [data-lucide], .lucide { flex-shrink: 0; }
+    .nav-l1 [data-lucide], .nav-l1 .lucide { width: 14px; height: 14px; }
+    .nav-l2 [data-lucide], .nav-l2 .lucide { width: 13px; height: 13px; }
+    .sidebar-footer [data-lucide], .sidebar-footer .lucide { width: 14px; height: 14px; }
+    .nav-chevron [data-lucide], .nav-chevron .lucide { width: 10px; height: 10px; }
 
     .sidebar-footer {
-      padding: 12px 16px 32px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 11px;
-      position: relative;
-      z-index: 1;
-    }
-    .sidebar-footer-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: rgba(255, 255, 255, 0.7);
+      gap: 10px;
+      padding: 9px 20px 28px;
+      font-size: 13px;
+      color: white;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.12s;
     }
-    .sidebar-footer-avatar [data-lucide] { width: 14px; height: 14px; }
-    .sidebar-footer-name { color: rgba(255, 255, 255, 0.85); font-weight: 500; margin-top: 2px; }
-    .sidebar-footer-org { color: rgba(255, 255, 255, 0.4); font-size: 10px; }
+    .sidebar-footer:hover { background: rgba(255, 255, 255, 0.04); }
+    .sidebar-footer-name {
+      flex: 1;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
 
     /* ── Content column ── */
     .content-col {
@@ -402,13 +390,6 @@
   <aside class="sidebar">
 
     <div class="sidebar-header">
-      <!-- Wiremind angular mark (parent brand) -->
-      <svg class="wm-mark" width="14" height="14" viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Wiremind mark">
-        <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
-        <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
-        <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
-        <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
-      </svg>
       <span class="cayzn-mark">CAYZN</span>
     </div>
 
@@ -461,29 +442,17 @@
         <span class="nav-chevron"><i data-lucide="chevron-down"></i></span>
       </div>
       <div class="nav-l2-group expanded" data-parent="pricing">
-        <div class="nav-l2 active" data-anchor="outcomes">Outcomes</div>
-        <div class="nav-l2" data-anchor="usage">Usage</div>
-        <div class="nav-l2" data-anchor="plan">Plan</div>
-        <div class="nav-l2" data-anchor="asks">Asks</div>
-        <div class="nav-l2" data-anchor="documents">Documents</div>
+        <div class="nav-l2 active" data-anchor="outcomes"><i data-lucide="award"></i>Outcomes</div>
+        <div class="nav-l2" data-anchor="usage"><i data-lucide="gauge"></i>Usage</div>
+        <div class="nav-l2" data-anchor="plan"><i data-lucide="layers"></i>Plan</div>
+        <div class="nav-l2" data-anchor="asks"><i data-lucide="inbox"></i>Asks</div>
+        <div class="nav-l2" data-anchor="documents"><i data-lucide="file-text"></i>Documents</div>
       </div>
     </nav>
 
-    <div class="sidebar-watermark">
-      <svg viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
-        <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
-        <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
-        <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
-      </svg>
-    </div>
-
     <div class="sidebar-footer">
-      <div class="sidebar-footer-avatar">
-        <i data-lucide="user"></i>
-      </div>
+      <i data-lucide="user"></i>
       <span class="sidebar-footer-name">Olivier Guerin</span>
-      <span class="sidebar-footer-org">Transavia</span>
     </div>
 
   </aside>
