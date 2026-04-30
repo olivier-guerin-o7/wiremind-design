@@ -185,7 +185,7 @@ body {
   flex:1;
   display:flex;
   flex-direction:column;
-  min-width:0;
+  min-width:580px;
   overflow:hidden;
 }
 .main {
@@ -360,8 +360,8 @@ body {
   box-shadow:0 4px 14px rgba(42,12,112,0.08);
 }
 .hero-card.active {
-  border-color:rgba(108,77,220,0.35);
-  box-shadow:0 4px 14px rgba(42,12,112,0.12);
+  border-color:rgba(108,77,220,0.55);
+  box-shadow:0 0 0 5px rgba(108,77,220,0.06), 0 4px 22px rgba(42,12,112,0.07);
 }
 .hero-head {
   display:flex;
@@ -888,17 +888,7 @@ body {
   filter:none;
   display:block;
 }
-.stadium-overview-img::after {
-  content:'';
-  position:absolute;
-  top:0;
-  left:72%;
-  width:9%;
-  height:14%;
-  background:#fff;
-  z-index:1;
-  pointer-events:none;
-}
+/* .stadium-overview-img badge cover handled via JS (.stadium-badge-cover) */
 .hf-item {
   display:flex;
   flex-direction:column;
@@ -1691,11 +1681,23 @@ tfoot td::before {
   left:-10px;
 }
 
+/* ── Panel resize handle ────────────────────────────────────────────────── */
+.panel-resize-handle {
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:8px;
+  transform:translateX(-50%);
+  cursor:col-resize;
+  background:transparent;
+  z-index:20;
+}
+
 /* ── Side panel ─────────────────────────────────────────────────────────── */
 .side-panel {
   width:clamp(380px, 35vw, 560px);
   flex-shrink:0;
   overflow:hidden;
+  position:relative;
   background:#fff;
   border-left:1px solid var(--border);
   display:flex;
@@ -1779,13 +1781,11 @@ tfoot td::before {
   position:relative;
   margin-bottom:16px;
 }
-.stadium-img-wrap::after {
-  content:'';
+.stadium-badge-cover {
   position:absolute;
-  top:14px; right:14px;
-  width:40px; height:36px;
   background:#fff;
-  z-index:1;
+  z-index:5;
+  pointer-events:none;
 }
 .stadium-img-wrap img {
   width:100%;
@@ -2257,6 +2257,7 @@ tfoot td::before {
 
   <!-- SIDE PANEL (full height, sibling of content-col) -->
   <div class="side-panel" id="sidePanel">
+  <div class="panel-resize-handle" id="panelResizeHandle"></div>
     <div class="panel-inner">
       <!-- Panel header -->
       <div class="panel-header">
@@ -2286,6 +2287,7 @@ tfoot td::before {
           <div class="stadium-card">
             <div class="stadium-img-wrap">
               <img src="./stadium.png" alt="Paul-Lignon stadium" id="stadiumImg">
+              <div class="stadium-badge-cover" id="stadiumBadgeCover"></div>
             </div>
             <div class="stadium-occ-stands">
               <div class="occ-block">
@@ -2458,18 +2460,18 @@ tfoot td::before {
 // ── Data ──────────────────────────────────────────────────────────────────
 const matches = [
   { j:1,  date:'8/9/25',  time:'8:00 PM', opp:'Nancy',         short:'NCY', sales:5976, cap:6694, occ:89, income:137173, avg:25.22, optRev:0, live:0, upcoming:false },
-  { j:3,  date:'8/22/25', time:'8:00 PM', opp:'Laval',         short:'LAV', sales:5528, cap:6694, occ:83, income:129692, avg:26.50, optRev:0, live:0, upcoming:false },
-  { j:4,  date:'8/29/25', time:'8:00 PM', opp:'Boulogne',      short:'BOU', sales:5100, cap:6694, occ:76, income:122871, avg:27.36, optRev:0, live:0, upcoming:false },
-  { j:6,  date:'9/19/25', time:'8:00 PM', opp:'Clermont Foot', short:'CLF', sales:5454, cap:6694, occ:81, income:137484, avg:28.89, optRev:0, live:0, upcoming:false },
-  { j:8,  date:'9/26/25', time:'8:00 PM', opp:'PAU',           short:'PAU', sales:5052, cap:6694, occ:75, income:128992, avg:29.23, optRev:0, live:0, upcoming:false },
+  { j:3,  date:'8/22/25', time:'8:00 PM', opp:'Laval',         short:'LAV', sales:4150, cap:6694, occ:62, income:103754, avg:25.00, optRev:0, live:0, upcoming:false },
+  { j:4,  date:'8/29/25', time:'8:00 PM', opp:'Boulogne',      short:'BOU', sales:3146, cap:6694, occ:47, income: 81620, avg:25.94, optRev:0, live:0, upcoming:false },
+  { j:6,  date:'9/19/25', time:'8:00 PM', opp:'Clermont Foot', short:'CLF', sales:4786, cap:6694, occ:71, income:128992, avg:26.95, optRev:0, live:0, upcoming:false },
+  { j:8,  date:'9/26/25', time:'8:00 PM', opp:'PAU',           short:'PAU', sales:2878, cap:6694, occ:43, income: 74690, avg:25.95, optRev:0, live:0, upcoming:false },
   { j:10, date:'10/17/25',time:'8:00 PM', opp:'Reims',         short:'REI', sales:5804, cap:6694, occ:87, income:159461, avg:31.89, optRev:0, live:0, upcoming:false },
-  { j:12, date:'10/28/25',time:'8:30 PM', opp:'Annecy',        short:'ANN', sales:5912, cap:6694, occ:88, income:144703, avg:28.74, optRev:0, live:0, upcoming:false },
-  { j:15, date:'11/21/25',time:'8:00 PM', opp:'Dunkerque',     short:'DKE', sales:5231, cap:6694, occ:78, income:135156, avg:31.45, optRev:0, live:0, upcoming:false },
-  { j:17, date:'12/12/25',time:'8:00 PM', opp:'Guingamp',      short:'GNG', sales:5483, cap:6694, occ:82, income:142873, avg:30.48, optRev:0, live:0, upcoming:false },
-  { j:19, date:'1/16/26', time:'8:00 PM', opp:'Le Mans',       short:'LMA', sales:5502, cap:6694, occ:82, income:135576, avg:29.27, optRev:0, live:0, upcoming:false },
-  { j:21, date:'1/30/26', time:'8:00 PM', opp:'RED Star FC 93',short:'RED', sales:5214, cap:6694, occ:78, income:138459, avg:30.86, optRev:0, live:0, upcoming:false },
+  { j:12, date:'10/28/25',time:'8:30 PM', opp:'Annecy',        short:'ANN', sales:6360, cap:6694, occ:95, income:178704, avg:28.10, optRev:0, live:0, upcoming:false },
+  { j:15, date:'11/21/25',time:'8:00 PM', opp:'Dunkerque',     short:'DKE', sales:3681, cap:6694, occ:55, income: 95556, avg:25.96, optRev:0, live:0, upcoming:false },
+  { j:17, date:'12/12/25',time:'8:00 PM', opp:'Guingamp',      short:'GNG', sales:4083, cap:6694, occ:61, income:108006, avg:26.45, optRev:0, live:0, upcoming:false },
+  { j:19, date:'1/16/26', time:'8:00 PM', opp:'Le Mans',       short:'LMA', sales:2544, cap:6694, occ:38, income: 63345, avg:24.90, optRev:0, live:0, upcoming:false },
+  { j:21, date:'1/30/26', time:'8:00 PM', opp:'RED Star FC 93',short:'RED', sales:5281, cap:6694, occ:79, income:140244, avg:26.56, optRev:0, live:0, upcoming:false },
   { j:24, date:'2/20/26', time:'8:00 PM', opp:'Montpellier',   short:'MTP', sales:6514, cap:6809, occ:96, income:178128, avg:31.18, optRev:0, live:0, upcoming:false },
-  { j:26, date:'3/6/26',  time:'8:00 PM', opp:'Grenoble',      short:'GRE', sales:5868, cap:6694, occ:88, income:145990, avg:28.67, optRev:0, live:0, upcoming:false },
+  { j:26, date:'3/6/26',  time:'8:00 PM', opp:'Grenoble',      short:'GRE', sales:4583, cap:6694, occ:68, income:118015, avg:25.75, optRev:0, live:0, upcoming:false },
   { j:28, date:'3/20/26', time:'8:00 PM', opp:'Bastia',        short:'BAS', sales:6243, cap:6691, occ:93, income:152190, avg:28.28, optRev:0, live:0, upcoming:false },
   { j:30, date:'4/13/26', time:'8:45 PM', opp:'ESTAC',         short:'EST', sales:6309, cap:6865, occ:92, income:175586, avg:32.14, optRev:0, live:0, upcoming:false },
   { j:31, date:'4/17/26', time:'8:00 PM', opp:'Amiens',        short:'AMI', sales:6403, cap:6865, occ:93, income:176532, avg:32.62, optRev:0, live:0, upcoming:false },
@@ -2695,6 +2697,21 @@ const dd = document.getElementById('deepDive');
 const ddBackdrop = document.getElementById('ddBackdrop');
 let lastDeepDiveMatch = null;
 
+// ── Stadium badge cover (hides screenshot artifact "1" in top-right of image)
+function positionStadiumCover(imgEl, coverEl, wrapPad) {
+  if (!imgEl || !coverEl || !imgEl.naturalWidth) return;
+  const scale = Math.min(imgEl.offsetWidth / imgEl.naturalWidth, imgEl.offsetHeight / imgEl.naturalHeight);
+  const cW = imgEl.naturalWidth * scale;
+  const cH = imgEl.naturalHeight * scale;
+  const offX = (imgEl.offsetWidth - cW) / 2;
+  const offY = (imgEl.offsetHeight - cH) / 2;
+  const pad  = wrapPad || 0;
+  coverEl.style.top    = (pad + offY) + 'px';
+  coverEl.style.right  = (pad + offX) + 'px';
+  coverEl.style.width  = '55px';
+  coverEl.style.height = '38px';
+}
+
 function openDeepDive(m) {
   lastDeepDiveMatch = m;
   document.getElementById('ddTitle').textContent = `J${m.j} · ${m.opp}`;
@@ -2710,6 +2727,11 @@ function openDeepDive(m) {
   renderPromoMix();
   dd.classList.add('open');
   ddBackdrop.classList.add('open');
+  requestAnimationFrame(() => {
+    const imgOv   = document.getElementById('stadiumImgOverview');
+    const coverOv = document.getElementById('stadiumBadgeCoverOverview');
+    positionStadiumCover(imgOv, coverOv, 0);
+  });
   dd.setAttribute('aria-hidden', 'false');
   document.querySelector('.dd-body').scrollTop = 0;
 }
@@ -2797,7 +2819,8 @@ function buildStadiumDeepDive(m) {
             <div class="hf-item hf-item--tl" data-hf="0"></div>
             <div class="hf-item hf-item--tr" data-hf="1"></div>
             <div class="stadium-overview-img" id="stadiumPict">
-              <img src="./stadium.png" alt="Paul-Lignon stadium">
+              <img src="./stadium.png" alt="Paul-Lignon stadium" id="stadiumImgOverview">
+              <div class="stadium-badge-cover" id="stadiumBadgeCoverOverview"></div>
               ${STADIUM_STANDS.map(s => `
                 <div class="stand-hotspot ${s.key === activeStandKey ? 'active' : ''}"
                      data-stand="${s.key}"
@@ -2824,6 +2847,13 @@ function buildStadiumDeepDive(m) {
       document.getElementById('stadiumCardShell').dataset.view = activeViewMode;
       document.querySelectorAll('#stadiumCardShell .view-pill').forEach(b => b.classList.toggle('active', b.dataset.view === activeViewMode));
       renderHeaderForView();
+      if (activeViewMode === 'stadium') {
+        requestAnimationFrame(() => {
+          const imgOv   = document.getElementById('stadiumImgOverview');
+          const coverOv = document.getElementById('stadiumBadgeCoverOverview');
+          positionStadiumCover(imgOv, coverOv, 0);
+        });
+      }
     });
   });
 
@@ -3748,6 +3778,52 @@ document.querySelectorAll('.scroll-hide').forEach(el => {
 
 // Render Lucide icons (replaces all <i data-lucide="..."> with SVGs)
 if (window.lucide) lucide.createIcons({ attrs: { 'stroke-width': 1.6 } });
+
+// Init right-panel badge cover (deep-dive cover positioned on each openDeepDive call)
+(function() {
+  const img   = document.getElementById('stadiumImg');
+  const cover = document.getElementById('stadiumBadgeCover');
+  if (!img || !cover) return;
+  const update = () => positionStadiumCover(img, cover, 12);
+  img.complete ? update() : img.addEventListener('load', update);
+  new ResizeObserver(update).observe(img.parentElement);
+})();
+
+// ── Panel resize ────────────────────────────────────────────────────────
+(function(){
+  const handle = document.getElementById('panelResizeHandle');
+  const panel  = document.getElementById('sidePanel');
+  const MIN = 380;
+  const MIN_CONTENT = 580;
+  let dragging = false, startX, startW, maxW;
+
+  handle.addEventListener('mousedown', e => {
+    dragging = true;
+    startX   = e.clientX;
+    startW   = panel.getBoundingClientRect().width;
+    const containerW = panel.parentElement.getBoundingClientRect().width;
+    const sidebarW   = document.querySelector('.sidebar').getBoundingClientRect().width;
+    maxW = containerW - sidebarW - MIN_CONTENT;
+    handle.classList.add('dragging');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const w = Math.min(maxW, Math.max(MIN, startW + (startX - e.clientX)));
+    panel.style.width = w + 'px';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    handle.classList.remove('dragging');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  });
+})();
 </script>
 </body>
 </html>
