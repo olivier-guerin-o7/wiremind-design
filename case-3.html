@@ -2215,8 +2215,8 @@ tfoot td::before {
             <th style="width:180px">Opponent</th>
             <th data-col="sales" style="width:110px">Sales</th>
             <th data-col="occ" style="width:100px">Occ.</th>
-            <th>Revenue</th>
             <th data-col="avg" style="width:110px">Avg. Ticket</th>
+            <th>Revenue</th>
             <th class="col-overflow-th"><button class="col-overflow-btn" id="colOverflowBtn" title="More columns">···</button><div class="col-menu" id="colMenu"></div></th>
           </tr>
         </thead>
@@ -2232,8 +2232,8 @@ tfoot td::before {
             </td>
             <td data-col="sales"><div class="footer-stat-val">5,727</div></td>
             <td data-col="occ"><div class="footer-stat-val">85%</div></td>
-            <td><div class="footer-stat-val">€148k</div></td>
             <td data-col="avg"><div class="footer-stat-val">€29.27</div></td>
+            <td><div class="footer-stat-val">€148k</div></td>
             <td class="col-overflow-th"></td>
           </tr>
         </tfoot>
@@ -2557,12 +2557,12 @@ matches.forEach((m, i) => {
         <div class="occ-dots">${renderOccDots(m.occ)}</div>
       </div>
     </td>
+    <td data-col="avg">
+      <div class="revenue-main">€${m.avg}</div>
+    </td>
     <td>
       <div class="revenue-main">€${m.income.toLocaleString()}</div>
       <div class="revenue-avg col-avg-sub">avg. €${m.avg}</div>
-    </td>
-    <td data-col="avg">
-      <div class="revenue-main">€${m.avg}</div>
     </td>
     <td class="col-overflow-th"></td>`;
 
@@ -2608,6 +2608,7 @@ document.getElementById('colOverflowBtn').addEventListener('click', e => {
   e.stopPropagation();
   document.getElementById('colMenu').classList.toggle('open');
 });
+document.getElementById('colMenu').addEventListener('click', e => e.stopPropagation());
 document.addEventListener('click', () => document.getElementById('colMenu').classList.remove('open'));
 
 // Render products
