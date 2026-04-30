@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAYZN — Plan & usage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ============================================================
+       CAYZN — Plan & usage · Use Case 1
+       Shared Wiremind primitive blue scale + CAYZN role mapping.
+       Same shell pattern as case-3 (EVENTORI), different palette role.
+       ============================================================ */
+
+    :root {
+      /* ── Shared Wiremind primitive blue scale ── */
+      --b6: #001a33;        /* near-black */
+      --b5: #00405e;        /* deep navy — sidebar bg */
+      --b4: #0081a8;        /* workhorse — body emphasis */
+      --b3: #009DDC;        /* primary chrome — interactive */
+      --b2: #6fd2ff;        /* light highlight */
+      --b1: #c0e8ff;        /* tint */
+      --b-bg: #e1f3ff;      /* subtle background */
+
+      /* ── CAYZN role mapping ── */
+      --primary: var(--b3);
+      --primary-strong: var(--b4);
+      --primary-deep: var(--b5);
+      --primary-ink: var(--b6);
+      --primary-light: var(--b1);
+      --primary-bg: var(--b-bg);
+
+      /* ── Brand spike — EVENTORI's primary, CAYZN's accent ── */
+      --accent: #6c4ddc;
+      --accent-light: #ede9fb;
+
+      /* ── Semantic ── */
+      --success: #2F8D00;
+      --success-bg: #E1F7E4;
+      --warning: #b45309;
+      --warning-bg: #FEF3C7;
+      --warning-strong: #f59e0b;
+      --danger: #b91c1c;
+      --danger-bg: #FEE2E2;
+      --danger-strong: #ef4444;
+
+      /* ── Neutrals ── */
+      --ink: #1a1d1f;
+      --text: #2e3133;
+      --text-secondary: #5c5f61;
+      --text-grey: #8f9193;
+      --text-muted: #a9abad;
+      --border: #e5e7eb;
+      --border-light: #f1f3f5;
+      --bg: #fafaff;        /* page bg — slight cool tint */
+      --bg-card: #ffffff;
+      --bg-tint: #f6f7fa;
+
+      /* ── Type ── */
+      --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --fs-xs: 10px;
+      --fs-sm: 11px;
+      --fs-base: 12px;
+      --fs-md: 13px;
+      --fs-lg: 14px;
+      --fs-xl: 16px;
+      --fs-2xl: 20px;
+      --fs-3xl: 28px;
+      --fs-4xl: 36px;
+
+      /* ── Spacing ── */
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-5: 20px;
+      --sp-6: 24px;
+      --sp-7: 32px;
+      --sp-8: 40px;
+      --sp-9: 48px;
+      --sp-10: 64px;
+
+      /* ── Layers ── */
+      --radius-xs: 3px;
+      --radius-sm: 6px;
+      --radius: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+      --shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font);
+      font-size: var(--fs-md);
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Auto-hide scrollbars (carried from case-3, blue-tinted) ── */
+    .scroll-hide {
+      scrollbar-width: thin;
+      scrollbar-color: transparent transparent;
+      transition: scrollbar-color 0.2s ease;
+    }
+    .scroll-hide:hover,
+    .scroll-hide:focus-within,
+    .scroll-hide.is-scrolling {
+      scrollbar-color: rgba(0, 64, 94, 0.28) transparent;
+    }
+    .scroll-hide::-webkit-scrollbar { width: 8px; height: 8px; }
+    .scroll-hide::-webkit-scrollbar-track { background: transparent; }
+    .scroll-hide::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+    .scroll-hide:hover::-webkit-scrollbar-thumb,
+    .scroll-hide:focus-within::-webkit-scrollbar-thumb,
+    .scroll-hide.is-scrolling::-webkit-scrollbar-thumb {
+      background: rgba(0, 64, 94, 0.28);
+    }
+    .scroll-hide::-webkit-scrollbar-thumb:hover { background: rgba(0, 64, 94, 0.5); }
+
+    /* ============================================================
+       APP SHELL — sidebar + content column
+       ============================================================ */
+    .app-body {
+      display: flex;
+      min-height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      background: var(--primary-deep);
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      color: white;
+    }
+    .wm-mark { color: white; opacity: 0.95; }
+    .cayzn-mark {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: white;
+    }
+
+    .nav-tree {
+      flex: 1;
+      padding: 8px 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .nav-l1, .nav-l2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: var(--fs-base);
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+      position: relative;
+    }
+    .nav-l1:hover, .nav-l2:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: white;
+    }
+    .nav-l1.active, .nav-l2.active { color: white; }
+    .nav-l1.active.expanded { background: rgba(255, 255, 255, 0.06); }
+
+    .nav-l1 [data-lucide] { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.85; }
+    .nav-l1.active [data-lucide] { opacity: 1; fill: currentColor; }
+
+    .nav-chevron {
+      margin-left: auto;
+      transition: transform 0.2s;
+      opacity: 0.5;
+    }
+    .nav-chevron [data-lucide] { width: 12px; height: 12px; }
+    .nav-l1.expanded .nav-chevron { transform: rotate(0deg); }
+
+    .nav-l2-group {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease;
+    }
+    .nav-l2-group.expanded {
+      max-height: 400px;
+      padding-bottom: 6px;
+    }
+    .nav-l2 {
+      padding: 6px 18px 6px 42px;
+      font-size: 11.5px;
+      font-weight: 500;
+    }
+    .nav-l2.active {
+      color: white;
+    }
+    .nav-l2.active::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .sidebar-watermark {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 140px;
+      height: 140px;
+      color: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+    }
+    .sidebar-watermark svg { width: 100%; height: 100%; }
+
+    .sidebar-footer {
+      padding: 12px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 11px;
+      position: relative;
+      z-index: 1;
+    }
+    .sidebar-footer-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .sidebar-footer-avatar [data-lucide] { width: 14px; height: 14px; }
+    .sidebar-footer-name { color: rgba(255, 255, 255, 0.85); font-weight: 500; margin-top: 2px; }
+    .sidebar-footer-org { color: rgba(255, 255, 255, 0.4); font-size: 10px; }
+
+    /* ── Content column ── */
+    .content-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    /* ── Sticky context strip ── */
+    .context-strip {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-light);
+      gap: 14px;
+      flex-shrink: 0;
+      font-size: var(--fs-base);
+    }
+    .ctx-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text);
+    }
+    .ctx-pill .label {
+      color: var(--text-grey);
+      font-weight: 400;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .ctx-pill strong {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .ctx-divider {
+      width: 1px;
+      height: 14px;
+      background: var(--border);
+    }
+    .ctx-verdict {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.2px;
+    }
+    .ctx-verdict.ok { background: var(--success-bg); color: var(--success); }
+    .ctx-verdict.watch { background: var(--warning-bg); color: var(--warning); }
+    .ctx-verdict.danger { background: var(--danger-bg); color: var(--danger); }
+    .ctx-verdict-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .ctx-spacer { flex: 1; }
+    .ctx-trailing {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      font-size: 11.5px;
+    }
+    .ctx-trailing strong {
+      color: var(--warning);
+      font-weight: 700;
+    }
+
+    /* ── Page ── */
+    .page {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+    }
+    .page-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 48px 96px;
+    }
+
+    /* ── Section placeholder (shell-only stage) ── */
+    .shell-placeholder {
+      padding: 80px 32px;
+      text-align: center;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--text-grey);
+      background: var(--bg-card);
+    }
+    .shell-placeholder h2 {
+      font-size: var(--fs-xl);
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .shell-placeholder p {
+      font-size: var(--fs-md);
+      color: var(--text-grey);
+      margin-bottom: 16px;
+    }
+    .shell-placeholder .anchors {
+      display: inline-flex;
+      gap: 18px;
+      font-size: var(--fs-sm);
+      color: var(--text-muted);
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .shell-placeholder .anchors span {
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: var(--bg-tint);
+    }
+  </style>
+</head>
+<body>
+<div class="app-body">
+
+  <!-- ============================================================
+       SIDEBAR — unified L1 nav (CAYZN modules) + Pricing L1+L2
+       ============================================================ -->
+  <aside class="sidebar">
+
+    <div class="sidebar-header">
+      <!-- Wiremind angular mark (parent brand) -->
+      <svg class="wm-mark" width="14" height="14" viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Wiremind mark">
+        <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
+        <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
+        <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
+        <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
+      </svg>
+      <span class="cayzn-mark">CAYZN</span>
+    </div>
+
+    <nav class="nav-tree scroll-hide" id="navTree">
+      <div class="nav-l1" data-key="markets">
+        <i data-lucide="layout-grid"></i>
+        <span class="nav-l1-label">Markets</span>
+      </div>
+      <div class="nav-l1" data-key="horizon">
+        <i data-lucide="telescope"></i>
+        <span class="nav-l1-label">Horizon</span>
+      </div>
+      <div class="nav-l1" data-key="forecast">
+        <i data-lucide="trending-up"></i>
+        <span class="nav-l1-label">Forecast</span>
+      </div>
+      <div class="nav-l1" data-key="optimisation">
+        <i data-lucide="target"></i>
+        <span class="nav-l1-label">Optimisation</span>
+      </div>
+      <div class="nav-l1" data-key="ai-cockpit">
+        <i data-lucide="bot"></i>
+        <span class="nav-l1-label">AI Cockpit</span>
+      </div>
+      <div class="nav-l1" data-key="ancillary">
+        <i data-lucide="package-plus"></i>
+        <span class="nav-l1-label">Ancillary</span>
+      </div>
+      <div class="nav-l1" data-key="tracking">
+        <i data-lucide="radar"></i>
+        <span class="nav-l1-label">Tracking</span>
+      </div>
+      <div class="nav-l1" data-key="activity">
+        <i data-lucide="activity"></i>
+        <span class="nav-l1-label">Activity</span>
+      </div>
+      <div class="nav-l1" data-key="exports">
+        <i data-lucide="download"></i>
+        <span class="nav-l1-label">Exports</span>
+      </div>
+      <div class="nav-l1" data-key="config">
+        <i data-lucide="settings"></i>
+        <span class="nav-l1-label">Configuration</span>
+      </div>
+
+      <!-- Active L1 — Pricing — with anchored L2 -->
+      <div class="nav-l1 active expanded" data-key="pricing" data-has-children="true">
+        <i data-lucide="receipt-text"></i>
+        <span class="nav-l1-label">Pricing</span>
+        <span class="nav-chevron"><i data-lucide="chevron-down"></i></span>
+      </div>
+      <div class="nav-l2-group expanded" data-parent="pricing">
+        <div class="nav-l2 active" data-anchor="outcomes">Outcomes</div>
+        <div class="nav-l2" data-anchor="usage">Usage</div>
+        <div class="nav-l2" data-anchor="plan">Plan</div>
+        <div class="nav-l2" data-anchor="asks">Asks</div>
+        <div class="nav-l2" data-anchor="documents">Documents</div>
+      </div>
+    </nav>
+
+    <div class="sidebar-watermark">
+      <svg viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M19.9972 0V4.70118L16.9186 6.21007C15.8312 6.74277 14.5605 6.74408 13.4718 6.214L10.3945 4.7143V0L13.4771 1.50102C14.5631 2.02978 15.8299 2.02978 16.9159 1.50102L19.9972 0Z"/>
+        <path d="M30.3932 10.4397V17.0879L26.6676 18.903C25.4052 19.518 24.604 20.8007 24.604 22.2067V29.0711H18.8149V18.9535C18.8149 17.1961 19.8165 15.5928 21.3943 14.8239L30.3932 10.4395V10.4397Z"/>
+        <path d="M0 10.4404V17.0886L3.72563 18.9037C4.98799 19.5187 5.78922 20.8014 5.78922 22.2074V29.0718H11.5783V18.9542C11.5783 17.1968 10.5768 15.5935 8.99895 14.8246L0 10.4404Z"/>
+        <path d="M0 2.43652V7.73194L11.7472 13.4554C13.9241 14.5159 16.4675 14.5128 18.6417 13.4467L30.393 7.68484V2.43652L16.9157 9.00282C15.8303 9.53159 14.5626 9.53159 13.4772 9.00282L0 2.43652Z"/>
+      </svg>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-avatar">
+        <i data-lucide="user"></i>
+      </div>
+      <span class="sidebar-footer-name">Olivier Guerin</span>
+      <span class="sidebar-footer-org">Transavia</span>
+    </div>
+
+  </aside>
+
+  <!-- ============================================================
+       CONTENT COLUMN — sticky context strip + page area
+       ============================================================ -->
+  <div class="content-col">
+
+    <!-- Sticky context strip — macro state always visible -->
+    <div class="context-strip">
+      <span class="ctx-pill">
+        <span class="label">Plan</span>
+        <strong>Premium</strong>
+      </span>
+      <span class="ctx-divider"></span>
+      <span class="ctx-pill">
+        <span class="label">Year 1</span>
+        <strong>Month 8 of 12</strong>
+      </span>
+      <span class="ctx-divider"></span>
+      <span class="ctx-verdict watch" title="Contract health: Watch — one resource trending toward overage">
+        <span class="ctx-verdict-dot"></span>
+        Watch
+      </span>
+      <span class="ctx-spacer"></span>
+      <span class="ctx-trailing">
+        GenAI tokens
+        <strong>92%</strong>
+        <span style="color: var(--text-muted)">· trajectory ~12 Aug</span>
+      </span>
+    </div>
+
+    <div class="page scroll-hide">
+      <div class="page-inner">
+
+        <!-- Shell-only placeholder. Sections will hang from here. -->
+        <div class="shell-placeholder">
+          <h2>Shell ready · sections to follow</h2>
+          <p>The Pricing page (active L1) will be composed of five anchored sections, navigable from the sidebar.</p>
+          <div class="anchors">
+            <span>Outcomes</span>
+            <span>Usage</span>
+            <span>Plan</span>
+            <span>Asks</span>
+            <span>Documents</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // ── Lucide icons ──
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+
+  // ── Nav: L1 expand/collapse (single open at a time) ──
+  document.querySelectorAll('.nav-l1[data-has-children]').forEach(l1 => {
+    l1.addEventListener('click', () => {
+      const expanded = l1.classList.toggle('expanded');
+      const parent = l1.dataset.key;
+      const group = document.querySelector(`.nav-l2-group[data-parent="${parent}"]`);
+      if (group) group.classList.toggle('expanded', expanded);
+    });
+  });
+
+  // ── Nav: L2 active swap (placeholder for anchor jump) ──
+  document.querySelectorAll('.nav-l2').forEach(l2 => {
+    l2.addEventListener('click', () => {
+      document.querySelectorAll('.nav-l2').forEach(x => x.classList.remove('active'));
+      l2.classList.add('active');
+      const anchor = l2.dataset.anchor;
+      const target = document.getElementById(anchor);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // ── Auto-hide scrollbar: temporarily reveal on scroll ──
+  document.querySelectorAll('.scroll-hide').forEach(el => {
+    let timeoutId;
+    el.addEventListener('scroll', () => {
+      el.classList.add('is-scrolling');
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => el.classList.remove('is-scrolling'), 700);
+    });
+  });
+</script>
+</body>
+</html>
