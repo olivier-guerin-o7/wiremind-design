@@ -1481,15 +1481,14 @@ tbody tr.active .col-overflow-th { background:rgba(108,77,220,0.03); }
 .col-overflow-btn.has-hidden { color:var(--p3); border-color:var(--p3); }
 [data-col="avg"] { text-align:left; }
 .col-menu {
-  position:absolute;
-  right:0; top:calc(100% + 4px);
-  z-index:200;
+  position:fixed;
+  z-index:1000;
   background:#fff;
   border:1px solid var(--border);
   border-radius:var(--radius-md);
   box-shadow:0 4px 16px rgba(0,0,0,0.1);
   padding:6px;
-  min-width:150px;
+  min-width:160px;
   display:none;
 }
 .col-menu.open { display:block; }
@@ -2623,12 +2622,19 @@ function updateColumns(w) {
 new ResizeObserver(entries => updateColumns(entries[0].contentRect.width))
   .observe(document.querySelector('.content-col'));
 
+const colMenu = document.getElementById('colMenu');
+document.body.appendChild(colMenu);
+
 document.getElementById('colOverflowBtn').addEventListener('click', e => {
   e.stopPropagation();
-  document.getElementById('colMenu').classList.toggle('open');
+  const rect = e.currentTarget.getBoundingClientRect();
+  colMenu.style.top  = (rect.bottom + 4) + 'px';
+  colMenu.style.right = (window.innerWidth - rect.right) + 'px';
+  colMenu.style.left = 'auto';
+  colMenu.classList.toggle('open');
 });
-document.getElementById('colMenu').addEventListener('click', e => e.stopPropagation());
-document.addEventListener('click', () => document.getElementById('colMenu').classList.remove('open'));
+colMenu.addEventListener('click', e => e.stopPropagation());
+document.addEventListener('click', () => colMenu.classList.remove('open'));
 
 // Render products
 const pList = document.getElementById('productsList');
