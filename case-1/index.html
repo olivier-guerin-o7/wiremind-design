@@ -1160,21 +1160,21 @@
       gap: 2px;
       padding: 3px;
       border-radius: 8px;
-      border: 1px solid transparent;
-      background: var(--accent);
+      border: 1px solid rgba(108, 77, 220, 0.18);
+      background: var(--accent-light);
       font-size: 11px;
-      font-weight: 600;
     }
     .admin-toggle-opt {
       padding: 4px 12px;
       border-radius: 5px;
       cursor: pointer;
-      color: rgba(255,255,255,0.65);
+      color: rgba(108, 77, 220, 0.5);
+      font-weight: 700;
       transition: all 0.12s;
     }
     .admin-toggle-opt.active {
-      background: white;
-      color: var(--accent);
+      background: var(--accent);
+      color: white;
       box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
 
@@ -1184,7 +1184,7 @@
     .modal-actions {
       display: flex;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
     .modal-actions.admin-only { display: none; }
@@ -1193,10 +1193,6 @@
 
     /* Modal resource bar */
     .modal-resource-bar {
-      background: var(--bg);
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      padding: 12px 14px;
       margin-bottom: 16px;
       display: flex;
       flex-direction: column;
@@ -2074,7 +2070,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 12px;
-      margin-top: 12px;
+      margin-top: 20px;
     }
     .plan-compare-table th {
       padding: 8px 14px;
@@ -2832,7 +2828,7 @@
                   <tr><td>CSM response SLA</td><td>5 days</td><td>2 days</td><td class="cell-active">1 day</td></tr>
                 </tbody>
               </table>
-              <div class="modal-actions" style="margin-top: 16px;">
+              <div class="modal-actions">
                 <button class="insight-btn primary">Request plan change</button>
                 <button class="insight-btn">Download plan PDF</button>
               </div>
@@ -3718,15 +3714,18 @@
   });
 
   // ── "Not in prototype" toaster ──
-  const toaster = document.getElementById('toaster');
   let toasterTimeout;
   function showToaster() {
+    const toaster = document.getElementById('toaster');
     clearTimeout(toasterTimeout);
     toaster.classList.add('show');
     toasterTimeout = setTimeout(() => toaster.classList.remove('show'), 2200);
   }
-  document.querySelectorAll('[data-no-proto]').forEach(el => {
-    el.addEventListener('click', (e) => { e.stopPropagation(); showToaster(); });
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.modal-overlay')) return;
+    if (e.target.closest('[data-no-proto]')) { showToaster(); return; }
+    if (e.target.closest('.nav-l1:not(.active)')) { showToaster(); return; }
+    if (e.target.closest('.nav-l2:not(.active)')) { showToaster(); return; }
   });
 </script>
 
