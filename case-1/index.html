@@ -146,7 +146,7 @@
     .sidebar {
       width: 200px;
       flex-shrink: 0;
-      background: var(--primary-deep);
+      background: radial-gradient(ellipse at 85% 30%, rgba(108, 77, 220, 0.22) 0%, transparent 55%), var(--primary-deep);
       color: rgba(255, 255, 255, 0.85);
       display: flex;
       flex-direction: column;
@@ -349,7 +349,7 @@
       color: var(--text-secondary); cursor: pointer;
       transition: background 0.12s, color 0.12s;
     }
-    .ctx-icon-btn:hover { background: var(--bg-tint); color: var(--ink); }
+    .ctx-icon-btn:hover { background: var(--bg-card); color: var(--ink); }
     .ctx-icon-btn [data-lucide] { width: 15px; height: 15px; }
 
     /* ── Page ── */
@@ -434,7 +434,7 @@
       cursor: pointer;
       transition: background 0.12s, color 0.12s;
     }
-    .card-action-btn:hover { background: var(--primary-bg); color: var(--primary-strong); }
+    .card-action-btn:hover { background: rgba(0, 157, 220, 0.08); color: var(--text); }
     .card-action-btn [data-lucide] { width: 15px; height: 15px; }
     .card-zoom-cue {
       position: absolute;
@@ -449,7 +449,7 @@
     }
     .card-zoom-cue [data-lucide] { width: 13px; height: 13px; }
     .card.clickable { cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
-    .card.clickable:hover { border-color: var(--primary); }
+    .card.clickable:hover { border-color: rgba(0, 157, 220, 0.32); box-shadow: 0 4px 14px rgba(0, 80, 130, 0.07); }
     .card.card-active {
       border-color: rgba(0, 157, 220, 0.45);
       box-shadow: 0 0 0 5px rgba(0, 157, 220, 0.06), 0 4px 22px rgba(0, 130, 180, 0.07);
@@ -467,11 +467,9 @@
       background: var(--bg-card);
       border: none;
       border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.15s;
       font-feature-settings: 'tnum' 1;
     }
-    .ticker:hover { background: var(--primary-bg); }
+
     .ticker-item {
       display: flex;
       flex-direction: column;
@@ -528,7 +526,7 @@
       font-weight: 500;
       transition: color 0.15s;
     }
-    .ticker:hover .ticker-cta { color: var(--primary); }
+
     .ticker-cta [data-lucide] { width: 12px; height: 12px; }
 
     /* ── Sticky context strip — slimmed ── */
@@ -550,7 +548,9 @@
       border-bottom: 1px solid var(--border-light);
     }
     .ledger-compact-row:last-child { border-bottom: none; }
-    .ledger-compact-row:hover { background: var(--bg-tint); }
+    .ledger-compact-row.clickable { cursor: pointer; border-radius: 6px; padding-left: 8px; padding-right: 8px; margin-left: -8px; margin-right: -8px; }
+    .ledger-compact-row.clickable:hover { background: rgba(0, 100, 160, 0.03); }
+    .ledger-compact-row.clickable:hover .ledger-resource-icon { background: var(--bg-card); }
     .lc-icon {
       width: 26px; height: 26px;
       border-radius: 5px;
@@ -696,10 +696,10 @@
       height: 18px;
     }
     .insight-tag::before { display: none; }
-    .insight-approaching .insight-tag { background: var(--danger-bg); color: var(--danger); }
-    .insight-watch       .insight-tag { background: var(--warning-bg); color: var(--warning); }
-    .insight-ok          .insight-tag { background: var(--success-bg); color: var(--success); }
-    .insight-neutral     .insight-tag { background: var(--primary-bg); color: var(--primary-strong); }
+    .insight-approaching .insight-tag,
+    .insight-watch       .insight-tag,
+    .insight-ok          .insight-tag,
+    .insight-neutral     .insight-tag { background: #edf3f9; color: #5a7290; }
 
     .insight-title {
       font-size: 13px;
@@ -808,10 +808,12 @@
       border-left-color: #b8d0dc;
     }
     .action-menu .ask-chip:hover {
-      background: var(--primary);
-      color: white;
+      background: var(--bg-card);
+      border-color: var(--primary-strong);
+      color: var(--primary-strong);
+      box-shadow: 0 0 0 3px rgba(0, 157, 220, 0.12);
     }
-    .action-menu .ask-chip:hover .ask-chip-sla { color: rgba(255,255,255,0.7); border-left-color: rgba(255,255,255,0.3); }
+    .action-menu .ask-chip:hover .ask-chip-sla { color: var(--primary-strong); border-left-color: #b8d0dc; }
     .ask-chip-overflow {
       margin-left: auto;
       flex-shrink: 0;
@@ -825,7 +827,7 @@
       align-items: center;
       transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
-    .ask-chip-overflow:hover { background: var(--primary); color: white; }
+    .ask-chip-overflow:hover { background: var(--bg-card); border-color: var(--primary-strong); color: var(--primary-strong); box-shadow: 0 0 0 3px rgba(0, 157, 220, 0.12); }
     .ask-chip-overflow [data-lucide] { width: 14px; height: 14px; }
 
     /* ── Asks chips bar ── */
@@ -887,7 +889,7 @@
       cursor: pointer;
       transition: background 0.12s;
     }
-    .doc-row:hover { background: var(--bg-tint); }
+    .doc-row:hover { background: rgba(0, 100, 160, 0.03); }
     .doc-row [data-lucide].doc-icon { width: 14px; height: 14px; color: var(--primary-strong); }
     .doc-row-body { flex: 1; min-width: 0; }
     .doc-row-name {
@@ -940,6 +942,7 @@
       align-self: stretch;
       height: 100%;
       box-sizing: border-box;
+      gap: 2px;
     }
     .meth-stack {
       display: flex;
@@ -950,7 +953,9 @@
     .card-meth {
       padding: 10px 14px;
       gap: 0;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
+    .card-meth:hover { border-color: rgba(0, 157, 220, 0.32); box-shadow: 0 4px 14px rgba(0, 80, 130, 0.07); }
     .meth-card-inner {
       display: flex;
       align-items: center;
@@ -986,8 +991,8 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(2px);
+      background: rgba(15, 23, 42, 0.10);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -1007,7 +1012,7 @@
       overflow: hidden;
     }
     .modal-md  { max-width: 620px; }
-    .modal-lg  { max-width: 960px; }
+    .modal-lg  { max-width: 720px; }
     .modal-xl  { max-width: 1240px; }
 
     .modal-header {
@@ -1156,29 +1161,25 @@
     .admin-toggle {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 4px 6px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: var(--bg-tint);
+      gap: 2px;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      background: #f3f4f6;
       font-size: 11px;
-      font-weight: 600;
-      color: var(--text-secondary);
     }
     .admin-toggle-opt {
-      padding: 4px 10px;
-      border-radius: 12px;
+      padding: 4px 12px;
+      border-radius: 5px;
       cursor: pointer;
+      color: #9ca3af;
+      font-weight: 700;
       transition: all 0.12s;
     }
     .admin-toggle-opt.active {
-      background: var(--bg-card);
-      color: var(--ink);
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
-    }
-    .admin-toggle-opt.admin.active {
-      background: var(--accent-light);
-      color: var(--accent);
+      background: #374151;
+      color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
 
     .admin-only { display: none; }
@@ -1187,12 +1188,59 @@
     .modal-actions {
       display: flex;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
     .modal-actions.admin-only { display: none; }
     [data-mode="admin"] .modal-actions.admin-only { display: flex; }
     [data-mode="admin"] .modal-actions.client-only { display: none; }
+
+    /* Modal resource bar */
+    .modal-resource-bar {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .modal-resource-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .modal-resource-bar-label { font-size: 11px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.4px; }
+    .modal-resource-bar-value { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    .modal-resource-bar-meta { font-size: 11px; color: var(--text-grey); margin-top: 2px; }
+
+    /* Doc row chevron */
+    .doc-chevron { width: 13px; height: 13px; color: var(--text-muted); flex-shrink: 0; transition: color 0.12s; }
+    .doc-row:hover .doc-chevron { color: var(--primary); }
+
+    /* Methodology card hover — same feel as insight cards */
+    .card-meth:hover { border-color: var(--primary); background: var(--bg-tint); }
+
+    /* Toaster */
+    .toaster {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--ink);
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s, transform 0.18s;
+      z-index: 2000;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .toaster.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
 
     /* ============================================================
        SECTIONS — common
@@ -1965,7 +2013,7 @@
       border-radius: 0;
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 1.2px;
+      letter-spacing: 0;
       text-transform: uppercase;
       align-self: stretch;
       justify-content: flex-start;
@@ -2026,7 +2074,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 12px;
-      margin-top: 12px;
+      margin-top: 20px;
     }
     .plan-compare-table th {
       padding: 8px 14px;
@@ -2039,7 +2087,7 @@
       border-bottom: 1px solid var(--border);
       background: var(--bg);
     }
-    .plan-compare-table th.col-active { color: var(--primary); background: var(--primary-bg); }
+    .plan-compare-table th.col-active { color: var(--ink); background: var(--bg); font-weight: 800; }
     .plan-compare-table td {
       padding: 8px 14px;
       border-bottom: 1px solid var(--border-light);
@@ -2050,7 +2098,31 @@
     .plan-compare-table td:first-child { font-weight: 600; color: var(--ink); }
     .plan-compare-table .cell-na { color: var(--text-muted); font-style: italic; }
     .plan-compare-table .cell-active { color: var(--primary-strong); font-weight: 700; }
-    .plan-compare-table tr.row-active td { background: var(--primary-bg); }
+    .plan-compare-table tr.row-active td { background: #f4f6f8; }
+
+    .plan-history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 13px;
+    }
+    .plan-history-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .plan-history-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .plan-history-table tr:last-child td { border-bottom: none; }
 
     /* ── Greeting / attention banner ── */
     .greeting {
@@ -2065,10 +2137,9 @@
     /* ── Design notes (prototype guide) ── */
     .design-notes {
       background: var(--bg-tint);
-      border: 1px dashed var(--border);
       border-radius: 10px;
       padding: 20px 24px;
-      margin-top: 8px;
+      margin-top: 16px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -2118,11 +2189,89 @@
       font-weight: 600;
       color: var(--accent);
       margin-top: auto;
-      padding-top: 8px;
+      padding-top: 4px;
     }
     .design-note-link::before {
       content: '→ ';
     }
+
+    /* ── Plan tier pills (Standard / Advanced / Premium) ── */
+    .plan-tier-pill {
+      display: inline-flex; align-items: center;
+      padding: 3px 11px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.4px; text-transform: uppercase;
+    }
+    .plan-tier-pill.standard { background: #dbeafe; color: #1d4ed8; }
+    .plan-tier-pill.advanced { background: #ede9fe; color: #6d28d9; }
+    .plan-tier-pill.premium  { background: #fef3c7; color: #b45309; }
+
+    /* ── Plan modal: module blocks ("Your plan" modal) ── */
+    .plan-modal-tier {
+      display: flex; align-items: center; gap: 14px;
+      padding: 0 0 16px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 16px;
+    }
+    .plan-modal-tier-info { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+    .plan-modal-tier-info strong { color: var(--ink); }
+    .plan-mod-block { margin-bottom: 8px; border: 1px solid var(--border-light); border-radius: 8px; overflow: hidden; }
+    .plan-mod-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 14px; background: var(--bg);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .plan-mod-accent { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; }
+    .plan-mod-header [data-lucide] { width: 16px; height: 16px; color: var(--text-secondary); flex-shrink: 0; }
+    .plan-mod-name { font-size: 13px; font-weight: 700; color: var(--ink); flex: 1; }
+    .plan-mod-count { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+    .plan-feat-row {
+      display: flex; align-items: center;
+      padding: 6px 14px; border-bottom: 1px solid var(--border-light); gap: 10px;
+    }
+    .plan-feat-row:last-child { border-bottom: none; }
+    .plan-feat-col { flex: 1; min-width: 0; }
+    .plan-feat-name { font-size: 12px; color: var(--text); font-weight: 500; }
+    .plan-feat-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; }
+    .plan-feat-detail { font-size: 11px; color: var(--text-grey); flex-shrink: 0; text-align: right; }
+    .plan-feat-icon { font-size: 13px; font-weight: 700; width: 18px; text-align: center; flex-shrink: 0; line-height: 1; }
+    .plan-feat-icon.on  { color: var(--success); }
+    .plan-feat-icon.mid { color: var(--warning-strong); font-size: 12px; }
+    .plan-feat-icon.off { color: var(--border); }
+
+    /* ── Catalogue modal: 4-column comparison grid ── */
+    .cat-col-header {
+      display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
+      padding: 10px 16px; background: #fff;
+      border-bottom: 2px solid var(--border);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .cat-col-header .cat-h { text-align: center; }
+    .cat-section-row {
+      display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
+      padding: 7px 16px; background: var(--bg);
+      border-bottom: 1px solid var(--border-light);
+      border-top: 1px solid var(--border-light);
+    }
+    .cat-section-name {
+      font-size: 13px; font-weight: 700; color: var(--ink);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cat-section-name [data-lucide] { width: 15px; height: 15px; color: var(--text-secondary); flex-shrink: 0; }
+    .cat-feat-row {
+      display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
+      padding: 7px 16px; border-bottom: 1px solid var(--border-light); align-items: center;
+    }
+    .cat-feat-row:last-child { border-bottom: none; }
+    .cat-feat-name { font-size: 12px; color: var(--text); font-weight: 500; }
+    .cat-feat-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; }
+    .cat-cell { text-align: center; font-size: 11px; color: var(--text); }
+    .cat-cell.active { background: transparent; }
+    .cat-cell-val { display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .cat-icon { font-size: 13px; font-weight: 700; line-height: 1; }
+    .cat-icon.on  { color: var(--success); }
+    .cat-icon.off { color: #d1d5db; font-weight: 400; }
+    .cat-strong   { font-weight: 600; color: var(--text); }
   </style>
 </head>
 <body>
@@ -2209,9 +2358,9 @@
       </span>
       <span class="ctx-spacer"></span>
       <div class="ctx-actions">
-        <button class="ctx-icon-btn" title="Download report"><i data-lucide="download"></i></button>
-        <button class="ctx-icon-btn" title="Notifications"><i data-lucide="bell"></i></button>
-        <button class="ctx-icon-btn" title="Settings"><i data-lucide="settings-2"></i></button>
+        <button class="ctx-icon-btn" title="Download report" data-no-proto><i data-lucide="download"></i></button>
+        <button class="ctx-icon-btn" title="Notifications" data-no-proto><i data-lucide="bell"></i></button>
+        <button class="ctx-icon-btn" title="Settings" data-no-proto><i data-lucide="settings-2"></i></button>
       </div>
     </div>
 
@@ -2227,38 +2376,38 @@
 
           <!-- ACTION MENU — quick actions, no card shell -->
           <div class="action-menu">
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="calendar"></i>
               Schedule QBR
               <span class="ask-chip-sla">3 days</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="user-plus"></i>
               Add user
               <span class="ask-chip-sla">1 hour</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="download"></i>
               Export usage
               <span class="ask-chip-sla">instant</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="link-2"></i>
               Share link
               <span class="ask-chip-sla">instant</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="message-circle"></i>
               Ask anything
               <span class="ask-chip-sla">4 hours</span>
             </button>
-            <button class="ask-chip-overflow" title="More actions">
+            <button class="ask-chip-overflow" title="More actions" data-no-proto>
               <i data-lucide="more-horizontal"></i>
             </button>
           </div>
 
           <!-- ROW 1 — Outcomes ticker (full-width, compact) -->
-          <div class="ticker" data-modal="outcomes-modal" role="button" tabindex="0">
+          <div class="ticker">
             <div class="ticker-item headline">
               <span class="ticker-label">YTD attributed lift</span>
               <div class="ticker-line">
@@ -2289,13 +2438,11 @@
                 <span class="ticker-value">14.2K</span>
               </div>
             </div>
-            <span class="ticker-cta">
-              <i data-lucide="maximize-2"></i> Open
-            </span>
+            <span class="ticker-cta" style="cursor:default; opacity:0.45;">Open <i data-lucide="maximize-2"></i></span>
           </div>
 
           <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
-          <div class="card card-resources clickable" data-span="8" data-modal="resource-modal">
+          <div class="card card-resources" data-span="8" style="box-shadow: 0 1px 8px rgba(0, 60, 110, 0.05);">
             <div class="card-header">
               <div class="card-title-block">
                 <h3 class="card-title">Resources</h3>
@@ -2306,11 +2453,10 @@
                 <button class="card-action-btn" title="Configure alerts"><i data-lucide="bell"></i></button>
               </div>
             </div>
-            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
             <div class="ledger-compact">
 
               <!-- Ancillary -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="package-plus"></i></div>
                 <div>
                   <div class="lc-name">Ancillary Tokens</div>
@@ -2331,7 +2477,7 @@
               </div>
 
               <!-- GenAI -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="sparkles"></i></div>
                 <div>
                   <div class="lc-name">GenAI Tokens</div>
@@ -2352,7 +2498,7 @@
               </div>
 
               <!-- F&O -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="target"></i></div>
                 <div>
                   <div class="lc-name">F&amp;O Executions</div>
@@ -2374,7 +2520,7 @@
               </div>
 
               <!-- BR -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="zap"></i></div>
                 <div>
                   <div class="lc-name">BR Executions</div>
@@ -2396,7 +2542,7 @@
               </div>
 
               <!-- PSEG -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="users"></i></div>
                 <div>
                   <div class="lc-name">PSEG</div>
@@ -2418,7 +2564,7 @@
               </div>
 
               <!-- DWH -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="database"></i></div>
                 <div>
                   <div class="lc-name">DWH Extracted Rows</div>
@@ -2443,8 +2589,7 @@
           </div>
 
           <!-- Plan — standalone card (right column) -->
-          <div class="card card-plan clickable" data-span="4" data-modal="plan-modal">
-            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+          <div class="card card-plan" data-span="4">
             <div class="card-header">
               <div class="card-title-block">
                 <h3 class="card-title">Plan</h3>
@@ -2482,33 +2627,30 @@
               </div>
             </div>
             <div class="plan-mini-actions">
-              <button class="insight-btn primary">Compare plans</button>
-              <button class="insight-btn secondary">Plan history</button>
+              <button class="insight-btn primary" data-modal="plan-your-modal">Your plan</button>
+              <button class="insight-btn secondary" data-modal="plan-catalogue-modal">All plans</button>
             </div>
           </div>
 
           <!-- ROW 3 — Insight cards (3-col sub-grid) -->
           <div class="insight-row" data-span="12">
-            <div class="card card-insight insight-approaching clickable" data-modal="resource-modal">
+            <div class="card card-insight insight-approaching clickable" data-modal="insight-risk-modal">
               <div class="insight-header">
                 <span class="insight-tag">Risk</span>
-                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
               </div>
               <h4 class="insight-title">Dual cap · Aug 12</h4>
               <p class="insight-desc">GenAI + Ancillary are both projected to cap the same week. Simultaneous exhaustion may degrade the live pricing engine and ancillary module at once.</p>
             </div>
-            <div class="card card-insight insight-watch clickable" data-modal="resource-modal">
+            <div class="card card-insight insight-watch clickable" data-modal="insight-cost-modal">
               <div class="insight-header">
                 <span class="insight-tag">Cost</span>
-                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
               </div>
               <h4 class="insight-title">€9K overage incoming</h4>
               <p class="insight-desc">Current GenAI trajectory triggers ~€9K in overage charges at plan rates. A pre-cap top-up is ~€3.2K — act before Aug 5 to save ~€5.8K.</p>
             </div>
-            <div class="card card-insight insight-neutral clickable" data-modal="resource-modal">
+            <div class="card card-insight insight-neutral clickable" data-modal="insight-context-modal">
               <div class="insight-header">
                 <span class="insight-tag">Context</span>
-                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
               </div>
               <h4 class="insight-title">Above seasonal norm</h4>
               <p class="insight-desc">F&amp;O burn rate is 27% above median for comparable airlines. Last year's summer effect added +18% in Jul–Aug — cap likely before Sep at this pace.</p>
@@ -2516,50 +2658,51 @@
           </div>
 
           <!-- ROW 4 — Documents + Methodology -->
-          <div class="card card-docs clickable" data-span="6" data-modal="docs-modal">
-            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+          <div class="card card-docs" data-span="6">
             <div class="card-header">
               <h3 class="card-title">Documents</h3>
+              <div class="card-actions">
+                <button class="card-action-btn" data-no-proto title="Edit documents"><i data-lucide="pencil-line"></i></button>
+              </div>
             </div>
             <div class="docs-list">
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="file-text" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Contract summary · April 2026</div>
                   <div class="doc-row-meta">PDF · 8 pages · auto-refreshed monthly</div>
                 </div>
-                <i data-lucide="download" class="doc-action"></i>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="file-spreadsheet" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Usage CSV · YTD</div>
                   <div class="doc-row-meta">CSV · 6 resources × daily</div>
                 </div>
-                <i data-lucide="download" class="doc-action"></i>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="link-2" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Share read-only link</div>
                   <div class="doc-row-meta">URL · expires in 30 days</div>
                 </div>
-                <i data-lucide="copy" class="doc-action"></i>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="mail" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Subscribe to monthly digest</div>
                   <div class="doc-row-meta">Email · sent on the 1st of each month</div>
                 </div>
-                <i data-lucide="bell" class="doc-action"></i>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
             </div>
           </div>
 
           <div class="meth-stack" data-span="6">
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="info" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2569,8 +2712,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="trending-up" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2580,8 +2722,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="bell-ring" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2591,8 +2732,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="help-circle" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2602,8 +2742,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="calculator" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2682,7 +2821,7 @@
 
         <!-- Resource modal — detail + Admin toggle (continuity proof) -->
         <div class="modal-overlay" id="resource-modal" aria-hidden="true" data-mode="client">
-          <div class="modal modal-lg">
+          <div class="modal modal-md">
             <header class="modal-header">
               <div class="modal-title-block">
                 <span class="modal-eyebrow">Resource · Year 1</span>
@@ -2690,13 +2829,27 @@
               </div>
               <div style="display:flex; align-items:center; gap:14px;">
                 <div class="admin-toggle" role="tablist">
-                  <span class="admin-toggle-opt client active" data-mode-set="client">Client view</span>
-                  <span class="admin-toggle-opt admin" data-mode-set="admin">Admin (WM CSM)</span>
+                  <span class="admin-toggle-opt client active" data-mode-set="client">Client</span>
+                  <span class="admin-toggle-opt admin" data-mode-set="admin">Admin</span>
                 </div>
                 <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
               </div>
             </header>
             <div class="modal-body">
+
+              <div class="modal-resource-bar">
+                <div class="modal-resource-bar-header">
+                  <span class="modal-resource-bar-label">GenAI Tokens · Year 1</span>
+                  <span class="modal-resource-bar-value">1.38B / 1.5B — 92%</span>
+                </div>
+                <div class="lc-bar" style="height:6px; border-radius:3px; background:var(--border-light); overflow:visible; position:relative;">
+                  <div class="lc-bar-fill danger" style="width:92%; border-radius:3px 0 0 3px;"></div>
+                  <div class="lc-bar-projected danger" style="left:92%; width:8%;">
+                    <span class="proj-dot"></span><span class="proj-dot"></span><span class="proj-dot"></span>
+                  </div>
+                </div>
+                <div class="modal-resource-bar-meta">Cap: Aug 12 · Projected year-end: ~1.85B (+23%)</div>
+              </div>
 
               <p>
                 <strong>92% used.</strong> At current pace adjusted for last year's Jun–Aug seasonality (+15%), the cap is reached on <strong>~12 Aug 2026</strong>, with a projected end-of-year usage of <strong>~1.85B</strong> tokens (overage ≈ +23%).
@@ -2712,57 +2865,363 @@
 
               <div class="modal-actions client-only">
                 <button class="insight-btn primary">Request top-up</button>
-                <button class="insight-btn">Compare upgrade</button>
-                <button class="insight-btn">Schedule call</button>
+                <button class="insight-btn secondary">Compare upgrade</button>
+                <button class="insight-btn secondary">Schedule call</button>
               </div>
 
               <div class="modal-actions admin-only">
                 <button class="insight-btn primary">Override cap</button>
-                <button class="insight-btn">Compare 12 peers</button>
-                <button class="insight-btn">Audit log</button>
-                <button class="insight-btn">Change plan</button>
+                <button class="insight-btn secondary">Compare 12 peers</button>
+                <button class="insight-btn secondary">Audit log</button>
+                <button class="insight-btn secondary">Change plan</button>
               </div>
 
             </div>
           </div>
         </div>
 
-        <!-- Plan modal — tier comparison -->
-        <div class="modal-overlay" id="plan-modal" aria-hidden="true">
-          <div class="modal modal-xl">
+        <!-- Plan catalogue modal — 4-column comparison -->
+        <div class="modal-overlay" id="plan-catalogue-modal" aria-hidden="true">
+          <div class="modal modal-lg">
             <header class="modal-header">
               <div class="modal-title-block">
-                <span class="modal-eyebrow">Plan · active tier</span>
-                <span class="modal-title">Premium — Sep 2025 to Aug 2026</span>
+                <span class="modal-eyebrow">Plan · All plans</span>
+                <span class="modal-title">All plans</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body" style="padding: 0; font-size: 12px;">
+
+              <!-- Column headers -->
+              <div class="cat-col-header">
+                <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px;">Feature</div>
+                <div class="cat-h"><span class="plan-tier-pill standard" style="font-size:9px;padding:2px 9px;">Standard</span></div>
+                <div class="cat-h"><span class="plan-tier-pill advanced" style="font-size:9px;padding:2px 9px;">Advanced</span></div>
+                <div class="cat-h"><span class="plan-tier-pill premium" style="font-size:9px;padding:2px 9px;">Premium ✓</span></div>
+              </div>
+
+              <!-- BRE -->
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="wrench"></i> BRE — Business Rules Engine</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Quick Actions / Multi-BR / Perimeters</div><span class="cat-feat-sub">Automated pricing rules from the RM module</span></div>
+                <div class="cat-cell">1 per type</div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span> Unlimited</div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Unlimited</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">BR Executions</div><span class="cat-feat-sub">Per service / day quota</span></div>
+                <div class="cat-cell">5 / svc</div>
+                <div class="cat-cell">10 / svc</div>
+                <div class="cat-cell active"><span class="cat-strong">25 / svc</span></div>
+              </div>
+
+              <!-- Analytics -->
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="bar-chart-2"></i> Analytics</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Horizon Dashboards</div><span class="cat-feat-sub">Network commercial performance</span></div>
+                <div class="cat-cell">5 routes</div>
+                <div class="cat-cell">5 routes</div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Unlimited</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">DWH Extractor</div><span class="cat-feat-sub">Request rate &amp; concurrency</span></div>
+                <div class="cat-cell">30 req/min</div>
+                <div class="cat-cell">150 req/min</div>
+                <div class="cat-cell active"><span class="cat-strong">300 req/min</span></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Extracted Rows</div><span class="cat-feat-sub">Multiplier on base quota / day</span></div>
+                <div class="cat-cell">×1</div>
+                <div class="cat-cell">×2</div>
+                <div class="cat-cell active"><span class="cat-strong">×5</span></div>
+              </div>
+
+              <!-- AI Plan -->
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="bot"></i> AI Plan — Forecast &amp; Optimisation</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Forecast &amp; Optimisation — Bookings</div><span class="cat-feat-sub">ML sales curve prediction + pricing autopilot</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">AI Cockpit — Scenarios</div><span class="cat-feat-sub">A/B tests on optimisation configs</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">F&amp;O Executions</div><span class="cat-feat-sub">Per service / day quota</span></div>
+                <div class="cat-cell">2 / svc</div>
+                <div class="cat-cell">10 / svc</div>
+                <div class="cat-cell active"><span class="cat-strong">25 / svc</span></div>
+              </div>
+
+              <!-- Monitoring -->
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="radar"></i> Monitoring</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Spectrum</div><span class="cat-feat-sub">BR, extractor &amp; optimisation deep-dive</span></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">New Models · Live AI Dashboards</div><span class="cat-feat-sub">Model performance surveillance</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+              </div>
+
+              <!-- Ancillary -->
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="package-plus"></i> Ancillary</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Demand Forecast &amp; Optimisation — Ancillaries</div><span class="cat-feat-sub">ML-driven ancillary pricing</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Ancillary Tokens / year</div></div>
+                <div class="cat-cell">52M</div>
+                <div class="cat-cell">130M</div>
+                <div class="cat-cell active"><span class="cat-strong">260M</span></div>
+              </div>
+
+              <!-- GenAI -->
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="sparkles"></i> GenAI</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Price Reco · Optim Logs · BR Script</div><span class="cat-feat-sub">LLM-powered features — all plans</span></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span> All</div></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span> All</div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> All</div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">GenAI Tokens / year</div><span class="cat-feat-sub">LLM token quota · rate limit</span></div>
+                <div class="cat-cell">25M · 15K/min</div>
+                <div class="cat-cell">250M · 40K/min</div>
+                <div class="cat-cell active"><span class="cat-strong">1.5B · 80K/min</span></div>
+              </div>
+
+              <div style="padding: 12px 16px; display: flex; gap: 8px; position: sticky; bottom: 0; background: #fff; border-top: 1px solid var(--border);">
+                <button class="insight-btn primary">Request plan change</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Your plan modal — Transavia Premium breakdown -->
+        <div class="modal-overlay" id="plan-your-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Plan · Active</span>
+                <span class="modal-title">Your plan</span>
               </div>
               <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
             </header>
             <div class="modal-body">
-              <p>Your current plan is <strong>Premium</strong>, active since 1 Sep 2025. It renews in <strong>122 days</strong>. The table below compares the three available tiers — your contracted quotas are highlighted.</p>
-              <table class="plan-compare-table">
-                <thead>
-                  <tr>
-                    <th>Resource / Feature</th>
-                    <th>Standard</th>
-                    <th>Advanced</th>
-                    <th class="col-active">Premium ✓ active</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="row-active"><td>PSEG / year</td><td>20M</td><td>30M</td><td class="cell-active">50M</td></tr>
-                  <tr><td>BR Executions / year</td><td>4M</td><td>8M</td><td class="cell-active">15M</td></tr>
-                  <tr class="row-active"><td>F&amp;O Executions / year</td><td>3M</td><td>5M</td><td class="cell-active">8M</td></tr>
-                  <tr><td>DWH Extracted Rows / year</td><td>6M</td><td>10M</td><td class="cell-active">18M</td></tr>
-                  <tr class="row-active"><td>GenAI Tokens / year</td><td class="cell-na">—</td><td>500M</td><td class="cell-active">1.5B</td></tr>
-                  <tr><td>Ancillary Tokens / year</td><td class="cell-na">—</td><td>800K</td><td class="cell-active">2.0M</td></tr>
-                  <tr class="row-active"><td>Modules included</td><td>12</td><td>19</td><td class="cell-active">27</td></tr>
-                  <tr><td>CSM response SLA</td><td>5 days</td><td>2 days</td><td class="cell-active">1 day</td></tr>
-                </tbody>
-              </table>
-              <div class="modal-actions" style="margin-top: 16px;">
-                <button class="insight-btn primary">Request plan change</button>
-                <button class="insight-btn">Download plan PDF</button>
+
+              <div class="plan-modal-tier">
+                <span class="plan-tier-pill premium">Premium</span>
+                <div class="plan-modal-tier-info">
+                  Contract: <strong>Sep 2025 – Aug 2026</strong><br>
+                  Renews in <strong>122 days</strong> · Support: <strong>Dedicated CSM</strong>
+                </div>
               </div>
+
+              <!-- Core System -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#3b82f6"></div>
+                  <i data-lucide="layout-grid"></i>
+                  <span class="plan-mod-name">Core System</span>
+                  <span class="plan-mod-count">7 / 7 features</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">RM Module · Massive Changes · Upload Center</span>
+                    <span class="plan-feat-sub">Core access — all standard capabilities</span>
+                  </div>
+                  <div class="plan-feat-detail">Full access</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Activity Monitoring · Market Management · Configuration</span>
+                    <span class="plan-feat-sub">Audit log, market setup, user settings</span>
+                  </div>
+                  <div class="plan-feat-detail">Full access</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- BRE -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#8b5cf6"></div>
+                  <i data-lucide="wrench"></i>
+                  <span class="plan-mod-name">BRE — Business Rules Engine</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Quick Actions · Multi-BR · Tracking · Comparison Perimeters</span>
+                    <span class="plan-feat-sub">Unlimited — Standard allows only 1 per type</span>
+                  </div>
+                  <div class="plan-feat-detail">Unlimited</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">BR Executions</span>
+                    <span class="plan-feat-sub">Contractual quota per service / day</span>
+                  </div>
+                  <div class="plan-feat-detail">25 / svc</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- Analytics -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#06b6d4"></div>
+                  <i data-lucide="bar-chart-2"></i>
+                  <span class="plan-mod-name">Analytics</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Horizon Dashboards</span>
+                    <span class="plan-feat-sub">Unlimited routes — Standard/Advanced limited to 5</span>
+                  </div>
+                  <div class="plan-feat-detail">Unlimited</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">DWH Extractor</span>
+                    <span class="plan-feat-sub">300 req/min · max 25 concurrent queries</span>
+                  </div>
+                  <div class="plan-feat-detail">300 req/min</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Extracted Rows</span>
+                    <span class="plan-feat-sub">×5 base / day — highest tier</span>
+                  </div>
+                  <div class="plan-feat-detail">×5 base</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- AI Plan -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#10b981"></div>
+                  <i data-lucide="bot"></i>
+                  <span class="plan-mod-name">AI Plan — Forecast, Optimisation &amp; AI Cockpit</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Forecast &amp; Optimisation — Bookings</span>
+                    <span class="plan-feat-sub">ML sales curve prediction + pricing autopilot</span>
+                  </div>
+                  <div class="plan-feat-detail">Enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">AI Cockpit — Overview · Massive Change · Parameters · Strategies</span>
+                    <span class="plan-feat-sub">Full optimisation control plane</span>
+                  </div>
+                  <div class="plan-feat-detail">Full access</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">AI Cockpit — Scenarios</span>
+                    <span class="plan-feat-sub">A/B tests on optimisation configs — Premium exclusive</span>
+                  </div>
+                  <div class="plan-feat-detail">Premium</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">F&amp;O Executions</span>
+                    <span class="plan-feat-sub">Contractual quota per service / day</span>
+                  </div>
+                  <div class="plan-feat-detail">25 / svc</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- Monitoring -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#f43f5e"></div>
+                  <i data-lucide="radar"></i>
+                  <span class="plan-mod-name">Monitoring</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Spectrum · New Models Dashboard · Live AI Dashboard</span>
+                    <span class="plan-feat-sub">New Models &amp; Live AI are Premium-exclusive</span>
+                  </div>
+                  <div class="plan-feat-detail">All enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- Ancillary -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#f59e0b"></div>
+                  <i data-lucide="package-plus"></i>
+                  <span class="plan-mod-name">Ancillary</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Demand Forecast &amp; Optimisation — Ancillaries</span>
+                    <span class="plan-feat-sub">ML-driven ancillary pricing — Premium exclusive</span>
+                  </div>
+                  <div class="plan-feat-detail">Enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Ancillary Tokens</span>
+                    <span class="plan-feat-sub">260M transactions / year</span>
+                  </div>
+                  <div class="plan-feat-detail">260M / yr</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- GenAI -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#ec4899"></div>
+                  <i data-lucide="sparkles"></i>
+                  <span class="plan-mod-name">GenAI</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Price Recommendation · Optim Logs Analysis · BR Script</span>
+                    <span class="plan-feat-sub">All three LLM-powered features enabled</span>
+                  </div>
+                  <div class="plan-feat-detail">All enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">GenAI Tokens</span>
+                    <span class="plan-feat-sub">1.5B tokens / year · 80K tokens/min</span>
+                  </div>
+                  <div class="plan-feat-detail">1.5B / yr</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -2823,6 +3282,72 @@
           </div>
         </div>
 
+
+        <!-- Insight: Risk modal -->
+        <div class="modal-overlay" id="insight-risk-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Insight · Risk</span>
+                <span class="modal-title">Dual cap · Aug 12</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>GenAI Tokens and Ancillary Tokens are both projected to reach their annual cap during the same week of August 12, 2026. At current burn rates, GenAI hits its 1.5B limit on Aug 12 and Ancillary hits its 2.0M limit on Aug 14 — a two-day overlap.</p>
+              <p>Simultaneous exhaustion means the live pricing engine loses both its AI scoring and ancillary recommendation layers at once, significantly degrading quote quality during one of the peak summer booking weeks.</p>
+              <p>A top-up on GenAI alone (~€3.2K) would push its cap past end-of-year and break the overlap. Alternatively, a combined top-up covers both for ~€4.8K — less than the estimated revenue impact of a 5-day degraded pricing window.</p>
+              <div class="modal-actions">
+                <button class="insight-btn primary">Request top-up</button>
+                <button class="insight-btn secondary">Schedule CSM call</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insight: Cost modal -->
+        <div class="modal-overlay" id="insight-cost-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Insight · Cost</span>
+                <span class="modal-title">€9K overage incoming</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>Current GenAI trajectory projects end-of-year usage at ~1.85B tokens — 23% above the contracted 1.5B limit. At plan overage rates, this translates to approximately <strong>€9,200 in additional charges</strong> billed at contract renewal.</p>
+              <p>A pre-cap top-up of 400M tokens is priced at <strong>~€3,200</strong> — roughly 65% cheaper than paying the overage rate. Acting before August 5 locks in current pricing; after that date, emergency top-ups apply a 15% surcharge.</p>
+              <p>Net saving by acting now: <strong>~€5,800</strong>. The top-up would also prevent the dual-cap risk flagged in the Risk insight.</p>
+              <div class="modal-actions">
+                <button class="insight-btn primary">Request top-up · €3.2K</button>
+                <button class="insight-btn secondary">View plan options</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insight: Context modal -->
+        <div class="modal-overlay" id="insight-context-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Insight · Context</span>
+                <span class="modal-title">Above seasonal norm</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>F&amp;O Executions burn rate is currently <strong>27% above the median</strong> for comparable airlines on the Premium tier. This compares your month-8 cumulative usage against 11 anonymised peer accounts with similar fleet sizes and route networks.</p>
+              <p>Last year's summer effect (Jun–Aug 2025) added <strong>+18% to F&amp;O usage</strong> over the same period. If this seasonal pattern repeats, current trajectory projects F&amp;O hitting its 15M annual cap by early September — three months ahead of schedule.</p>
+              <p>This is a context signal, not an immediate action item. No overage risk exists today, but monitoring is recommended. Consider setting a usage alert at 80% (currently at 63%) to get 30 days' notice.</p>
+              <div class="modal-actions">
+                <button class="insight-btn primary">Set usage alert</button>
+                <button class="insight-btn secondary">View F&amp;O trajectory</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- ============================================================
              LEGACY SECTIONS — hidden, kept only as visual reference.
@@ -3501,6 +4026,19 @@
       }
     });
   });
+  // ── Button-level modal triggers ──
+  document.querySelectorAll('button[data-modal]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.modal;
+      const overlay = document.getElementById(id);
+      if (overlay) {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    });
+  });
   document.querySelectorAll('[data-modal-close]').forEach(btn => {
     btn.addEventListener('click', () => {
       btn.closest('.modal-overlay').classList.remove('open');
@@ -3537,6 +4075,23 @@
       });
     });
   });
+
+  // ── "Not in prototype" toaster ──
+  let toasterTimeout;
+  function showToaster() {
+    const toaster = document.getElementById('toaster');
+    clearTimeout(toasterTimeout);
+    toaster.classList.add('show');
+    toasterTimeout = setTimeout(() => toaster.classList.remove('show'), 2200);
+  }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.modal-overlay')) return;
+    if (e.target.closest('[data-no-proto]')) { showToaster(); return; }
+    if (e.target.closest('.nav-l1:not(.active)')) { showToaster(); return; }
+    if (e.target.closest('.nav-l2:not(.active)')) { showToaster(); return; }
+  });
 </script>
+
+<div class="toaster" id="toaster">Not available in this prototype</div>
 </body>
 </html>
