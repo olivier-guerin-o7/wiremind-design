@@ -275,6 +275,7 @@
       display: flex;
       align-items: center;
       padding: 0 28px;
+      margin-top: 8px;
       background: var(--bg);
       gap: 14px;
       flex-shrink: 0;
@@ -340,6 +341,16 @@
       font-weight: 600;
       font-size: 12px;
     }
+    .ctx-actions { display: flex; align-items: center; gap: 2px; }
+    .ctx-icon-btn {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; border-radius: 6px;
+      color: var(--text-secondary); cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+    }
+    .ctx-icon-btn:hover { background: var(--bg-tint); color: var(--ink); }
+    .ctx-icon-btn [data-lucide] { width: 15px; height: 15px; }
 
     /* ── Page ── */
     .page {
@@ -350,7 +361,7 @@
     .page-inner {
       max-width: 1440px;
       margin: 0 auto;
-      padding: 6px 22px 48px;
+      padding: 2px 22px 48px;
     }
 
     /* ============================================================
@@ -2190,13 +2201,18 @@
     <!-- Sticky context strip — macro state always visible -->
     <div class="context-strip">
       <span class="ctx-pill">
-        <strong>Month 8 of 12</strong>
+        <span class="label">Month 8 of 12</span>
+      </span>
+      <span class="ctx-divider"></span>
+      <span class="ctx-pill">
+        <span class="label">May 1, 2026</span>
       </span>
       <span class="ctx-spacer"></span>
-      <span class="ctx-trailing">
-        <span class="label">Last visit</span>
-        <strong>Apr 29, 2026</strong>
-      </span>
+      <div class="ctx-actions">
+        <button class="ctx-icon-btn" title="Download report"><i data-lucide="download"></i></button>
+        <button class="ctx-icon-btn" title="Notifications"><i data-lucide="bell"></i></button>
+        <button class="ctx-icon-btn" title="Settings"><i data-lucide="settings-2"></i></button>
+      </div>
     </div>
 
     <div class="page scroll-hide">
