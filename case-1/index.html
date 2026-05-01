@@ -349,7 +349,7 @@
       color: var(--text-secondary); cursor: pointer;
       transition: background 0.12s, color 0.12s;
     }
-    .ctx-icon-btn:hover { background: var(--bg-tint); color: var(--ink); }
+    .ctx-icon-btn:hover { background: var(--bg-card); color: var(--ink); }
     .ctx-icon-btn [data-lucide] { width: 15px; height: 15px; }
 
     /* ── Page ── */
@@ -434,7 +434,7 @@
       cursor: pointer;
       transition: background 0.12s, color 0.12s;
     }
-    .card-action-btn:hover { background: var(--primary-bg); color: var(--primary-strong); }
+    .card-action-btn:hover { background: rgba(0, 157, 220, 0.08); color: var(--text); }
     .card-action-btn [data-lucide] { width: 15px; height: 15px; }
     .card-zoom-cue {
       position: absolute;
@@ -449,7 +449,7 @@
     }
     .card-zoom-cue [data-lucide] { width: 13px; height: 13px; }
     .card.clickable { cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
-    .card.clickable:hover { border-color: var(--primary); box-shadow: 0 4px 14px rgba(0, 80, 130, 0.09); }
+    .card.clickable:hover { border-color: rgba(0, 157, 220, 0.32); box-shadow: 0 4px 14px rgba(0, 80, 130, 0.07); }
     .card.card-active {
       border-color: rgba(0, 157, 220, 0.45);
       box-shadow: 0 0 0 5px rgba(0, 157, 220, 0.06), 0 4px 22px rgba(0, 130, 180, 0.07);
@@ -549,7 +549,7 @@
     }
     .ledger-compact-row:last-child { border-bottom: none; }
     .ledger-compact-row.clickable { cursor: pointer; border-radius: 6px; padding-left: 8px; padding-right: 8px; margin-left: -8px; margin-right: -8px; }
-    .ledger-compact-row.clickable:hover { background: var(--bg-tint); }
+    .ledger-compact-row.clickable:hover { background: rgba(0, 100, 160, 0.03); }
     .ledger-compact-row.clickable:hover .ledger-resource-icon { background: var(--bg-card); }
     .lc-icon {
       width: 26px; height: 26px;
@@ -889,7 +889,7 @@
       cursor: pointer;
       transition: background 0.12s;
     }
-    .doc-row:hover { background: var(--bg-tint); }
+    .doc-row:hover { background: rgba(0, 100, 160, 0.03); }
     .doc-row [data-lucide].doc-icon { width: 14px; height: 14px; color: var(--primary-strong); }
     .doc-row-body { flex: 1; min-width: 0; }
     .doc-row-name {
@@ -953,7 +953,9 @@
     .card-meth {
       padding: 10px 14px;
       gap: 0;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
+    .card-meth:hover { border-color: rgba(0, 157, 220, 0.32); box-shadow: 0 4px 14px rgba(0, 80, 130, 0.07); }
     .meth-card-inner {
       display: flex;
       align-items: center;
@@ -2440,7 +2442,7 @@
           </div>
 
           <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
-          <div class="card card-resources" data-span="8" style="box-shadow: 0 2px 12px rgba(0, 60, 110, 0.07);">
+          <div class="card card-resources" data-span="8" style="box-shadow: 0 1px 8px rgba(0, 60, 110, 0.05);">
             <div class="card-header">
               <div class="card-title-block">
                 <h3 class="card-title">Resources</h3>
