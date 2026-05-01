@@ -807,8 +807,10 @@
       border-left-color: #b8d0dc;
     }
     .action-menu .ask-chip:hover {
-      background: #d4e8f5;
+      background: var(--bg-card);
+      border-color: var(--primary-strong);
       color: var(--primary-strong);
+      box-shadow: 0 0 0 3px rgba(0, 157, 220, 0.12);
     }
     .action-menu .ask-chip:hover .ask-chip-sla { color: var(--primary-strong); border-left-color: #b8d0dc; }
     .ask-chip-overflow {
@@ -824,7 +826,7 @@
       align-items: center;
       transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
-    .ask-chip-overflow:hover { background: #d4e8f5; color: var(--primary-strong); }
+    .ask-chip-overflow:hover { background: var(--bg-card); border-color: var(--primary-strong); color: var(--primary-strong); box-shadow: 0 0 0 3px rgba(0, 157, 220, 0.12); }
     .ask-chip-overflow [data-lucide] { width: 14px; height: 14px; }
 
     /* ── Asks chips bar ── */
@@ -985,8 +987,8 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(2px);
+      background: rgba(15, 23, 42, 0.22);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -1158,8 +1160,8 @@
       gap: 2px;
       padding: 3px;
       border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg-tint);
+      border: 1px solid transparent;
+      background: var(--accent);
       font-size: 11px;
       font-weight: 600;
     }
@@ -1167,12 +1169,12 @@
       padding: 4px 12px;
       border-radius: 5px;
       cursor: pointer;
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.65);
       transition: all 0.12s;
     }
     .admin-toggle-opt.active {
-      background: var(--accent);
-      color: white;
+      background: white;
+      color: var(--accent);
       box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
 
@@ -1188,6 +1190,57 @@
     .modal-actions.admin-only { display: none; }
     [data-mode="admin"] .modal-actions.admin-only { display: flex; }
     [data-mode="admin"] .modal-actions.client-only { display: none; }
+
+    /* Modal resource bar */
+    .modal-resource-bar {
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .modal-resource-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .modal-resource-bar-label { font-size: 11px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.4px; }
+    .modal-resource-bar-value { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    .modal-resource-bar-meta { font-size: 11px; color: var(--text-grey); margin-top: 2px; }
+
+    /* Doc row chevron */
+    .doc-chevron { width: 13px; height: 13px; color: var(--text-muted); flex-shrink: 0; transition: color 0.12s; }
+    .doc-row:hover .doc-chevron { color: var(--primary); }
+
+    /* Methodology card hover — same feel as insight cards */
+    .card-meth:hover { border-color: var(--primary); background: var(--bg-tint); }
+
+    /* Toaster */
+    .toaster {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--ink);
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s, transform 0.18s;
+      z-index: 2000;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .toaster.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
 
     /* ============================================================
        SECTIONS — common
@@ -2034,7 +2087,7 @@
       border-bottom: 1px solid var(--border);
       background: var(--bg);
     }
-    .plan-compare-table th.col-active { color: var(--primary); background: var(--primary-bg); }
+    .plan-compare-table th.col-active { color: var(--ink); background: var(--bg); font-weight: 800; }
     .plan-compare-table td {
       padding: 8px 14px;
       border-bottom: 1px solid var(--border-light);
@@ -2045,7 +2098,7 @@
     .plan-compare-table td:first-child { font-weight: 600; color: var(--ink); }
     .plan-compare-table .cell-na { color: var(--text-muted); font-style: italic; }
     .plan-compare-table .cell-active { color: var(--primary-strong); font-weight: 700; }
-    .plan-compare-table tr.row-active td { background: var(--primary-bg); }
+    .plan-compare-table tr.row-active td { background: #f4f6f8; }
 
     .plan-history-table {
       width: 100%;
@@ -2228,9 +2281,9 @@
       </span>
       <span class="ctx-spacer"></span>
       <div class="ctx-actions">
-        <button class="ctx-icon-btn" title="Download report"><i data-lucide="download"></i></button>
-        <button class="ctx-icon-btn" title="Notifications"><i data-lucide="bell"></i></button>
-        <button class="ctx-icon-btn" title="Settings"><i data-lucide="settings-2"></i></button>
+        <button class="ctx-icon-btn" title="Download report" data-no-proto><i data-lucide="download"></i></button>
+        <button class="ctx-icon-btn" title="Notifications" data-no-proto><i data-lucide="bell"></i></button>
+        <button class="ctx-icon-btn" title="Settings" data-no-proto><i data-lucide="settings-2"></i></button>
       </div>
     </div>
 
@@ -2246,32 +2299,32 @@
 
           <!-- ACTION MENU — quick actions, no card shell -->
           <div class="action-menu">
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="calendar"></i>
               Schedule QBR
               <span class="ask-chip-sla">3 days</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="user-plus"></i>
               Add user
               <span class="ask-chip-sla">1 hour</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="download"></i>
               Export usage
               <span class="ask-chip-sla">instant</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="link-2"></i>
               Share link
               <span class="ask-chip-sla">instant</span>
             </button>
-            <button class="ask-chip">
+            <button class="ask-chip" data-no-proto>
               <i data-lucide="message-circle"></i>
               Ask anything
               <span class="ask-chip-sla">4 hours</span>
             </button>
-            <button class="ask-chip-overflow" title="More actions">
+            <button class="ask-chip-overflow" title="More actions" data-no-proto>
               <i data-lucide="more-horizontal"></i>
             </button>
           </div>
@@ -2308,6 +2361,7 @@
                 <span class="ticker-value">14.2K</span>
               </div>
             </div>
+            <span class="ticker-cta" style="cursor:default; opacity:0.45;">Open <i data-lucide="maximize-2"></i></span>
           </div>
 
           <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
@@ -2532,39 +2586,43 @@
               <h3 class="card-title">Documents</h3>
             </div>
             <div class="docs-list">
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="file-text" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Contract summary · April 2026</div>
                   <div class="doc-row-meta">PDF · 8 pages · auto-refreshed monthly</div>
                 </div>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="file-spreadsheet" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Usage CSV · YTD</div>
                   <div class="doc-row-meta">CSV · 6 resources × daily</div>
                 </div>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="link-2" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Share read-only link</div>
                   <div class="doc-row-meta">URL · expires in 30 days</div>
                 </div>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
-              <div class="doc-row">
+              <div class="doc-row" data-no-proto>
                 <i data-lucide="mail" class="doc-icon"></i>
                 <div class="doc-row-body">
                   <div class="doc-row-name">Subscribe to monthly digest</div>
                   <div class="doc-row-meta">Email · sent on the 1st of each month</div>
                 </div>
+                <i data-lucide="chevron-right" class="doc-chevron"></i>
               </div>
             </div>
           </div>
 
           <div class="meth-stack" data-span="6">
-            <div class="card card-meth">
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="info" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2574,7 +2632,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth">
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="trending-up" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2584,7 +2642,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth">
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="bell-ring" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2594,7 +2652,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth">
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="help-circle" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2604,7 +2662,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth">
+            <div class="card card-meth" data-no-proto>
               <div class="meth-card-inner">
                 <i data-lucide="calculator" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2699,6 +2757,20 @@
             </header>
             <div class="modal-body">
 
+              <div class="modal-resource-bar">
+                <div class="modal-resource-bar-header">
+                  <span class="modal-resource-bar-label">GenAI Tokens · Year 1</span>
+                  <span class="modal-resource-bar-value">1.38B / 1.5B — 92%</span>
+                </div>
+                <div class="lc-bar" style="height:6px; border-radius:3px; background:var(--border-light); overflow:visible; position:relative;">
+                  <div class="lc-bar-fill danger" style="width:92%; border-radius:3px 0 0 3px;"></div>
+                  <div class="lc-bar-projected danger" style="left:92%; width:8%;">
+                    <span class="proj-dot"></span><span class="proj-dot"></span><span class="proj-dot"></span>
+                  </div>
+                </div>
+                <div class="modal-resource-bar-meta">Cap: Aug 12 · Projected year-end: ~1.85B (+23%)</div>
+              </div>
+
               <p>
                 <strong>92% used.</strong> At current pace adjusted for last year's Jun–Aug seasonality (+15%), the cap is reached on <strong>~12 Aug 2026</strong>, with a projected end-of-year usage of <strong>~1.85B</strong> tokens (overage ≈ +23%).
               </p>
@@ -2713,15 +2785,15 @@
 
               <div class="modal-actions client-only">
                 <button class="insight-btn primary">Request top-up</button>
-                <button class="insight-btn">Compare upgrade</button>
-                <button class="insight-btn">Schedule call</button>
+                <button class="insight-btn secondary">Compare upgrade</button>
+                <button class="insight-btn secondary">Schedule call</button>
               </div>
 
               <div class="modal-actions admin-only">
                 <button class="insight-btn primary">Override cap</button>
-                <button class="insight-btn">Compare 12 peers</button>
-                <button class="insight-btn">Audit log</button>
-                <button class="insight-btn">Change plan</button>
+                <button class="insight-btn secondary">Compare 12 peers</button>
+                <button class="insight-btn secondary">Audit log</button>
+                <button class="insight-btn secondary">Change plan</button>
               </div>
 
             </div>
@@ -2730,7 +2802,7 @@
 
         <!-- Plan modal — tier comparison -->
         <div class="modal-overlay" id="plan-compare-modal" aria-hidden="true">
-          <div class="modal modal-xl">
+          <div class="modal modal-lg">
             <header class="modal-header">
               <div class="modal-title-block">
                 <span class="modal-eyebrow">Plan · active tier</span>
@@ -3644,6 +3716,20 @@
       });
     });
   });
+
+  // ── "Not in prototype" toaster ──
+  const toaster = document.getElementById('toaster');
+  let toasterTimeout;
+  function showToaster() {
+    clearTimeout(toasterTimeout);
+    toaster.classList.add('show');
+    toasterTimeout = setTimeout(() => toaster.classList.remove('show'), 2200);
+  }
+  document.querySelectorAll('[data-no-proto]').forEach(el => {
+    el.addEventListener('click', (e) => { e.stopPropagation(); showToaster(); });
+  });
 </script>
+
+<div class="toaster" id="toaster">Not available in this prototype</div>
 </body>
 </html>
