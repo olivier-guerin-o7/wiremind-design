@@ -467,11 +467,9 @@
       background: var(--bg-card);
       border: none;
       border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.15s;
       font-feature-settings: 'tnum' 1;
     }
-    .ticker:hover { background: var(--primary-bg); }
+
     .ticker-item {
       display: flex;
       flex-direction: column;
@@ -528,7 +526,7 @@
       font-weight: 500;
       transition: color 0.15s;
     }
-    .ticker:hover .ticker-cta { color: var(--primary); }
+
     .ticker-cta [data-lucide] { width: 12px; height: 12px; }
 
     /* ── Sticky context strip — slimmed ── */
@@ -550,7 +548,8 @@
       border-bottom: 1px solid var(--border-light);
     }
     .ledger-compact-row:last-child { border-bottom: none; }
-    .ledger-compact-row:hover { background: var(--bg-tint); }
+    .ledger-compact-row.clickable { cursor: pointer; border-radius: 6px; padding-left: 8px; padding-right: 8px; margin-left: -8px; margin-right: -8px; }
+    .ledger-compact-row.clickable:hover { background: var(--bg-tint); }
     .lc-icon {
       width: 26px; height: 26px;
       border-radius: 5px;
@@ -808,10 +807,10 @@
       border-left-color: #b8d0dc;
     }
     .action-menu .ask-chip:hover {
-      background: var(--primary);
-      color: white;
+      background: #d4e8f5;
+      color: var(--primary-strong);
     }
-    .action-menu .ask-chip:hover .ask-chip-sla { color: rgba(255,255,255,0.7); border-left-color: rgba(255,255,255,0.3); }
+    .action-menu .ask-chip:hover .ask-chip-sla { color: var(--primary-strong); border-left-color: #b8d0dc; }
     .ask-chip-overflow {
       margin-left: auto;
       flex-shrink: 0;
@@ -825,7 +824,7 @@
       align-items: center;
       transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
-    .ask-chip-overflow:hover { background: var(--primary); color: white; }
+    .ask-chip-overflow:hover { background: #d4e8f5; color: var(--primary-strong); }
     .ask-chip-overflow [data-lucide] { width: 14px; height: 14px; }
 
     /* ── Asks chips bar ── */
@@ -1156,29 +1155,25 @@
     .admin-toggle {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 4px 6px;
-      border-radius: 16px;
+      gap: 2px;
+      padding: 3px;
+      border-radius: 8px;
       border: 1px solid var(--border);
       background: var(--bg-tint);
       font-size: 11px;
       font-weight: 600;
-      color: var(--text-secondary);
     }
     .admin-toggle-opt {
-      padding: 4px 10px;
-      border-radius: 12px;
+      padding: 4px 12px;
+      border-radius: 5px;
       cursor: pointer;
+      color: var(--text-secondary);
       transition: all 0.12s;
     }
     .admin-toggle-opt.active {
-      background: var(--bg-card);
-      color: var(--ink);
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
-    }
-    .admin-toggle-opt.admin.active {
-      background: var(--accent-light);
-      color: var(--accent);
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
 
     .admin-only { display: none; }
@@ -2052,6 +2047,30 @@
     .plan-compare-table .cell-active { color: var(--primary-strong); font-weight: 700; }
     .plan-compare-table tr.row-active td { background: var(--primary-bg); }
 
+    .plan-history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 13px;
+    }
+    .plan-history-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .plan-history-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .plan-history-table tr:last-child td { border-bottom: none; }
+
     /* ── Greeting / attention banner ── */
     .greeting {
       font-size: 12px;
@@ -2258,7 +2277,7 @@
           </div>
 
           <!-- ROW 1 — Outcomes ticker (full-width, compact) -->
-          <div class="ticker" data-modal="outcomes-modal" role="button" tabindex="0">
+          <div class="ticker">
             <div class="ticker-item headline">
               <span class="ticker-label">YTD attributed lift</span>
               <div class="ticker-line">
@@ -2289,13 +2308,10 @@
                 <span class="ticker-value">14.2K</span>
               </div>
             </div>
-            <span class="ticker-cta">
-              <i data-lucide="maximize-2"></i> Open
-            </span>
           </div>
 
           <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
-          <div class="card card-resources clickable" data-span="8" data-modal="resource-modal">
+          <div class="card card-resources" data-span="8">
             <div class="card-header">
               <div class="card-title-block">
                 <h3 class="card-title">Resources</h3>
@@ -2306,11 +2322,10 @@
                 <button class="card-action-btn" title="Configure alerts"><i data-lucide="bell"></i></button>
               </div>
             </div>
-            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
             <div class="ledger-compact">
 
               <!-- Ancillary -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="package-plus"></i></div>
                 <div>
                   <div class="lc-name">Ancillary Tokens</div>
@@ -2331,7 +2346,7 @@
               </div>
 
               <!-- GenAI -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="sparkles"></i></div>
                 <div>
                   <div class="lc-name">GenAI Tokens</div>
@@ -2352,7 +2367,7 @@
               </div>
 
               <!-- F&O -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="target"></i></div>
                 <div>
                   <div class="lc-name">F&amp;O Executions</div>
@@ -2374,7 +2389,7 @@
               </div>
 
               <!-- BR -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="zap"></i></div>
                 <div>
                   <div class="lc-name">BR Executions</div>
@@ -2396,7 +2411,7 @@
               </div>
 
               <!-- PSEG -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="users"></i></div>
                 <div>
                   <div class="lc-name">PSEG</div>
@@ -2418,7 +2433,7 @@
               </div>
 
               <!-- DWH -->
-              <div class="ledger-compact-row">
+              <div class="ledger-compact-row clickable" data-modal="resource-modal">
                 <div class="lc-icon"><i data-lucide="database"></i></div>
                 <div>
                   <div class="lc-name">DWH Extracted Rows</div>
@@ -2443,8 +2458,7 @@
           </div>
 
           <!-- Plan — standalone card (right column) -->
-          <div class="card card-plan clickable" data-span="4" data-modal="plan-modal">
-            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+          <div class="card card-plan" data-span="4">
             <div class="card-header">
               <div class="card-title-block">
                 <h3 class="card-title">Plan</h3>
@@ -2482,33 +2496,30 @@
               </div>
             </div>
             <div class="plan-mini-actions">
-              <button class="insight-btn primary">Compare plans</button>
-              <button class="insight-btn secondary">Plan history</button>
+              <button class="insight-btn primary" data-modal="plan-compare-modal">Compare plans</button>
+              <button class="insight-btn secondary" data-modal="plan-history-modal">Plan history</button>
             </div>
           </div>
 
           <!-- ROW 3 — Insight cards (3-col sub-grid) -->
           <div class="insight-row" data-span="12">
-            <div class="card card-insight insight-approaching clickable" data-modal="resource-modal">
+            <div class="card card-insight insight-approaching clickable" data-modal="insight-risk-modal">
               <div class="insight-header">
                 <span class="insight-tag">Risk</span>
-                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
               </div>
               <h4 class="insight-title">Dual cap · Aug 12</h4>
               <p class="insight-desc">GenAI + Ancillary are both projected to cap the same week. Simultaneous exhaustion may degrade the live pricing engine and ancillary module at once.</p>
             </div>
-            <div class="card card-insight insight-watch clickable" data-modal="resource-modal">
+            <div class="card card-insight insight-watch clickable" data-modal="insight-cost-modal">
               <div class="insight-header">
                 <span class="insight-tag">Cost</span>
-                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
               </div>
               <h4 class="insight-title">€9K overage incoming</h4>
               <p class="insight-desc">Current GenAI trajectory triggers ~€9K in overage charges at plan rates. A pre-cap top-up is ~€3.2K — act before Aug 5 to save ~€5.8K.</p>
             </div>
-            <div class="card card-insight insight-neutral clickable" data-modal="resource-modal">
+            <div class="card card-insight insight-neutral clickable" data-modal="insight-context-modal">
               <div class="insight-header">
                 <span class="insight-tag">Context</span>
-                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
               </div>
               <h4 class="insight-title">Above seasonal norm</h4>
               <p class="insight-desc">F&amp;O burn rate is 27% above median for comparable airlines. Last year's summer effect added +18% in Jul–Aug — cap likely before Sep at this pace.</p>
@@ -2516,8 +2527,7 @@
           </div>
 
           <!-- ROW 4 — Documents + Methodology -->
-          <div class="card card-docs clickable" data-span="6" data-modal="docs-modal">
-            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+          <div class="card card-docs" data-span="6">
             <div class="card-header">
               <h3 class="card-title">Documents</h3>
             </div>
@@ -2528,7 +2538,6 @@
                   <div class="doc-row-name">Contract summary · April 2026</div>
                   <div class="doc-row-meta">PDF · 8 pages · auto-refreshed monthly</div>
                 </div>
-                <i data-lucide="download" class="doc-action"></i>
               </div>
               <div class="doc-row">
                 <i data-lucide="file-spreadsheet" class="doc-icon"></i>
@@ -2536,7 +2545,6 @@
                   <div class="doc-row-name">Usage CSV · YTD</div>
                   <div class="doc-row-meta">CSV · 6 resources × daily</div>
                 </div>
-                <i data-lucide="download" class="doc-action"></i>
               </div>
               <div class="doc-row">
                 <i data-lucide="link-2" class="doc-icon"></i>
@@ -2544,7 +2552,6 @@
                   <div class="doc-row-name">Share read-only link</div>
                   <div class="doc-row-meta">URL · expires in 30 days</div>
                 </div>
-                <i data-lucide="copy" class="doc-action"></i>
               </div>
               <div class="doc-row">
                 <i data-lucide="mail" class="doc-icon"></i>
@@ -2552,14 +2559,12 @@
                   <div class="doc-row-name">Subscribe to monthly digest</div>
                   <div class="doc-row-meta">Email · sent on the 1st of each month</div>
                 </div>
-                <i data-lucide="bell" class="doc-action"></i>
               </div>
             </div>
           </div>
 
           <div class="meth-stack" data-span="6">
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth">
               <div class="meth-card-inner">
                 <i data-lucide="info" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2569,8 +2574,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth">
               <div class="meth-card-inner">
                 <i data-lucide="trending-up" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2580,8 +2584,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth">
               <div class="meth-card-inner">
                 <i data-lucide="bell-ring" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2591,8 +2594,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth">
               <div class="meth-card-inner">
                 <i data-lucide="help-circle" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2602,8 +2604,7 @@
                 <i data-lucide="chevron-right" class="meth-chevron"></i>
               </div>
             </div>
-            <div class="card card-meth clickable" data-modal="methodology-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card card-meth">
               <div class="meth-card-inner">
                 <i data-lucide="calculator" class="meth-icon"></i>
                 <div class="meth-card-body">
@@ -2682,7 +2683,7 @@
 
         <!-- Resource modal — detail + Admin toggle (continuity proof) -->
         <div class="modal-overlay" id="resource-modal" aria-hidden="true" data-mode="client">
-          <div class="modal modal-lg">
+          <div class="modal modal-md">
             <header class="modal-header">
               <div class="modal-title-block">
                 <span class="modal-eyebrow">Resource · Year 1</span>
@@ -2690,8 +2691,8 @@
               </div>
               <div style="display:flex; align-items:center; gap:14px;">
                 <div class="admin-toggle" role="tablist">
-                  <span class="admin-toggle-opt client active" data-mode-set="client">Client view</span>
-                  <span class="admin-toggle-opt admin" data-mode-set="admin">Admin (WM CSM)</span>
+                  <span class="admin-toggle-opt client active" data-mode-set="client">Client</span>
+                  <span class="admin-toggle-opt admin" data-mode-set="admin">Admin</span>
                 </div>
                 <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
               </div>
@@ -2728,7 +2729,7 @@
         </div>
 
         <!-- Plan modal — tier comparison -->
-        <div class="modal-overlay" id="plan-modal" aria-hidden="true">
+        <div class="modal-overlay" id="plan-compare-modal" aria-hidden="true">
           <div class="modal modal-xl">
             <header class="modal-header">
               <div class="modal-title-block">
@@ -2763,6 +2764,33 @@
                 <button class="insight-btn primary">Request plan change</button>
                 <button class="insight-btn">Download plan PDF</button>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Plan history modal -->
+        <div class="modal-overlay" id="plan-history-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Plan · change history</span>
+                <span class="modal-title">Air France — plan timeline</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>Your account has been on three consecutive plan cycles. Changes take effect at the start of the next contract year.</p>
+              <table class="plan-history-table">
+                <thead>
+                  <tr><th>Period</th><th>Plan</th><th>Change</th><th>Initiated by</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Sep 2025 – Aug 2026</td><td><strong>Premium</strong></td><td>Renewal — same tier</td><td>Auto-renew</td></tr>
+                  <tr><td>Sep 2024 – Aug 2025</td><td><strong>Premium</strong></td><td>Upgrade from Professional</td><td>CSM · Mathieu R.</td></tr>
+                  <tr><td>Sep 2023 – Aug 2024</td><td>Professional</td><td>Initial contract</td><td>Sales · Léa D.</td></tr>
+                </tbody>
+              </table>
+              <p style="margin-top:14px; font-size:12px; color:var(--text-grey);">Upcoming renewal: Aug 31, 2026 · 122 days remaining. To discuss plan options before renewal, contact your CSM.</p>
             </div>
           </div>
         </div>
@@ -2823,6 +2851,72 @@
           </div>
         </div>
 
+
+        <!-- Insight: Risk modal -->
+        <div class="modal-overlay" id="insight-risk-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Insight · Risk</span>
+                <span class="modal-title">Dual cap · Aug 12</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>GenAI Tokens and Ancillary Tokens are both projected to reach their annual cap during the same week of August 12, 2026. At current burn rates, GenAI hits its 1.5B limit on Aug 12 and Ancillary hits its 2.0M limit on Aug 14 — a two-day overlap.</p>
+              <p>Simultaneous exhaustion means the live pricing engine loses both its AI scoring and ancillary recommendation layers at once, significantly degrading quote quality during one of the peak summer booking weeks.</p>
+              <p>A top-up on GenAI alone (~€3.2K) would push its cap past end-of-year and break the overlap. Alternatively, a combined top-up covers both for ~€4.8K — less than the estimated revenue impact of a 5-day degraded pricing window.</p>
+              <div class="modal-actions">
+                <button class="insight-btn primary">Request top-up</button>
+                <button class="insight-btn secondary">Schedule CSM call</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insight: Cost modal -->
+        <div class="modal-overlay" id="insight-cost-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Insight · Cost</span>
+                <span class="modal-title">€9K overage incoming</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>Current GenAI trajectory projects end-of-year usage at ~1.85B tokens — 23% above the contracted 1.5B limit. At plan overage rates, this translates to approximately <strong>€9,200 in additional charges</strong> billed at contract renewal.</p>
+              <p>A pre-cap top-up of 400M tokens is priced at <strong>~€3,200</strong> — roughly 65% cheaper than paying the overage rate. Acting before August 5 locks in current pricing; after that date, emergency top-ups apply a 15% surcharge.</p>
+              <p>Net saving by acting now: <strong>~€5,800</strong>. The top-up would also prevent the dual-cap risk flagged in the Risk insight.</p>
+              <div class="modal-actions">
+                <button class="insight-btn primary">Request top-up · €3.2K</button>
+                <button class="insight-btn secondary">View plan options</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insight: Context modal -->
+        <div class="modal-overlay" id="insight-context-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Insight · Context</span>
+                <span class="modal-title">Above seasonal norm</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>F&amp;O Executions burn rate is currently <strong>27% above the median</strong> for comparable airlines on the Premium tier. This compares your month-8 cumulative usage against 11 anonymised peer accounts with similar fleet sizes and route networks.</p>
+              <p>Last year's summer effect (Jun–Aug 2025) added <strong>+18% to F&amp;O usage</strong> over the same period. If this seasonal pattern repeats, current trajectory projects F&amp;O hitting its 15M annual cap by early September — three months ahead of schedule.</p>
+              <p>This is a context signal, not an immediate action item. No overage risk exists today, but monitoring is recommended. Consider setting a usage alert at 80% (currently at 63%) to get 30 days' notice.</p>
+              <div class="modal-actions">
+                <button class="insight-btn primary">Set usage alert</button>
+                <button class="insight-btn secondary">View F&amp;O trajectory</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- ============================================================
              LEGACY SECTIONS — hidden, kept only as visual reference.
@@ -3493,6 +3587,19 @@
       // ignore clicks on inner buttons / links — they have their own handlers
       if (e.target.closest('button, a, [data-modal-close]')) return;
       const id = trigger.dataset.modal;
+      const overlay = document.getElementById(id);
+      if (overlay) {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    });
+  });
+  // ── Button-level modal triggers ──
+  document.querySelectorAll('button[data-modal]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.modal;
       const overlay = document.getElementById(id);
       if (overlay) {
         overlay.classList.add('open');
