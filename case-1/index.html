@@ -146,7 +146,7 @@
     .sidebar {
       width: 200px;
       flex-shrink: 0;
-      background: var(--primary-deep);
+      background: radial-gradient(ellipse at top right, rgba(108, 77, 220, 0.22) 0%, transparent 55%), var(--primary-deep);
       color: rgba(255, 255, 255, 0.85);
       display: flex;
       flex-direction: column;
@@ -449,7 +449,7 @@
     }
     .card-zoom-cue [data-lucide] { width: 13px; height: 13px; }
     .card.clickable { cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
-    .card.clickable:hover { border-color: var(--primary); }
+    .card.clickable:hover { border-color: var(--primary); box-shadow: 0 4px 14px rgba(0, 80, 130, 0.09); }
     .card.card-active {
       border-color: rgba(0, 157, 220, 0.45);
       box-shadow: 0 0 0 5px rgba(0, 157, 220, 0.06), 0 4px 22px rgba(0, 130, 180, 0.07);
@@ -550,6 +550,7 @@
     .ledger-compact-row:last-child { border-bottom: none; }
     .ledger-compact-row.clickable { cursor: pointer; border-radius: 6px; padding-left: 8px; padding-right: 8px; margin-left: -8px; margin-right: -8px; }
     .ledger-compact-row.clickable:hover { background: var(--bg-tint); }
+    .ledger-compact-row.clickable:hover .ledger-resource-icon { background: var(--bg-card); }
     .lc-icon {
       width: 26px; height: 26px;
       border-radius: 5px;
@@ -695,10 +696,10 @@
       height: 18px;
     }
     .insight-tag::before { display: none; }
-    .insight-approaching .insight-tag { background: var(--danger-bg); color: var(--danger); }
-    .insight-watch       .insight-tag { background: var(--warning-bg); color: var(--warning); }
-    .insight-ok          .insight-tag { background: var(--success-bg); color: var(--success); }
-    .insight-neutral     .insight-tag { background: var(--primary-bg); color: var(--primary-strong); }
+    .insight-approaching .insight-tag,
+    .insight-watch       .insight-tag,
+    .insight-ok          .insight-tag,
+    .insight-neutral     .insight-tag { background: #dce6f0; color: #4a6278; }
 
     .insight-title {
       font-size: 13px;
@@ -987,7 +988,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.22);
+      background: rgba(15, 23, 42, 0.10);
       backdrop-filter: blur(5px);
       display: none;
       align-items: center;
@@ -2133,10 +2134,9 @@
     /* ── Design notes (prototype guide) ── */
     .design-notes {
       background: var(--bg-tint);
-      border: 1px dashed var(--border);
       border-radius: 10px;
       padding: 20px 24px;
-      margin-top: 8px;
+      margin-top: 16px;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -2624,8 +2624,8 @@
               </div>
             </div>
             <div class="plan-mini-actions">
-              <button class="insight-btn secondary" data-modal="plan-your-modal">Your plan</button>
-              <button class="insight-btn secondary" data-modal="plan-catalogue-modal">Catalogue</button>
+              <button class="insight-btn primary" data-modal="plan-your-modal">Your plan</button>
+              <button class="insight-btn secondary" data-modal="plan-catalogue-modal">All plans</button>
             </div>
           </div>
 
@@ -2879,8 +2879,8 @@
           <div class="modal modal-lg">
             <header class="modal-header">
               <div class="modal-title-block">
-                <span class="modal-eyebrow">Plan · Catalogue</span>
-                <span class="modal-title">Standard · Advanced · Premium</span>
+                <span class="modal-eyebrow">Plan · All plans</span>
+                <span class="modal-title">All plans</span>
               </div>
               <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
             </header>
@@ -3010,7 +3010,7 @@
             <header class="modal-header">
               <div class="modal-title-block">
                 <span class="modal-eyebrow">Plan · Active</span>
-                <span class="modal-title">Your plan — Transavia</span>
+                <span class="modal-title">Your plan</span>
               </div>
               <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
             </header>
