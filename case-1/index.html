@@ -527,7 +527,7 @@
     .ledger-compact { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
     .ledger-compact-row {
       display: grid;
-      grid-template-columns: 30px 1fr auto auto auto;
+      grid-template-columns: 30px auto minmax(80px, 1fr) 130px 100px;
       align-items: center;
       gap: 12px;
       padding: 10px 0;
@@ -555,7 +555,8 @@
       font-weight: 500;
     }
     .lc-bar-block {
-      width: 170px;
+      width: auto;
+      min-width: 80px;
       display: flex;
       flex-direction: column;
       gap: 4px;
