@@ -146,7 +146,7 @@
     .sidebar {
       width: 200px;
       flex-shrink: 0;
-      background: radial-gradient(ellipse at top right, rgba(108, 77, 220, 0.22) 0%, transparent 55%), var(--primary-deep);
+      background: radial-gradient(ellipse at 85% 30%, rgba(108, 77, 220, 0.22) 0%, transparent 55%), var(--primary-deep);
       color: rgba(255, 255, 255, 0.85);
       display: flex;
       flex-direction: column;
@@ -699,7 +699,7 @@
     .insight-approaching .insight-tag,
     .insight-watch       .insight-tag,
     .insight-ok          .insight-tag,
-    .insight-neutral     .insight-tag { background: #dce6f0; color: #4a6278; }
+    .insight-neutral     .insight-tag { background: #edf3f9; color: #5a7290; }
 
     .insight-title {
       font-size: 13px;
@@ -2010,7 +2010,7 @@
       border-radius: 0;
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 1.2px;
+      letter-spacing: 0;
       text-transform: uppercase;
       align-self: stretch;
       justify-content: flex-start;
@@ -2186,7 +2186,7 @@
       font-weight: 600;
       color: var(--accent);
       margin-top: auto;
-      padding-top: 8px;
+      padding-top: 4px;
     }
     .design-note-link::before {
       content: '→ ';
@@ -2439,7 +2439,7 @@
           </div>
 
           <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
-          <div class="card card-resources" data-span="8">
+          <div class="card card-resources" data-span="8" style="box-shadow: 0 2px 12px rgba(0, 60, 110, 0.07);">
             <div class="card-header">
               <div class="card-title-block">
                 <h3 class="card-title">Resources</h3>
@@ -2658,6 +2658,9 @@
           <div class="card card-docs" data-span="6">
             <div class="card-header">
               <h3 class="card-title">Documents</h3>
+              <div class="card-actions">
+                <button class="card-action-btn" data-no-proto title="Edit documents"><i data-lucide="pencil-line"></i></button>
+              </div>
             </div>
             <div class="docs-list">
               <div class="doc-row" data-no-proto>
