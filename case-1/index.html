@@ -271,32 +271,33 @@
 
     /* ── Sticky context strip ── */
     .context-strip {
-      height: 40px;
+      height: 36px;
       display: flex;
       align-items: center;
       padding: 0 28px;
       background: var(--bg);
-      border-bottom: 1px solid var(--border-light);
       gap: 14px;
       flex-shrink: 0;
-      font-size: var(--fs-base);
+      font-size: 12px;
     }
     .ctx-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       color: var(--text);
+      font-size: 12px;
     }
     .ctx-pill .label {
       color: var(--text-grey);
       font-weight: 400;
-      font-size: 11px;
+      font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     .ctx-pill strong {
       font-weight: 600;
       color: var(--ink);
+      font-size: 12px;
     }
     .ctx-divider {
       width: 1px;
@@ -328,11 +329,16 @@
       align-items: center;
       gap: 6px;
       color: var(--text-secondary);
-      font-size: 11.5px;
+      font-size: 12px;
+    }
+    .ctx-trailing .label {
+      color: var(--text-grey);
+      font-size: 12px;
     }
     .ctx-trailing strong {
-      color: var(--warning);
-      font-weight: 700;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 12px;
     }
 
     /* ── Page ── */
@@ -344,7 +350,7 @@
     .page-inner {
       max-width: 1440px;
       margin: 0 auto;
-      padding: 18px 22px 48px;
+      padding: 6px 22px 48px;
     }
 
     /* ============================================================
@@ -352,7 +358,7 @@
        ============================================================ */
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-columns: repeat(12, minmax(0, 1fr));
       gap: 12px;
     }
     .dashboard > [data-span="12"] { grid-column: span 12; }
@@ -371,12 +377,12 @@
       padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
       position: relative;
     }
     .card-header {
       display: flex;
-      align-items: baseline;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 10px;
     }
@@ -391,6 +397,34 @@
       color: var(--text-grey);
       letter-spacing: 0.2px;
     }
+    .card-title-block {
+      display: flex;
+      flex-direction: column;
+    }
+    .card-desc {
+      font-size: 11px;
+      color: var(--ink);
+      letter-spacing: 0.2px;
+      margin: 3px 0 0;
+      line-height: 1.4;
+    }
+    .card-actions {
+      display: flex;
+      gap: 2px;
+      margin-left: auto;
+    }
+    .card-action-btn {
+      width: 32px; height: 32px;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+    }
+    .card-action-btn:hover { background: var(--primary-bg); color: var(--primary-strong); }
+    .card-action-btn [data-lucide] { width: 15px; height: 15px; }
     .card-zoom-cue {
       position: absolute;
       top: 12px; right: 12px;
@@ -403,8 +437,12 @@
       cursor: pointer;
     }
     .card-zoom-cue [data-lucide] { width: 13px; height: 13px; }
-    .card.clickable { cursor: pointer; transition: border-color 0.15s; }
+    .card.clickable { cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
     .card.clickable:hover { border-color: var(--primary); }
+    .card.card-active {
+      border-color: rgba(0, 157, 220, 0.45);
+      box-shadow: 0 0 0 5px rgba(0, 157, 220, 0.06), 0 4px 22px rgba(0, 130, 180, 0.07);
+    }
     .card.clickable:hover .card-zoom-cue { opacity: 1; color: var(--primary); }
 
     /* ── Outcomes ticker — stock-market style ── */
@@ -416,13 +454,13 @@
       padding: 0 18px;
       height: 56px;
       background: var(--bg-card);
-      border: 1px solid var(--border);
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: border-color 0.15s;
+      transition: background 0.15s;
       font-feature-settings: 'tnum' 1;
     }
-    .ticker:hover { border-color: var(--primary); }
+    .ticker:hover { background: var(--primary-bg); }
     .ticker-item {
       display: flex;
       flex-direction: column;
@@ -484,7 +522,6 @@
 
     /* ── Sticky context strip — slimmed ── */
     .context-strip { height: 36px; padding: 0 22px; }
-    .ctx-pill .label { font-size: 10px; }
 
     /* ── Compact ledger (hero card) ── */
     .ledger-compact { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
@@ -501,7 +538,7 @@
     .lc-icon {
       width: 26px; height: 26px;
       border-radius: 5px;
-      background: var(--bg-tint);
+      background: #f4f8fb;
       color: var(--primary-strong);
       display: flex; align-items: center; justify-content: center;
     }
@@ -518,7 +555,7 @@
       font-weight: 500;
     }
     .lc-bar-block {
-      width: 220px;
+      width: 170px;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -534,15 +571,26 @@
     .lc-bar {
       position: relative;
       height: 4px;
-      background: var(--bg-tint);
+      background: transparent;
       border-radius: 2px;
-      overflow: visible;
+      overflow: hidden;
     }
+    .lc-bar-remaining {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 3px;
+      opacity: 0.45;
+    }
+    .lc-bar-remaining .proj-dot { background: var(--border); }
     .lc-bar-fill {
       position: absolute;
       top: 0; left: 0;
       height: 100%;
-      border-radius: 2px;
+      border-radius: 0 2px 2px 0;
       background: var(--primary);
     }
     .lc-bar-fill.watch { background: var(--warning-strong); }
@@ -551,19 +599,21 @@
       position: absolute;
       top: 0;
       height: 100%;
-      background: repeating-linear-gradient(
-        90deg,
-        var(--primary) 0 3px,
-        transparent 3px 6px
-      );
-      opacity: 0.5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 4px;
+      opacity: 0.7;
     }
-    .lc-bar-projected.watch {
-      background: repeating-linear-gradient(90deg, var(--warning-strong) 0 3px, transparent 3px 6px);
+    .proj-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--primary);
     }
-    .lc-bar-projected.danger {
-      background: repeating-linear-gradient(90deg, var(--danger-strong) 0 3px, transparent 3px 6px);
-    }
+    .lc-bar-projected.watch .proj-dot { background: var(--warning-strong); }
+    .lc-bar-projected.danger .proj-dot { background: var(--danger-strong); }
     .lc-bar-cap {
       position: absolute;
       top: -2px; bottom: -2px;
@@ -572,23 +622,22 @@
       opacity: 0.4;
     }
     .lc-trajectory {
-      width: 150px;
+      width: 130px;
       font-size: 11px;
       color: var(--text-secondary);
       line-height: 1.3;
+      align-self: end;
+      padding-bottom: 3px;
     }
     .lc-trajectory strong { color: var(--text); font-weight: 600; }
     .lc-trajectory .label {
-      display: block;
-      font-size: 9px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      font-weight: 500;
-      margin-bottom: 1px;
+      display: none;
     }
     .lc-status {
       justify-self: end;
+      min-width: 100px;
+      display: flex;
+      justify-content: flex-end;
     }
 
     /* status-pill: slightly smaller in compact ledger */
@@ -598,45 +647,57 @@
     }
 
     /* ── Insight cards (Approaching / Watch) ── */
+    .insight-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
     .card-insight {
       border-color: var(--border);
-      gap: 6px;
+      gap: 8px;
+    }
+    .insight-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .insight-header .card-action-btn {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
     }
     .insight-tag {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      align-self: flex-start;
+      justify-content: center;
       padding: 2px 8px;
       border-radius: 10px;
       font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      line-height: 1;
+      height: 18px;
     }
-    .insight-tag::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: currentColor;
-    }
+    .insight-tag::before { display: none; }
     .insight-approaching .insight-tag { background: var(--danger-bg); color: var(--danger); }
     .insight-watch       .insight-tag { background: var(--warning-bg); color: var(--warning); }
     .insight-ok          .insight-tag { background: var(--success-bg); color: var(--success); }
-
-    .card-insight.approaching { border-color: rgba(239, 68, 68, 0.3); }
-    .card-insight.watch       { border-color: rgba(245, 158, 11, 0.3); }
+    .insight-neutral     .insight-tag { background: var(--primary-bg); color: var(--primary-strong); }
 
     .insight-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--ink);
       letter-spacing: -0.1px;
     }
     .insight-desc {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-secondary);
-      line-height: 1.45;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     .insight-actions {
       display: flex;
@@ -661,6 +722,18 @@
       color: white;
     }
     .insight-btn.primary:hover { background: var(--primary-strong); border-color: var(--primary-strong); }
+    .insight-btn.secondary {
+      background: var(--primary-bg);
+      border-color: transparent;
+      color: var(--primary-strong);
+    }
+    .insight-btn.secondary:hover { background: #dbeef8; border-color: transparent; color: var(--primary-strong); }
+    .insight-btn.tertiary {
+      background: transparent;
+      border-color: transparent;
+      color: var(--text-secondary);
+    }
+    .insight-btn.tertiary:hover { background: var(--bg-hover); border-color: transparent; color: var(--ink); }
 
     /* ── Plan summary mini-card ── */
     .card-plan-mini {
@@ -696,6 +769,47 @@
       flex-wrap: wrap;
       margin-top: 2px;
     }
+
+    /* ── Action menu bar (top of grid, no card shell) ── */
+    .action-menu {
+      grid-column: span 12;
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 6px;
+      padding: 8px 14px;
+      overflow: hidden;
+      background: var(--primary-bg);
+      border-radius: 8px;
+    }
+    .action-menu .ask-chip {
+      border-color: var(--primary);
+      color: var(--primary-strong);
+    }
+    .action-menu .ask-chip .ask-chip-sla {
+      color: #7899aa;
+      border-left-color: #b8d0dc;
+    }
+    .action-menu .ask-chip:hover {
+      background: var(--primary);
+      color: white;
+    }
+    .action-menu .ask-chip:hover .ask-chip-sla { color: rgba(255,255,255,0.7); border-left-color: rgba(255,255,255,0.3); }
+    .ask-chip-overflow {
+      margin-left: auto;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--primary);
+      background: var(--bg-card);
+      color: var(--primary-strong);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .ask-chip-overflow:hover { background: var(--primary); color: white; }
+    .ask-chip-overflow [data-lucide] { width: 14px; height: 14px; }
 
     /* ── Asks chips bar ── */
     .asks-chips-bar {
@@ -804,6 +918,50 @@
       font-size: 10px;
       color: var(--text-grey);
     }
+
+    .card-docs {
+      align-self: stretch;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    .meth-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+    .card-meth {
+      padding: 10px 14px;
+      gap: 0;
+    }
+    .meth-card-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .meth-icon {
+      width: 14px; height: 14px;
+      flex-shrink: 0;
+      color: var(--primary-strong);
+    }
+    .meth-card-body { flex: 1; min-width: 0; }
+    .meth-card-q {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+    .meth-card-meta {
+      font-size: 10px;
+      color: var(--text-grey);
+      margin-top: 1px;
+    }
+    .meth-chevron {
+      width: 13px; height: 13px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+    .card-meth:hover .meth-chevron { color: var(--primary); }
 
     /* ============================================================
        MODAL — zoom layer
@@ -1767,6 +1925,187 @@
     }
     .doc-item-action [data-lucide] { width: 14px; height: 14px; }
     .doc-item:hover .doc-item-action { color: var(--primary); }
+
+    /* ── Standalone plan card ── */
+    .card.card-plan { gap: 12px; align-self: stretch; height: 100%; box-sizing: border-box; }
+    .card-plan .plan-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+    .card-plan .plan-tier-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 0;
+      background: transparent;
+      color: var(--ink);
+      border: none;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      align-self: stretch;
+      justify-content: flex-start;
+    }
+    .plan-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .plan-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .plan-info-label {
+      font-size: 11px;
+      color: var(--text-grey);
+    }
+    .plan-info-value {
+      font-size: 11px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .plan-dates {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 10px 0;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      margin: 4px 0;
+    }
+    .plan-date-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .plan-date-row .label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: var(--text-grey);
+    }
+    .plan-date-row .renew-val {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+    }
+    /* ── Alert cards — wide version (span 6) ── */
+    .insight-mini-bar { margin: 4px 0 6px; }
+
+    /* ── Plan comparison table (plan modal) ── */
+    .plan-compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 12px;
+    }
+    .plan-compare-table th {
+      padding: 8px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .plan-compare-table th.col-active { color: var(--primary); background: var(--primary-bg); }
+    .plan-compare-table td {
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .plan-compare-table tr:last-child td { border-bottom: none; }
+    .plan-compare-table td:first-child { font-weight: 600; color: var(--ink); }
+    .plan-compare-table .cell-na { color: var(--text-muted); font-style: italic; }
+    .plan-compare-table .cell-active { color: var(--primary-strong); font-weight: 700; }
+    .plan-compare-table tr.row-active td { background: var(--primary-bg); }
+
+    /* ── Greeting / attention banner ── */
+    .greeting {
+      font-size: 12px;
+      color: var(--text-grey);
+      padding: 4px 0 12px;
+      letter-spacing: 0.1px;
+    }
+    .greeting strong { color: var(--text-secondary); font-weight: 500; }
+    .greeting-name { color: var(--ink); font-weight: 600; }
+
+    /* ── Design notes (prototype guide) ── */
+    .design-notes {
+      background: var(--bg-tint);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .design-notes-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-grey);
+    }
+    .design-notes-header [data-lucide] { width: 13px; height: 13px; color: var(--accent); }
+    .design-notes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .design-note-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100%;
+    }
+    .design-note-item > [data-lucide] {
+      width: 22px; height: 22px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-bottom: 2px;
+    }
+    .design-note-item strong {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+    }
+    .design-note-item p {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin: 0;
+    }
+    .design-note-link {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: auto;
+      padding-top: 8px;
+    }
+    .design-note-link::before {
+      content: '→ ';
+    }
   </style>
 </head>
 <body>
@@ -1845,24 +2184,12 @@
     <!-- Sticky context strip — macro state always visible -->
     <div class="context-strip">
       <span class="ctx-pill">
-        <span class="label">Plan</span>
-        <strong>Premium</strong>
-      </span>
-      <span class="ctx-divider"></span>
-      <span class="ctx-pill">
-        <span class="label">Year 1</span>
         <strong>Month 8 of 12</strong>
-      </span>
-      <span class="ctx-divider"></span>
-      <span class="ctx-verdict watch" title="Contract health: Watch — one resource trending toward overage">
-        <span class="ctx-verdict-dot"></span>
-        Watch
       </span>
       <span class="ctx-spacer"></span>
       <span class="ctx-trailing">
-        GenAI tokens
-        <strong>92%</strong>
-        <span style="color: var(--text-muted)">· trajectory ~12 Aug</span>
+        <span class="label">Last visit</span>
+        <strong>Apr 29, 2026</strong>
       </span>
     </div>
 
@@ -1872,7 +2199,41 @@
         <!-- ============================================================
              NEWSPAPER DASHBOARD — single page for "Pricing"
              ============================================================ -->
+        <p class="greeting"><span class="greeting-name">Good morning, Olivier</span> — welcome back.</p>
+
         <div class="dashboard">
+
+          <!-- ACTION MENU — quick actions, no card shell -->
+          <div class="action-menu">
+            <button class="ask-chip">
+              <i data-lucide="calendar"></i>
+              Schedule QBR
+              <span class="ask-chip-sla">3 days</span>
+            </button>
+            <button class="ask-chip">
+              <i data-lucide="user-plus"></i>
+              Add user
+              <span class="ask-chip-sla">1 hour</span>
+            </button>
+            <button class="ask-chip">
+              <i data-lucide="download"></i>
+              Export usage
+              <span class="ask-chip-sla">instant</span>
+            </button>
+            <button class="ask-chip">
+              <i data-lucide="link-2"></i>
+              Share link
+              <span class="ask-chip-sla">instant</span>
+            </button>
+            <button class="ask-chip">
+              <i data-lucide="message-circle"></i>
+              Ask anything
+              <span class="ask-chip-sla">4 hours</span>
+            </button>
+            <button class="ask-chip-overflow" title="More actions">
+              <i data-lucide="more-horizontal"></i>
+            </button>
+          </div>
 
           <!-- ROW 1 — Outcomes ticker (full-width, compact) -->
           <div class="ticker" data-modal="outcomes-modal" role="button" tabindex="0">
@@ -1914,8 +2275,14 @@
           <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
           <div class="card clickable" data-span="8" data-modal="resource-modal">
             <div class="card-header">
-              <h3 class="card-title">Resources</h3>
-              <span class="card-meta">6 tracked · sorted by time-to-cap · click any row for detail</span>
+              <div class="card-title-block">
+                <h3 class="card-title">Resources</h3>
+                <p class="card-desc">6 tracked · sorted by time-to-cap · click any row for detail</p>
+              </div>
+              <div class="card-actions">
+                <button class="card-action-btn" title="Share usage report"><i data-lucide="share-2"></i></button>
+                <button class="card-action-btn" title="Configure alerts"><i data-lucide="bell"></i></button>
+              </div>
             </div>
             <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
             <div class="ledger-compact">
@@ -1929,20 +2296,16 @@
                 </div>
                 <div class="lc-bar-block">
                   <div class="lc-bar-line">
-                    <span><span class="used">1.7M</span> / 2.0M</span>
-                    <span class="pct">85%</span>
+                    <span><span class="used">2.0M</span> / 2.0M</span>
                   </div>
                   <div class="lc-bar">
-                    <div class="lc-bar-fill danger" style="width: 80%"></div>
-                    <div class="lc-bar-projected danger" style="left: 80%; width: 20%"></div>
-                    <div class="lc-bar-cap" style="left: 94%"></div>
-                  </div>
+                    <div class="lc-bar-fill danger" style="width: 100%"></div>                  </div>
                 </div>
                 <div class="lc-trajectory">
                   <span class="label">Trajectory</span>
                   cap reached <strong>~5 Jul</strong>
                 </div>
-                <div class="lc-status"><span class="status-pill danger">Approaching</span></div>
+                <div class="lc-status"><span class="status-pill danger">Reached</span></div>
               </div>
 
               <!-- GenAI -->
@@ -1954,20 +2317,16 @@
                 </div>
                 <div class="lc-bar-block">
                   <div class="lc-bar-line">
-                    <span><span class="used">1.38B</span> / 1.5B</span>
-                    <span class="pct">92%</span>
+                    <span><span class="used">1.5B</span> / 1.5B</span>
                   </div>
                   <div class="lc-bar">
-                    <div class="lc-bar-fill danger" style="width: 87%"></div>
-                    <div class="lc-bar-projected danger" style="left: 87%; width: 13%"></div>
-                    <div class="lc-bar-cap" style="left: 94%"></div>
-                  </div>
+                    <div class="lc-bar-fill danger" style="width: 100%"></div>                  </div>
                 </div>
                 <div class="lc-trajectory">
                   <span class="label">Trajectory</span>
                   cap reached <strong>~12 Aug</strong>
                 </div>
-                <div class="lc-status"><span class="status-pill danger">Approaching</span></div>
+                <div class="lc-status"><span class="status-pill danger">Reached</span></div>
               </div>
 
               <!-- F&O -->
@@ -1980,13 +2339,10 @@
                 <div class="lc-bar-block">
                   <div class="lc-bar-line">
                     <span><span class="used">5.0M</span> / 8.0M</span>
-                    <span class="pct">63%</span>
                   </div>
                   <div class="lc-bar">
                     <div class="lc-bar-fill watch" style="width: 59%"></div>
-                    <div class="lc-bar-projected watch" style="left: 59%; width: 41%"></div>
-                    <div class="lc-bar-cap" style="left: 94%"></div>
-                  </div>
+                    <div class="lc-bar-projected watch" style="left: 59%; width: 41%"></div>                  </div>
                 </div>
                 <div class="lc-trajectory">
                   <span class="label">Trajectory</span>
@@ -2005,13 +2361,10 @@
                 <div class="lc-bar-block">
                   <div class="lc-bar-line">
                     <span><span class="used">9.5M</span> / 15M</span>
-                    <span class="pct">63%</span>
                   </div>
                   <div class="lc-bar">
                     <div class="lc-bar-fill watch" style="width: 59%"></div>
-                    <div class="lc-bar-projected watch" style="left: 59%; width: 41%"></div>
-                    <div class="lc-bar-cap" style="left: 94%"></div>
-                  </div>
+                    <div class="lc-bar-projected watch" style="left: 59%; width: 41%"></div>                  </div>
                 </div>
                 <div class="lc-trajectory">
                   <span class="label">Trajectory</span>
@@ -2030,13 +2383,10 @@
                 <div class="lc-bar-block">
                   <div class="lc-bar-line">
                     <span><span class="used">24M</span> / 50M</span>
-                    <span class="pct">48%</span>
                   </div>
                   <div class="lc-bar">
                     <div class="lc-bar-fill" style="width: 45%"></div>
-                    <div class="lc-bar-projected" style="left: 45%; width: 32%"></div>
-                    <div class="lc-bar-cap" style="left: 94%"></div>
-                  </div>
+                    <div class="lc-bar-projected" style="left: 45%; width: 32%"></div>                  </div>
                 </div>
                 <div class="lc-trajectory">
                   <span class="label">Trajectory</span>
@@ -2055,13 +2405,10 @@
                 <div class="lc-bar-block">
                   <div class="lc-bar-line">
                     <span><span class="used">7.0M</span> / 18M</span>
-                    <span class="pct">39%</span>
                   </div>
                   <div class="lc-bar">
                     <div class="lc-bar-fill" style="width: 37%"></div>
-                    <div class="lc-bar-projected" style="left: 37%; width: 26%"></div>
-                    <div class="lc-bar-cap" style="left: 94%"></div>
-                  </div>
+                    <div class="lc-bar-projected" style="left: 37%; width: 26%"></div>                  </div>
                 </div>
                 <div class="lc-trajectory">
                   <span class="label">Trajectory</span>
@@ -2073,95 +2420,84 @@
             </div>
           </div>
 
-          <!-- Right column stack: insights + plan -->
-          <div class="dash-stack" data-span="4">
-
-            <!-- Approaching: GenAI -->
-            <div class="card card-insight insight-approaching approaching">
-              <span class="insight-tag">Approaching</span>
-              <h4 class="insight-title">GenAI Tokens · 92%</h4>
-              <p class="insight-desc">
-                Cap reached <strong>~12 Aug</strong> at current pace. A 30% top-up covers the projected overage and nets ~€8K vs. plan upgrade.
-              </p>
-              <div class="insight-actions">
-                <button class="insight-btn primary">Top up</button>
-                <button class="insight-btn">Compare upgrade</button>
+          <!-- Plan — standalone card (right column) -->
+          <div class="card card-plan clickable" data-span="4" data-modal="plan-modal">
+            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+            <div class="card-header">
+              <div class="card-title-block">
+                <h3 class="card-title">Plan</h3>
+                <p class="card-desc">Active tier</p>
+              </div>
+              <div class="card-actions">
+                <button class="card-action-btn" title="Print plan summary"><i data-lucide="printer"></i></button>
+                <button class="card-action-btn" title="Plan FAQ"><i data-lucide="help-circle"></i></button>
               </div>
             </div>
+            <div class="plan-body">
+              <div class="plan-tier-badge">Premium</div>
+              <div class="plan-info-list">
+                <div class="plan-info-item">
+                  <span class="plan-info-label">Modules</span>
+                  <span class="plan-info-value">27 · full access</span>
+                </div>
+                <div class="plan-info-item">
+                  <span class="plan-info-label">Contract year</span>
+                  <span class="plan-info-value">Sep 2025 – Aug 2026</span>
+                </div>
+                <div class="plan-info-item">
+                  <span class="plan-info-label">Renews in</span>
+                  <span class="plan-info-value">122 days</span>
+                </div>
 
-            <!-- Approaching: Ancillary -->
-            <div class="card card-insight insight-approaching approaching">
-              <span class="insight-tag">Approaching</span>
-              <h4 class="insight-title">Ancillary Tokens · 85%</h4>
-              <p class="insight-desc">
-                Faster trajectory than GenAI — cap reached <strong>~5 Jul</strong>. Top-up or in-cycle plan move both available.
-              </p>
-              <div class="insight-actions">
-                <button class="insight-btn primary">Top up</button>
+                <div class="plan-info-item">
+                  <span class="plan-info-label">Support</span>
+                  <span class="plan-info-value">Dedicated CSM</span>
+                </div>
+                <div class="plan-info-item">
+                  <span class="plan-info-label">Next invoice</span>
+                  <span class="plan-info-value">Aug 31, 2026</span>
+                </div>
               </div>
             </div>
-
-            <!-- Plan summary mini -->
-            <div class="card card-plan-mini clickable" data-modal="plan-modal">
-              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
-              <div class="plan-mini-tier">
-                <span class="plan-mini-tier-label">Plan</span>
-                <span class="plan-mini-tier-name">Premium</span>
-              </div>
-              <div class="plan-mini-since">Since 1 Sep 2025 · renews 31 Aug 2026 · 27 modules</div>
-              <div class="plan-mini-actions">
-                <button class="insight-btn">Compare plans</button>
-                <button class="insight-btn">Plan history</button>
-              </div>
+            <div class="plan-mini-actions">
+              <button class="insight-btn primary">Compare plans</button>
+              <button class="insight-btn secondary">Plan history</button>
             </div>
-
           </div>
 
-          <!-- ROW 3 — Asks chip bar -->
-          <div class="card" data-span="12">
-            <div class="card-header">
-              <h3 class="card-title">Asks</h3>
-              <span class="card-meta">Structured requests · SLAs disclosed · trackable in your inbox</span>
+          <!-- ROW 3 — Insight cards (3-col sub-grid) -->
+          <div class="insight-row" data-span="12">
+            <div class="card card-insight insight-approaching clickable" data-modal="resource-modal">
+              <div class="insight-header">
+                <span class="insight-tag">Risk</span>
+                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
+              </div>
+              <h4 class="insight-title">Dual cap · Aug 12</h4>
+              <p class="insight-desc">GenAI + Ancillary are both projected to cap the same week. Simultaneous exhaustion may degrade the live pricing engine and ancillary module at once.</p>
             </div>
-            <div class="asks-chips-bar">
-              <button class="ask-chip priority">
-                <i data-lucide="zap"></i>
-                Top up GenAI
-                <span class="ask-chip-sla">1 day</span>
-              </button>
-              <button class="ask-chip">
-                <i data-lucide="layers"></i>
-                Simulate upgrade
-                <span class="ask-chip-sla">instant</span>
-              </button>
-              <button class="ask-chip">
-                <i data-lucide="calendar"></i>
-                Schedule QBR
-                <span class="ask-chip-sla">3 days</span>
-              </button>
-              <button class="ask-chip">
-                <i data-lucide="user-plus"></i>
-                Add user
-                <span class="ask-chip-sla">1 hour</span>
-              </button>
-              <button class="ask-chip">
-                <i data-lucide="file-pen-line"></i>
-                Amend contract
-                <span class="ask-chip-sla">2 days</span>
-              </button>
-              <button class="ask-chip">
-                <i data-lucide="message-circle"></i>
-                Ask anything
-                <span class="ask-chip-sla">4 hours</span>
-              </button>
+            <div class="card card-insight insight-watch clickable" data-modal="resource-modal">
+              <div class="insight-header">
+                <span class="insight-tag">Cost</span>
+                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
+              </div>
+              <h4 class="insight-title">€9K overage incoming</h4>
+              <p class="insight-desc">Current GenAI trajectory triggers ~€9K in overage charges at plan rates. A pre-cap top-up is ~€3.2K — act before Aug 5 to save ~€5.8K.</p>
+            </div>
+            <div class="card card-insight insight-neutral clickable" data-modal="resource-modal">
+              <div class="insight-header">
+                <span class="insight-tag">Context</span>
+                <button class="card-action-btn" title="View detail"><i data-lucide="eye"></i></button>
+              </div>
+              <h4 class="insight-title">Above seasonal norm</h4>
+              <p class="insight-desc">F&amp;O burn rate is 27% above median for comparable airlines. Last year's summer effect added +18% in Jul–Aug — cap likely before Sep at this pace.</p>
             </div>
           </div>
 
           <!-- ROW 4 — Documents + Methodology -->
-          <div class="card" data-span="6">
+          <div class="card card-docs clickable" data-span="6" data-modal="docs-modal">
+            <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
             <div class="card-header">
               <h3 class="card-title">Documents</h3>
-              <span class="card-meta">QBR-ready · stakeholders read without login</span>
             </div>
             <div class="docs-list">
               <div class="doc-row">
@@ -2199,33 +2535,62 @@
             </div>
           </div>
 
-          <div class="card" data-span="6">
-            <div class="card-header">
-              <h3 class="card-title">Methodology &amp; FAQ</h3>
-              <span class="card-meta">Math, assumptions, and what other clients ask</span>
+          <div class="meth-stack" data-span="6">
+            <div class="card card-meth clickable" data-modal="methodology-modal">
+              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+              <div class="meth-card-inner">
+                <i data-lucide="info" class="meth-icon"></i>
+                <div class="meth-card-body">
+                  <div class="meth-card-q">How attribution works (forecast vs. baseline)</div>
+                  <div class="meth-card-meta">PDF · 4 pages</div>
+                </div>
+                <i data-lucide="chevron-right" class="meth-chevron"></i>
+              </div>
             </div>
-            <ul class="meth-list">
-              <li class="meth-item">
-                <i data-lucide="info"></i>
-                How attribution works (forecast vs. baseline)
-                <span class="meth-item-meta">PDF · 4 pages</span>
-              </li>
-              <li class="meth-item">
-                <i data-lucide="trending-up"></i>
-                Why we project with last-year seasonality (+15% Jun–Aug)
-                <span class="meth-item-meta">methodology note</span>
-              </li>
-              <li class="meth-item">
-                <i data-lucide="bell-ring"></i>
-                What "Approaching" means and when alerts fire
-                <span class="meth-item-meta">methodology note</span>
-              </li>
-              <li class="meth-item">
-                <i data-lucide="help-circle"></i>
-                FAQ — 7 questions other clients ask
-                <span class="meth-item-meta">curated by CSM team</span>
-              </li>
-            </ul>
+            <div class="card card-meth clickable" data-modal="methodology-modal">
+              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+              <div class="meth-card-inner">
+                <i data-lucide="trending-up" class="meth-icon"></i>
+                <div class="meth-card-body">
+                  <div class="meth-card-q">Why we project with last-year seasonality (+15% Jun–Aug)</div>
+                  <div class="meth-card-meta">Methodology note</div>
+                </div>
+                <i data-lucide="chevron-right" class="meth-chevron"></i>
+              </div>
+            </div>
+            <div class="card card-meth clickable" data-modal="methodology-modal">
+              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+              <div class="meth-card-inner">
+                <i data-lucide="bell-ring" class="meth-icon"></i>
+                <div class="meth-card-body">
+                  <div class="meth-card-q">What "Approaching" means and when alerts fire</div>
+                  <div class="meth-card-meta">Methodology note</div>
+                </div>
+                <i data-lucide="chevron-right" class="meth-chevron"></i>
+              </div>
+            </div>
+            <div class="card card-meth clickable" data-modal="methodology-modal">
+              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+              <div class="meth-card-inner">
+                <i data-lucide="help-circle" class="meth-icon"></i>
+                <div class="meth-card-body">
+                  <div class="meth-card-q">FAQ — 7 questions other clients ask</div>
+                  <div class="meth-card-meta">Curated by CSM team</div>
+                </div>
+                <i data-lucide="chevron-right" class="meth-chevron"></i>
+              </div>
+            </div>
+            <div class="card card-meth clickable" data-modal="methodology-modal">
+              <div class="card-zoom-cue"><i data-lucide="maximize-2"></i></div>
+              <div class="meth-card-inner">
+                <i data-lucide="calculator" class="meth-icon"></i>
+                <div class="meth-card-body">
+                  <div class="meth-card-q">When is a top-up cheaper than a plan upgrade?</div>
+                  <div class="meth-card-meta">Methodology note</div>
+                </div>
+                <i data-lucide="chevron-right" class="meth-chevron"></i>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -2340,19 +2705,98 @@
           </div>
         </div>
 
-        <!-- Plan modal — placeholder, expands later -->
+        <!-- Plan modal — tier comparison -->
         <div class="modal-overlay" id="plan-modal" aria-hidden="true">
           <div class="modal modal-xl">
             <header class="modal-header">
               <div class="modal-title-block">
-                <span class="modal-eyebrow">Plan</span>
-                <span class="modal-title">Premium · since 1 Sep 2025</span>
+                <span class="modal-eyebrow">Plan · active tier</span>
+                <span class="modal-title">Premium — Sep 2025 to Aug 2026</span>
               </div>
               <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
             </header>
             <div class="modal-body">
-              <p><strong>Premium plan</strong> — full module list, plan comparison side-by-side, and history timeline. Plan-comparison detail will live here in a future iteration; for V1 we gesture at the surface so the modal-as-zoom pattern is visible end-to-end.</p>
-              <p>The compare-plans view would render Standard / Advanced / Premium / Premium-Plus side by side with module rows, quotas, and unit-cost differences. At ~XL width because comparison is the job.</p>
+              <p>Your current plan is <strong>Premium</strong>, active since 1 Sep 2025. It renews in <strong>122 days</strong>. The table below compares the three available tiers — your contracted quotas are highlighted.</p>
+              <table class="plan-compare-table">
+                <thead>
+                  <tr>
+                    <th>Resource / Feature</th>
+                    <th>Standard</th>
+                    <th>Advanced</th>
+                    <th class="col-active">Premium ✓ active</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="row-active"><td>PSEG / year</td><td>20M</td><td>30M</td><td class="cell-active">50M</td></tr>
+                  <tr><td>BR Executions / year</td><td>4M</td><td>8M</td><td class="cell-active">15M</td></tr>
+                  <tr class="row-active"><td>F&amp;O Executions / year</td><td>3M</td><td>5M</td><td class="cell-active">8M</td></tr>
+                  <tr><td>DWH Extracted Rows / year</td><td>6M</td><td>10M</td><td class="cell-active">18M</td></tr>
+                  <tr class="row-active"><td>GenAI Tokens / year</td><td class="cell-na">—</td><td>500M</td><td class="cell-active">1.5B</td></tr>
+                  <tr><td>Ancillary Tokens / year</td><td class="cell-na">—</td><td>800K</td><td class="cell-active">2.0M</td></tr>
+                  <tr class="row-active"><td>Modules included</td><td>12</td><td>19</td><td class="cell-active">27</td></tr>
+                  <tr><td>CSM response SLA</td><td>5 days</td><td>2 days</td><td class="cell-active">1 day</td></tr>
+                </tbody>
+              </table>
+              <div class="modal-actions" style="margin-top: 16px;">
+                <button class="insight-btn primary">Request plan change</button>
+                <button class="insight-btn">Download plan PDF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Asks modal — shell -->
+        <div class="modal-overlay" id="asks-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Asks · self-service paths</span>
+                <span class="modal-title">Structured requests with disclosed SLAs</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>Each ask generates a trackable request routed to your CSM team. SLAs are contractual — you receive email confirmation and can monitor status in your inbox.</p>
+              <p><strong>Available actions:</strong> Top-up a resource · Simulate plan upgrade · Schedule a QBR · Add a user · Amend contract · Open question.</p>
+              <p style="color: var(--text-muted); font-size: 12px; margin-top: 16px;">Full ask-flow (form, confirmation, status tracker) — V2 scope.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documents modal — shell -->
+        <div class="modal-overlay" id="docs-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Documents · sharing</span>
+                <span class="modal-title">QBR-ready, every day</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p>Contract summary PDF, usage CSV, and a shareable read-only link are available on demand. The monthly digest email replaces routine page visits for stakeholders who don't log in regularly.</p>
+              <p>Recipients of the scheduled monthly summary do not need a CAYZN account — the email is self-contained and QBR-ready.</p>
+              <p style="color: var(--text-muted); font-size: 12px; margin-top: 16px;">PDF preview, recipient management, link-expiry settings — V2 scope.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Methodology modal — key points -->
+        <div class="modal-overlay" id="methodology-modal" aria-hidden="true">
+          <div class="modal modal-md">
+            <header class="modal-header">
+              <div class="modal-title-block">
+                <span class="modal-eyebrow">Methodology · transparency</span>
+                <span class="modal-title">How every number is computed</span>
+              </div>
+              <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
+            </header>
+            <div class="modal-body">
+              <p><strong>Attribution.</strong> For each route × day, we compute the difference between actual revenue and the pre-CAYZN baseline model. Lift = ∑(actual − baseline). YTD figures are point-in-time actuals.</p>
+              <p><strong>Trajectory.</strong> Linear projection × last-year same-period seasonality factor. Jun–Aug carries a +15% multiplier based on Transavia's 2024–25 observed pattern. Ranges, not points. Every forward figure is labelled <em>"trajectory"</em>, never a guarantee.</p>
+              <p><strong>Resource forecasts.</strong> Daily rolling average × remaining days, seasonality-adjusted. Cap date = the day the trajectory line crosses the contracted limit.</p>
+              <p><strong>Sensitivity.</strong> Open the Outcomes card to re-compute attribution with a different baseline assumption and scope.</p>
+              <p style="color: var(--text-muted); font-size: 12px; margin-top: 16px;">Full methodology PDF (4 pages) available in the Documents card.</p>
             </div>
           </div>
         </div>
@@ -2915,6 +3359,32 @@
         </div>
         <!-- /legacy -->
 
+        <!-- ============================================================
+             PROTOTYPE GUIDE
+             ============================================================ -->
+        <div class="design-notes">
+          <div class="design-notes-grid">
+            <div class="design-note-item">
+              <i data-lucide="mail"></i>
+              <strong>Contact Wiremind</strong>
+              <p>Reach your dedicated CSM or call +33 1 84 17 00 40. For urgent issues outside business hours, use the on-call line referenced in your contract.</p>
+              <span class="design-note-link">csm@wiremind.io</span>
+            </div>
+            <div class="design-note-item">
+              <i data-lucide="shield"></i>
+              <strong>Legal &amp; privacy</strong>
+              <p>Usage data is processed under the terms of your Master Services Agreement. Data is stored in EU-West infrastructure. For DPA requests or data deletion, contact:</p>
+              <span class="design-note-link">privacy@wiremind.io</span>
+            </div>
+            <div class="design-note-item">
+              <i data-lucide="database"></i>
+              <strong>Data freshness</strong>
+              <p>Resource counters refresh every 15 min. Financial figures are recalculated nightly against the previous day's actuals.</p>
+              <span class="design-note-link">Last sync: Apr 29, 2026 · 02:14 UTC</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -2927,6 +3397,42 @@
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
+
+  // ── Projection dots + grey remaining (Eventori hero-occbar style) ──
+  document.querySelectorAll('.lc-bar').forEach(bar => {
+    const projected = bar.querySelector('.lc-bar-projected');
+    if (!projected) return;
+
+    // Colored dots for the projected section
+    const projW = projected.offsetWidth;
+    const projCount = Math.max(3, Math.round((projW - 4) / 7));
+    for (let i = 0; i < projCount; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'proj-dot';
+      projected.appendChild(dot);
+    }
+
+    // Grey dots for the remaining section after projected
+    const projLeft = parseFloat(projected.style.left) || 0;
+    const projWidthPct = parseFloat(projected.style.width) || 0;
+    const remainStart = projLeft + projWidthPct;
+    const remainWidth = 100 - remainStart;
+    if (remainWidth <= 1) return;
+
+    const remaining = document.createElement('div');
+    remaining.className = 'lc-bar-remaining';
+    remaining.style.left = remainStart + '%';
+    remaining.style.width = remainWidth + '%';
+    bar.appendChild(remaining);
+
+    const remW = remaining.offsetWidth;
+    const remCount = Math.max(1, Math.round(remW / 7));
+    for (let i = 0; i < remCount; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'proj-dot';
+      remaining.appendChild(dot);
+    }
+  });
 
   // ── Nav: L1 expand/collapse (single open at a time) ──
   document.querySelectorAll('.nav-l1[data-has-children]').forEach(l1 => {
