@@ -2219,8 +2219,8 @@
       border-bottom: 1px solid var(--border-light);
     }
     .plan-mod-accent { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; }
-    .plan-mod-emoji { font-size: 13px; flex-shrink: 0; line-height: 1; }
-    .plan-mod-name { font-size: 12px; font-weight: 700; color: var(--ink); flex: 1; }
+    .plan-mod-header [data-lucide] { width: 16px; height: 16px; color: var(--text-secondary); flex-shrink: 0; }
+    .plan-mod-name { font-size: 13px; font-weight: 700; color: var(--ink); flex: 1; }
     .plan-mod-count { font-size: 10px; color: var(--text-muted); font-weight: 500; }
     .plan-feat-row {
       display: flex; align-items: center;
@@ -2251,9 +2251,10 @@
       border-top: 1px solid var(--border-light);
     }
     .cat-section-name {
-      font-size: 11px; font-weight: 700; color: var(--ink);
-      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: var(--ink);
+      display: flex; align-items: center; gap: 8px;
     }
+    .cat-section-name [data-lucide] { width: 15px; height: 15px; color: var(--text-secondary); flex-shrink: 0; }
     .cat-feat-row {
       display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
       padding: 7px 16px; border-bottom: 1px solid var(--border-light); align-items: center;
@@ -2262,7 +2263,7 @@
     .cat-feat-name { font-size: 12px; color: var(--text); font-weight: 500; }
     .cat-feat-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; }
     .cat-cell { text-align: center; font-size: 11px; color: var(--text-secondary); }
-    .cat-cell.active { background: #fefce8; }
+    .cat-cell.active { background: transparent; }
     .cat-cell-val { display: flex; align-items: center; justify-content: center; gap: 4px; }
     .cat-icon { font-size: 13px; font-weight: 700; line-height: 1; }
     .cat-icon.on  { color: var(--success); }
@@ -2894,7 +2895,7 @@
               </div>
 
               <!-- BRE -->
-              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">🔧</span> BRE — Business Rules Engine</div><div></div><div></div><div></div></div>
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="wrench"></i> BRE — Business Rules Engine</div><div></div><div></div><div></div></div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">Quick Actions / Multi-BR / Perimeters</div><span class="cat-feat-sub">Automated pricing rules from the RM module</span></div>
                 <div class="cat-cell">1 per type</div>
@@ -2909,7 +2910,7 @@
               </div>
 
               <!-- Analytics -->
-              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">📊</span> Analytics</div><div></div><div></div><div></div></div>
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="bar-chart-2"></i> Analytics</div><div></div><div></div><div></div></div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">Horizon Dashboards</div><span class="cat-feat-sub">Network commercial performance</span></div>
                 <div class="cat-cell">5 routes</div>
@@ -2930,7 +2931,7 @@
               </div>
 
               <!-- AI Plan -->
-              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">🤖</span> AI Plan — Forecast &amp; Optimisation</div><div></div><div></div><div></div></div>
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="bot"></i> AI Plan — Forecast &amp; Optimisation</div><div></div><div></div><div></div></div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">Forecast &amp; Optimisation — Bookings</div><span class="cat-feat-sub">ML sales curve prediction + pricing autopilot</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
@@ -2951,7 +2952,7 @@
               </div>
 
               <!-- Monitoring -->
-              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">📡</span> Monitoring</div><div></div><div></div><div></div></div>
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="radar"></i> Monitoring</div><div></div><div></div><div></div></div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">Spectrum</div><span class="cat-feat-sub">BR, extractor &amp; optimisation deep-dive</span></div>
                 <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
@@ -2966,7 +2967,7 @@
               </div>
 
               <!-- Ancillary -->
-              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">🧳</span> Ancillary</div><div></div><div></div><div></div></div>
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="package-plus"></i> Ancillary</div><div></div><div></div><div></div></div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">Demand Forecast &amp; Optimisation — Ancillaries</div><span class="cat-feat-sub">ML-driven ancillary pricing</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
@@ -2981,7 +2982,7 @@
               </div>
 
               <!-- GenAI -->
-              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">✨</span> GenAI</div><div></div><div></div><div></div></div>
+              <div class="cat-section-row"><div class="cat-section-name"><i data-lucide="sparkles"></i> GenAI</div><div></div><div></div><div></div></div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">Price Reco · Optim Logs · BR Script</div><span class="cat-feat-sub">LLM-powered features — all plans</span></div>
                 <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span> All</div></div>
@@ -2995,7 +2996,7 @@
                 <div class="cat-cell active"><span class="cat-strong">1.5B · 80K/min</span></div>
               </div>
 
-              <div style="padding: 16px 16px 8px; display: flex; gap: 8px;">
+              <div style="padding: 20px 22px 32px; display: flex; gap: 8px;">
                 <button class="insight-btn primary">Request plan change</button>
               </div>
 
@@ -3027,7 +3028,7 @@
               <div class="plan-mod-block">
                 <div class="plan-mod-header">
                   <div class="plan-mod-accent" style="background:#3b82f6"></div>
-                  <span class="plan-mod-emoji">⚙</span>
+                  <i data-lucide="layout-grid"></i>
                   <span class="plan-mod-name">Core System</span>
                   <span class="plan-mod-count">7 / 7 features</span>
                 </div>
@@ -3053,7 +3054,7 @@
               <div class="plan-mod-block">
                 <div class="plan-mod-header">
                   <div class="plan-mod-accent" style="background:#8b5cf6"></div>
-                  <span class="plan-mod-emoji">🔧</span>
+                  <i data-lucide="wrench"></i>
                   <span class="plan-mod-name">BRE — Business Rules Engine</span>
                 </div>
                 <div class="plan-feat-row">
@@ -3078,7 +3079,7 @@
               <div class="plan-mod-block">
                 <div class="plan-mod-header">
                   <div class="plan-mod-accent" style="background:#06b6d4"></div>
-                  <span class="plan-mod-emoji">📊</span>
+                  <i data-lucide="bar-chart-2"></i>
                   <span class="plan-mod-name">Analytics</span>
                 </div>
                 <div class="plan-feat-row">
@@ -3111,7 +3112,7 @@
               <div class="plan-mod-block">
                 <div class="plan-mod-header">
                   <div class="plan-mod-accent" style="background:#10b981"></div>
-                  <span class="plan-mod-emoji">🤖</span>
+                  <i data-lucide="bot"></i>
                   <span class="plan-mod-name">AI Plan — Forecast, Optimisation &amp; AI Cockpit</span>
                 </div>
                 <div class="plan-feat-row">
@@ -3152,7 +3153,7 @@
               <div class="plan-mod-block">
                 <div class="plan-mod-header">
                   <div class="plan-mod-accent" style="background:#f43f5e"></div>
-                  <span class="plan-mod-emoji">📡</span>
+                  <i data-lucide="radar"></i>
                   <span class="plan-mod-name">Monitoring</span>
                 </div>
                 <div class="plan-feat-row">
@@ -3169,7 +3170,7 @@
               <div class="plan-mod-block">
                 <div class="plan-mod-header">
                   <div class="plan-mod-accent" style="background:#f59e0b"></div>
-                  <span class="plan-mod-emoji">🧳</span>
+                  <i data-lucide="package-plus"></i>
                   <span class="plan-mod-name">Ancillary</span>
                 </div>
                 <div class="plan-feat-row">
@@ -3194,7 +3195,7 @@
               <div class="plan-mod-block">
                 <div class="plan-mod-header">
                   <div class="plan-mod-accent" style="background:#ec4899"></div>
-                  <span class="plan-mod-emoji">✨</span>
+                  <i data-lucide="sparkles"></i>
                   <span class="plan-mod-name">GenAI</span>
                 </div>
                 <div class="plan-feat-row">
