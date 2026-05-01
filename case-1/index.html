@@ -1160,20 +1160,20 @@
       gap: 2px;
       padding: 3px;
       border-radius: 8px;
-      border: 1px solid rgba(108, 77, 220, 0.18);
-      background: var(--accent-light);
+      border: 1px solid #e5e7eb;
+      background: #f3f4f6;
       font-size: 11px;
     }
     .admin-toggle-opt {
       padding: 4px 12px;
       border-radius: 5px;
       cursor: pointer;
-      color: rgba(108, 77, 220, 0.5);
+      color: #9ca3af;
       font-weight: 700;
       transition: all 0.12s;
     }
     .admin-toggle-opt.active {
-      background: var(--accent);
+      background: #374151;
       color: white;
       box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
@@ -2191,6 +2191,83 @@
     .design-note-link::before {
       content: '→ ';
     }
+
+    /* ── Plan tier pills (Standard / Advanced / Premium) ── */
+    .plan-tier-pill {
+      display: inline-flex; align-items: center;
+      padding: 3px 11px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.4px; text-transform: uppercase;
+    }
+    .plan-tier-pill.standard { background: #dbeafe; color: #1d4ed8; }
+    .plan-tier-pill.advanced { background: #ede9fe; color: #6d28d9; }
+    .plan-tier-pill.premium  { background: #fef3c7; color: #b45309; }
+
+    /* ── Plan modal: module blocks ("Your plan" modal) ── */
+    .plan-modal-tier {
+      display: flex; align-items: center; gap: 14px;
+      padding: 0 0 16px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 16px;
+    }
+    .plan-modal-tier-info { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+    .plan-modal-tier-info strong { color: var(--ink); }
+    .plan-mod-block { margin-bottom: 8px; border: 1px solid var(--border-light); border-radius: 8px; overflow: hidden; }
+    .plan-mod-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 14px; background: var(--bg);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .plan-mod-accent { width: 3px; height: 18px; border-radius: 2px; flex-shrink: 0; }
+    .plan-mod-emoji { font-size: 13px; flex-shrink: 0; line-height: 1; }
+    .plan-mod-name { font-size: 12px; font-weight: 700; color: var(--ink); flex: 1; }
+    .plan-mod-count { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+    .plan-feat-row {
+      display: flex; align-items: center;
+      padding: 6px 14px; border-bottom: 1px solid var(--border-light); gap: 10px;
+    }
+    .plan-feat-row:last-child { border-bottom: none; }
+    .plan-feat-col { flex: 1; min-width: 0; }
+    .plan-feat-name { font-size: 12px; color: var(--text); font-weight: 500; }
+    .plan-feat-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; }
+    .plan-feat-detail { font-size: 11px; color: var(--text-grey); flex-shrink: 0; text-align: right; }
+    .plan-feat-icon { font-size: 13px; font-weight: 700; width: 18px; text-align: center; flex-shrink: 0; line-height: 1; }
+    .plan-feat-icon.on  { color: var(--success); }
+    .plan-feat-icon.mid { color: var(--warning-strong); font-size: 12px; }
+    .plan-feat-icon.off { color: var(--border); }
+
+    /* ── Catalogue modal: 4-column comparison grid ── */
+    .cat-col-header {
+      display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
+      padding: 10px 16px; background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .cat-col-header .cat-h { text-align: center; }
+    .cat-section-row {
+      display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
+      padding: 7px 16px; background: var(--bg);
+      border-bottom: 1px solid var(--border-light);
+      border-top: 1px solid var(--border-light);
+    }
+    .cat-section-name {
+      font-size: 11px; font-weight: 700; color: var(--ink);
+      display: flex; align-items: center; gap: 7px;
+    }
+    .cat-feat-row {
+      display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
+      padding: 7px 16px; border-bottom: 1px solid var(--border-light); align-items: center;
+    }
+    .cat-feat-row:last-child { border-bottom: none; }
+    .cat-feat-name { font-size: 12px; color: var(--text); font-weight: 500; }
+    .cat-feat-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; }
+    .cat-cell { text-align: center; font-size: 11px; color: var(--text-secondary); }
+    .cat-cell.active { background: #fefce8; }
+    .cat-cell-val { display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .cat-icon { font-size: 13px; font-weight: 700; line-height: 1; }
+    .cat-icon.on  { color: var(--success); }
+    .cat-icon.off { color: #d1d5db; font-weight: 400; }
+    .cat-strong   { font-weight: 600; color: #b45309; }
   </style>
 </head>
 <body>
@@ -2546,8 +2623,8 @@
               </div>
             </div>
             <div class="plan-mini-actions">
-              <button class="insight-btn primary" data-modal="plan-compare-modal">Compare plans</button>
-              <button class="insight-btn secondary" data-modal="plan-history-modal">Plan history</button>
+              <button class="insight-btn secondary" data-modal="plan-your-modal">Your plan</button>
+              <button class="insight-btn secondary" data-modal="plan-catalogue-modal">Catalogue</button>
             </div>
           </div>
 
@@ -2796,69 +2873,348 @@
           </div>
         </div>
 
-        <!-- Plan modal — tier comparison -->
-        <div class="modal-overlay" id="plan-compare-modal" aria-hidden="true">
+        <!-- Plan catalogue modal — 4-column comparison -->
+        <div class="modal-overlay" id="plan-catalogue-modal" aria-hidden="true">
           <div class="modal modal-lg">
             <header class="modal-header">
               <div class="modal-title-block">
-                <span class="modal-eyebrow">Plan · active tier</span>
-                <span class="modal-title">Premium — Sep 2025 to Aug 2026</span>
+                <span class="modal-eyebrow">Plan · Catalogue</span>
+                <span class="modal-title">Standard · Advanced · Premium</span>
               </div>
               <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
             </header>
-            <div class="modal-body">
-              <p>Your current plan is <strong>Premium</strong>, active since 1 Sep 2025. It renews in <strong>122 days</strong>. The table below compares the three available tiers — your contracted quotas are highlighted.</p>
-              <table class="plan-compare-table">
-                <thead>
-                  <tr>
-                    <th>Resource / Feature</th>
-                    <th>Standard</th>
-                    <th>Advanced</th>
-                    <th class="col-active">Premium ✓ active</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="row-active"><td>PSEG / year</td><td>20M</td><td>30M</td><td class="cell-active">50M</td></tr>
-                  <tr><td>BR Executions / year</td><td>4M</td><td>8M</td><td class="cell-active">15M</td></tr>
-                  <tr class="row-active"><td>F&amp;O Executions / year</td><td>3M</td><td>5M</td><td class="cell-active">8M</td></tr>
-                  <tr><td>DWH Extracted Rows / year</td><td>6M</td><td>10M</td><td class="cell-active">18M</td></tr>
-                  <tr class="row-active"><td>GenAI Tokens / year</td><td class="cell-na">—</td><td>500M</td><td class="cell-active">1.5B</td></tr>
-                  <tr><td>Ancillary Tokens / year</td><td class="cell-na">—</td><td>800K</td><td class="cell-active">2.0M</td></tr>
-                  <tr class="row-active"><td>Modules included</td><td>12</td><td>19</td><td class="cell-active">27</td></tr>
-                  <tr><td>CSM response SLA</td><td>5 days</td><td>2 days</td><td class="cell-active">1 day</td></tr>
-                </tbody>
-              </table>
-              <div class="modal-actions">
-                <button class="insight-btn primary">Request plan change</button>
-                <button class="insight-btn">Download plan PDF</button>
+            <div class="modal-body" style="padding: 0; font-size: 12px;">
+
+              <!-- Column headers -->
+              <div class="cat-col-header">
+                <div style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px;">Feature</div>
+                <div class="cat-h"><span class="plan-tier-pill standard" style="font-size:9px;padding:2px 9px;">Standard</span></div>
+                <div class="cat-h"><span class="plan-tier-pill advanced" style="font-size:9px;padding:2px 9px;">Advanced</span></div>
+                <div class="cat-h"><span class="plan-tier-pill premium" style="font-size:9px;padding:2px 9px;">Premium ✓</span></div>
               </div>
+
+              <!-- BRE -->
+              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">🔧</span> BRE — Business Rules Engine</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Quick Actions / Multi-BR / Perimeters</div><span class="cat-feat-sub">Automated pricing rules from the RM module</span></div>
+                <div class="cat-cell">1 per type</div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span> Unlimited</div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Unlimited</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">BR Executions</div><span class="cat-feat-sub">Per service / day quota</span></div>
+                <div class="cat-cell">5 / svc</div>
+                <div class="cat-cell">10 / svc</div>
+                <div class="cat-cell active"><span class="cat-strong">25 / svc</span></div>
+              </div>
+
+              <!-- Analytics -->
+              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">📊</span> Analytics</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Horizon Dashboards</div><span class="cat-feat-sub">Network commercial performance</span></div>
+                <div class="cat-cell">5 routes</div>
+                <div class="cat-cell">5 routes</div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Unlimited</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">DWH Extractor</div><span class="cat-feat-sub">Request rate &amp; concurrency</span></div>
+                <div class="cat-cell">30 req/min</div>
+                <div class="cat-cell">150 req/min</div>
+                <div class="cat-cell active"><span class="cat-strong">300 req/min</span></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Extracted Rows</div><span class="cat-feat-sub">Multiplier on base quota / day</span></div>
+                <div class="cat-cell">×1</div>
+                <div class="cat-cell">×2</div>
+                <div class="cat-cell active"><span class="cat-strong">×5</span></div>
+              </div>
+
+              <!-- AI Plan -->
+              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">🤖</span> AI Plan — Forecast &amp; Optimisation</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Forecast &amp; Optimisation — Bookings</div><span class="cat-feat-sub">ML sales curve prediction + pricing autopilot</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">AI Cockpit — Scenarios</div><span class="cat-feat-sub">A/B tests on optimisation configs</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Premium</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">F&amp;O Executions</div><span class="cat-feat-sub">Per service / day quota</span></div>
+                <div class="cat-cell">2 / svc</div>
+                <div class="cat-cell">10 / svc</div>
+                <div class="cat-cell active"><span class="cat-strong">25 / svc</span></div>
+              </div>
+
+              <!-- Monitoring -->
+              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">📡</span> Monitoring</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Spectrum</div><span class="cat-feat-sub">BR, extractor &amp; optimisation deep-dive</span></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">New Models · Live AI Dashboards</div><span class="cat-feat-sub">Model performance surveillance</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Premium</span></div></div>
+              </div>
+
+              <!-- Ancillary -->
+              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">🧳</span> Ancillary</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Demand Forecast &amp; Optimisation — Ancillaries</div><span class="cat-feat-sub">ML-driven ancillary pricing</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell"><span class="cat-icon off">—</span></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Premium</span></div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Ancillary Tokens / year</div></div>
+                <div class="cat-cell">52M</div>
+                <div class="cat-cell">130M</div>
+                <div class="cat-cell active"><span class="cat-strong">260M</span></div>
+              </div>
+
+              <!-- GenAI -->
+              <div class="cat-section-row"><div class="cat-section-name"><span class="cat-mod-emoji">✨</span> GenAI</div><div></div><div></div><div></div></div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">Price Reco · Optim Logs · BR Script</div><span class="cat-feat-sub">LLM-powered features — all plans</span></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span> All</div></div>
+                <div class="cat-cell"><div class="cat-cell-val"><span class="cat-icon on">✓</span> All</div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> All</div></div>
+              </div>
+              <div class="cat-feat-row">
+                <div><div class="cat-feat-name">GenAI Tokens / year</div><span class="cat-feat-sub">LLM token quota · rate limit</span></div>
+                <div class="cat-cell">25M · 15K/min</div>
+                <div class="cat-cell">250M · 40K/min</div>
+                <div class="cat-cell active"><span class="cat-strong">1.5B · 80K/min</span></div>
+              </div>
+
+              <div style="padding: 16px 16px 8px; display: flex; gap: 8px;">
+                <button class="insight-btn primary">Request plan change</button>
+              </div>
+
             </div>
           </div>
         </div>
 
-        <!-- Plan history modal -->
-        <div class="modal-overlay" id="plan-history-modal" aria-hidden="true">
+        <!-- Your plan modal — Transavia Premium breakdown -->
+        <div class="modal-overlay" id="plan-your-modal" aria-hidden="true">
           <div class="modal modal-md">
             <header class="modal-header">
               <div class="modal-title-block">
-                <span class="modal-eyebrow">Plan · change history</span>
-                <span class="modal-title">Air France — plan timeline</span>
+                <span class="modal-eyebrow">Plan · Active</span>
+                <span class="modal-title">Your plan — Transavia</span>
               </div>
               <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
             </header>
             <div class="modal-body">
-              <p>Your account has been on three consecutive plan cycles. Changes take effect at the start of the next contract year.</p>
-              <table class="plan-history-table">
-                <thead>
-                  <tr><th>Period</th><th>Plan</th><th>Change</th><th>Initiated by</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>Sep 2025 – Aug 2026</td><td><strong>Premium</strong></td><td>Renewal — same tier</td><td>Auto-renew</td></tr>
-                  <tr><td>Sep 2024 – Aug 2025</td><td><strong>Premium</strong></td><td>Upgrade from Professional</td><td>CSM · Mathieu R.</td></tr>
-                  <tr><td>Sep 2023 – Aug 2024</td><td>Professional</td><td>Initial contract</td><td>Sales · Léa D.</td></tr>
-                </tbody>
-              </table>
-              <p style="margin-top:14px; font-size:12px; color:var(--text-grey);">Upcoming renewal: Aug 31, 2026 · 122 days remaining. To discuss plan options before renewal, contact your CSM.</p>
+
+              <div class="plan-modal-tier">
+                <span class="plan-tier-pill premium">Premium</span>
+                <div class="plan-modal-tier-info">
+                  Contract: <strong>Sep 2025 – Aug 2026</strong><br>
+                  Renews in <strong>122 days</strong> · Support: <strong>Dedicated CSM</strong>
+                </div>
+              </div>
+
+              <!-- Core System -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#3b82f6"></div>
+                  <span class="plan-mod-emoji">⚙</span>
+                  <span class="plan-mod-name">Core System</span>
+                  <span class="plan-mod-count">7 / 7 features</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">RM Module · Massive Changes · Upload Center</span>
+                    <span class="plan-feat-sub">Core access — all standard capabilities</span>
+                  </div>
+                  <div class="plan-feat-detail">Full access</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Activity Monitoring · Market Management · Configuration</span>
+                    <span class="plan-feat-sub">Audit log, market setup, user settings</span>
+                  </div>
+                  <div class="plan-feat-detail">Full access</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- BRE -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#8b5cf6"></div>
+                  <span class="plan-mod-emoji">🔧</span>
+                  <span class="plan-mod-name">BRE — Business Rules Engine</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Quick Actions · Multi-BR · Tracking · Comparison Perimeters</span>
+                    <span class="plan-feat-sub">Unlimited — Standard allows only 1 per type</span>
+                  </div>
+                  <div class="plan-feat-detail">Unlimited</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">BR Executions</span>
+                    <span class="plan-feat-sub">Contractual quota per service / day</span>
+                  </div>
+                  <div class="plan-feat-detail">25 / svc</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- Analytics -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#06b6d4"></div>
+                  <span class="plan-mod-emoji">📊</span>
+                  <span class="plan-mod-name">Analytics</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Horizon Dashboards</span>
+                    <span class="plan-feat-sub">Unlimited routes — Standard/Advanced limited to 5</span>
+                  </div>
+                  <div class="plan-feat-detail">Unlimited</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">DWH Extractor</span>
+                    <span class="plan-feat-sub">300 req/min · max 25 concurrent queries</span>
+                  </div>
+                  <div class="plan-feat-detail">300 req/min</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Extracted Rows</span>
+                    <span class="plan-feat-sub">×5 base / day — highest tier</span>
+                  </div>
+                  <div class="plan-feat-detail">×5 base</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- AI Plan -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#10b981"></div>
+                  <span class="plan-mod-emoji">🤖</span>
+                  <span class="plan-mod-name">AI Plan — Forecast, Optimisation &amp; AI Cockpit</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Forecast &amp; Optimisation — Bookings</span>
+                    <span class="plan-feat-sub">ML sales curve prediction + pricing autopilot</span>
+                  </div>
+                  <div class="plan-feat-detail">Enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">AI Cockpit — Overview · Massive Change · Parameters · Strategies</span>
+                    <span class="plan-feat-sub">Full optimisation control plane</span>
+                  </div>
+                  <div class="plan-feat-detail">Full access</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">AI Cockpit — Scenarios</span>
+                    <span class="plan-feat-sub">A/B tests on optimisation configs — Premium exclusive</span>
+                  </div>
+                  <div class="plan-feat-detail">Premium</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">F&amp;O Executions</span>
+                    <span class="plan-feat-sub">Contractual quota per service / day</span>
+                  </div>
+                  <div class="plan-feat-detail">25 / svc</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- Monitoring -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#f43f5e"></div>
+                  <span class="plan-mod-emoji">📡</span>
+                  <span class="plan-mod-name">Monitoring</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Spectrum · New Models Dashboard · Live AI Dashboard</span>
+                    <span class="plan-feat-sub">New Models &amp; Live AI are Premium-exclusive</span>
+                  </div>
+                  <div class="plan-feat-detail">All enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- Ancillary -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#f59e0b"></div>
+                  <span class="plan-mod-emoji">🧳</span>
+                  <span class="plan-mod-name">Ancillary</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Demand Forecast &amp; Optimisation — Ancillaries</span>
+                    <span class="plan-feat-sub">ML-driven ancillary pricing — Premium exclusive</span>
+                  </div>
+                  <div class="plan-feat-detail">Enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Ancillary Tokens</span>
+                    <span class="plan-feat-sub">260M transactions / year</span>
+                  </div>
+                  <div class="plan-feat-detail">260M / yr</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
+              <!-- GenAI -->
+              <div class="plan-mod-block">
+                <div class="plan-mod-header">
+                  <div class="plan-mod-accent" style="background:#ec4899"></div>
+                  <span class="plan-mod-emoji">✨</span>
+                  <span class="plan-mod-name">GenAI</span>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">Price Recommendation · Optim Logs Analysis · BR Script</span>
+                    <span class="plan-feat-sub">All three LLM-powered features enabled</span>
+                  </div>
+                  <div class="plan-feat-detail">All enabled</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+                <div class="plan-feat-row">
+                  <div class="plan-feat-col">
+                    <span class="plan-feat-name">GenAI Tokens</span>
+                    <span class="plan-feat-sub">1.5B tokens / year · 80K tokens/min</span>
+                  </div>
+                  <div class="plan-feat-detail">1.5B / yr</div>
+                  <div class="plan-feat-icon on">✓</div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
