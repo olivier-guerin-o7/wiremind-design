@@ -524,6 +524,11 @@
     .context-strip { height: 36px; padding: 0 22px; }
 
     /* ── Compact ledger (hero card) ── */
+    .card-resources { container-type: inline-size; }
+    @container (max-width: 500px) {
+      .lc-trajectory { display: none; }
+      .ledger-compact-row { grid-template-columns: 30px max-content minmax(60px, 1fr) 100px; }
+    }
     .ledger-compact { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
     .ledger-compact-row {
       display: grid;
@@ -2274,7 +2279,7 @@
           </div>
 
           <!-- ROW 2 — Resource Ledger (hero) + insights/plan stack -->
-          <div class="card clickable" data-span="8" data-modal="resource-modal">
+          <div class="card card-resources clickable" data-span="8" data-modal="resource-modal">
             <div class="card-header">
               <div class="card-title-block">
                 <h3 class="card-title">Resources</h3>
