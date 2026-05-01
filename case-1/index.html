@@ -1008,7 +1008,7 @@
       overflow: hidden;
     }
     .modal-md  { max-width: 620px; }
-    .modal-lg  { max-width: 960px; }
+    .modal-lg  { max-width: 720px; }
     .modal-xl  { max-width: 1240px; }
 
     .modal-header {
@@ -2239,7 +2239,7 @@
     /* ── Catalogue modal: 4-column comparison grid ── */
     .cat-col-header {
       display: grid; grid-template-columns: 1fr 100px 100px 120px; gap: 8px;
-      padding: 10px 16px; background: var(--bg);
+      padding: 10px 16px; background: #fff;
       border-bottom: 2px solid var(--border);
       position: sticky; top: 0; z-index: 10;
     }
@@ -2262,13 +2262,13 @@
     .cat-feat-row:last-child { border-bottom: none; }
     .cat-feat-name { font-size: 12px; color: var(--text); font-weight: 500; }
     .cat-feat-sub { font-size: 10px; color: var(--text-muted); display: block; margin-top: 1px; }
-    .cat-cell { text-align: center; font-size: 11px; color: var(--text-secondary); }
+    .cat-cell { text-align: center; font-size: 11px; color: var(--text); }
     .cat-cell.active { background: transparent; }
     .cat-cell-val { display: flex; align-items: center; justify-content: center; gap: 4px; }
     .cat-icon { font-size: 13px; font-weight: 700; line-height: 1; }
     .cat-icon.on  { color: var(--success); }
     .cat-icon.off { color: #d1d5db; font-weight: 400; }
-    .cat-strong   { font-weight: 600; color: #b45309; }
+    .cat-strong   { font-weight: 600; color: var(--text); }
   </style>
 </head>
 <body>
@@ -2942,7 +2942,7 @@
                 <div><div class="cat-feat-name">AI Cockpit — Scenarios</div><span class="cat-feat-sub">A/B tests on optimisation configs</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
-                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Premium</span></div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
               </div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">F&amp;O Executions</div><span class="cat-feat-sub">Per service / day quota</span></div>
@@ -2963,7 +2963,7 @@
                 <div><div class="cat-feat-name">New Models · Live AI Dashboards</div><span class="cat-feat-sub">Model performance surveillance</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
-                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Premium</span></div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
               </div>
 
               <!-- Ancillary -->
@@ -2972,7 +2972,7 @@
                 <div><div class="cat-feat-name">Demand Forecast &amp; Optimisation — Ancillaries</div><span class="cat-feat-sub">ML-driven ancillary pricing</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
                 <div class="cat-cell"><span class="cat-icon off">—</span></div>
-                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span> <span class="cat-strong">Premium</span></div></div>
+                <div class="cat-cell active"><div class="cat-cell-val"><span class="cat-icon on">✓</span></div></div>
               </div>
               <div class="cat-feat-row">
                 <div><div class="cat-feat-name">Ancillary Tokens / year</div></div>
@@ -2996,7 +2996,7 @@
                 <div class="cat-cell active"><span class="cat-strong">1.5B · 80K/min</span></div>
               </div>
 
-              <div style="padding: 20px 22px 32px; display: flex; gap: 8px;">
+              <div style="padding: 12px 16px; display: flex; gap: 8px; position: sticky; bottom: 0; background: #fff; border-top: 1px solid var(--border);">
                 <button class="insight-btn primary">Request plan change</button>
               </div>
 
