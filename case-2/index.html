@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAYZN — Market View widget</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root {
+  --primary: #009DDC;
+  --primary-strong: #0081a8;
+  --accent: #6c4ddc;
+  --success: #16a34a;
+  --success-bg: #dcfce7;
+  --warning: #b45309;
+  --warning-bg: #fef3c7;
+  --warning-strong: #f59e0b;
+  --danger-strong: #ef4444;
+  --danger-bg: #fee2e2;
+  --ink: #0f172a;
+  --text: #1e293b;
+  --text-2: #475569;
+  --text-3: #64748b;
+  --text-4: #94a3b8;
+  --border: #dbe2eb;
+  --border-light: #eef2f7;
+  --bg: #f5f8fc;
+  --bg-card: #ffffff;
+  --bg-tint: #edf3f9;
+  --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  min-height: 100%;
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--text);
+  background: #f8f9fb;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px;
+  gap: 40px;
+}
+
+/* ── Comparison section ── */
+.compare-section {
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.compare-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .6px; color: #94a3b8;
+}
+.compare-orig {
+  width: 100%;
+  border: 1px solid #dbe2eb;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,30,60,.08), 0 1px 4px rgba(0,30,60,.04);
+}
+.compare-orig img {
+  width: 100%;
+  display: block;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ── Widget shell ── */
+.widget {
+  width: 1200px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  box-shadow: 0 4px 24px rgba(0,30,60,.08), 0 1px 4px rgba(0,30,60,.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Widget header ── */
+.w-header {
+  display: flex;
+  align-items: stretch;
+  height: 52px;
+  padding: 0 12px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  gap: 0;
+  flex-shrink: 0;
+}
+.w-flight {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+  padding-right: 12px;
+  border-right: 1px solid var(--border-light);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+.w-flight-sub { align-self: end; font-size: 13px; font-weight: 500; color: var(--text-4); white-space: nowrap; }
+.w-flight-num { align-self: start; font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: .2px; }
+.w-kpis { display: flex; align-items: stretch; flex: 1; }
+.wk {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+  padding: 0 14px;
+  align-self: stretch;
+  border-right: 1px solid var(--border-light);
+}
+.wk-l { align-self: end; font-size: 13px; font-weight: 500; color: var(--text-4); white-space: nowrap; text-transform: none; letter-spacing: 0; }
+.wk-v { align-self: start; font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1; white-space: nowrap; text-transform: uppercase; }
+.wk-v.blue  { color: var(--ink); }
+.wk-v.bk    { display: flex; align-items: center; gap: 4px; }
+.bk-dot     { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.gap-badge { font-size: 13px; font-weight: 700; color: var(--ink); }
+.gap-badge [data-lucide] { width: 11px; height: 11px; vertical-align: text-bottom; margin-right: 2px; }
+.w-actions { display: flex; align-items: center; gap: 4px; padding-left: 10px; flex-shrink: 0; }
+.wa-btn {
+  height: 26px; padding: 0 8px; border-radius: 5px;
+  font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; gap: 4px;
+  color: var(--text-2); transition: background .12s;
+}
+.wa-btn:hover { background: var(--bg-tint); }
+.wa-btn [data-lucide] { width: 15px; height: 15px; }
+.wa-btn.primary { background: var(--primary); color: #fff; font-weight: 600; }
+.wa-btn.primary:hover { background: var(--primary-strong); }
+.wk-alert { display: flex; align-items: center; justify-content: center; }
+.wa-btn.alert { background: rgba(239,68,68,.08); color: #dc2626; gap: 5px; padding: 0 9px; }
+.wa-btn.alert [data-lucide] { width: 16px; height: 16px; }
+.wa-btn.alert:hover { background: rgba(239,68,68,.14); }
+.wa-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  background: #dc2626; color: #fff;
+  border-radius: 9px; font-size: 11px; font-weight: 700; line-height: 1;
+}
+.wa-ref-sel {
+  height: 26px; padding: 0 6px; border-radius: 5px;
+  font-size: 11px; display: flex; align-items: center; gap: 3px;
+  background: none; border: none;
+  color: var(--text-2); cursor: pointer; transition: background .12s;
+}
+.wa-ref-sel:hover { background: var(--bg-tint); }
+.wa-ref-sel [data-lucide] { width: 10px; height: 10px; color: var(--text-4); }
+.wa-ref-lbl { color: var(--text-4); font-weight: 500; }
+.wa-ref-val { color: var(--ink); font-weight: 600; }
+
+/* ── Controls toolbar ── */
+.w-toolbar {
+  display: flex; align-items: center; height: 44px;
+  padding: 0 12px; background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  gap: 6px; flex-shrink: 0;
+}
+.wt-group { display: flex; align-items: center; gap: 3px; }
+.wt-divider { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; margin: 0 3px; }
+.wt-tabs { display: flex; align-self: stretch; gap: 0; }
+.wt-tab {
+  display: flex; align-items: center;
+  padding: 0 10px; border-radius: 0;
+  font-size: 12px; font-weight: 500; color: var(--text-3);
+  border-bottom: 2px solid transparent;
+  transition: color .12s, border-color .12s;
+}
+.wt-tab.active { color: var(--ink); font-weight: 700; border-bottom: 2px solid var(--ink); }
+.wt-btn {
+  height: 28px; width: 28px; display: inline-flex; align-items: center;
+  justify-content: center; border-radius: 5px; color: var(--text-3);
+  transition: background .12s; flex-shrink: 0;
+}
+.wt-btn:hover { background: var(--border-light); }
+.wt-btn [data-lucide] { width: 14px; height: 14px; }
+.wt-chip {
+  height: 26px; padding: 0 9px; display: inline-flex; align-items: center;
+  border-radius: 5px; font-size: 12px; font-weight: 600;
+  background: #fff; color: var(--text-2);
+  border: 1px solid var(--border); white-space: nowrap;
+}
+.wt-chip.black { background: #fff; color: #6a5aaa; border-color: rgba(122,106,184,.6); font-weight: 700; }
+.wt-label { font-size: 12px; font-weight: 600; color: var(--text-3); white-space: nowrap; }
+.wt-gap { margin-left: 2px; }
+.wt-gap-l { margin-left: 5px; }
+.wt-tight { margin-left: -3px; }
+.wt-or { font-size: 11px; font-weight: 500; color: var(--text-4); padding: 0 1px; }
+.wt-count {
+  height: 26px; min-width: 26px; padding: 0 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 5px; font-size: 12px; font-weight: 700;
+  background: #fff; color: var(--text-2);
+  border: 1px solid rgba(71,85,105,.5);
+}
+.wt-right { margin-left: auto; display: flex; align-items: center; gap: 3px; }
+
+/* ── Three-column body ── */
+.w-body {
+  display: flex;
+  align-items: stretch;
+}
+.col { display: flex; flex-direction: column; }
+.col-p1 { flex: 0 0 28%; border-right: 1px solid var(--border); padding: 0 8px 8px 8px; }
+.col-p2 { flex: 0 0 41%; border-right: 1px solid var(--border); min-width: 0; padding-bottom: 8px; }
+.col-p3 { flex: 0 0 31%; overflow: hidden; padding-bottom: 8px; }
+
+.col-header {
+  height: 30px; display: flex; align-items: center; padding: 0 10px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0; gap: 6px; background: var(--bg);
+}
+.col-title { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .6px; flex: 1; }
+.col-header [data-lucide] { width: 11px; height: 11px; color: var(--text-4); }
+.col-hbtn {
+  height: 22px; padding: 0 6px; border-radius: 4px; font-size: 10px; font-weight: 500;
+  display: flex; align-items: center; gap: 3px; color: var(--text-3); transition: background .12s;
+}
+.col-hbtn:hover { background: var(--border-light); }
+.col-hbtn [data-lucide] { width: 10px; height: 10px; }
+
+/* ── P1: AU Grid ── */
+.au-scroll { overflow-y: visible; }
+.au-table { width: 100%; border-collapse: collapse; }
+.au-table th {
+  font-size: 11px; font-weight: 700; color: var(--ink);
+  text-transform: uppercase; letter-spacing: .3px;
+  padding: 10px 8px; text-align: center;
+  background: #fff; border-bottom: 1px solid var(--border);
+  white-space: nowrap; position: sticky; top: 0; z-index: 1;
+}
+.au-table th:first-child { text-align: center; }
+.au-table th:nth-child(2) { text-align: center; width: 26px; padding-left: 4px; padding-right: 4px; }
+.au-table td:nth-child(2) { padding-left: 0; padding-right: 0; text-align: center; width: 26px; }
+.au-table td.td-l {
+  text-align: center; padding: 0 6px;
+  box-shadow: inset 1.5px 0 0 var(--border), inset -1.5px 0 0 var(--border);
+}
+.au-table th:nth-child(5) { text-align: center; }
+.au-table td {
+  padding: 5px 8px; text-align: center; font-size: 12px;
+  color: var(--text-2); font-weight: 700;
+  border-bottom: 1px solid var(--border-light);
+  transition: background .1s;
+}
+.brow { cursor: pointer; }
+.brow:hover td { background: rgba(0,157,220,.04); }
+.brow.active td { background: rgba(0,157,220,.07); }
+.brow.active .bname { font-weight: 700; }
+.brow.closed { cursor: default; }
+.bchip { display: inline-flex; align-items: center; }
+.bd { display: none; }
+.bname { font-size: 12px; font-weight: 700; color: var(--ink); }
+
+/* ── P1 colour coding: purple=premium / red=current / orange=economy ── */
+.brow.bv td:nth-child(1), .brow.bv td:nth-child(2) { background: #7a6ab8; }
+.brow.br td:nth-child(1), .brow.br td:nth-child(2) { background: #cc5252; }
+.brow.bo td:nth-child(1), .brow.bo td:nth-child(2) { background: #d9853e; }
+.brow.bv td:nth-child(2) .bname,
+.brow.br td:nth-child(2) .bname,
+.brow.bo td:nth-child(2) .bname { color: #fff; }
+.brow.bv .td-p, .brow.br .td-p, .brow.bo .td-p { color: #fff !important; }
+.brow.bv:hover td:nth-child(1), .brow.bv:hover td:nth-child(2) { background: #6a5aa6; }
+.brow.br:hover td:nth-child(1), .brow.br:hover td:nth-child(2) { background: #b84545; }
+.brow.bo:hover td:nth-child(1), .brow.bo:hover td:nth-child(2) { background: #c0722e; }
+/* Active row: blue tint only on data cells (cols 3+) */
+.brow.active td:nth-child(n+3) { background: rgba(0,157,220,.07); }
+.td-p { font-weight: 600; color: var(--ink) !important; }
+.td-l input {
+  display: block; width: 100%; text-align: center;
+  font-family: var(--font); font-size: 12px;
+  color: var(--text-2); font-weight: 700;
+  border: none; background: transparent;
+  padding: 3px 0; border-radius: 0; outline: none;
+  transition: background .1s, box-shadow .1s;
+  -moz-appearance: textfield;
+}
+.td-l input::-webkit-outer-spin-button,
+.td-l input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.td-l input:focus { background: rgba(0,157,220,.06); box-shadow: none; }
+.total-row td {
+  font-size: 11px; font-weight: 700; color: var(--ink);
+  background: var(--bg); border-top: 1px solid var(--border); border-bottom: none;
+  padding: 5px 8px;
+}
+
+
+/* ── P2: Loading Curves ── */
+.p2-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.p2-stats {
+  display: flex; padding: 6px 10px; gap: 0;
+  border-bottom: 1px solid var(--border-light); flex-shrink: 0;
+}
+.p2s { flex: 1; display: flex; flex-direction: column; gap: 0; padding: 0 8px; border-right: 1px solid var(--border-light); }
+.p2s:first-child { padding-left: 0; }
+.p2s:last-child { border-right: none; }
+.p2s-l { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: .5px; font-weight: 500; margin-bottom: 5px; }
+.p2s-v { font-size: 24px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 5px; }
+.p2s-v.blue { color: var(--primary); }
+.p2s-v.red  { color: var(--danger-strong); }
+.p2s-v.warn { color: var(--warning-strong); }
+.p2s-s { font-size: 10px; color: var(--text-3); }
+.p2s-d { font-size: 10px; font-weight: 600; color: var(--text-3); }
+.p2s-d.dn { color: var(--danger-strong); }
+.p2-chart { flex-shrink: 0; position: relative; padding: 8px 10px 4px; }
+.p2-svgs { display: grid; }
+.p2-svg { grid-area: 1/1; width: 100%; height: auto; display: block; transition: opacity .25s; }
+.p2-svg-f { transition: opacity .3s .1s; }
+.gap-ind {
+  position: absolute; right: 14px; top: 38%;
+  display: none; flex-direction: column; align-items: center; gap: 1px;
+  pointer-events: none;
+}
+.gap-v { font-size: 11px; font-weight: 700; color: #dc2626; white-space: nowrap; }
+.gap-lbl { font-size: 9px; color: var(--text-4); text-transform: uppercase; letter-spacing: .4px; }
+.p2-ctrl {
+  display: flex; align-items: center; gap: 6px; padding: 9px 10px 1px;
+  border-top: 1px solid var(--border-light); flex: 1; position: relative;
+}
+.mode-tgl { display: flex; background: var(--bg); border-radius: 5px; padding: 2px; }
+.mode-btn {
+  height: 22px; padding: 0 9px; border-radius: 4px; font-size: 11px; font-weight: 500;
+  color: var(--text-2); transition: background .12s, color .12s;
+}
+.mode-btn.active { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.legend { display: flex; align-items: center; gap: 10px; position: absolute; left: 50%; transform: translateX(-50%); }
+.leg { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-3); }
+.leg-ln { width: 14px; height: 2px; border-radius: 1px; flex-shrink: 0; }
+.leg-ln.dash { background: repeating-linear-gradient(90deg,currentColor 0,currentColor 3px,transparent 3px,transparent 6px); }
+
+/* ── P3: Competition ── */
+.p3-body { flex: 1; display: flex; flex-direction: column; }
+/* Ticker bar — no card, just a compact status line */
+.threat-pill {
+  display: flex; align-items: center; gap: 0;
+  padding: 7px 10px; margin: 0; flex-shrink: 0;
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer; user-select: none; transition: background .12s;
+}
+.threat-pill:hover { background: var(--bg-tint); }
+.tick-stat { display: inline-flex; align-items: center; gap: 3px; padding: 0 8px; font-size: 12px; font-weight: 500; }
+.tick-stat:first-child { padding-left: 0; }
+.tick-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.tick-stat.threat .tick-dot { background: #ef4444; }
+.tick-stat.threat { color: #dc2626; }
+.tick-stat.watch  .tick-dot { background: #f59e0b; }
+.tick-stat.watch  { color: #92400e; }
+.tick-stat.ok     .tick-dot { background: #22c55e; }
+.tick-stat.ok     { color: #15803d; }
+.tick-stat.safe   .tick-dot { background: #94a3b8; }
+.tick-stat.safe   { color: var(--text-3); }
+.tick-stat strong { font-weight: 700; }
+.tick-div { width: 1px; height: 10px; background: var(--border); flex-shrink: 0; }
+.threat-chevron { margin-left: auto; transition: transform .3s; flex-shrink: 0; color: var(--text-3); }
+.threat-pill [data-lucide] { width: 10px; height: 10px; }
+.threat-pill.open .threat-chevron { transform: rotate(180deg); }
+/* Fares overlay — drops DOWN from below the ticker */
+.p3-fares-overlay {
+  position: absolute; left: 0; right: 0; top: 32px; bottom: 0;
+  background: var(--bg-card); z-index: 5; overflow-y: auto;
+  border-top: 1px solid var(--border);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path .3s cubic-bezier(.4,0,.2,1);
+}
+.p3-fares-overlay.open { clip-path: inset(0 0 0% 0); }
+.fares-ol-title {
+  font-size: 9px; font-weight: 700; color: var(--text-4);
+  text-transform: uppercase; letter-spacing: .6px; padding: 7px 8px 3px; flex-shrink: 0;
+}
+.radar-wrap { padding: 0 8px; flex-shrink: 0; }
+.radar-svg { width: 100%; display: block; }
+.fares-title {
+  font-size: 9px; font-weight: 700; color: var(--text-4);
+  text-transform: uppercase; letter-spacing: .6px; padding: 7px 8px 3px;
+}
+.frow {
+  display: flex; align-items: center; gap: 6px; padding: 5px 8px;
+  border-top: 1px solid var(--border-light); cursor: pointer; transition: background .1s;
+}
+.frow:hover { background: rgba(0,157,220,.04); }
+.cb { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 16px; border-radius: 3px; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+.fi { flex: 1; min-width: 0; }
+.fi-n { font-size: 11px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fi-t { font-size: 10px; color: var(--text-3); }
+.fp { text-align: right; flex-shrink: 0; }
+.fp-v { font-size: 12px; font-weight: 600; color: var(--ink); }
+.fp-d { font-size: 9px; }
+.fdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── P3 body layout ── */
+.p3-body { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.p3-radar-pane { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+
+/* ── P3 Radar Zones ── */
+.radar-zones {
+  flex: 1; display: flex; flex-direction: column; margin: 4px 8px 0;
+  border-radius: 5px; overflow: hidden; position: relative; min-height: 0;
+  padding-right: 32px;
+}
+.rzone {
+  flex: 1; position: relative; min-height: 0; z-index: 1;
+}
+.rzone-safe   { flex: 0 0 18%; }
+.rzone-ok     { }
+.rzone-watch  { }
+.rzone-threat { }
+/* ── Concentric background rectangles ── */
+.radar-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.rcr {
+  position: absolute; left: 2px; right: 2px; bottom: 2px;
+  border-radius: 5px;
+}
+.rcr-ok    { top: 18%;   background: rgba(34,197,94,.13);  border: 1.5px solid rgba(34,197,94,.35); }
+.rcr-watch { top: 45.5%; background: rgba(245,158,11,.18); border: 1.5px solid rgba(245,158,11,.45); }
+.rcr-threat{ top: 73%;   background: rgba(239,68,68,.15);  border: 1.5px solid rgba(239,68,68,.42); }
+.rzone-lbl {
+  position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+  font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+  padding: 2px 6px; border-radius: 10px; line-height: 1.4;
+}
+.rzone-safe .rzone-lbl   { background: rgba(148,163,184,.18); color: var(--text-3); }
+.rzone-ok .rzone-lbl     { background: rgba(34,197,94,.15);   color: #15803d; }
+.rzone-watch .rzone-lbl  { background: rgba(245,158,11,.18);  color: #92400e; }
+.rzone-threat .rzone-lbl { background: rgba(239,68,68,.13);   color: #b91c1c; }
+/* ── Price scale (right side overlay) ── */
+.rscale {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 32px;
+  pointer-events: none; z-index: 4;
+}
+.rscale-v {
+  position: absolute; right: 3px; transform: translateY(-50%);
+  font-size: 10px; font-weight: 700; color: var(--ink); line-height: 1;
+  white-space: nowrap; text-align: right;
+}
+.rscale-v.our { font-size: 11px; font-weight: 800; color: var(--ink); }
+
+/* 0h dashed vertical line spanning all zones */
+.radar-zones::after {
+  content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 1px; border-left: 1px dashed rgba(0,157,220,.45); pointer-events: none;
+}
+.rzone-xaxis {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 2px 8px 3px; font-size: 7.5px; color: var(--text-4); flex-shrink: 0;
+}
+/* Plane icon positioned in a zone */
+.rplane {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.rplane-icon { font-size: 13px; line-height: 1; display: block; transform: rotate(-45deg); }
+.rplane-lbl { font-size: 6.5px; font-weight: 700; line-height: 1; white-space: nowrap; margin-top: 1px; }
+/* Our TO flight: blue marker on 0h line */
+.rplane-to { z-index: 2; }
+.rplane-to .rplane-icon { font-size: 15px; }
+
+/* drawer CSS removed — replaced by .p3-fares-overlay above */
+
+/* ── Tooltip ── */
+.tip {
+  position: fixed; background: var(--ink); color: #fff; font-size: 10px;
+  padding: 4px 7px; border-radius: 4px; pointer-events: none;
+  opacity: 0; transition: opacity .1s; white-space: nowrap; z-index: 100;
+}
+.tip.on { opacity: 1; }
+
+/* ── Design decisions button + modal ── */
+.dd-btn {
+  position: fixed; top: 20px; right: 24px; z-index: 500;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  background: var(--ink); color: #fff;
+  border-radius: 8px; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  transition: background .15s;
+}
+.dd-btn:hover { background: #1e293b; }
+.dd-btn svg { width: 15px; height: 15px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.dd-overlay {
+  display: none; position: fixed; inset: 0; z-index: 600;
+  background: rgba(15,23,42,.45); backdrop-filter: blur(2px);
+  align-items: center; justify-content: center;
+}
+.dd-overlay.open { display: flex; }
+.dd-modal {
+  background: #fff; border-radius: 14px;
+  width: 540px; max-width: calc(100vw - 48px);
+  max-height: 80vh; display: flex; flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0,0,0,.22);
+  overflow: hidden;
+}
+.dd-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.dd-modal-head h2 { font-size: 14px; font-weight: 700; color: var(--ink); }
+.dd-close {
+  width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); cursor: pointer; transition: background .12s;
+}
+.dd-close:hover { background: var(--bg-tint); }
+.dd-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+.dd-modal-body { overflow-y: auto; padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+.dd-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 14px; border-radius: 8px;
+  background: var(--bg); border: 1px solid var(--border-light);
+}
+.dd-section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .6px;
+  color: var(--ink); text-transform: uppercase;
+  padding: 8px 0 4px;
+}
+.dd-item { display: block; }
+.dd-n { font-size: 11px; font-weight: 700; color: var(--text-4); margin-right: 5px; }
+.dd-title { font-size: 12px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 2px; }
+.dd-desc { font-size: 12px; color: var(--text-3); line-height: 1.5; display: block; }
+</style>
+</head>
+<body>
+
+<!-- Design decisions button -->
+<button class="dd-btn" id="ddBtn">
+  <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+</button>
+
+<!-- Design decisions modal -->
+<div class="dd-overlay" id="ddOverlay">
+  <div class="dd-modal">
+    <div class="dd-modal-head">
+      <h2>Design notes</h2>
+      <div class="dd-close" id="ddClose">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div class="dd-modal-body">
+
+      <div class="dd-section-label">IMPROVE — clarity &amp; hierarchy of existing elements</div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">01</span>P2 — Forecast &amp; Optim lines visually dominant</span>
+        <span class="dd-desc">Currently dotted/grey — conventionally "uncertain". But they are the most actionable signals. They should look like it: thicker, stronger colour, foregrounded. The most actionable lines are the quietest. Fix the inversion.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">02</span>P2 — Reduce default overlay set</span>
+        <span class="dd-desc">10+ toggles always visible creates decision overhead before reading the chart. Default: Current + Reference + Forecast + Optim. Everything else off by default, accessible via toggle.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">03</span>P2 — Split into two explicit modes: History vs. Forecast</span>
+        <span class="dd-desc">History mode: Current + Reference (what happened). Forecast mode: Forecast + Optim (where it's going). Separates past fact from future projection — reduces visual competition and cognitive load per read.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">04</span>P3 — Radar annotated in situ</span>
+        <span class="dd-desc">Keep the radar's spatial dimension (time proximity is irreplaceable). Overlay computed indicators directly: threat count badges by level, cheapest competitor delta vs. your price, carrier flags. Radar becomes annotated rather than raw — talkative without being a table.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">05</span>P1/P3 — Color system audit</span>
+        <span class="dd-desc">P1 encodes price tier via colour (price spheres). P3 encodes threat level (red/yellow/green). If both use red, the analyst will misread across panels. Explicit visual separation required — by hue family, shape, or labelling. Do not assume the analyst will remember which red means what.</span>
+      </div>
+
+      <div class="dd-section-label">REMOVE — collapse from default view</div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">06</span>Ancillaries section</span>
+        <span class="dd-desc">Add-on pricing (bags, meals). Specialised use case, not part of the yield decision loop for most sessions. Move behind a dedicated tab.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">07</span>Max Leg as a standalone section</span>
+        <span class="dd-desc">Contextual metadata. Useful once to orient, then forgotten. Move to macro bar or tooltip — not a panel-level section.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">08</span>Optimization Run timing detail</span>
+        <span class="dd-desc">Informational, not decisional. The analyst doesn't need to know the exact booking threshold trigger to decide. Replace with a compact status badge.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">09</span>Most P2 overlay toggles from default view</span>
+        <span class="dd-desc">Always-visible toggles create decision overhead before the analyst even reads the chart. Move non-default overlays behind "more" — reduce the default visual menu to what's needed for 95% of sessions.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">10</span>Per-panel section headers (AU Grid / Loading Curves / Competition)</span>
+        <span class="dd-desc">Labels that name what's already visually obvious. Consume vertical space without contributing to the decision loop.</span>
+      </div>
+
+      <div class="dd-section-label">ADD — new elements</div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">11</span>Macro bar — persistent context layer above all panels</span>
+        <span class="dd-desc">A fixed strip always visible at the top: current D-X, load factor %, active bucket (name + colour), active alerts, key demand model values. Eliminates hunting for basic orientation data at the start of every market check. The analyst knows where they are before looking at any panel.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">12</span>Computed threat indicators in P1 rows (from P3)</span>
+        <span class="dd-desc">Per bucket row: badge showing "3 red competitors", cheapest competitor delta vs. current bucket price. Analyst doesn't need to cross-reference P3 for a routine threat check — one decision, one place to look.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">13</span>Forecast↔Optim gap indicator in P1 and P2</span>
+        <span class="dd-desc">The gap between where you're going (Forecast) and where you could go (Optim) is the core decision. Surface it as an explicit number or delta — not just two lines on a graph. This gap is the revenue opportunity on the table. It should be impossible to miss.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">14</span>Lightweight friction for P1 commits</span>
+        <span class="dd-desc">A brief confirmation step or short undo window before an availability/AU change is live. Currently no structural protection against a mis-entry on a no-undo surface where changes are visible to customers within minutes.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">15</span>Computed P3 indicators (automated threat rules)</span>
+        <span class="dd-desc">Any rule readable deterministically from the radar can be computed: threat count by colour, cheapest competitor, carrier flags, "more aggressive this week" trend. Automate what is 100% consistent — human judgment reserved for ambiguous cases. Raw radar stays for exceptions.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">16</span>Competitor data as collapsible table in P3 (drawer)</span>
+        <span class="dd-desc">The radar gives spatial context; the fares history gives temporal context. A structured table of competitor fares — available on demand via a drawer — gives precision for the analyst who needs exact values, not just visual position.</span>
+      </div>
+
+      <div class="dd-section-label">MOVE — relocate existing elements</div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">17</span>Max Leg → macro bar</span>
+        <span class="dd-desc">Out of its own section, into the persistent header where it serves as always-visible orientation without consuming panel space.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">18</span>Demand Matrix key values → macro bar</span>
+        <span class="dd-desc">Currently buried in a sub-tab. As the foundation both Forecast and Optim are built on, key values should be scannable at all times — even in compact form. If the Demand Matrix is wrong, every line in P2 is wrong. The analyst should be able to confirm model assumptions with a glance.</span>
+      </div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">19</span>Optimization Run timing → status badge in header</span>
+        <span class="dd-desc">Still present, not lost, but no longer competing for panel space.</span>
+      </div>
+
+      <div class="dd-section-label">RESIZE — space allocation</div>
+
+      <div class="dd-item">
+        <span class="dd-title"><span class="dd-n">20</span>P1 larger, P2 + P3 smaller</span>
+        <span class="dd-desc">P1 is the most information-dense and highest-stakes panel. With computed indicators from P2 and P3 added, it earns more horizontal space. P2 and P3 with summary indicators handling quick-checks become supporting context — always visible, compact, full-size on demand.</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="widget">
+
+  <!-- ── Header ── -->
+  <div class="w-header">
+    <div class="w-flight">
+      <span class="w-flight-sub">MAD → ORY · 28 May</span>
+      <span class="w-flight-num">TO4633</span>
+    </div>
+    <div class="w-kpis">
+      <div class="wk">
+        <span class="wk-l">Dep. in</span>
+        <span class="wk-v blue">D-14</span>
+      </div>
+      <div class="wk">
+        <span class="wk-l">Load</span>
+        <span class="wk-v" id="kpi-lf">72%</span>
+      </div>
+      <div class="wk">
+        <span class="wk-l">Open bucket</span>
+        <span class="wk-v bk">
+          <span class="bk-dot" id="kpi-bdot" style="background:var(--text-4)"></span>
+          <span id="kpi-blabel">K · £277</span>
+        </span>
+      </div>
+      <div class="wk">
+        <span class="wk-l">Fcst / Optim</span>
+        <span class="wk-v"><span class="gap-badge">+8 seats</span></span>
+      </div>
+      <div class="wk">
+        <span class="wk-l">Demand index</span>
+        <span class="wk-v">0.84 <span style="font-weight:500;color:var(--text-3)">ref. 0.79</span></span>
+      </div>
+      <div class="wk wk-alert" style="border-right:none; padding: 0 10px;">
+        <button class="wa-btn alert" title="2 alerts">
+          <i data-lucide="bell"></i>
+          <span class="wa-badge">2</span>
+        </button>
+      </div>
+    </div>
+    <div class="w-actions">
+      <button class="wa-ref-sel">
+        <span class="wa-ref-lbl">Ref:</span>
+        <span class="wa-ref-val">TO4633 (Tue 22/04)</span>
+        <i data-lucide="chevron-down"></i>
+      </button>
+      <button class="wa-ref-sel" style="min-width:140px;">
+        <span class="wa-ref-lbl">Agg.ref.</span>
+        <span class="wa-ref-val">Vac 3 Y-…</span>
+        <i data-lucide="chevron-down"></i>
+      </button>
+      <button class="wa-btn"><i data-lucide="settings"></i></button>
+    </div>
+  </div>
+
+  <!-- ── Controls toolbar ── -->
+  <div class="w-toolbar">
+    <!-- Left: fare family / CC settings -->
+    <div class="wt-tabs">
+      <button class="wt-tab active">default</button>
+      <button class="wt-tab">mad-ory</button>
+    </div>
+    <div class="wt-divider"></div>
+    <div class="wt-group">
+      <button class="wt-btn"><i data-lucide="pointer" style="transform:rotate(90deg)"></i></button>
+      <div class="wt-chip black">£277.0</div>
+      <button class="wt-btn wt-gap"><i data-lucide="search"></i></button>
+      <span class="wt-label wt-tight">=</span>
+      <span class="wt-label wt-gap">CC</span>
+    </div>
+    <div class="wt-divider"></div>
+    <!-- Mid: requests / LLM recommendation -->
+    <div class="wt-group">
+      <span class="wt-label">6</span>
+      <button class="wt-btn"><i data-lucide="ticket"></i></button>
+      <span class="wt-or">OR</span>
+      <span class="wt-label wt-gap-l">42h</span>
+    </div>
+    <div class="wt-divider"></div>
+    <div class="wt-group">
+      <span class="wt-label">LLM</span>
+      <div class="wt-chip black wt-gap-l">£204.0</div>
+      <button class="wt-btn"><i data-lucide="chevrons-down"></i></button>
+      <span class="wt-label">-3CC</span>
+    </div>
+    <div class="wt-divider"></div>
+    <!-- Right: feedback + view controls -->
+    <div class="wt-group">
+      <button class="wt-btn"><i data-lucide="thumbs-up"></i></button>
+      <button class="wt-btn"><i data-lucide="smile"></i></button>
+      <button class="wt-btn"><i data-lucide="thumbs-down"></i></button>
+      <button class="wt-btn"><i data-lucide="refresh-cw"></i></button>
+    </div>
+    <div class="wt-right">
+      <div class="wt-count">20</div>
+      <div class="wt-count wt-gap">1</div>
+      <div class="wt-divider"></div>
+      <button class="wt-btn"><i data-lucide="wrench"></i></button>
+      <button class="wt-btn"><i data-lucide="layout-grid"></i></button>
+    </div>
+  </div>
+
+  <!-- ── Body ── -->
+  <div class="w-body">
+
+    <!-- P1: AU Grid -->
+    <div class="col col-p1">
+      <div class="au-scroll">
+        <table class="au-table">
+          <thead>
+            <tr>
+              <th>Price</th>
+              <th>B</th>
+              <th title="Requests">R</th>
+              <th title="Limit">L</th>
+              <th title="Adjustments">A</th>
+              <th title="Authorized">Au</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="brow bv" data-bucket="Y" data-price="379" data-color="#7a6ab8">
+              <td class="td-p">£379</td><td><span class="bname">Y</span></td>
+              <td>3</td>
+              <td class="td-l"><input type="number" value="20" min="0" max="99"></td><td>0</td><td>20</td>
+            </tr>
+            <tr class="brow bv" data-bucket="B" data-price="319" data-color="#7a6ab8">
+              <td class="td-p">£319</td><td><span class="bname">B</span></td>
+              <td>5</td>
+              <td class="td-l"><input type="number" value="25" min="0" max="99"></td><td>0</td><td>22</td>
+            </tr>
+            <tr class="brow bv" data-bucket="M" data-price="299" data-color="#7a6ab8">
+              <td class="td-p">£299</td><td><span class="bname">M</span></td>
+              <td>8</td>
+              <td class="td-l"><input type="number" value="30" min="0" max="99"></td><td>0</td><td>28</td>
+            </tr>
+            <tr class="brow bv active" data-bucket="K" data-price="277" data-color="#7a6ab8">
+              <td class="td-p">£277</td><td><span class="bname">K</span></td>
+              <td>6</td>
+              <td class="td-l"><input type="number" value="45" min="0" max="99"></td><td>7</td><td>30</td>
+            </tr>
+            <tr class="brow br" data-bucket="H" data-price="249" data-color="#cc5252">
+              <td class="td-p">£249</td><td><span class="bname">H</span></td>
+              <td>0</td>
+              <td class="td-l"><input type="number" value="30" min="0" max="99"></td><td>0</td><td>0</td>
+            </tr>
+            <tr class="brow br" data-bucket="L" data-price="219" data-color="#cc5252">
+              <td class="td-p">£219</td><td><span class="bname">L</span></td>
+              <td>0</td>
+              <td class="td-l"><input type="number" value="34" min="0" max="99"></td><td>0</td><td>0</td>
+            </tr>
+            <tr class="brow br closed" data-bucket="Q" data-price="179" data-color="#cc5252">
+              <td class="td-p">£179</td><td><span class="bname">Q</span></td>
+              <td>0</td>
+              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+            </tr>
+            <tr class="brow br closed" data-bucket="S" data-price="159" data-color="#cc5252">
+              <td class="td-p">£159</td><td><span class="bname">S</span></td>
+              <td>0</td>
+              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+            </tr>
+            <tr class="brow bo closed" data-bucket="T" data-price="139" data-color="#d9853e">
+              <td class="td-p">£139</td><td><span class="bname">T</span></td>
+              <td>0</td>
+              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+            </tr>
+            <tr class="brow bo closed" data-bucket="V" data-price="119" data-color="#d9853e">
+              <td class="td-p">£119</td><td><span class="bname">V</span></td>
+              <td>0</td>
+              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td>Total</td><td>—</td><td>22</td><td>194</td><td>7</td><td>100</td>
+            </tr>
+
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- P2: Loading Curves -->
+    <div class="col col-p2">
+      <div class="p2-body">
+        <div class="p2-stats">
+          <div class="p2s">
+            <span class="p2s-l">Current Pax</span>
+            <span class="p2s-v" style="color:var(--text-3)">172</span>
+            <span class="p2s-s">bookings</span>
+          </div>
+          <div class="p2s">
+            <span class="p2s-l">Forecast D-0</span>
+            <span class="p2s-v blue">188</span>
+            <span class="p2s-s">+16 proj.</span>
+          </div>
+          <div class="p2s">
+            <span class="p2s-l">Optim D-0</span>
+            <span class="p2s-v red">196</span>
+            <span class="p2s-s">recommended</span>
+          </div>
+          <div class="p2s">
+            <span class="p2s-l">Gap</span>
+            <span class="p2s-v">–8</span>
+            <span class="p2s-d">below optim</span>
+          </div>
+        </div>
+
+        <div class="p2-chart" id="p2-chart">
+          <div class="gap-ind" id="gap-ind">
+            <span class="gap-v">–8 seats</span>
+            <span class="gap-lbl">Gap</span>
+          </div>
+          <!-- Two SVGs stacked in CSS grid: History (full curve) + Forecast (zoomed) -->
+          <div class="p2-svgs">
+          <svg class="p2-svg" id="p2-svg" viewBox="0 0 380 155">
+            <defs>
+              <linearGradient id="gcu" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#009DDC" stop-opacity=".18"/>
+                <stop offset="100%" stop-color="#009DDC" stop-opacity=".02"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid -->
+            <line x1="22" y1="8"   x2="372" y2="8"   stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="38"  x2="372" y2="38"  stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="68"  x2="372" y2="68"  stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="98"  x2="372" y2="98"  stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="128" x2="372" y2="128" stroke="#eef2f7" stroke-width="1"/>
+            <!-- Y labels -->
+            <text x="20" y="12"  font-size="8" fill="#94a3b8" text-anchor="end">200</text>
+            <text x="20" y="42"  font-size="8" fill="#94a3b8" text-anchor="end">150</text>
+            <text x="20" y="72"  font-size="8" fill="#94a3b8" text-anchor="end">100</text>
+            <text x="20" y="102" font-size="8" fill="#94a3b8" text-anchor="end">50</text>
+            <text x="20" y="132" font-size="8" fill="#94a3b8" text-anchor="end">0</text>
+            <!-- X labels: D-258→D-0, x range 24–372, span=348
+                 D-258=24, D-180=129, D-120=209, D-80=263, D-50=303, D-35=324, D-20=344, D-0=372
+                 Today D-14: 24 + (244/258)*348 ≈ 353 -->
+            <text x="24"  y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-258</text>
+            <text x="129" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-180</text>
+            <text x="209" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-120</text>
+            <text x="263" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-80</text>
+            <text x="303" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-50</text>
+            <text x="324" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-35</text>
+            <text x="344" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-20</text>
+            <text x="372" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-0</text>
+            <!-- Today marker at D-14 (x≈353) -->
+            <line x1="353" y1="0" x2="353" y2="133" stroke="#009DDC" stroke-width="1" stroke-dasharray="3,3" opacity=".45"/>
+            <text x="353" y="7" font-size="7.5" fill="#009DDC" text-anchor="middle">D-14</text>
+
+            <!-- History group: S-curve starting D-258 -->
+            <g id="g-history">
+              <!-- Fill under current line -->
+              <path d="M24,128 C60,127 100,125 129,121 C165,116 195,109 209,103 C230,95 248,85 263,75 C278,64 292,54 303,44 C315,34 331,28 344,23 C350,21 352,20 353,19 L353,128 Z"
+                fill="url(#gcu)"/>
+              <!-- Current season 2025-26 -->
+              <path d="M24,128 C60,127 100,125 129,121 C165,116 195,109 209,103 C230,95 248,85 263,75 C278,64 292,54 303,44 C315,34 331,28 344,23 C350,21 352,20 353,19"
+                fill="none" stroke="#009DDC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Reference 2024-25 (slightly ahead, reaches 185 at D-0) -->
+              <path d="M24,128 C65,126 108,123 135,119 C172,113 202,104 218,97 C240,87 258,76 272,65 C287,53 302,43 318,33 C334,23 349,17 372,13"
+                fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <circle cx="353" cy="19" r="3" fill="#009DDC"/>
+            </g>
+
+            <!-- Forecast group (hidden by default) -->
+            <g id="g-forecast" opacity="0" style="pointer-events:none">
+              <!-- Current line faded -->
+              <path d="M24,128 C60,127 100,125 129,121 C165,116 195,109 209,103 C230,95 248,85 263,75 C278,64 292,54 303,44 C315,34 331,28 344,23 C350,21 352,20 353,19"
+                fill="none" stroke="#009DDC" stroke-width="1.5" opacity=".3"/>
+              <!-- Gap band -->
+              <path d="M353,19 C360,16 366,13 372,10 L372,15 C366,18 360,21 353,19 Z"
+                fill="rgba(239,68,68,.12)"/>
+              <!-- Forecast line (188 at D-0 → y≈15) -->
+              <path d="M353,19 C360,17 366,15 372,14"
+                fill="none" stroke="#009DDC" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Optim line (196 at D-0 → y≈9) -->
+              <path d="M353,19 C360,15 366,11 372,9"
+                fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3" stroke-linecap="round"/>
+              <!-- Gap bracket -->
+              <line x1="376" y1="14" x2="376" y2="9" stroke="#ef4444" stroke-width="1.5"/>
+              <line x1="373" y1="14" x2="379" y2="14" stroke="#ef4444" stroke-width="1.5"/>
+              <line x1="373" y1="9"  x2="379" y2="9"  stroke="#ef4444" stroke-width="1.5"/>
+              <circle cx="353" cy="19" r="3" fill="#009DDC"/>
+              <circle cx="372" cy="14" r="2.5" fill="#009DDC"/>
+              <circle cx="372" cy="9"  r="2.5" fill="#ef4444"/>
+            </g>
+          </svg>
+
+          <!-- Forecast SVG: D-50→D-0 zoom, Y range 100–200 pax -->
+          <!-- X: D-50=24, D-35=129, D-20=233, D-14=275, D-0=372 (6.96px/day) -->
+          <!-- Y: y=8→200pax, y=128→100pax (1.2px/pax) -->
+          <svg class="p2-svg p2-svg-f" id="p2-svg-f" viewBox="0 0 380 155" style="opacity:0;pointer-events:none">
+            <defs>
+              <linearGradient id="gcuf" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#009DDC" stop-opacity=".14"/>
+                <stop offset="100%" stop-color="#009DDC" stop-opacity=".01"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid: 20-pax intervals -->
+            <line x1="22" y1="8"   x2="372" y2="8"   stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="32"  x2="372" y2="32"  stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="56"  x2="372" y2="56"  stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="80"  x2="372" y2="80"  stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="104" x2="372" y2="104" stroke="#eef2f7" stroke-width="1"/>
+            <line x1="22" y1="128" x2="372" y2="128" stroke="#eef2f7" stroke-width="1"/>
+            <!-- Y labels: 100–200 -->
+            <text x="20" y="12"  font-size="8" fill="#94a3b8" text-anchor="end">200</text>
+            <text x="20" y="36"  font-size="8" fill="#94a3b8" text-anchor="end">180</text>
+            <text x="20" y="60"  font-size="8" fill="#94a3b8" text-anchor="end">160</text>
+            <text x="20" y="84"  font-size="8" fill="#94a3b8" text-anchor="end">140</text>
+            <text x="20" y="108" font-size="8" fill="#94a3b8" text-anchor="end">120</text>
+            <text x="20" y="132" font-size="8" fill="#94a3b8" text-anchor="end">100</text>
+            <!-- X labels: D-50 to D-0 -->
+            <text x="24"  y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-50</text>
+            <text x="129" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-35</text>
+            <text x="233" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-20</text>
+            <text x="372" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-0</text>
+            <!-- Today D-14 marker at x=275 -->
+            <line x1="275" y1="0" x2="275" y2="133" stroke="#009DDC" stroke-width="1" stroke-dasharray="3,3" opacity=".45"/>
+            <text x="275" y="7" font-size="7.5" fill="#009DDC" text-anchor="middle">D-14</text>
+            <!-- Fill under current curve -->
+            <path d="M24,80 C60,74 100,64 129,58 C165,52 200,42 233,38 C248,36 265,31 275,30 L275,128 L24,128 Z"
+              fill="url(#gcuf)"/>
+            <!-- Current season 2025-26 (faded: historical) -->
+            <path d="M24,80 C60,74 100,64 129,58 C165,52 200,42 233,38 C248,36 265,31 275,30"
+              fill="none" stroke="#009DDC" stroke-width="1.5" stroke-linecap="round" opacity=".35"/>
+            <!-- Reference 2024-25 (dashed) -->
+            <path d="M24,78 C60,72 100,62 129,56 C165,50 200,42 233,38 C248,36 265,31 275,30 C310,28 345,27 372,26"
+              fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3" opacity=".6"/>
+            <!-- Gap band (forecast vs optim) -->
+            <path d="M275,30 C310,28 340,24 372,22 L372,13 C340,18 310,27 275,30 Z"
+              fill="rgba(239,68,68,.12)"/>
+            <!-- Forecast line (188 pax → y=22) -->
+            <path d="M275,30 C310,28 340,24 372,22"
+              fill="none" stroke="#009DDC" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Optim line (196 pax → y=13) -->
+            <path d="M275,30 C310,27 340,18 372,13"
+              fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3" stroke-linecap="round"/>
+            <!-- Gap bracket -->
+            <line x1="376" y1="13" x2="376" y2="22" stroke="#ef4444" stroke-width="1.5"/>
+            <line x1="373" y1="13" x2="379" y2="13" stroke="#ef4444" stroke-width="1.5"/>
+            <line x1="373" y1="22" x2="379" y2="22" stroke="#ef4444" stroke-width="1.5"/>
+            <!-- Endpoint dots -->
+            <circle cx="275" cy="30" r="3"   fill="#009DDC"/>
+            <circle cx="372" cy="22" r="2.5" fill="#009DDC"/>
+            <circle cx="372" cy="13" r="2.5" fill="#ef4444"/>
+          </svg>
+          </div><!-- /p2-svgs -->
+        </div>
+
+        <div class="p2-ctrl">
+          <div class="mode-tgl">
+            <button class="mode-btn active" onclick="setMode('history',this)">History</button>
+            <button class="mode-btn" onclick="setMode('forecast',this)">Forecast</button>
+          </div>
+          <div class="legend" id="leg-h">
+            <div class="leg"><div class="leg-ln" style="background:#009DDC"></div>2025-26</div>
+            <div class="leg"><div class="leg-ln dash" style="color:#94a3b8"></div>Ref. 2024-25</div>
+          </div>
+          <div class="legend" id="leg-f" style="display:none">
+            <div class="leg"><div class="leg-ln" style="background:#009DDC"></div>Forecast</div>
+            <div class="leg"><div class="leg-ln dash" style="color:#ef4444"></div>Optim</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3: Competition -->
+    <div class="col col-p3">
+      <div class="p3-body">
+
+        <!-- Competition ticker: zone counts, click to expand full fares list -->
+        <div class="threat-pill" id="threat-toggle" onclick="toggleFares()">
+          <span class="tick-stat threat"><span class="tick-dot"></span><strong>7</strong>&nbsp;threat</span>
+          <span class="tick-div"></span>
+          <span class="tick-stat watch"><span class="tick-dot"></span><strong>5</strong>&nbsp;watch</span>
+          <span class="tick-div"></span>
+          <span class="tick-stat ok"><span class="tick-dot"></span><strong>7</strong>&nbsp;ok</span>
+          <span class="tick-div"></span>
+          <span class="tick-stat safe"><span class="tick-dot"></span><strong>2</strong>&nbsp;safe</span>
+          <i data-lucide="chevron-down" class="threat-chevron"></i>
+        </div>
+
+        <!-- Radar pane — now takes all remaining space (no drawer below) -->
+        <div class="p3-radar-pane">
+          <!-- Zone radar: 3 horizontal bands, planes at time offsets -->
+          <!-- x positions: left%=(time+4h)/8h*100 → -4h=0%, -3.5h=6.25%, -2h=25%, -1h=37.5%, 0h=50%, +1h=62.5%, +2h=75%, +3h=87.5%, +4h=100% -->
+          <div class="radar-zones">
+            <!-- Safe zone (fares well above £277 — no competitive concern) -->
+            <div class="rzone rzone-safe">
+              <span class="rzone-lbl">Safe</span>
+              <!-- IB only in safe zone (full-service fares well above ours) -->
+              <div class="rplane" style="left:28%;top:55%;color:#7c3aed"><span class="rplane-icon">✈</span></div>
+              <div class="rplane" style="left:66%;top:35%;color:#7c3aed"><span class="rplane-icon">✈</span></div>
+            </div>
+            <!-- OK zone (fares ≥ £277) -->
+            <div class="rzone rzone-ok">
+              <span class="rzone-lbl">OK</span>
+              <div class="rplane" style="left:18%;top:30%;color:#7c3aed"><span class="rplane-icon">✈</span></div><!-- IB -3h -->
+              <div class="rplane" style="left:32%;top:62%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR -1.5h -->
+              <div class="rplane" style="left:36%;top:22%;color:#7c3aed"><span class="rplane-icon">✈</span></div><!-- IB -1.5h -->
+              <div class="rplane" style="left:48%;top:50%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY 0h -->
+              <div class="rplane" style="left:52%;top:22%;color:#7c3aed"><span class="rplane-icon">✈</span></div><!-- IB 0h -->
+              <div class="rplane" style="left:72%;top:40%;color:#f97316"><span class="rplane-icon">✈</span></div><!-- U2 +2h -->
+              <div class="rplane" style="left:82%;top:62%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY +3h -->
+            </div>
+            <!-- Watch zone (~£235–£276) -->
+            <div class="rzone rzone-watch">
+              <span class="rzone-lbl">Watch</span>
+              <div class="rplane" style="left:18%;top:58%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY -3h -->
+              <div class="rplane" style="left:33%;top:35%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR -1.5h -->
+              <div class="rplane" style="left:50%;top:65%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY 0h -->
+              <div class="rplane" style="left:73%;top:28%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR +2h -->
+              <div class="rplane" style="left:76%;top:60%;color:#f97316"><span class="rplane-icon">✈</span></div><!-- U2 +2h -->
+            </div>
+            <!-- Threat zone (< £235) -->
+            <div class="rzone rzone-threat">
+              <span class="rzone-lbl">Threat</span>
+              <div class="rplane" style="left:31%;top:35%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR -1.5h -->
+              <div class="rplane" style="left:35%;top:58%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY -1.5h -->
+              <div class="rplane" style="left:49%;top:22%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR 0h -->
+              <div class="rplane" style="left:53%;top:48%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY 0h -->
+              <div class="rplane" style="left:71%;top:38%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR +2h -->
+              <div class="rplane" style="left:81%;top:20%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY +3h -->
+              <div class="rplane" style="left:83%;top:52%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR +3h -->
+            </div>
+            <!-- Price scale — right side overlay -->
+            <div class="rscale">
+              <span class="rscale-v" style="top:1px;transform:none">£380</span>
+              <span class="rscale-v" style="top:18%">£319</span>
+              <span class="rscale-v our" style="top:45.5%">£277</span>
+              <span class="rscale-v" style="top:73%">£235</span>
+              <span class="rscale-v" style="bottom:1px;top:auto;transform:none">£0</span>
+            </div>
+          </div>
+          <!-- X-axis: clock times (our flight TO4633 departs 10:00 MAD) -->
+          <div style="position:relative;margin:0 8px 3px;flex-shrink:0;">
+            <div class="rzone-xaxis">
+              <span>06:00</span><span>08:00</span><span style="color:#009DDC;font-weight:700">10:00</span><span>12:00</span><span>14:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fares overlay: drops down from ticker, covers radar, all competitors sorted threat→safe -->
+        <div class="p3-fares-overlay" id="p3-fares-overlay">
+          <div class="fares-ol-title">All competitors · 21 flights</div>
+          <!-- THREAT (7) -->
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+2h · FR7404</div></div><div class="fp"><div class="fp-v">£178</div><div class="fp-d" style="color:var(--danger-strong)">–£99</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-2h · VY4631</div></div><div class="fp"><div class="fp-v">£189</div><div class="fp-d" style="color:var(--danger-strong)">–£88</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">0h · VY4635</div></div><div class="fp"><div class="fp-v">£195</div><div class="fp-d" style="color:var(--danger-strong)">–£82</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+3h · FR7408</div></div><div class="fp"><div class="fp-v">£198</div><div class="fp-d" style="color:var(--danger-strong)">–£79</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">0h · EZY2441</div></div><div class="fp"><div class="fp-v">£208</div><div class="fp-d" style="color:var(--danger-strong)">–£69</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-1h · FR7402</div></div><div class="fp"><div class="fp-v">£215</div><div class="fp-d" style="color:var(--danger-strong)">–£62</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+1h · VY8812</div></div><div class="fp"><div class="fp-v">£222</div><div class="fp-d" style="color:var(--danger-strong)">–£55</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <!-- WATCH (5) -->
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">+2h · EZY2443</div></div><div class="fp"><div class="fp-v">£238</div><div class="fp-d" style="color:var(--warning)">–£39</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-3h30 · IB3160</div></div><div class="fp"><div class="fp-v">£242</div><div class="fp-d" style="color:var(--warning)">–£35</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+3h · FR7406</div></div><div class="fp"><div class="fp-v">£255</div><div class="fp-d" style="color:var(--warning)">–£22</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-1h · VY4633</div></div><div class="fp"><div class="fp-v">£265</div><div class="fp-d" style="color:var(--warning)">–£12</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-2h · EZY2439</div></div><div class="fp"><div class="fp-v">£271</div><div class="fp-d" style="color:var(--warning)">–£6</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <!-- OK (7) -->
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-3h · VY4629</div></div><div class="fp"><div class="fp-v">£281</div><div class="fp-d" style="color:var(--success)">+£4</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-4h · EZY2437</div></div><div class="fp"><div class="fp-v">£288</div><div class="fp-d" style="color:var(--success)">+£11</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">0h · IB3164</div></div><div class="fp"><div class="fp-v">£299</div><div class="fp-d" style="color:var(--success)">+£22</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-3h · FR7400</div></div><div class="fp"><div class="fp-v">£295</div><div class="fp-d" style="color:var(--success)">+£18</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+3h · VY4637</div></div><div class="fp"><div class="fp-v">£298</div><div class="fp-d" style="color:var(--success)">+£21</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+1h · IB3166</div></div><div class="fp"><div class="fp-v">£305</div><div class="fp-d" style="color:var(--success)">+£28</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+2h · IB3167</div></div><div class="fp"><div class="fp-v">£312</div><div class="fp-d" style="color:var(--success)">+£35</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <!-- SAFE (2) -->
+          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+3h · IB3168</div></div><div class="fp"><div class="fp-v">£331</div><div class="fp-d" style="color:var(--text-3)">+£54</div></div><div class="fdot" style="background:#94a3b8"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-4h · IB3158</div></div><div class="fp"><div class="fp-v">£365</div><div class="fp-d" style="color:var(--text-3)">+£88</div></div><div class="fdot" style="background:#94a3b8"></div></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Original for comparison ── -->
+<div class="compare-section">
+  <span class="compare-label">Original — CAYZN</span>
+  <div class="compare-orig">
+    <img src="cayzn-original.png" alt="Original CAYZN Market View">
+  </div>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+lucide.createIcons();
+
+// P1 bucket row click
+document.querySelectorAll('.brow:not(.closed)').forEach(row => {
+  row.addEventListener('click', e => {
+    if (e.target.tagName === 'INPUT') return;
+    document.querySelectorAll('.brow').forEach(r => r.classList.remove('active'));
+    row.classList.add('active');
+    document.getElementById('kpi-blabel').textContent = `${row.dataset.bucket} · £${row.dataset.price}`;
+    document.getElementById('kpi-bdot').style.background = row.dataset.color;
+  });
+});
+
+// P2 mode toggle
+function setMode(mode, btn) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const svgH = document.getElementById('p2-svg');
+  const svgF = document.getElementById('p2-svg-f');
+  const lh   = document.getElementById('leg-h');
+  const lf   = document.getElementById('leg-f');
+  const gi   = document.getElementById('gap-ind');
+  if (mode === 'history') {
+    svgH.style.opacity = '1';
+    svgF.style.opacity = '0'; svgF.style.pointerEvents = 'none';
+    lh.style.display = 'flex'; lf.style.display = 'none'; gi.style.display = 'none';
+  } else {
+    svgH.style.opacity = '0';
+    svgF.style.opacity = '1'; svgF.style.pointerEvents = 'auto';
+    lh.style.display = 'none'; lf.style.display = 'flex'; gi.style.display = 'flex';
+  }
+}
+
+// P3 fares overlay (triggered from threat pill)
+function toggleFares() {
+  document.getElementById('p3-fares-overlay').classList.toggle('open');
+  document.getElementById('threat-toggle').classList.toggle('open');
+}
+
+// P3 tooltips
+const tip = document.getElementById('tip');
+document.querySelectorAll('.cdot').forEach(el => {
+  el.style.cursor = 'pointer';
+  el.addEventListener('mouseenter', () => { tip.textContent = el.dataset.tip; tip.classList.add('on'); });
+  el.addEventListener('mousemove', e => { tip.style.left = (e.clientX + 12) + 'px'; tip.style.top = (e.clientY - 28) + 'px'; });
+  el.addEventListener('mouseleave', () => tip.classList.remove('on'));
+});
+
+// Design decisions modal
+const ddBtn = document.getElementById('ddBtn');
+const ddOverlay = document.getElementById('ddOverlay');
+const ddClose = document.getElementById('ddClose');
+ddBtn.addEventListener('click', () => ddOverlay.classList.add('open'));
+ddClose.addEventListener('click', () => ddOverlay.classList.remove('open'));
+ddOverlay.addEventListener('click', e => { if (e.target === ddOverlay) ddOverlay.classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') ddOverlay.classList.remove('open'); });
+</script>
+</body>
+</html>
