@@ -595,23 +595,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   overflow: hidden;
 }
 .dn-intro {
-  width: 240px; flex-shrink: 0;
-  padding-top: 12px; padding-right: 32px;
+  width: 300px; flex-shrink: 0;
+  padding-top: 12px; padding-right: 36px;
   border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; justify-content: space-between;
+  display: flex; flex-direction: column; gap: 12px;
   padding-bottom: 20px;
 }
+.dn-intro-title {
+  font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.2;
+}
 .dn-intro p {
-  font-size: 16px; font-weight: 500; color: var(--text-3);
+  font-size: 15px; font-weight: 500; color: var(--text-3);
   line-height: 1.65; font-style: italic;
 }
 .dn-intro-link {
-  font-size: 13px; font-weight: 500; color: var(--text-3);
+  font-size: 12px; font-weight: 500; color: var(--text-4);
   cursor: pointer; text-decoration: underline;
   text-underline-offset: 3px;
   transition: color .15s;
 }
-.dn-intro-link:hover { color: var(--ink); }
+.dn-intro-link:hover { color: var(--text-3); }
 .dn-main {
   flex: 1; min-width: 0;
   display: flex; flex-direction: column;
@@ -1181,7 +1184,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <!-- Design notes panel -->
 <div class="dn-panel">
   <div class="dn-intro">
-    <p>What would a more considered Market View look like? This prototype is my answer — incomplete by design, but grounded in real observations about how analysts navigate dense data under time pressure.</p>
+    <div class="dn-intro-title">Market view redesign</div>
+    <p>How to improve this widget? This prototype is my answer — incomplete by design, but grounded in a short analysis and built with analysts in mind: how they navigate dense data under time pressure.</p>
     <span class="dn-intro-link" onclick="document.getElementById('origOverlay').classList.add('open')">See original</span>
   </div>
   <div class="dn-main">
