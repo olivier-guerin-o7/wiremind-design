@@ -566,7 +566,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 12px 14px; border-radius: 8px;
   background: rgba(255,255,255,.5); border: 1px solid transparent;
   cursor: pointer; transition: background .12s, border-color .12s;
-  max-width: 680px;
+  max-width: 800px;
 }
 .dd-item:hover { background: rgba(255,255,255,.75); }
 .dd-item.active { background: #fff; border-color: var(--border-light); }
@@ -601,11 +601,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; align-items: center;
   padding: 8px 0; flex-shrink: 0; gap: 0;
 }
-.dn-bar-title {
-  font-size: 24px; font-weight: 700; color: var(--ink);
-  line-height: 1.2; flex-shrink: 0; text-transform: uppercase;
-}
-.dn-bar-sub { font-weight: 400; color: var(--text-3); text-transform: none; }
 .dn-bar-tabs {
   flex: 1; display: flex; align-items: center;
 }
@@ -616,6 +611,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; align-items: center;
   cursor: pointer; transition: color .15s; background: none;
 }
+.dn-tab:first-child { padding-left: 0; }
 .dn-tab:hover { color: var(--ink); }
 .dn-tab.active { color: var(--ink); font-weight: 600; border-bottom-color: var(--primary); }
 .dn-content { flex: 1; min-height: 0; position: relative; }
@@ -1164,7 +1160,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <!-- Design notes panel -->
 <div class="dn-panel">
   <div class="dn-tabbar">
-    <div class="dn-bar-title">Market view<br><span class="dn-bar-sub">redesign</span></div>
     <div class="dn-bar-tabs">
       <button class="dn-tab active" data-tab="disclaimer"      onclick="showTab('disclaimer')">Disclaimer</button>
       <button class="dn-tab"        data-tab="global"          onclick="showTab('global')">Global</button>
