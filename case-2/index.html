@@ -1174,17 +1174,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Disclaimer -->
     <div class="dn-pane active" id="dn-disclaimer">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
         <span class="dd-title">About this prototype</span>
         <span class="dd-desc">Add your explanation here.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag note">⚠️ note</span></div>
         <span class="dd-title">Sizes are off</span>
         <span class="dd-desc">This prototype runs at a magnified scale — larger than production dimensions. Small content (figures, labels, dense data) would likely break visually when reduced to real size. This was a deliberate tradeoff: working at this scale let us test and iterate on design decisions faster within a limited timeframe. A full rework at real dimensions would be needed to validate these proposals in context.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag note">⚠️ note</span></div>
         <span class="dd-title">Non-expert perspective</span>
         <span class="dd-desc">This redesign was approached without deep domain expertise in revenue management. We invested enough time in the widget to form meaningful design hypotheses — but almost certainly missed important context or misread some mechanics. Each proposal should be validated against real operational knowledge before acting on it.</span>
       </div>
@@ -1193,52 +1190,52 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Global -->
     <div class="dn-pane" id="dn-global">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Color system audit</span>
         <span class="dd-desc">AU Grid encodes price tier via colour. Competition encodes threat level. If both use red, the analyst will misread across panels. Explicit visual separation required — by hue family, shape, or labelling.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Max Leg as a standalone section</span>
         <span class="dd-desc">Contextual metadata. Useful once to orient, then forgotten. Move to macro bar or tooltip — not a panel-level section.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Optimization Run timing detail</span>
         <span class="dd-desc">Informational, not decisional. The analyst doesn't need the exact booking threshold trigger to decide. Replace with a compact status badge.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Per-panel section headers</span>
         <span class="dd-desc">Labels that name what's already visually obvious. Consume vertical space without contributing to the decision loop.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Macro bar — persistent context layer</span>
         <span class="dd-desc">A fixed strip always visible at the top: current D-X, load factor %, active bucket, active alerts, key demand model values. Eliminates hunting for basic orientation data at the start of every market check.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Forecast↔Optim gap indicator</span>
         <span class="dd-desc">The gap between where you're going (Forecast) and where you could go (Optim) is the core decision. Surface it as an explicit number — not just two lines on a graph. This gap is the revenue opportunity on the table. It should be impossible to miss.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Max Leg → macro bar</span>
         <span class="dd-desc">Out of its own section, into the persistent header where it serves as always-visible orientation without consuming panel space.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Demand Matrix key values → macro bar</span>
         <span class="dd-desc">Currently buried in a sub-tab. As the foundation both Forecast and Optim are built on, key values should be scannable at all times. If the Demand Matrix is wrong, every line in Loading Curves is wrong.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Optimization Run timing → status badge in header</span>
         <span class="dd-desc">Still present, not lost, but no longer competing for panel space.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">AU Grid larger, Loading Curves + Competition smaller</span>
         <span class="dd-desc">AU Grid is the most information-dense and highest-stakes panel. With computed indicators from the other panels added, it earns more horizontal space. The others become supporting context — always visible, compact, full-size on demand.</span>
       </div>
@@ -1247,7 +1244,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Macro bar -->
     <div class="dn-pane" id="dn-macro-bar">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Add notes here.</span>
       </div>
     </div>
@@ -1255,7 +1252,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Toolbar -->
     <div class="dn-pane" id="dn-toolbar">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Add notes here.</span>
       </div>
     </div>
@@ -1263,17 +1260,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- AU Grid -->
     <div class="dn-pane" id="dn-au-grid">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Ancillaries section</span>
         <span class="dd-desc">Add-on pricing (bags, meals). Specialised use case, not part of the yield decision loop for most sessions. Move behind a dedicated tab.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Computed threat indicators per bucket row</span>
         <span class="dd-desc">Per bucket row: badge showing "3 red competitors", cheapest competitor delta vs. current bucket price. Analyst doesn't need to cross-reference Competition for a routine threat check — one decision, one place to look.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Lightweight friction for bucket commits</span>
         <span class="dd-desc">A brief confirmation step or short undo window before an AU change is live. Currently no structural protection against a mis-entry on a no-undo surface where changes are visible to customers within minutes.</span>
       </div>
@@ -1282,22 +1279,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Loading Curves -->
     <div class="dn-pane" id="dn-loading-curves">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Forecast &amp; Optim lines visually dominant</span>
         <span class="dd-desc">Currently dotted/grey — conventionally "uncertain". But they are the most actionable signals. They should look like it: thicker, stronger colour, foregrounded. The most actionable lines are the quietest. Fix the inversion.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Reduce default overlay set</span>
         <span class="dd-desc">10+ toggles always visible creates decision overhead before reading the chart. Default: Current + Reference + Forecast + Optim. Everything else off by default, accessible via toggle.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Split into two explicit modes: History vs. Forecast</span>
         <span class="dd-desc">History mode: Current + Reference (what happened). Forecast mode: Forecast + Optim (where it's going). Separates past fact from future projection — reduces visual competition and cognitive load per read.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Most overlay toggles from default view</span>
         <span class="dd-desc">Always-visible toggles create decision overhead before the analyst even reads the chart. Move non-default overlays behind "more" — reduce the default visual menu to what's needed for 95% of sessions.</span>
       </div>
@@ -1306,17 +1303,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Competition -->
     <div class="dn-pane" id="dn-competition">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Radar annotated in situ</span>
         <span class="dd-desc">Keep the radar's spatial dimension (time proximity is irreplaceable). Overlay computed indicators directly: threat count badges by level, cheapest competitor delta vs. your price, carrier flags. Radar becomes annotated rather than raw — talkative without being a table.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Computed indicators (automated threat rules)</span>
         <span class="dd-desc">Any rule readable deterministically from the radar can be computed: threat count by colour, cheapest competitor, carrier flags, "more aggressive this week" trend. Automate what is 100% consistent — human judgment reserved for ambiguous cases.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">💡 proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Competitor data as collapsible table (drawer)</span>
         <span class="dd-desc">The radar gives spatial context; the fares history gives temporal context. A structured table of competitor fares — available on demand via a drawer — gives precision for the analyst who needs exact values, not just visual position.</span>
       </div>
