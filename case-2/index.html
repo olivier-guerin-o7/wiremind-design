@@ -100,10 +100,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 0;
   flex-shrink: 0;
 }
+.w-logo {
+  display: flex; align-items: center; justify-content: center;
+  padding-right: 12px; flex-shrink: 0;
+  border-right: 1px solid var(--border-light);
+}
+.w-logo [data-lucide] { width: 32px; height: 32px; color: var(--primary); stroke-width: 1.5; }
 .w-flight {
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 3px;
+  padding-left: 12px;
   padding-right: 12px;
   border-right: 1px solid var(--border-light);
   flex-shrink: 0;
@@ -372,7 +379,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .threat-pill [data-lucide] { width: 10px; height: 10px; }
 .threat-chevron[data-lucide] { width: 13px; height: 13px; }
 .threat-pill.open .threat-chevron { transform: rotate(180deg); }
-.threat-overflow { margin-left: auto; margin-right: 2px; flex-shrink: 0; color: var(--ink); }
+.threat-eye { margin-left: auto; flex-shrink: 0; color: var(--ink); transition: color .15s; }
+.threat-eye.active { color: var(--primary); }
+.threat-overflow { margin-right: 2px; flex-shrink: 0; color: var(--ink); }
+.radar-zones.labels-mode .rplane-icon { transform: none; font-size: 10px; font-weight: 700; }
 .radar-menu-row { display: flex; justify-content: flex-end; padding: 2px 8px 0; flex-shrink: 0; }
 /* Fares overlay — drops DOWN from below the ticker */
 .p3-fares-overlay {
@@ -662,6 +672,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
   <!-- ── Header ── -->
   <div class="w-header">
+    <div class="w-logo">
+      <i data-lucide="chart-scatter"></i>
+    </div>
     <div class="w-flight">
       <span class="w-flight-sub">MAD → ORY · 28 May</span>
       <span class="w-flight-num">TO4633</span>
@@ -1043,6 +1056,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <span class="tick-stat ok"><span class="tick-dot"></span><strong>8</strong>&nbsp;ok</span>
           <span class="tick-div"></span>
           <span class="tick-stat safe"><span class="tick-dot"></span><strong>2</strong>&nbsp;safe</span>
+          <button class="wt-btn threat-eye" id="radarEyeBtn" onclick="event.stopPropagation();toggleRadarLabels()" title="Show airline labels"><i data-lucide="eye"></i></button>
           <button class="wt-btn threat-overflow" onclick="event.stopPropagation()" title="Radar options"><i data-lucide="more-horizontal"></i></button>
         </div>
 
@@ -1265,6 +1279,29 @@ document.getElementById('origClose').addEventListener('click', () => document.ge
 document.getElementById('origOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) document.getElementById('origOverlay').classList.remove('open'); });
 
 // Design notes tabs
+const _airlineLetters = {
+  'rgb(124, 58, 237)': 'I',   // IB — Iberia
+  'rgb(245, 158, 11)': 'V',   // VY — Vueling
+  'rgb(2, 132, 199)': 'R',    // FR — Ryanair
+  'rgb(249, 115, 22)': 'E',   // U2 — easyJet
+};
+function toggleRadarLabels() {
+  const zones = document.querySelector('.radar-zones');
+  const btn = document.getElementById('radarEyeBtn');
+  const on = zones.classList.toggle('labels-mode');
+  btn.classList.toggle('active', on);
+  document.querySelectorAll('.rplane').forEach(p => {
+    const icon = p.querySelector('.rplane-icon');
+    const rgb = getComputedStyle(p).color;
+    if (on) {
+      icon.dataset.plane = icon.textContent;
+      icon.textContent = _airlineLetters[rgb] || '?';
+    } else {
+      icon.textContent = icon.dataset.plane || '✈';
+    }
+  });
+}
+
 function showTab(name) {
   document.querySelectorAll('.dn-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   document.querySelectorAll('.dn-pane').forEach(p => p.classList.toggle('active', p.id === 'dn-' + name));
