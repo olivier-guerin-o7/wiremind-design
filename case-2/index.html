@@ -591,21 +591,32 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dn-panel {
   width: 1200px; flex: 1; min-height: 0;
   display: flex; flex-direction: row;
-  gap: 48px;
+  gap: 0;
   overflow: hidden;
 }
 .dn-intro {
-  width: 200px; flex-shrink: 0;
-  padding-top: 12px;
+  width: 240px; flex-shrink: 0;
+  padding-top: 12px; padding-right: 32px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding-bottom: 20px;
 }
 .dn-intro p {
-  font-size: 14px; font-weight: 500; color: var(--text-3);
+  font-size: 16px; font-weight: 500; color: var(--text-3);
   line-height: 1.65; font-style: italic;
 }
+.dn-intro-link {
+  font-size: 13px; font-weight: 500; color: var(--text-3);
+  cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color .15s;
+}
+.dn-intro-link:hover { color: var(--ink); }
 .dn-main {
   flex: 1; min-width: 0;
   display: flex; flex-direction: column;
   overflow: hidden;
+  padding-left: 32px;
 }
 .dn-tabbar {
   display: flex; align-items: center;
@@ -1171,6 +1182,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <div class="dn-panel">
   <div class="dn-intro">
     <p>What would a more considered Market View look like? This prototype is my answer — incomplete by design, but grounded in real observations about how analysts navigate dense data under time pressure.</p>
+    <span class="dn-intro-link" onclick="document.getElementById('origOverlay').classList.add('open')">See original</span>
   </div>
   <div class="dn-main">
   <div class="dn-tabbar">
@@ -1183,9 +1195,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <button class="dn-tab"        data-tab="loading-curves"  onclick="showTab('loading-curves')">Loading Curves</button>
       <button class="dn-tab"        data-tab="competition"     onclick="showTab('competition')">Competition</button>
     </div>
-    <button class="dd-btn" id="ddBtn" title="View original">
-      <i data-lucide="image" style="width:15px;height:15px;fill:none"></i>
-    </button>
   </div>
   <div class="dn-content">
 
@@ -1396,7 +1405,6 @@ document.querySelectorAll('.cdot').forEach(el => {
 });
 
 // Original screenshot modal
-document.getElementById('ddBtn').addEventListener('click', () => document.getElementById('origOverlay').classList.add('open'));
 document.getElementById('origClose').addEventListener('click', () => document.getElementById('origOverlay').classList.remove('open'));
 document.getElementById('origOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) document.getElementById('origOverlay').classList.remove('open'); });
 
