@@ -131,6 +131,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   box-shadow: inset 0 0 0 2px var(--primary);
   border-radius: 4px;
 }
+.w-header.kpi-spotlight {
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
 .wk-l { align-self: end; font-size: 13px; font-weight: 500; color: var(--text-4); white-space: nowrap; text-transform: none; letter-spacing: 0; }
 .wk-v { align-self: start; font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1; white-space: nowrap; text-transform: uppercase; }
 .wk-v.blue  { color: var(--ink); }
@@ -700,7 +703,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <div class="widget">
 
   <!-- ── Header ── -->
-  <div class="w-header">
+  <div class="w-header" id="widget-header">
     <div class="w-logo">
       <i data-lucide="chart-scatter"></i>
     </div>
@@ -1256,7 +1259,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
     <!-- Macro bar -->
     <div class="dn-pane" id="dn-macro-bar">
-      <div class="dd-item">
+      <div class="dd-item" data-spotlight="widget-header">
         <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
         <span class="dd-title">Persistent context layer</span>
         <span class="dd-desc">In the original, the top bar was nearly empty — just a title and flight reference. Before opening any panel, an analyst needs to answer 5 questions in under 5 seconds: How close to departure? How full is it? What's selling and at what price? What's the model saying? Any urgent alerts? Every KPI in the macro bar answers one of those questions. Without them always visible, every market check starts with hunting.</span>
