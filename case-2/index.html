@@ -86,7 +86,45 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+.alerts-popover {
+  display: none;
+  position: absolute;
+  top: 53px;
+  right: 10px;
+  width: 290px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,30,60,.13), 0 2px 6px rgba(0,30,60,.06);
+  z-index: 50;
+  overflow: hidden;
+}
+.alerts-popover.open { display: block; }
+.ap-header {
+  padding: 9px 14px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-4);
+  border-bottom: 1px solid var(--border-light);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.ap-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-light);
+}
+.ap-row:last-child { border-bottom: none; }
+.ap-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.ap-dot.red    { background: #ef4444; }
+.ap-dot.amber  { background: #f59e0b; }
+.ap-body { display: flex; flex-direction: column; gap: 3px; }
+.ap-title { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.ap-desc  { font-size: 12px; color: var(--text-3); line-height: 1.45; }
 
 /* ── Widget header ── */
 .w-header {
@@ -98,6 +136,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border-bottom: 1px solid var(--border);
   gap: 0;
   flex-shrink: 0;
+  position: relative;
 }
 .w-logo {
   display: flex; align-items: center; justify-content: center;
@@ -125,14 +164,32 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 0 14px;
   align-self: stretch;
   border-right: 1px solid var(--border-light);
-  transition: box-shadow .2s, background .2s;
+  transition: background .2s;
+  position: relative;
 }
-.wk.kpi-spotlight {
-  box-shadow: inset 0 0 0 2px var(--primary);
+.wk.kpi-spotlight::after,
+#kpi-core-strip.kpi-spotlight::after,
+.w-header.kpi-spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--primary);
   border-radius: 4px;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity .2s;
 }
-.w-header.kpi-spotlight {
-  box-shadow: inset 0 0 0 2px var(--primary);
+.w-header.kpi-spotlight::after { border-radius: 0; }
+#au-table-wrap.kpi-spotlight td.td-edit,
+#au-table-wrap.kpi-spotlight thead th:nth-child(5),
+#au-table-wrap.kpi-spotlight thead th:nth-child(6) {
+  background: rgba(0,157,220,.07);
+  outline: 1.5px solid var(--primary);
+  outline-offset: -1px;
+}
+#kpi-core-strip {
+  display: flex; align-items: stretch;
+  position: relative;
 }
 .wk-l { align-self: end; font-size: 13px; font-weight: 500; color: var(--text-4); white-space: nowrap; text-transform: none; letter-spacing: 0; }
 .wk-v { align-self: start; font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1; white-space: nowrap; text-transform: uppercase; }
@@ -179,6 +236,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 0 12px; background: var(--bg);
   border-bottom: 1px solid var(--border);
   gap: 6px; flex-shrink: 0;
+  position: relative;
+}
+.w-toolbar.kpi-spotlight::after {
+  content: ''; position: absolute; inset: 0;
+  border: 2px solid var(--primary); pointer-events: none; z-index: 10;
 }
 .wt-group { display: flex; align-items: center; gap: 3px; }
 .wt-divider { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; margin: 0 3px; }
@@ -225,7 +287,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: stretch;
 }
 .col { display: flex; flex-direction: column; }
-.col-p1 { flex: 0 0 28%; border-right: 1px solid var(--border); padding: 0 8px 8px 8px; }
+.col-p1 { flex: 0 0 28%; border-right: 1px solid var(--border); padding: 0 8px 8px 8px; position: relative; }
+.au-toast {
+  position: absolute; bottom: 10px; left: 8px; right: 8px;
+  background: var(--ink); color: #fff; border-radius: 6px;
+  padding: 7px 10px 7px 12px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  font-size: 12px; font-weight: 500; z-index: 20;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.au-toast.show { opacity: 1; pointer-events: auto; }
+.au-toast-undo {
+  background: rgba(255,255,255,.18); border: none; color: #fff;
+  font-size: 11px; font-weight: 600; padding: 3px 8px;
+  border-radius: 4px; cursor: pointer; flex-shrink: 0;
+}
+.au-toast-undo:hover { background: rgba(255,255,255,.28); }
 .col-p2 { flex: 0 0 41%; border-right: 1px solid var(--border); min-width: 0; padding-bottom: 8px; }
 .col-p3 { flex: 0 0 31%; overflow: hidden; padding-bottom: 8px; }
 
@@ -256,11 +333,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .au-table th:first-child { text-align: center; }
 .au-table th:nth-child(2) { text-align: center; width: 26px; padding-left: 4px; padding-right: 4px; }
 .au-table td:nth-child(2) { padding-left: 0; padding-right: 0; text-align: center; width: 26px; }
-.au-table td.td-l {
-  text-align: center; padding: 0 6px;
-  box-shadow: inset 1.5px 0 0 var(--border), inset -1.5px 0 0 var(--border);
+.au-table td.td-edit {
+  text-align: center; padding: 4px 6px;
 }
-.au-table th:nth-child(5) { text-align: center; }
+.au-table td + td { border-left: 1px solid var(--border-light); }
+.au-table th:nth-child(5), .au-table th:nth-child(6) { text-align: center; }
 .au-table td {
   padding: 5px 8px; text-align: center; font-size: 12px;
   color: var(--text-2); font-weight: 700;
@@ -268,10 +345,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: background .1s;
 }
 .brow { cursor: pointer; }
-.brow:hover td { background: rgba(0,157,220,.04); }
-.brow.active td { background: rgba(0,157,220,.07); }
+.brow:hover td:nth-child(n+3) { background: #f1f7fc; }
+.brow.active { position: relative; z-index: 1; }
+.brow.active td:nth-child(n+3) {
+  background: #fff;
+  box-shadow: inset 0 1.5px 0 rgba(15,23,42,.35), inset 0 -1.5px 0 rgba(15,23,42,.35);
+}
 .brow.active .bname { font-weight: 700; }
-.brow.closed { cursor: default; }
+.brow.closed { cursor: pointer; }
 .bchip { display: inline-flex; align-items: center; }
 .bd { display: none; }
 .bname { font-size: 12px; font-weight: 700; color: var(--ink); }
@@ -284,27 +365,29 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .brow.br td:nth-child(2) .bname,
 .brow.bo td:nth-child(2) .bname { color: #fff; }
 .brow.bv .td-p, .brow.br .td-p, .brow.bo .td-p { color: #fff !important; }
-.brow.bv:hover td:nth-child(1), .brow.bv:hover td:nth-child(2) { background: #6a5aa6; }
-.brow.br:hover td:nth-child(1), .brow.br:hover td:nth-child(2) { background: #b84545; }
-.brow.bo:hover td:nth-child(1), .brow.bo:hover td:nth-child(2) { background: #c0722e; }
-/* Active row: blue tint only on data cells (cols 3+) */
-.brow.active td:nth-child(n+3) { background: rgba(0,157,220,.07); }
+.brow.bv td:nth-child(2), .brow.br td:nth-child(2), .brow.bo td:nth-child(2) { border-left-color: rgba(255,255,255,.45); }
+.brow.bv:hover td:nth-child(1), .brow.bv:hover td:nth-child(2),
+.brow.bv.active td:nth-child(1), .brow.bv.active td:nth-child(2) { background: #6a5aa6; }
+.brow.br:hover td:nth-child(1), .brow.br:hover td:nth-child(2),
+.brow.br.active td:nth-child(1), .brow.br.active td:nth-child(2) { background: #b84545; }
+.brow.bo:hover td:nth-child(1), .brow.bo:hover td:nth-child(2),
+.brow.bo.active td:nth-child(1), .brow.bo.active td:nth-child(2) { background: #c0722e; }
 .td-p { font-weight: 600; color: var(--ink) !important; }
-.td-l input {
+.td-edit input {
   display: block; width: 100%; text-align: center;
   font-family: var(--font); font-size: 12px;
   color: var(--text-2); font-weight: 700;
   border: none; background: transparent;
-  padding: 3px 0; border-radius: 0; outline: none;
+  padding: 1px 0; border-radius: 0; outline: none;
   transition: background .1s, box-shadow .1s;
   -moz-appearance: textfield;
 }
-.td-l input::-webkit-outer-spin-button,
-.td-l input::-webkit-inner-spin-button { -webkit-appearance: none; }
-.td-l input:focus { background: rgba(0,157,220,.06); box-shadow: none; }
+.td-edit input::-webkit-outer-spin-button,
+.td-edit input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.td-edit input:focus { background: #fff; border-radius: 3px; box-shadow: 0 0 0 1.5px #a8c4d8; }
 .total-row td {
   font-size: 11px; font-weight: 700; color: var(--ink);
-  background: var(--bg); border-top: 1px solid var(--border); border-bottom: none;
+  background: #fff; border-top: 1px solid var(--border); border-bottom: none;
   padding: 5px 8px;
 }
 
@@ -312,7 +395,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ── P2: Loading Curves ── */
 .p2-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .p2-stats {
-  display: flex; padding: 6px 10px; gap: 0;
+  display: flex; padding: 12px 10px 6px 10px; gap: 0;
   flex-shrink: 0;
 }
 .p2s { flex: 1; display: flex; flex-direction: column; gap: 0; padding: 0 8px; border-right: 1px solid var(--border-light); }
@@ -328,8 +411,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .p2s-d.dn { color: var(--danger-strong); }
 .p2-chart { flex-shrink: 0; position: relative; padding: 8px 10px 4px; }
 .p2-svgs { display: grid; }
-.p2-svg { grid-area: 1/1; width: 100%; height: auto; display: block; transition: opacity .25s; }
-.p2-svg-f { transition: opacity .3s .1s; }
+.p2-svg { grid-area: 1/1; width: 100%; height: auto; display: block; }
+.p2-svg-f { }
 .gap-ind {
   position: absolute; right: 14px; top: 38%;
   display: none; flex-direction: column; align-items: center; gap: 1px;
@@ -357,7 +440,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .mode-btn.active { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 .legend { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: center; }
-.leg { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--ink); }
+.leg { display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 500; color: var(--ink); }
 .leg-ln { width: 14px; height: 2px; border-radius: 1px; flex-shrink: 0; }
 .leg-ln.dash { background: repeating-linear-gradient(90deg,currentColor 0,currentColor 3px,transparent 3px,transparent 6px); }
 
@@ -572,11 +655,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dd-item {
   display: block;
   padding: 12px 14px; border-radius: 8px;
-  background: rgba(255,255,255,.5); border: 1px solid transparent;
+  background: rgba(255,255,255,.5); border: 1px solid var(--border-light);
   cursor: pointer; transition: background .12s, border-color .12s;
 }
-.dd-item:hover { background: rgba(255,255,255,.75); }
-.dd-item.active { background: #fff; border-color: var(--border-light); }
+.dd-item:hover { border-color: var(--border-light); }
+.dd-item[data-spotlight]:hover { background: #fff; border-color: var(--border); }
+#dn-disclaimer .dd-item, #dn-global .dd-item { cursor: default; }
+#dn-disclaimer .dd-item:hover, #dn-global .dd-item:hover { background: rgba(255,255,255,.5); }
 .dd-section-label {
   font-size: 10px; font-weight: 700; letter-spacing: .6px;
   color: var(--ink); text-transform: uppercase;
@@ -592,8 +677,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dd-status-tag.recommendation{ background: rgba(100,116,139,.1); color: #475569; }
 .dd-status-tag.done          { background: rgba(34,197,94,.12);  color: #16a34a; }
 .dd-status-tag.note          { background: rgba(239,68,68,.1);   color: #dc2626; }
+.dd-status-tag.question      { background: rgba(99,102,241,.1);  color: #4f46e5; }
 .dd-title { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 3px; }
 .dd-desc { font-size: 14px; color: var(--text-2); line-height: 1.5; display: block; }
+.dd-desc strong { font-weight: 600; }
 
 
 /* ── Design notes panel ── */
@@ -712,34 +799,36 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <span class="w-flight-num">TO4633</span>
     </div>
     <div class="w-kpis">
-      <div class="wk">
-        <span class="wk-l">Dep. in</span>
-        <span class="wk-v blue">D-14</span>
+      <div id="kpi-core-strip">
+        <div class="wk">
+          <span class="wk-l">Dep. in</span>
+          <span class="wk-v blue">D-14</span>
+        </div>
+        <div class="wk">
+          <span class="wk-l">Load</span>
+          <span class="wk-v" id="kpi-lf">72%</span>
+        </div>
+        <div class="wk" id="kpi-max-leg">
+          <span class="wk-l">Max leg</span>
+          <span class="wk-v">239</span>
+        </div>
+        <div class="wk">
+          <span class="wk-l">Open bucket</span>
+          <span class="wk-v bk">
+            <span class="bk-dot" id="kpi-bdot" style="background:var(--text-4)"></span>
+            <span id="kpi-blabel">K · £277</span>
+          </span>
+        </div>
+        <div class="wk">
+          <span class="wk-l">Fcst / Optim</span>
+          <span class="wk-v"><span class="gap-badge">+8 seats</span></span>
+        </div>
+        <div class="wk">
+          <span class="wk-l">Demand index</span>
+          <span class="wk-v">0.84 <span style="font-weight:500;color:var(--text-3)">ref. 0.79</span></span>
+        </div>
       </div>
-      <div class="wk">
-        <span class="wk-l">Load</span>
-        <span class="wk-v" id="kpi-lf">72%</span>
-      </div>
-      <div class="wk" id="kpi-max-leg">
-        <span class="wk-l">Max leg</span>
-        <span class="wk-v">239</span>
-      </div>
-      <div class="wk">
-        <span class="wk-l">Open bucket</span>
-        <span class="wk-v bk">
-          <span class="bk-dot" id="kpi-bdot" style="background:var(--text-4)"></span>
-          <span id="kpi-blabel">K · £277</span>
-        </span>
-      </div>
-      <div class="wk">
-        <span class="wk-l">Fcst / Optim</span>
-        <span class="wk-v"><span class="gap-badge">+8 seats</span></span>
-      </div>
-      <div class="wk">
-        <span class="wk-l">Demand index</span>
-        <span class="wk-v">0.84 <span style="font-weight:500;color:var(--text-3)">ref. 0.79</span></span>
-      </div>
-      <div class="wk wk-alert" style="border-right:none; padding: 0 10px;">
+      <div class="wk wk-alert" id="kpi-alerts" style="border-right:none; padding: 0 10px;">
         <button class="wa-btn alert" title="2 alerts">
           <i data-lucide="bell"></i>
           <span class="wa-badge">2</span>
@@ -761,8 +850,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </div>
   </div>
 
+  <!-- ── Alerts popover ── -->
+  <div class="alerts-popover" id="alerts-popover">
+    <div class="ap-header">2 alerts</div>
+    <div class="ap-row">
+      <div class="ap-dot red"></div>
+      <div class="ap-body">
+        <span class="ap-title">Optimisation out of sync</span>
+        <span class="ap-desc">Last run 42h ago — model recommendations may not reflect current demand. A new run is recommended before acting.</span>
+      </div>
+    </div>
+    <div class="ap-row">
+      <div class="ap-dot amber"></div>
+      <div class="ap-body">
+        <span class="ap-title">Demand index above reference</span>
+        <span class="ap-desc">0.84 vs. ref. 0.79 for 3 consecutive days — demand is trending above forecast. Consider a proactive yield adjustment.</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Controls toolbar ── -->
-  <div class="w-toolbar">
+  <div class="w-toolbar" id="widget-toolbar">
     <!-- Left: fare family / CC settings -->
     <div class="wt-tabs">
       <button class="wt-tab active">default</button>
@@ -812,78 +920,92 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <div class="w-body">
 
     <!-- P1: AU Grid -->
-    <div class="col col-p1">
-      <div class="au-scroll">
+    <div class="col col-p1" id="au-panel">
+      <div class="au-scroll" id="au-table-wrap">
         <table class="au-table">
           <thead>
             <tr>
               <th>Price</th>
               <th>B</th>
-              <th title="Requests">R</th>
-              <th title="Limit">L</th>
-              <th title="Adjustments">A</th>
-              <th title="Authorized">Au</th>
+              <th title="Reservations">R</th>
+              <th title="Live — bookings today">L</th>
+              <th title="Availability">A</th>
+              <th title="Authorization">Au</th>
             </tr>
           </thead>
           <tbody>
             <tr class="brow bv" data-bucket="Y" data-price="379" data-color="#7a6ab8">
               <td class="td-p">£379</td><td><span class="bname">Y</span></td>
-              <td>3</td>
-              <td class="td-l"><input type="number" value="20" min="0" max="99"></td><td>0</td><td>20</td>
+              <td>3</td><td>0</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="20" min="0" max="99"></td>
             </tr>
             <tr class="brow bv" data-bucket="B" data-price="319" data-color="#7a6ab8">
               <td class="td-p">£319</td><td><span class="bname">B</span></td>
-              <td>5</td>
-              <td class="td-l"><input type="number" value="25" min="0" max="99"></td><td>0</td><td>22</td>
+              <td>5</td><td>1</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="22" min="0" max="99"></td>
             </tr>
             <tr class="brow bv" data-bucket="M" data-price="299" data-color="#7a6ab8">
               <td class="td-p">£299</td><td><span class="bname">M</span></td>
-              <td>8</td>
-              <td class="td-l"><input type="number" value="30" min="0" max="99"></td><td>0</td><td>28</td>
+              <td>8</td><td>1</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="28" min="0" max="99"></td>
             </tr>
             <tr class="brow bv active" data-bucket="K" data-price="277" data-color="#7a6ab8">
               <td class="td-p">£277</td><td><span class="bname">K</span></td>
-              <td>6</td>
-              <td class="td-l"><input type="number" value="45" min="0" max="99"></td><td>7</td><td>30</td>
+              <td>6</td><td>3</td>
+              <td class="td-edit"><input type="number" value="7" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="30" min="0" max="99"></td>
             </tr>
             <tr class="brow br" data-bucket="H" data-price="249" data-color="#cc5252">
               <td class="td-p">£249</td><td><span class="bname">H</span></td>
-              <td>0</td>
-              <td class="td-l"><input type="number" value="30" min="0" max="99"></td><td>0</td><td>0</td>
+              <td>0</td><td>0</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
             </tr>
             <tr class="brow br" data-bucket="L" data-price="219" data-color="#cc5252">
               <td class="td-p">£219</td><td><span class="bname">L</span></td>
-              <td>0</td>
-              <td class="td-l"><input type="number" value="34" min="0" max="99"></td><td>0</td><td>0</td>
+              <td>0</td><td>0</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
             </tr>
             <tr class="brow br closed" data-bucket="Q" data-price="179" data-color="#cc5252">
               <td class="td-p">£179</td><td><span class="bname">Q</span></td>
-              <td>0</td>
-              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+              <td>0</td><td>0</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
             </tr>
             <tr class="brow br closed" data-bucket="S" data-price="159" data-color="#cc5252">
               <td class="td-p">£159</td><td><span class="bname">S</span></td>
-              <td>0</td>
-              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+              <td>0</td><td>0</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
             </tr>
             <tr class="brow bo closed" data-bucket="T" data-price="139" data-color="#d9853e">
               <td class="td-p">£139</td><td><span class="bname">T</span></td>
-              <td>0</td>
-              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+              <td>0</td><td>0</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
             </tr>
             <tr class="brow bo closed" data-bucket="V" data-price="119" data-color="#d9853e">
               <td class="td-p">£119</td><td><span class="bname">V</span></td>
-              <td>0</td>
-              <td class="td-l"><input type="number" value="0" min="0" max="99" disabled></td><td>0</td><td>0</td>
+              <td>0</td><td>0</td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
+              <td class="td-edit"><input type="number" value="0" min="0" max="99"></td>
             </tr>
           </tbody>
           <tfoot>
             <tr class="total-row">
-              <td>Total</td><td>—</td><td>22</td><td>194</td><td>7</td><td>100</td>
+              <td>Total</td><td>—</td><td>22</td><td>5</td><td>7</td><td>100</td>
             </tr>
 
           </tfoot>
         </table>
+      </div>
+      <div class="au-toast" id="au-toast">
+        <span class="au-toast-msg"></span>
+        <button class="au-toast-undo">Undo</button>
       </div>
     </div>
 
@@ -923,8 +1045,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <svg class="p2-svg" id="p2-svg" viewBox="0 0 380 155">
             <defs>
               <linearGradient id="gcu" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#009DDC" stop-opacity=".18"/>
-                <stop offset="100%" stop-color="#009DDC" stop-opacity=".02"/>
+                <stop offset="0%" stop-color="#009DDC" stop-opacity=".10"/>
+                <stop offset="100%" stop-color="#009DDC" stop-opacity=".01"/>
               </linearGradient>
             </defs>
             <!-- Grid -->
@@ -934,25 +1056,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
             <line x1="22" y1="98"  x2="372" y2="98"  stroke="#eef2f7" stroke-width="1"/>
             <line x1="22" y1="128" x2="372" y2="128" stroke="#eef2f7" stroke-width="1"/>
             <!-- Y labels -->
-            <text x="20" y="12"  font-size="8" fill="#94a3b8" text-anchor="end">200</text>
-            <text x="20" y="42"  font-size="8" fill="#94a3b8" text-anchor="end">150</text>
-            <text x="20" y="72"  font-size="8" fill="#94a3b8" text-anchor="end">100</text>
-            <text x="20" y="102" font-size="8" fill="#94a3b8" text-anchor="end">50</text>
-            <text x="20" y="132" font-size="8" fill="#94a3b8" text-anchor="end">0</text>
+            <text x="20" y="12"  font-size="8" fill="#64748b" text-anchor="end">200</text>
+            <text x="20" y="42"  font-size="8" fill="#64748b" text-anchor="end">150</text>
+            <text x="20" y="72"  font-size="8" fill="#64748b" text-anchor="end">100</text>
+            <text x="20" y="102" font-size="8" fill="#64748b" text-anchor="end">50</text>
+            <text x="20" y="132" font-size="8" fill="#64748b" text-anchor="end">0</text>
             <!-- X labels: D-258→D-0, x range 24–372, span=348
                  D-258=24, D-180=129, D-120=209, D-80=263, D-50=303, D-35=324, D-20=344, D-0=372
                  Today D-14: 24 + (244/258)*348 ≈ 353 -->
-            <text x="24"  y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-258</text>
-            <text x="129" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-180</text>
-            <text x="209" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-120</text>
-            <text x="263" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-80</text>
-            <text x="303" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-50</text>
-            <text x="324" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-35</text>
-            <text x="344" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-20</text>
-            <text x="372" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-0</text>
+            <text x="24"  y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-258</text>
+            <text x="129" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-180</text>
+            <text x="209" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-120</text>
+            <text x="263" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-80</text>
+            <text x="303" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-50</text>
+            <text x="324" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-35</text>
+            <text x="344" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-20</text>
+            <text x="372" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-0</text>
             <!-- Today marker at D-14 (x≈353) -->
             <line x1="353" y1="0" x2="353" y2="133" stroke="#009DDC" stroke-width="1" stroke-dasharray="3,3" opacity=".45"/>
-            <text x="353" y="7" font-size="7.5" fill="#009DDC" text-anchor="middle">D-14</text>
+            <rect x="340" y="0" width="26" height="10" rx="1" fill="white"/>
+            <text x="353" y="8" font-size="9" fill="#009DDC" text-anchor="middle" font-weight="700">D-14</text>
 
             <!-- History group: S-curve starting D-258 -->
             <g id="g-history">
@@ -961,10 +1084,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
                 fill="url(#gcu)"/>
               <!-- Current season 2025-26 -->
               <path d="M24,128 L32,128 L40,131 L48,127 L56,130 L64,125 L72,128 L80,123 L88,127 L96,122 L104,126 L112,121 L120,125 L129,121 L137,123 L145,117 L153,121 L161,114 L169,119 L177,111 L185,110 L193,114 L201,106 L209,103 L217,106 L225,95 L233,100 L241,88 L249,86 L257,83 L263,75 L271,78 L279,66 L287,63 L295,53 L303,44 L311,47 L319,35 L327,34 L335,29 L344,23 L347,25 L350,20 L353,19"
-                fill="none" stroke="#009DDC" stroke-width="2.5" stroke-linejoin="round"/>
+                fill="none" stroke="#009DDC" stroke-width="1.5" stroke-linejoin="round"/>
               <!-- Reference 2024-25 (slightly ahead, reaches 185 at D-0) -->
               <path d="M24,128 L32,128 L40,129 L48,126 L56,128 L64,123 L72,127 L80,122 L88,125 L96,120 L104,124 L112,119 L120,122 L129,120 L137,121 L145,115 L153,119 L161,112 L169,117 L177,108 L185,107 L193,111 L201,103 L209,101 L217,103 L225,92 L233,97 L241,85 L249,82 L257,80 L263,73 L271,75 L279,62 L287,60 L295,50 L303,46 L311,43 L319,31 L327,30 L335,25 L343,22 L351,18 L360,16 L372,13"
-                fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+                fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4,2"/>
               <circle cx="353" cy="19" r="3" fill="#009DDC"/>
             </g>
 
@@ -972,23 +1095,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
             <g id="g-forecast" opacity="0" style="pointer-events:none">
               <!-- Current line faded -->
               <path d="M24,128 L32,128 L40,131 L48,127 L56,130 L64,125 L72,128 L80,123 L88,127 L96,122 L104,126 L112,121 L120,125 L129,121 L137,123 L145,117 L153,121 L161,114 L169,119 L177,111 L185,110 L193,114 L201,106 L209,103 L217,106 L225,95 L233,100 L241,88 L249,86 L257,83 L263,75 L271,78 L279,66 L287,63 L295,53 L303,44 L311,47 L319,35 L327,34 L335,29 L344,23 L347,25 L350,20 L353,19"
-                fill="none" stroke="#009DDC" stroke-width="1.5" opacity=".3"/>
+                fill="none" stroke="var(--ink)" stroke-width="1.5" opacity=".25"/>
               <!-- Gap band -->
               <path d="M353,19 L358,18 L363,17 L368,15 L372,14 L372,9 L367,12 L362,15 L357,17 L353,19 Z"
-                fill="rgba(239,68,68,.12)"/>
+                fill="rgba(0,0,0,.06)"/>
               <!-- Forecast line (188 at D-0 → y≈15) -->
               <path d="M353,19 L358,18 L363,17 L368,15 L372,14"
-                fill="none" stroke="#009DDC" stroke-width="2.5" stroke-linejoin="round"/>
+                fill="none" stroke="#009DDC" stroke-width="1.5" stroke-linejoin="round"/>
               <!-- Optim line (196 at D-0 → y≈9) -->
               <path d="M353,19 L357,17 L362,15 L367,12 L372,9"
-                fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round"/>
+                fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4,2" stroke-linejoin="round"/>
               <!-- Gap bracket -->
-              <line x1="376" y1="14" x2="376" y2="9" stroke="#ef4444" stroke-width="1.5"/>
-              <line x1="373" y1="14" x2="379" y2="14" stroke="#ef4444" stroke-width="1.5"/>
-              <line x1="373" y1="9"  x2="379" y2="9"  stroke="#ef4444" stroke-width="1.5"/>
+              <line x1="376" y1="14" x2="376" y2="9" stroke="var(--ink)" stroke-width="1.5"/>
+              <line x1="373" y1="14" x2="379" y2="14" stroke="var(--ink)" stroke-width="1.5"/>
+              <line x1="373" y1="9"  x2="379" y2="9"  stroke="var(--ink)" stroke-width="1.5"/>
               <circle cx="353" cy="19" r="3" fill="#009DDC"/>
               <circle cx="372" cy="14" r="2.5" fill="#009DDC"/>
-              <circle cx="372" cy="9"  r="2.5" fill="#ef4444"/>
+              <circle cx="372" cy="9"  r="2.5" fill="var(--ink)"/>
             </g>
           </svg>
 
@@ -998,7 +1121,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <svg class="p2-svg p2-svg-f" id="p2-svg-f" viewBox="0 0 380 155" style="opacity:0;pointer-events:none">
             <defs>
               <linearGradient id="gcuf" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#009DDC" stop-opacity=".14"/>
+                <stop offset="0%" stop-color="#009DDC" stop-opacity=".10"/>
                 <stop offset="100%" stop-color="#009DDC" stop-opacity=".01"/>
               </linearGradient>
             </defs>
@@ -1010,46 +1133,47 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
             <line x1="22" y1="104" x2="372" y2="104" stroke="#eef2f7" stroke-width="1"/>
             <line x1="22" y1="128" x2="372" y2="128" stroke="#eef2f7" stroke-width="1"/>
             <!-- Y labels: 100–200 -->
-            <text x="20" y="12"  font-size="8" fill="#94a3b8" text-anchor="end">200</text>
-            <text x="20" y="36"  font-size="8" fill="#94a3b8" text-anchor="end">180</text>
-            <text x="20" y="60"  font-size="8" fill="#94a3b8" text-anchor="end">160</text>
-            <text x="20" y="84"  font-size="8" fill="#94a3b8" text-anchor="end">140</text>
-            <text x="20" y="108" font-size="8" fill="#94a3b8" text-anchor="end">120</text>
-            <text x="20" y="132" font-size="8" fill="#94a3b8" text-anchor="end">100</text>
+            <text x="20" y="12"  font-size="8" fill="#64748b" text-anchor="end">200</text>
+            <text x="20" y="36"  font-size="8" fill="#64748b" text-anchor="end">180</text>
+            <text x="20" y="60"  font-size="8" fill="#64748b" text-anchor="end">160</text>
+            <text x="20" y="84"  font-size="8" fill="#64748b" text-anchor="end">140</text>
+            <text x="20" y="108" font-size="8" fill="#64748b" text-anchor="end">120</text>
+            <text x="20" y="132" font-size="8" fill="#64748b" text-anchor="end">100</text>
             <!-- X labels: D-50 to D-0 -->
-            <text x="24"  y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-50</text>
-            <text x="129" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-35</text>
-            <text x="233" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-20</text>
-            <text x="372" y="143" font-size="7.5" fill="#94a3b8" text-anchor="middle">D-0</text>
+            <text x="24"  y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-50</text>
+            <text x="129" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-35</text>
+            <text x="233" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-20</text>
+            <text x="372" y="143" font-size="7.5" fill="#64748b" text-anchor="middle">D-0</text>
             <!-- Today D-14 marker at x=275 -->
             <line x1="275" y1="0" x2="275" y2="133" stroke="#009DDC" stroke-width="1" stroke-dasharray="3,3" opacity=".45"/>
-            <text x="275" y="7" font-size="7.5" fill="#009DDC" text-anchor="middle">D-14</text>
+            <rect x="262" y="0" width="26" height="10" rx="1" fill="white"/>
+            <text x="275" y="8" font-size="9" fill="#009DDC" text-anchor="middle" font-weight="700">D-14</text>
             <!-- Fill under current curve -->
             <path d="M24,80 L33,82 L42,78 L51,80 L60,75 L69,77 L79,72 L88,75 L97,70 L107,73 L115,67 L124,71 L129,58 L138,61 L147,55 L156,59 L165,52 L174,56 L183,49 L191,52 L200,45 L208,48 L216,41 L225,44 L233,38 L241,40 L250,35 L258,37 L266,32 L275,30 L275,128 L24,128 Z"
               fill="url(#gcuf)"/>
             <!-- Current season 2025-26 (faded: historical) -->
             <path d="M24,80 L33,82 L42,78 L51,80 L60,75 L69,77 L79,72 L88,75 L97,70 L107,73 L115,67 L124,71 L129,58 L138,61 L147,55 L156,59 L165,52 L174,56 L183,49 L191,52 L200,45 L208,48 L216,41 L225,44 L233,38 L241,40 L250,35 L258,37 L266,32 L275,30"
-              fill="none" stroke="#009DDC" stroke-width="1.5" stroke-linejoin="round" opacity=".35"/>
+              fill="none" stroke="#009DDC" stroke-width="1.5" stroke-linejoin="round" opacity=".3"/>
             <!-- Reference 2024-25 (dashed) -->
             <path d="M24,78 L33,80 L42,76 L51,78 L60,73 L69,75 L79,70 L88,73 L97,68 L107,71 L115,65 L124,69 L129,56 L138,59 L147,53 L156,57 L165,50 L174,54 L183,47 L191,50 L200,43 L208,46 L216,39 L225,42 L233,36 L241,38 L250,33 L258,35 L266,30 L275,26 L290,25 L310,24 L335,25 L355,26 L372,26"
-              fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3" opacity=".6"/>
+              fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4,2" opacity=".6"/>
             <!-- Gap band (forecast vs optim) -->
             <path d="M275,30 L285,31 L298,27 L310,28 L322,25 L335,26 L345,23 L358,24 L372,22 L372,13 L358,15 L345,14 L335,17 L322,18 L310,20 L298,24 L285,27 L275,30 Z"
-              fill="rgba(239,68,68,.12)"/>
+              fill="rgba(0,157,220,.07)"/>
             <!-- Forecast line (188 pax → y=22) -->
             <path d="M275,30 L285,31 L298,27 L310,28 L322,25 L335,26 L345,23 L358,24 L372,22"
-              fill="none" stroke="#009DDC" stroke-width="2.5" stroke-linejoin="round"/>
+              fill="none" stroke="#009DDC" stroke-width="1.5" stroke-linejoin="round"/>
             <!-- Optim line (196 pax → y=13) -->
             <path d="M275,30 L285,29 L298,26 L310,23 L322,20 L335,18 L345,15 L358,15 L372,13"
-              fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round"/>
+              fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4,2" stroke-linejoin="round"/>
             <!-- Gap bracket -->
-            <line x1="376" y1="13" x2="376" y2="22" stroke="#ef4444" stroke-width="1.5"/>
-            <line x1="373" y1="13" x2="379" y2="13" stroke="#ef4444" stroke-width="1.5"/>
-            <line x1="373" y1="22" x2="379" y2="22" stroke="#ef4444" stroke-width="1.5"/>
+            <line x1="376" y1="13" x2="376" y2="22" stroke="var(--ink)" stroke-width="1.5"/>
+            <line x1="373" y1="13" x2="379" y2="13" stroke="var(--ink)" stroke-width="1.5"/>
+            <line x1="373" y1="22" x2="379" y2="22" stroke="var(--ink)" stroke-width="1.5"/>
             <!-- Endpoint dots -->
             <circle cx="275" cy="30" r="3"   fill="#009DDC"/>
             <circle cx="372" cy="22" r="2.5" fill="#009DDC"/>
-            <circle cx="372" cy="13" r="2.5" fill="#ef4444"/>
+            <circle cx="372" cy="13" r="2.5" fill="var(--ink)"/>
           </svg>
           </div><!-- /p2-svgs -->
         </div>
@@ -1061,11 +1185,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
           <div class="legend" id="leg-h">
             <div class="leg"><div class="leg-ln" style="background:#009DDC"></div>2025-26</div>
-            <div class="leg"><div class="leg-ln dash" style="color:#94a3b8"></div>Ref. 2024-25</div>
+            <div class="leg"><div class="leg-ln dash" style="color:var(--ink)"></div>Ref. 2024-25</div>
           </div>
           <div class="legend" id="leg-f" style="display:none">
             <div class="leg"><div class="leg-ln" style="background:#009DDC"></div>Forecast</div>
-            <div class="leg"><div class="leg-ln dash" style="color:#ef4444"></div>Optim</div>
+            <div class="leg"><div class="leg-ln dash" style="color:var(--ink)"></div>Optim</div>
           </div>
           <div class="p2-ctrl-right">
             <button class="wt-btn active" title="Bookings"><i data-lucide="ticket"></i></button>
@@ -1200,7 +1324,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <div class="dn-intro">
     <div class="dn-intro-title">Market view<br><span style="color:var(--text-4); font-weight:600;">Redesign</span></div>
     <p>How to improve this widget? This prototype is my answer — incomplete by design, but grounded in a short analysis and built with analysts in mind: how they navigate dense data under time pressure.</p>
-    <p>The notes below are a mix of recommendations and solutions — either partially or fully implemented in this prototype.</p>
+    <p>These notes are a mix of recommendations and solutions — either partially or fully implemented in this prototype.</p>
     <span class="dn-intro-link" onclick="document.getElementById('origOverlay').classList.add('open')">See original</span>
   </div>
   <div class="dn-main">
@@ -1240,70 +1364,67 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <span class="dd-title">Color system audit</span>
         <span class="dd-desc">AU Grid and Competition both use red — one for price tier, one for threat level. We identified the conflict but scoped out a full remap. The fix would require a shared color token system across both panels, separating encoding by hue family or shape.</span>
       </div>
+
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Forecast↔Optim gap indicator</span>
-        <span class="dd-desc">The gap between where you're going (Forecast) and where you could go (Optim) is the core decision. Surface it as an explicit number — not just two lines on a graph. This gap is the revenue opportunity on the table. It should be impossible to miss.</span>
-      </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Demand Matrix key values → macro bar</span>
-        <span class="dd-desc">Currently buried in a sub-tab. As the foundation both Forecast and Optim are built on, key values should be scannable at all times. If the Demand Matrix is wrong, every line in Loading Curves is wrong.</span>
-      </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">AU Grid larger, Loading Curves + Competition smaller</span>
-        <span class="dd-desc">AU Grid is the most information-dense and highest-stakes panel. With computed indicators from the other panels added, it earns more horizontal space. The others become supporting context — always visible, compact, full-size on demand.</span>
+        <div class="dd-meta"><span class="dd-status-tag question">question</span></div>
+        <span class="dd-title">Should Loading Curves and Competition indicators move into the AU Grid?</span>
+        <span class="dd-desc">The AU Grid currently shows ground truth and controls only. But both Loading Curves and Competition produce signals the analyst uses to decide per bucket. If those were computed and surfaced directly in each AU Grid row — a threat badge ("2 red competitors at −£15"), a gap vs. Forecast target per bucket — the analyst could make a per-row decision without cross-referencing the other panels. If that enrichment happens, the AU Grid earns more horizontal space. Without it, the resize has no justification.</span>
       </div>
     </div>
 
     <!-- Macro bar -->
     <div class="dn-pane" id="dn-macro-bar">
-      <div class="dd-item" data-spotlight="widget-header">
+      <div class="dd-item" data-spotlight="kpi-core-strip">
         <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
         <span class="dd-title">Persistent context layer</span>
-        <span class="dd-desc">In the original, the top bar was nearly empty — just a title and flight reference. Before opening any panel, an analyst needs to answer 5 questions in under 5 seconds: How close to departure? How full is it? What's selling and at what price? What's the model saying? Any urgent alerts? Every KPI in the macro bar answers one of those questions. Without them always visible, every market check starts with hunting.</span>
+        <span class="dd-desc">The original top bar held only a flight reference — no data before opening a panel. Six KPIs now form the macro bar in a deliberate left-to-right order that mirrors how an analyst naturally assesses a flight: Dep. in (how much time?), Load % (how full?), Max Leg (what's the capacity ceiling?), Open bucket (what am I selling and at what price?), Fcst / Optim gap (what is the model recommending?), Demand index (what is the market doing?). The analyst arrives at any panel already oriented — no hunting, no context switch.</span>
       </div>
-      <div class="dd-item" data-spotlight="kpi-max-leg">
+      <div class="dd-item" data-spotlight="widget-header">
         <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
-        <span class="dd-title">Max Leg → macro bar</span>
-        <span class="dd-desc">Isolated in its own section, this constant reference required navigation every time. Moved to the macro bar so analysts have the capacity ceiling always visible alongside load and demand figures, without consuming panel space.</span>
+        <span class="dd-title">Calm strip</span>
+        <span class="dd-desc">The six KPIs share a single neutral typographic register — no status colors, no icons competing for attention. Color is reserved for genuine signals only: the departure countdown turns colored as departure approaches, and the alerts badge activates when there is something to act on. Everything else stays neutral by design, so when color appears, it carries weight.</span>
+      </div>
+      <div class="dd-item" data-spotlight="kpi-alerts">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <span class="dd-title">Alerts</span>
+        <span class="dd-desc">The alert bell sits deliberately outside the KPI strip, at the right edge. The badge tells the analyst in one glance whether anything is urgent. Clicking it opens a compact popover anchored to the trigger — a quick scan without leaving the current panel. Its separation from the routine check is intentional: it is reactive, not part of the left-to-right read. When the badge is empty, the analyst never needs to look at it.</span>
       </div>
     </div>
 
     <!-- Toolbar -->
     <div class="dn-pane" id="dn-toolbar">
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Add notes here.</span>
+      <div class="dd-item" data-spotlight="widget-toolbar">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <span class="dd-title">Visual de-emphasis — structure unchanged</span>
+        <span class="dd-desc">The toolbar content is kept as-is. The only change is visual: a grey background distinguishes it from the macro bar above and the panels below — the same logic as zebra rows in a dense table, where alternating registers reduce visual fatigue and lower error risk. Within the toolbar, two values still stand out: £277 (current open bucket price) and £204 (LLM reference fare). Together they frame the core pricing question at a glance — where am I vs. where the model thinks I should be. They are less prominent than in the original, but still the first things the analyst's eye finds in the toolbar.</span>
       </div>
     </div>
 
     <!-- AU Grid -->
     <div class="dn-pane" id="dn-au-grid">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Ancillaries section</span>
-        <span class="dd-desc">Add-on pricing (bags, meals). Specialised use case, not part of the yield decision loop for most sessions. Move behind a dedicated tab.</span>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <span class="dd-title">Scannability & error prevention</span>
+        <span class="dd-desc">Three targeted changes:<ul style="margin:.4em 0 0 1.2em;display:flex;flex-direction:column;gap:.25em"><li><strong>Header background removed</strong> — white header reduces noise for experts; still readable for newcomers.</li><li><strong>Selected row: white bg + top/bottom border</strong> — lifts the active row without washing over values. Price and B columns darken to close the visual loop. Error prevention.</li><li><strong>Zebra striping removed</strong> — too few columns to justify it. Row hover (light blue tint on data columns) handles scannability instead, keeping the resting state clean.</li></ul></span>
+      </div>
+      <div class="dd-item" data-spotlight="au-table-wrap">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <span class="dd-title">Lightweight friction for bucket commits</span>
+        <span class="dd-desc">A and Au are the only editable columns — direct commits to the live system, visible to customers within minutes, with no default undo. Changing a value triggers a brief undo toast, giving the analyst a short window to catch a mis-entry before it lands. The toast duration should be user-configurable in settings: an experienced analyst may want a shorter window to stay in flow, while a less confident one may need more time.</span>
       </div>
       <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Computed threat indicators per bucket row</span>
         <span class="dd-desc">Per bucket row: badge showing "3 red competitors", cheapest competitor delta vs. current bucket price. Analyst doesn't need to cross-reference Competition for a routine threat check — one decision, one place to look.</span>
       </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Lightweight friction for bucket commits</span>
-        <span class="dd-desc">A brief confirmation step or short undo window before an AU change is live. Currently no structural protection against a mis-entry on a no-undo surface where changes are visible to customers within minutes.</span>
-      </div>
     </div>
 
     <!-- Loading Curves -->
     <div class="dn-pane" id="dn-loading-curves">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
         <span class="dd-title">Forecast &amp; Optim lines visually dominant</span>
-        <span class="dd-desc">Currently dotted/grey — conventionally "uncertain". But they are the most actionable signals. They should look like it: thicker, stronger colour, foregrounded. The most actionable lines are the quietest. Fix the inversion.</span>
+        <span class="dd-desc">In the original, Forecast and Optim were dotted and grey — the dataviz convention for "uncertain" accidentally suppressed the most actionable signals in the panel. In Forecast mode, both lines are now foregrounded: Forecast as a thick solid blue (matching the weight of the Current curve), Optim as a strong dashed red. The gap between them is made explicit with a coloured band and a bracket — so the revenue opportunity on the table is impossible to miss.</span>
       </div>
       <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
@@ -1351,7 +1472,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 lucide.createIcons();
 
 // P1 bucket row click
-document.querySelectorAll('.brow:not(.closed)').forEach(row => {
+document.querySelectorAll('.brow').forEach(row => {
   row.addEventListener('click', e => {
     if (e.target.tagName === 'INPUT') return;
     document.querySelectorAll('.brow').forEach(r => r.classList.remove('active'));
@@ -1432,13 +1553,6 @@ function showTab(name) {
   document.querySelectorAll('.dn-pane').forEach(p => p.classList.toggle('active', p.id === 'dn-' + name));
 }
 
-document.querySelectorAll('.dd-item').forEach(card => {
-  card.addEventListener('click', () => {
-    const pane = card.closest('.dn-pane');
-    pane.querySelectorAll('.dd-item').forEach(c => c.classList.remove('active'));
-    card.classList.add('active');
-  });
-});
 
 // Spotlight: hover a card with data-spotlight to highlight a widget element
 document.querySelectorAll('.dd-item[data-spotlight]').forEach(card => {
@@ -1447,6 +1561,53 @@ document.querySelectorAll('.dd-item[data-spotlight]').forEach(card => {
   card.addEventListener('mouseenter', () => target.classList.add('kpi-spotlight'));
   card.addEventListener('mouseleave', () => target.classList.remove('kpi-spotlight'));
 });
+
+// Lightweight friction — AU Grid edit toast
+(function() {
+  const toast = document.getElementById('au-toast');
+  const toastMsg = toast.querySelector('.au-toast-msg');
+  const undoBtn = toast.querySelector('.au-toast-undo');
+  let timer = null, lastInput = null, lastValue = null;
+
+  document.querySelectorAll('.td-edit input').forEach(input => {
+    let prev = input.value;
+    input.addEventListener('focus', () => { prev = input.value; });
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') input.blur(); });
+    input.addEventListener('change', () => {
+      if (input.value === prev) return;
+      const bucket = input.closest('tr').dataset.bucket;
+      const tds = [...input.closest('tr').querySelectorAll('.td-edit')];
+      const col = tds.indexOf(input.closest('td')) === 0 ? 'A' : 'Au';
+      lastInput = input; lastValue = prev;
+      toastMsg.textContent = `Bucket ${bucket} · ${col} → ${input.value}`;
+      toast.classList.add('show');
+      clearTimeout(timer);
+      timer = setTimeout(() => { toast.classList.remove('show'); prev = input.value; }, 4000);
+    });
+  });
+
+  undoBtn.addEventListener('click', () => {
+    if (lastInput) lastInput.value = lastValue;
+    toast.classList.remove('show');
+    clearTimeout(timer);
+  });
+})();
+
+// Alerts popover
+const alertBtn = document.querySelector('.wa-btn.alert');
+const alertsPopover = document.getElementById('alerts-popover');
+if (alertBtn && alertsPopover) {
+  alertBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = alertsPopover.classList.toggle('open');
+    if (isOpen) {
+      const widgetRect = alertBtn.closest('.widget').getBoundingClientRect();
+      const triggerRect = document.getElementById('kpi-alerts').getBoundingClientRect();
+      alertsPopover.style.right = (widgetRect.right - triggerRect.right) + 'px';
+    }
+  });
+  document.addEventListener('click', () => alertsPopover.classList.remove('open'));
+}
 </script>
 </body>
 </html>
