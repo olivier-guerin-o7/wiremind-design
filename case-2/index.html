@@ -580,8 +580,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 12px; font-weight: 600;
   padding: 2px 7px; border-radius: 3px;
 }
-.dd-status-tag.proposal { background: rgba(245,158,11,.12); color: #d97706; }
-.dd-status-tag.note     { background: rgba(239,68,68,.1);   color: #dc2626; }
+.dd-status-tag.proposal      { background: rgba(245,158,11,.12); color: #d97706; }
+.dd-status-tag.recommendation{ background: rgba(100,116,139,.1); color: #475569; }
+.dd-status-tag.note          { background: rgba(239,68,68,.1);   color: #dc2626; }
 .dd-title { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 3px; }
 .dd-desc { font-size: 14px; color: var(--text-3); line-height: 1.5; display: block; }
 
@@ -1221,9 +1222,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Global -->
     <div class="dn-pane" id="dn-global">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
+        <div class="dd-meta"><span class="dd-status-tag recommendation">recommendation</span></div>
         <span class="dd-title">Color system audit</span>
-        <span class="dd-desc">AU Grid encodes price tier via colour. Competition encodes threat level. If both use red, the analyst will misread across panels. Explicit visual separation required — by hue family, shape, or labelling.</span>
+        <span class="dd-desc">AU Grid and Competition both use red — one for price tier, one for threat level. We identified the conflict but scoped out a full remap. The fix would require a shared color token system across both panels, separating encoding by hue family or shape.</span>
       </div>
       <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
