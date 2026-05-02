@@ -1175,6 +1175,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <div class="dn-tabbar">
     <button class="dn-tab active" data-tab="disclaimer"      onclick="showTab('disclaimer')">Disclaimer</button>
     <button class="dn-tab"        data-tab="global"          onclick="showTab('global')">Global</button>
+    <button class="dn-tab"        data-tab="macro-bar"       onclick="showTab('macro-bar')">Macro bar</button>
+    <button class="dn-tab"        data-tab="toolbar"         onclick="showTab('toolbar')">Toolbar</button>
     <button class="dn-tab"        data-tab="au-grid"         onclick="showTab('au-grid')">AU Grid</button>
     <button class="dn-tab"        data-tab="loading-curves"  onclick="showTab('loading-curves')">Loading Curves</button>
     <button class="dn-tab"        data-tab="competition"     onclick="showTab('competition')">Competition</button>
@@ -1240,6 +1242,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <span class="dd-badge resize">Resize</span>
         <div class="dd-head"><span class="dd-status">💡</span><span class="dd-title">AU Grid larger, Loading Curves + Competition smaller</span></div>
         <span class="dd-desc">AU Grid is the most information-dense and highest-stakes panel. With computed indicators from the other panels added, it earns more horizontal space. The others become supporting context — always visible, compact, full-size on demand.</span>
+      </div>
+    </div>
+
+    <!-- Macro bar -->
+    <div class="dn-pane" id="dn-macro-bar">
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-title">Add notes here.</span></div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="dn-pane" id="dn-toolbar">
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-title">Add notes here.</span></div>
       </div>
     </div>
 
