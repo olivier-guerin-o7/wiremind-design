@@ -86,7 +86,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin-top: -8px;
 }
 
 /* ── Widget header ── */
@@ -591,15 +590,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dd-badge.resize  { background: rgba(124,58,237,.1); color: #7c3aed; }
 .dd-desc { font-size: 14px; color: var(--text-3); line-height: 1.5; display: block; }
 
-/* ── Page top row (title + button) ── */
-.page-top {
-  width: 1200px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.page-title {
-  font-size: 11px; font-weight: 600; color: var(--text-4);
-  text-transform: uppercase; letter-spacing: .8px;
-}
 
 /* ── Design notes panel ── */
 .dn-panel {
@@ -608,14 +598,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   overflow: hidden;
 }
 .dn-tabbar {
-  display: flex; align-items: center; justify-content: center;
-  padding: 0 4px; flex-shrink: 0;
-  height: 38px; gap: 0;
+  display: flex; align-items: center;
+  padding: 8px 0; flex-shrink: 0; gap: 0;
+}
+.dn-bar-title {
+  font-size: 20px; font-weight: 700; color: var(--ink);
+  line-height: 1.2; flex-shrink: 0;
+}
+.dn-bar-tabs {
+  flex: 1; display: flex; justify-content: center; align-items: center;
 }
 .dn-tab {
   height: 38px; padding: 0 14px;
   font-size: 14px; font-weight: 500; color: var(--text-3);
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
   display: flex; align-items: center;
   cursor: pointer; transition: color .15s; background: none;
 }
@@ -671,13 +667,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <img src="cayzn-original.png" alt="Original CAYZN Market View">
     </div>
   </div>
-</div>
-
-<div class="page-top">
-  <div class="page-title">Market view design update</div>
-  <button class="dd-btn" id="ddBtn" title="View original">
-    <i data-lucide="image" style="width:15px;height:15px;fill:none"></i>
-  </button>
 </div>
 
 <div class="widget">
@@ -1174,13 +1163,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <!-- Design notes panel -->
 <div class="dn-panel">
   <div class="dn-tabbar">
-    <button class="dn-tab active" data-tab="disclaimer"      onclick="showTab('disclaimer')">Disclaimer</button>
-    <button class="dn-tab"        data-tab="global"          onclick="showTab('global')">Global</button>
-    <button class="dn-tab"        data-tab="macro-bar"       onclick="showTab('macro-bar')">Macro bar</button>
-    <button class="dn-tab"        data-tab="toolbar"         onclick="showTab('toolbar')">Toolbar</button>
-    <button class="dn-tab"        data-tab="au-grid"         onclick="showTab('au-grid')">AU Grid</button>
-    <button class="dn-tab"        data-tab="loading-curves"  onclick="showTab('loading-curves')">Loading Curves</button>
-    <button class="dn-tab"        data-tab="competition"     onclick="showTab('competition')">Competition</button>
+    <div class="dn-bar-title">Market view<br>redesign</div>
+    <div class="dn-bar-tabs">
+      <button class="dn-tab active" data-tab="disclaimer"      onclick="showTab('disclaimer')">Disclaimer</button>
+      <button class="dn-tab"        data-tab="global"          onclick="showTab('global')">Global</button>
+      <button class="dn-tab"        data-tab="macro-bar"       onclick="showTab('macro-bar')">Macro bar</button>
+      <button class="dn-tab"        data-tab="toolbar"         onclick="showTab('toolbar')">Toolbar</button>
+      <button class="dn-tab"        data-tab="au-grid"         onclick="showTab('au-grid')">AU Grid</button>
+      <button class="dn-tab"        data-tab="loading-curves"  onclick="showTab('loading-curves')">Loading Curves</button>
+      <button class="dn-tab"        data-tab="competition"     onclick="showTab('competition')">Competition</button>
+    </div>
+    <button class="dd-btn" id="ddBtn" title="View original">
+      <i data-lucide="image" style="width:15px;height:15px;fill:none"></i>
+    </button>
   </div>
   <div class="dn-content">
 
