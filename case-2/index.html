@@ -582,6 +582,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .dd-status-tag.proposal      { background: rgba(245,158,11,.12); color: #d97706; }
 .dd-status-tag.recommendation{ background: rgba(100,116,139,.1); color: #475569; }
+.dd-status-tag.done          { background: rgba(34,197,94,.12);  color: #16a34a; }
 .dd-status-tag.note          { background: rgba(239,68,68,.1);   color: #dc2626; }
 .dd-title { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 3px; }
 .dd-desc { font-size: 14px; color: var(--text-2); line-height: 1.5; display: block; }
@@ -1229,11 +1230,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
       <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Max Leg as a standalone section</span>
-        <span class="dd-desc">Contextual metadata. Useful once to orient, then forgotten. Move to macro bar or tooltip — not a panel-level section.</span>
-      </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Optimization Run timing detail</span>
         <span class="dd-desc">Informational, not decisional. The analyst doesn't need the exact booking threshold trigger to decide. Replace with a compact status badge.</span>
       </div>
@@ -1251,11 +1247,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Forecast↔Optim gap indicator</span>
         <span class="dd-desc">The gap between where you're going (Forecast) and where you could go (Optim) is the core decision. Surface it as an explicit number — not just two lines on a graph. This gap is the revenue opportunity on the table. It should be impossible to miss.</span>
-      </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Max Leg → macro bar</span>
-        <span class="dd-desc">Out of its own section, into the persistent header where it serves as always-visible orientation without consuming panel space.</span>
       </div>
       <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
@@ -1277,8 +1268,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Macro bar -->
     <div class="dn-pane" id="dn-macro-bar">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Add notes here.</span>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <span class="dd-title">Max Leg → macro bar</span>
+        <span class="dd-desc">Out of its own section, into the persistent header where it serves as always-visible orientation without consuming panel space.</span>
       </div>
     </div>
 
