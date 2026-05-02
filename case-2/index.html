@@ -412,6 +412,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .p3-radar-pane { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
 .radar-menu-row { display: flex; justify-content: flex-end; padding: 2px 8px 0; flex-shrink: 0; }
 
+/* ── P3 Radar vertical zone dividers ── */
+.rzone-vline {
+  position: absolute; top: 0; bottom: 0; width: 0;
+  border-left: 1px dashed rgba(15,23,42,.18);
+  pointer-events: none; z-index: 1;
+}
+
 /* ── P3 Radar Zones ── */
 .radar-zones {
   flex: 1; display: flex; flex-direction: column; margin: 4px 8px 0;
@@ -1117,6 +1124,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
               <div class="rplane" style="left:35%;top:22%;color:#f59e0b"><span class="rplane-icon">✈</span></div><!-- VY 0h — near FR -->
               <div class="rplane" style="left:72%;top:15%;color:#0284c7"><span class="rplane-icon">✈</span></div><!-- FR -2h -->
             </div>
+            <!-- Vertical zone dividers -->
+            <div class="rzone-vline" style="left:20%"></div>
+            <div class="rzone-vline" style="left:40%"></div>
+            <div class="rzone-vline" style="left:60%"></div>
+            <div class="rzone-vline" style="left:80%"></div>
             <!-- Crosshair at 10:00 / £277 -->
             <div class="crosshair"><div class="ch-ring"></div></div>
             <!-- Price scale — right side overlay -->
