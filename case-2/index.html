@@ -597,7 +597,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   width: 360px; flex-shrink: 0;
   padding-top: 12px; padding-right: 52px;
   border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; gap: 20px;
+  display: flex; flex-direction: column; gap: 28px;
   padding-bottom: 20px;
 }
 .dn-intro-title {
@@ -608,12 +608,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.65; font-style: italic;
 }
 .dn-intro-link {
-  font-size: 12px; font-weight: 500; color: var(--text-4);
+  font-size: 12px; font-weight: 500; color: var(--ink);
   cursor: pointer; text-decoration: underline;
   text-underline-offset: 3px;
-  transition: color .15s;
+  transition: opacity .15s;
 }
-.dn-intro-link:hover { color: var(--text-3); }
+.dn-intro-link:hover { opacity: .6; }
 .dn-main {
   flex: 1; min-width: 0;
   display: flex; flex-direction: column;
