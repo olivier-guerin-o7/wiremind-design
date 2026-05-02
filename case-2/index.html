@@ -575,8 +575,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--ink); text-transform: uppercase;
   padding: 8px 0 4px;
 }
-.dd-n { font-size: 11px; font-weight: 700; color: var(--text-4); margin-right: 5px; }
-.dd-title { font-size: 12px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 2px; }
+.dd-head { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.dd-status { font-size: 13px; flex-shrink: 0; line-height: 1; }
+.dd-n { font-size: 10px; font-weight: 700; color: var(--text-4); flex-shrink: 0; }
+.dd-title { font-size: 12px; font-weight: 700; color: var(--ink); flex: 1; }
+.dd-badge {
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+  padding: 2px 5px; border-radius: 3px; flex-shrink: 0;
+}
+.dd-badge.improve { background: rgba(0,157,220,.1); color: #0284c7; }
+.dd-badge.remove  { background: rgba(239,68,68,.1); color: #dc2626; }
+.dd-badge.add     { background: rgba(34,197,94,.12); color: #16a34a; }
+.dd-badge.move    { background: rgba(245,158,11,.12); color: #d97706; }
+.dd-badge.resize  { background: rgba(124,58,237,.1); color: #7c3aed; }
 .dd-desc { font-size: 12px; color: var(--text-3); line-height: 1.5; display: block; }
 
 /* ── Page top row (title + button) ── */
@@ -1162,58 +1173,116 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <!-- Design notes panel -->
 <div class="dn-panel">
   <div class="dn-tabbar">
-    <button class="dn-tab active" data-tab="disclaimer" onclick="showTab('disclaimer')">Disclaimer</button>
-    <button class="dn-tab" data-tab="improve" onclick="showTab('improve')">Improve</button>
-    <button class="dn-tab" data-tab="remove" onclick="showTab('remove')">Remove</button>
-    <button class="dn-tab" data-tab="add" onclick="showTab('add')">Add</button>
-    <button class="dn-tab" data-tab="move" onclick="showTab('move')">Move</button>
-    <button class="dn-tab" data-tab="resize" onclick="showTab('resize')">Resize</button>
+    <button class="dn-tab active" data-tab="disclaimer"      onclick="showTab('disclaimer')">Disclaimer</button>
+    <button class="dn-tab"        data-tab="global"          onclick="showTab('global')">Global</button>
+    <button class="dn-tab"        data-tab="au-grid"         onclick="showTab('au-grid')">AU Grid</button>
+    <button class="dn-tab"        data-tab="loading-curves"  onclick="showTab('loading-curves')">Loading Curves</button>
+    <button class="dn-tab"        data-tab="competition"     onclick="showTab('competition')">Competition</button>
   </div>
   <div class="dn-content">
 
     <!-- Disclaimer -->
     <div class="dn-pane active" id="dn-disclaimer">
-      <div class="dd-item"><span class="dd-title">About this prototype</span><span class="dd-desc">Add your explanation here.</span></div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-title">About this prototype</span></div>
+        <span class="dd-desc">Add your explanation here.</span>
+      </div>
     </div>
 
-    <!-- Improve -->
-    <div class="dn-pane" id="dn-improve">
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">01</span>P2 — Forecast &amp; Optim lines visually dominant</span><span class="dd-desc">Currently dotted/grey — conventionally "uncertain". But they are the most actionable signals. They should look like it: thicker, stronger colour, foregrounded. The most actionable lines are the quietest. Fix the inversion.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">02</span>P2 — Reduce default overlay set</span><span class="dd-desc">10+ toggles always visible creates decision overhead before reading the chart. Default: Current + Reference + Forecast + Optim. Everything else off by default, accessible via toggle.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">03</span>P2 — Split into two explicit modes: History vs. Forecast</span><span class="dd-desc">History mode: Current + Reference (what happened). Forecast mode: Forecast + Optim (where it's going). Separates past fact from future projection — reduces visual competition and cognitive load per read.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">04</span>P3 — Radar annotated in situ</span><span class="dd-desc">Keep the radar's spatial dimension (time proximity is irreplaceable). Overlay computed indicators directly: threat count badges by level, cheapest competitor delta vs. your price, carrier flags. Radar becomes annotated rather than raw — talkative without being a table.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">05</span>P1/P3 — Color system audit</span><span class="dd-desc">P1 encodes price tier via colour (price spheres). P3 encodes threat level (red/yellow/green). If both use red, the analyst will misread across panels. Explicit visual separation required — by hue family, shape, or labelling. Do not assume the analyst will remember which red means what.</span></div>
+    <!-- Global -->
+    <div class="dn-pane" id="dn-global">
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">05</span><span class="dd-title">Color system audit</span><span class="dd-badge improve">Improve</span></div>
+        <span class="dd-desc">AU Grid encodes price tier via colour. Competition encodes threat level. If both use red, the analyst will misread across panels. Explicit visual separation required — by hue family, shape, or labelling.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">07</span><span class="dd-title">Max Leg as a standalone section</span><span class="dd-badge remove">Remove</span></div>
+        <span class="dd-desc">Contextual metadata. Useful once to orient, then forgotten. Move to macro bar or tooltip — not a panel-level section.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">08</span><span class="dd-title">Optimization Run timing detail</span><span class="dd-badge remove">Remove</span></div>
+        <span class="dd-desc">Informational, not decisional. The analyst doesn't need the exact booking threshold trigger to decide. Replace with a compact status badge.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">10</span><span class="dd-title">Per-panel section headers</span><span class="dd-badge remove">Remove</span></div>
+        <span class="dd-desc">Labels that name what's already visually obvious. Consume vertical space without contributing to the decision loop.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">11</span><span class="dd-title">Macro bar — persistent context layer</span><span class="dd-badge add">Add</span></div>
+        <span class="dd-desc">A fixed strip always visible at the top: current D-X, load factor %, active bucket, active alerts, key demand model values. Eliminates hunting for basic orientation data at the start of every market check.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">13</span><span class="dd-title">Forecast↔Optim gap indicator</span><span class="dd-badge add">Add</span></div>
+        <span class="dd-desc">The gap between where you're going (Forecast) and where you could go (Optim) is the core decision. Surface it as an explicit number — not just two lines on a graph. This gap is the revenue opportunity on the table. It should be impossible to miss.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">17</span><span class="dd-title">Max Leg → macro bar</span><span class="dd-badge move">Move</span></div>
+        <span class="dd-desc">Out of its own section, into the persistent header where it serves as always-visible orientation without consuming panel space.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">18</span><span class="dd-title">Demand Matrix key values → macro bar</span><span class="dd-badge move">Move</span></div>
+        <span class="dd-desc">Currently buried in a sub-tab. As the foundation both Forecast and Optim are built on, key values should be scannable at all times. If the Demand Matrix is wrong, every line in Loading Curves is wrong.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">19</span><span class="dd-title">Optimization Run timing → status badge in header</span><span class="dd-badge move">Move</span></div>
+        <span class="dd-desc">Still present, not lost, but no longer competing for panel space.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">20</span><span class="dd-title">AU Grid larger, Loading Curves + Competition smaller</span><span class="dd-badge resize">Resize</span></div>
+        <span class="dd-desc">AU Grid is the most information-dense and highest-stakes panel. With computed indicators from the other panels added, it earns more horizontal space. The others with summary indicators become supporting context — always visible, compact, full-size on demand.</span>
+      </div>
     </div>
 
-    <!-- Remove -->
-    <div class="dn-pane" id="dn-remove">
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">06</span>Ancillaries section</span><span class="dd-desc">Add-on pricing (bags, meals). Specialised use case, not part of the yield decision loop for most sessions. Move behind a dedicated tab.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">07</span>Max Leg as a standalone section</span><span class="dd-desc">Contextual metadata. Useful once to orient, then forgotten. Move to macro bar or tooltip — not a panel-level section.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">08</span>Optimization Run timing detail</span><span class="dd-desc">Informational, not decisional. The analyst doesn't need to know the exact booking threshold trigger to decide. Replace with a compact status badge.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">09</span>Most P2 overlay toggles from default view</span><span class="dd-desc">Always-visible toggles create decision overhead before the analyst even reads the chart. Move non-default overlays behind "more" — reduce the default visual menu to what's needed for 95% of sessions.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">10</span>Per-panel section headers (AU Grid / Loading Curves / Competition)</span><span class="dd-desc">Labels that name what's already visually obvious. Consume vertical space without contributing to the decision loop.</span></div>
+    <!-- AU Grid -->
+    <div class="dn-pane" id="dn-au-grid">
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">06</span><span class="dd-title">Ancillaries section</span><span class="dd-badge remove">Remove</span></div>
+        <span class="dd-desc">Add-on pricing (bags, meals). Specialised use case, not part of the yield decision loop for most sessions. Move behind a dedicated tab.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">12</span><span class="dd-title">Computed threat indicators per bucket row</span><span class="dd-badge add">Add</span></div>
+        <span class="dd-desc">Per bucket row: badge showing "3 red competitors", cheapest competitor delta vs. current bucket price. Analyst doesn't need to cross-reference Competition for a routine threat check — one decision, one place to look.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">14</span><span class="dd-title">Lightweight friction for bucket commits</span><span class="dd-badge add">Add</span></div>
+        <span class="dd-desc">A brief confirmation step or short undo window before an AU change is live. Currently no structural protection against a mis-entry on a no-undo surface where changes are visible to customers within minutes.</span>
+      </div>
     </div>
 
-    <!-- Add -->
-    <div class="dn-pane" id="dn-add">
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">11</span>Macro bar — persistent context layer above all panels</span><span class="dd-desc">A fixed strip always visible at the top: current D-X, load factor %, active bucket (name + colour), active alerts, key demand model values. Eliminates hunting for basic orientation data at the start of every market check.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">12</span>Computed threat indicators in P1 rows (from P3)</span><span class="dd-desc">Per bucket row: badge showing "3 red competitors", cheapest competitor delta vs. current bucket price. Analyst doesn't need to cross-reference P3 for a routine threat check — one decision, one place to look.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">13</span>Forecast↔Optim gap indicator in P1 and P2</span><span class="dd-desc">The gap between where you're going (Forecast) and where you could go (Optim) is the core decision. Surface it as an explicit number or delta — not just two lines on a graph. This gap is the revenue opportunity on the table. It should be impossible to miss.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">14</span>Lightweight friction for P1 commits</span><span class="dd-desc">A brief confirmation step or short undo window before an availability/AU change is live. Currently no structural protection against a mis-entry on a no-undo surface where changes are visible to customers within minutes.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">15</span>Computed P3 indicators (automated threat rules)</span><span class="dd-desc">Any rule readable deterministically from the radar can be computed: threat count by colour, cheapest competitor, carrier flags, "more aggressive this week" trend. Automate what is 100% consistent — human judgment reserved for ambiguous cases.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">16</span>Competitor data as collapsible table in P3 (drawer)</span><span class="dd-desc">The radar gives spatial context; the fares history gives temporal context. A structured table of competitor fares — available on demand via a drawer — gives precision for the analyst who needs exact values, not just visual position.</span></div>
+    <!-- Loading Curves -->
+    <div class="dn-pane" id="dn-loading-curves">
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">01</span><span class="dd-title">Forecast &amp; Optim lines visually dominant</span><span class="dd-badge improve">Improve</span></div>
+        <span class="dd-desc">Currently dotted/grey — conventionally "uncertain". But they are the most actionable signals. They should look like it: thicker, stronger colour, foregrounded. The most actionable lines are the quietest. Fix the inversion.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">02</span><span class="dd-title">Reduce default overlay set</span><span class="dd-badge improve">Improve</span></div>
+        <span class="dd-desc">10+ toggles always visible creates decision overhead before reading the chart. Default: Current + Reference + Forecast + Optim. Everything else off by default, accessible via toggle.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">03</span><span class="dd-title">Split into two explicit modes: History vs. Forecast</span><span class="dd-badge improve">Improve</span></div>
+        <span class="dd-desc">History mode: Current + Reference (what happened). Forecast mode: Forecast + Optim (where it's going). Separates past fact from future projection — reduces visual competition and cognitive load per read.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">09</span><span class="dd-title">Most overlay toggles from default view</span><span class="dd-badge remove">Remove</span></div>
+        <span class="dd-desc">Always-visible toggles create decision overhead before the analyst even reads the chart. Move non-default overlays behind "more" — reduce the default visual menu to what's needed for 95% of sessions.</span>
+      </div>
     </div>
 
-    <!-- Move -->
-    <div class="dn-pane" id="dn-move">
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">17</span>Max Leg → macro bar</span><span class="dd-desc">Out of its own section, into the persistent header where it serves as always-visible orientation without consuming panel space.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">18</span>Demand Matrix key values → macro bar</span><span class="dd-desc">Currently buried in a sub-tab. As the foundation both Forecast and Optim are built on, key values should be scannable at all times — even in compact form. If the Demand Matrix is wrong, every line in P2 is wrong.</span></div>
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">19</span>Optimization Run timing → status badge in header</span><span class="dd-desc">Still present, not lost, but no longer competing for panel space.</span></div>
-    </div>
-
-    <!-- Resize -->
-    <div class="dn-pane" id="dn-resize">
-      <div class="dd-item"><span class="dd-title"><span class="dd-n">20</span>P1 larger, P2 + P3 smaller</span><span class="dd-desc">P1 is the most information-dense and highest-stakes panel. With computed indicators from P2 and P3 added, it earns more horizontal space. P2 and P3 with summary indicators handling quick-checks become supporting context — always visible, compact, full-size on demand.</span></div>
+    <!-- Competition -->
+    <div class="dn-pane" id="dn-competition">
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">04</span><span class="dd-title">Radar annotated in situ</span><span class="dd-badge improve">Improve</span></div>
+        <span class="dd-desc">Keep the radar's spatial dimension (time proximity is irreplaceable). Overlay computed indicators directly: threat count badges by level, cheapest competitor delta vs. your price, carrier flags. Radar becomes annotated rather than raw — talkative without being a table.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">15</span><span class="dd-title">Computed indicators (automated threat rules)</span><span class="dd-badge add">Add</span></div>
+        <span class="dd-desc">Any rule readable deterministically from the radar can be computed: threat count by colour, cheapest competitor, carrier flags, "more aggressive this week" trend. Automate what is 100% consistent — human judgment reserved for ambiguous cases.</span>
+      </div>
+      <div class="dd-item">
+        <div class="dd-head"><span class="dd-status">💡</span><span class="dd-n">16</span><span class="dd-title">Competitor data as collapsible table (drawer)</span><span class="dd-badge add">Add</span></div>
+        <span class="dd-desc">The radar gives spatial context; the fares history gives temporal context. A structured table of competitor fares — available on demand via a drawer — gives precision for the analyst who needs exact values, not just visual position.</span>
+      </div>
     </div>
 
   </div>
