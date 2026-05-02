@@ -1239,11 +1239,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
       <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Macro bar — persistent context layer</span>
-        <span class="dd-desc">A fixed strip always visible at the top: current D-X, load factor %, active bucket, active alerts, key demand model values. Eliminates hunting for basic orientation data at the start of every market check.</span>
-      </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
         <span class="dd-title">Forecast↔Optim gap indicator</span>
         <span class="dd-desc">The gap between where you're going (Forecast) and where you could go (Optim) is the core decision. Surface it as an explicit number — not just two lines on a graph. This gap is the revenue opportunity on the table. It should be impossible to miss.</span>
       </div>
@@ -1261,6 +1256,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
     <!-- Macro bar -->
     <div class="dn-pane" id="dn-macro-bar">
+      <div class="dd-item">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <span class="dd-title">Persistent context layer</span>
+        <span class="dd-desc">In the original, the top bar was nearly empty — just a title and flight reference. Before opening any panel, an analyst needs to answer 5 questions in under 5 seconds: How close to departure? How full is it? What's selling and at what price? What's the model saying? Any urgent alerts? Every KPI in the macro bar answers one of those questions. Without them always visible, every market check starts with hunting.</span>
+      </div>
       <div class="dd-item" data-spotlight="kpi-max-leg">
         <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
         <span class="dd-title">Max Leg → macro bar</span>
