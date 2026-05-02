@@ -590,6 +590,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ── Design notes panel ── */
 .dn-panel {
   width: 1200px; flex: 1; min-height: 0;
+  display: flex; flex-direction: row;
+  gap: 48px;
+  overflow: hidden;
+}
+.dn-intro {
+  width: 200px; flex-shrink: 0;
+  padding-top: 12px;
+}
+.dn-intro p {
+  font-size: 14px; font-weight: 500; color: var(--text-3);
+  line-height: 1.65; font-style: italic;
+}
+.dn-main {
+  flex: 1; min-width: 0;
   display: flex; flex-direction: column;
   overflow: hidden;
 }
@@ -1155,6 +1169,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 <!-- Design notes panel -->
 <div class="dn-panel">
+  <div class="dn-intro">
+    <p>What would a more considered Market View look like? This prototype is my answer — incomplete by design, but grounded in real observations about how analysts navigate dense data under time pressure.</p>
+  </div>
+  <div class="dn-main">
   <div class="dn-tabbar">
     <div class="dn-bar-tabs">
       <button class="dn-tab active" data-tab="disclaimer"      onclick="showTab('disclaimer')">Disclaimer</button>
@@ -1320,6 +1338,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </div>
 
   </div>
+  </div><!-- /.dn-main -->
 </div>
 
 <div class="tip" id="tip"></div>
