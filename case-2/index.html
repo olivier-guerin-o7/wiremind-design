@@ -566,7 +566,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 12px 14px; border-radius: 8px;
   background: rgba(255,255,255,.5); border: 1px solid transparent;
   cursor: pointer; transition: background .12s, border-color .12s;
-  max-width: 800px;
 }
 .dd-item:hover { background: rgba(255,255,255,.75); }
 .dd-item.active { background: #fff; border-color: var(--border-light); }
@@ -624,6 +623,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dn-tabbar {
   display: flex; align-items: center;
   padding: 8px 0; flex-shrink: 0; gap: 0;
+  border-bottom: 1px solid var(--border);
 }
 .dn-bar-tabs {
   flex: 1; display: flex; align-items: center;
