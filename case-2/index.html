@@ -296,7 +296,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .p2-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .p2-stats {
   display: flex; padding: 6px 10px; gap: 0;
-  border-bottom: 1px solid var(--border-light); flex-shrink: 0;
+  flex-shrink: 0;
 }
 .p2s { flex: 1; display: flex; flex-direction: column; gap: 0; padding: 0 8px; border-right: 1px solid var(--border-light); }
 .p2s:first-child { padding-left: 0; }
@@ -353,9 +353,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border-bottom: 1px solid var(--border-light);
   cursor: pointer; user-select: none; transition: background .12s;
 }
-.threat-pill:hover { background: var(--bg-tint); }
 .tick-stat { display: inline-flex; align-items: center; gap: 3px; padding: 0 8px; font-size: 12px; font-weight: 500; }
-.tick-stat:first-child { padding-left: 0; }
 .tick-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 .tick-stat.threat .tick-dot { background: #ef4444; }
 .tick-stat.threat { color: #dc2626; }
@@ -367,9 +365,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tick-stat.safe   { color: var(--text-3); }
 .tick-stat strong { font-weight: 700; }
 .tick-div { width: 1px; height: 10px; background: var(--border); flex-shrink: 0; }
-.threat-chevron { margin-left: auto; transition: transform .3s; flex-shrink: 0; color: var(--text-3); }
+.threat-chevron { margin-right: 3px; transition: transform .3s; flex-shrink: 0; color: var(--ink); width: 13px; height: 13px; }
 .threat-pill [data-lucide] { width: 10px; height: 10px; }
+.threat-chevron[data-lucide] { width: 13px; height: 13px; }
 .threat-pill.open .threat-chevron { transform: rotate(180deg); }
+.threat-overflow { margin-left: auto; margin-right: 2px; flex-shrink: 0; color: var(--ink); }
+.radar-menu-row { display: flex; justify-content: flex-end; padding: 2px 8px 0; flex-shrink: 0; }
 /* Fares overlay — drops DOWN from below the ticker */
 .p3-fares-overlay {
   position: absolute; left: 0; right: 0; top: 32px; bottom: 0;
@@ -402,10 +403,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .fp-v { font-size: 12px; font-weight: 600; color: var(--ink); }
 .fp-d { font-size: 9px; }
 .fdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.favl { text-align: center; flex-shrink: 0; width: 26px; }
+.favl-n { font-size: 11px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+.favl-l { font-size: 8px; color: var(--text-4); text-transform: uppercase; letter-spacing: .3px; }
 
 /* ── P3 body layout ── */
 .p3-body { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
 .p3-radar-pane { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.radar-menu-row { display: flex; justify-content: flex-end; padding: 2px 8px 0; flex-shrink: 0; }
 
 /* ── P3 Radar Zones ── */
 .radar-zones {
@@ -1062,6 +1067,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
         <!-- Competition ticker: zone counts, click to expand full fares list -->
         <div class="threat-pill" id="threat-toggle" onclick="toggleFares()">
+          <i data-lucide="chevron-down" class="threat-chevron"></i>
           <span class="tick-stat threat"><span class="tick-dot"></span><strong>3</strong>&nbsp;threat</span>
           <span class="tick-div"></span>
           <span class="tick-stat watch"><span class="tick-dot"></span><strong>8</strong>&nbsp;watch</span>
@@ -1069,7 +1075,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <span class="tick-stat ok"><span class="tick-dot"></span><strong>8</strong>&nbsp;ok</span>
           <span class="tick-div"></span>
           <span class="tick-stat safe"><span class="tick-dot"></span><strong>2</strong>&nbsp;safe</span>
-          <i data-lucide="chevron-down" class="threat-chevron"></i>
+          <button class="wt-btn threat-overflow" onclick="event.stopPropagation()" title="Radar options"><i data-lucide="more-horizontal"></i></button>
         </div>
 
         <!-- Radar pane — now takes all remaining space (no drawer below) -->
@@ -1134,30 +1140,30 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="p3-fares-overlay" id="p3-fares-overlay">
           <div class="fares-ol-title">All competitors · 21 flights</div>
           <!-- THREAT (3) -->
-          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+2h · FR7404</div></div><div class="fp"><div class="fp-v">£218</div><div class="fp-d" style="color:var(--danger-strong)">–£59</div></div><div class="fdot" style="background:#ef4444"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">0h · VY4635</div></div><div class="fp"><div class="fp-v">£226</div><div class="fp-d" style="color:var(--danger-strong)">–£51</div></div><div class="fdot" style="background:#ef4444"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-2h · VY4631</div></div><div class="fp"><div class="fp-v">£232</div><div class="fp-d" style="color:var(--danger-strong)">–£45</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+2h · FR7404</div></div><div class="favl"><div class="favl-n">9</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£218</div><div class="fp-d" style="color:var(--danger-strong)">–£59</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">0h · VY4635</div></div><div class="favl"><div class="favl-n">7</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£226</div><div class="fp-d" style="color:var(--danger-strong)">–£51</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-2h · VY4631</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£232</div><div class="fp-d" style="color:var(--danger-strong)">–£45</div></div><div class="fdot" style="background:#ef4444"></div></div>
           <!-- WATCH (8) -->
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">+2h · EZY2443</div></div><div class="fp"><div class="fp-v">£241</div><div class="fp-d" style="color:var(--warning)">–£36</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+3h · FR7406</div></div><div class="fp"><div class="fp-v">£248</div><div class="fp-d" style="color:var(--warning)">–£29</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-3h30 · IB3160</div></div><div class="fp"><div class="fp-v">£254</div><div class="fp-d" style="color:var(--warning)">–£23</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-2h · EZY2439</div></div><div class="fp"><div class="fp-v">£258</div><div class="fp-d" style="color:var(--warning)">–£19</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+1h · VY8812</div></div><div class="fp"><div class="fp-v">£262</div><div class="fp-d" style="color:var(--warning)">–£15</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-1h · FR7402</div></div><div class="fp"><div class="fp-v">£267</div><div class="fp-d" style="color:var(--warning)">–£10</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-1h · VY4633</div></div><div class="fp"><div class="fp-v">£271</div><div class="fp-d" style="color:var(--warning)">–£6</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">0h · EZY2441</div></div><div class="fp"><div class="fp-v">£274</div><div class="fp-d" style="color:var(--warning)">–£3</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">+2h · EZY2443</div></div><div class="favl"><div class="favl-n">6</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£241</div><div class="fp-d" style="color:var(--warning)">–£36</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+3h · FR7406</div></div><div class="favl"><div class="favl-n">9</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£248</div><div class="fp-d" style="color:var(--warning)">–£29</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-3h30 · IB3160</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£254</div><div class="fp-d" style="color:var(--warning)">–£23</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-2h · EZY2439</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£258</div><div class="fp-d" style="color:var(--warning)">–£19</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+1h · VY8812</div></div><div class="favl"><div class="favl-n">7</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£262</div><div class="fp-d" style="color:var(--warning)">–£15</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-1h · FR7402</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£267</div><div class="fp-d" style="color:var(--warning)">–£10</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-1h · VY4633</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£271</div><div class="fp-d" style="color:var(--warning)">–£6</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">0h · EZY2441</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£274</div><div class="fp-d" style="color:var(--warning)">–£3</div></div><div class="fdot" style="background:#f59e0b"></div></div>
           <!-- OK (8) -->
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-3h · VY4629</div></div><div class="fp"><div class="fp-v">£280</div><div class="fp-d" style="color:var(--success)">+£3</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">0h · IB3164</div></div><div class="fp"><div class="fp-v">£284</div><div class="fp-d" style="color:var(--success)">+£7</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-3h · FR7400</div></div><div class="fp"><div class="fp-v">£289</div><div class="fp-d" style="color:var(--success)">+£12</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-4h · EZY2437</div></div><div class="fp"><div class="fp-v">£293</div><div class="fp-d" style="color:var(--success)">+£16</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+3h · VY4637</div></div><div class="fp"><div class="fp-v">£298</div><div class="fp-d" style="color:var(--success)">+£21</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+1h · IB3166</div></div><div class="fp"><div class="fp-v">£303</div><div class="fp-d" style="color:var(--success)">+£26</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+1h · FR7401</div></div><div class="fp"><div class="fp-v">£307</div><div class="fp-d" style="color:var(--success)">+£30</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+2h · IB3167</div></div><div class="fp"><div class="fp-v">£314</div><div class="fp-d" style="color:var(--success)">+£37</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-3h · VY4629</div></div><div class="favl"><div class="favl-n">6</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£280</div><div class="fp-d" style="color:var(--success)">+£3</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">0h · IB3164</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£284</div><div class="fp-d" style="color:var(--success)">+£7</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-3h · FR7400</div></div><div class="favl"><div class="favl-n">8</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£289</div><div class="fp-d" style="color:var(--success)">+£12</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-4h · EZY2437</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£293</div><div class="fp-d" style="color:var(--success)">+£16</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+3h · VY4637</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£298</div><div class="fp-d" style="color:var(--success)">+£21</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+1h · IB3166</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£303</div><div class="fp-d" style="color:var(--success)">+£26</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+1h · FR7401</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£307</div><div class="fp-d" style="color:var(--success)">+£30</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+2h · IB3167</div></div><div class="favl"><div class="favl-n">1</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£314</div><div class="fp-d" style="color:var(--success)">+£37</div></div><div class="fdot" style="background:#22c55e"></div></div>
           <!-- SAFE (2) -->
-          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+3h · IB3168</div></div><div class="fp"><div class="fp-v">£331</div><div class="fp-d" style="color:var(--text-3)">+£54</div></div><div class="fdot" style="background:#94a3b8"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-4h · IB3158</div></div><div class="fp"><div class="fp-v">£365</div><div class="fp-d" style="color:var(--text-3)">+£88</div></div><div class="fdot" style="background:#94a3b8"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+3h · IB3168</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£331</div><div class="fp-d" style="color:var(--text-3)">+£54</div></div><div class="fdot" style="background:#94a3b8"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-4h · IB3158</div></div><div class="favl"><div class="favl-n">1</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£365</div><div class="fp-d" style="color:var(--text-3)">+£88</div></div><div class="fdot" style="background:#94a3b8"></div></div>
         </div>
 
       </div>
@@ -1212,8 +1218,11 @@ function setMode(mode, btn) {
 
 // P3 fares overlay (triggered from threat pill)
 function toggleFares() {
-  document.getElementById('p3-fares-overlay').classList.toggle('open');
-  document.getElementById('threat-toggle').classList.toggle('open');
+  const ticker = document.getElementById('threat-toggle');
+  const overlay = document.getElementById('p3-fares-overlay');
+  overlay.style.top = ticker.offsetHeight + 'px';
+  overlay.classList.toggle('open');
+  ticker.classList.toggle('open');
 }
 
 // P3 tooltips
