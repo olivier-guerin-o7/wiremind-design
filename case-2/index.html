@@ -231,7 +231,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .wa-ref-val { color: var(--ink); font-weight: 600; }
 
 /* ── Macro bar dark variants ── */
-.w-header.variant-blue { background: #1d4ed8; border-bottom-color: rgba(255,255,255,.12); }
+.w-header.variant-blue { background: #1a7a96; border-bottom-color: rgba(255,255,255,.15); }
 .w-header.variant-dark { background: #1e293b; border-bottom-color: rgba(255,255,255,.07); }
 .w-header.variant-blue .w-logo,
 .w-header.variant-dark .w-logo { border-right-color: rgba(255,255,255,.18); }
@@ -239,41 +239,43 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .w-header.variant-dark .w-logo [data-lucide] { color: #fff; }
 .w-header.variant-blue .w-flight,
 .w-header.variant-dark .w-flight { border-right-color: rgba(255,255,255,.18); }
-.w-header.variant-blue .w-flight-sub,
-.w-header.variant-dark .w-flight-sub { color: rgba(255,255,255,.55); }
-.w-header.variant-blue .w-flight-num,
+/* blue — softer contrast, white alert */
+.w-header.variant-blue .w-flight-sub { color: rgba(255,255,255,.6); }
+.w-header.variant-blue .w-flight-num { color: rgba(255,255,255,.9); }
+.w-header.variant-blue .wk { background: rgba(255,255,255,.06); border-right-color: rgba(255,255,255,.18); }
+.w-header.variant-blue .wk:hover { background: rgba(255,255,255,.14); }
+.w-header.variant-blue .wk-l { color: rgba(255,255,255,.55); }
+.w-header.variant-blue .wk-v { color: rgba(255,255,255,.9); }
+.w-header.variant-blue .gap-badge { color: rgba(255,255,255,.9); }
+.w-header.variant-blue .wa-btn { color: rgba(255,255,255,.65); }
+.w-header.variant-blue .wa-btn:hover { background: rgba(255,255,255,.12); }
+.w-header.variant-blue .wa-btn.primary { background: rgba(255,255,255,.22); color: #fff; }
+.w-header.variant-blue .wa-btn.primary:hover { background: rgba(255,255,255,.3); }
+.w-header.variant-blue .wa-btn.alert { background: #fff; color: #dc2626; }
+.w-header.variant-blue .wa-btn.alert:hover { background: rgba(255,255,255,.88); }
+.w-header.variant-blue .wa-ref-sel { color: rgba(255,255,255,.65); }
+.w-header.variant-blue .wa-ref-sel:hover { background: rgba(255,255,255,.12); }
+.w-header.variant-blue .wa-ref-sel [data-lucide] { color: rgba(255,255,255,.4); }
+.w-header.variant-blue .wa-ref-lbl { color: rgba(255,255,255,.45); }
+.w-header.variant-blue .wa-ref-val { color: rgba(255,255,255,.9); }
+/* dark — high contrast */
+.w-header.variant-dark .w-flight-sub { color: rgba(255,255,255,.38); }
 .w-header.variant-dark .w-flight-num { color: #fff; }
-.w-header.variant-blue .wk,
-.w-header.variant-dark .wk { background: rgba(255,255,255,.04); border-right-color: rgba(255,255,255,.18); }
-.w-header.variant-blue .wk:hover,
-.w-header.variant-dark .wk:hover { background: rgba(255,255,255,.1); }
-.w-header.variant-blue .wk-l,
-.w-header.variant-dark .wk-l { color: rgba(255,255,255,.5); }
-.w-header.variant-blue .wk-v,
+.w-header.variant-dark .wk { background: rgba(255,255,255,.03); border-right-color: rgba(255,255,255,.1); }
+.w-header.variant-dark .wk:hover { background: rgba(255,255,255,.08); }
+.w-header.variant-dark .wk-l { color: rgba(255,255,255,.38); }
 .w-header.variant-dark .wk-v { color: #fff; }
-.w-header.variant-blue .gap-badge,
 .w-header.variant-dark .gap-badge { color: #fff; }
-.w-header.variant-blue .wa-btn,
-.w-header.variant-dark .wa-btn { color: rgba(255,255,255,.6); }
-.w-header.variant-blue .wa-btn:hover,
-.w-header.variant-dark .wa-btn:hover { background: rgba(255,255,255,.1); }
-.w-header.variant-blue .wa-btn.primary,
-.w-header.variant-dark .wa-btn.primary { background: rgba(255,255,255,.2); color: #fff; }
-.w-header.variant-blue .wa-btn.primary:hover,
-.w-header.variant-dark .wa-btn.primary:hover { background: rgba(255,255,255,.28); }
-.w-header.variant-blue .wa-btn.alert,
-.w-header.variant-dark .wa-btn.alert { background: rgba(239,68,68,.25); color: #fca5a5; }
-.w-header.variant-blue .wa-btn.alert:hover,
-.w-header.variant-dark .wa-btn.alert:hover { background: rgba(239,68,68,.35); }
-.w-header.variant-blue .wa-ref-sel,
-.w-header.variant-dark .wa-ref-sel { color: rgba(255,255,255,.6); }
-.w-header.variant-blue .wa-ref-sel:hover,
-.w-header.variant-dark .wa-ref-sel:hover { background: rgba(255,255,255,.1); }
-.w-header.variant-blue .wa-ref-sel [data-lucide],
-.w-header.variant-dark .wa-ref-sel [data-lucide] { color: rgba(255,255,255,.4); }
-.w-header.variant-blue .wa-ref-lbl,
-.w-header.variant-dark .wa-ref-lbl { color: rgba(255,255,255,.4); }
-.w-header.variant-blue .wa-ref-val,
+.w-header.variant-dark .wa-btn { color: rgba(255,255,255,.5); }
+.w-header.variant-dark .wa-btn:hover { background: rgba(255,255,255,.08); }
+.w-header.variant-dark .wa-btn.primary { background: rgba(255,255,255,.18); color: #fff; }
+.w-header.variant-dark .wa-btn.primary:hover { background: rgba(255,255,255,.26); }
+.w-header.variant-dark .wa-btn.alert { background: rgba(239,68,68,.22); color: #fca5a5; }
+.w-header.variant-dark .wa-btn.alert:hover { background: rgba(239,68,68,.32); }
+.w-header.variant-dark .wa-ref-sel { color: rgba(255,255,255,.5); }
+.w-header.variant-dark .wa-ref-sel:hover { background: rgba(255,255,255,.08); }
+.w-header.variant-dark .wa-ref-sel [data-lucide] { color: rgba(255,255,255,.3); }
+.w-header.variant-dark .wa-ref-lbl { color: rgba(255,255,255,.3); }
 .w-header.variant-dark .wa-ref-val { color: #fff; }
 /* variant-dark only: slightly cooler tone */
 .w-header.variant-dark { background: #1e293b; }
@@ -1522,7 +1524,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <span class="dd-title">Alerts</span>
         <span class="dd-desc">The alert bell sits deliberately outside the KPI strip, at the right edge. The badge tells the analyst in one glance whether anything is urgent. Clicking it opens a compact popover anchored to the trigger — a quick scan without leaving the current panel. Its separation from the routine check is intentional: it is reactive, not part of the left-to-right read. When the badge is empty, the analyst never needs to look at it.</span>
       </div>
-      <div class="dd-item" data-spotlight="widget-header">
+      <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag question">question</span><span class="dd-criteria-tag">Cognitive load</span></div>
         <span class="dd-title">Inverted contrast — test</span>
         <span class="dd-desc">The macro bar carries always-present context — it never changes, never requires action. Giving it a dark background visually separates it from the active panels below. The eye can't simultaneously process two different contrast registers, which may help focus attention on the decision area. Try the three variants and compare.</span>
