@@ -3018,6 +3018,10 @@
                 <span class="modal-eyebrow">Plan · Active</span>
                 <span class="modal-title">Your plan</span>
               </div>
+              <div class="admin-toggle" role="tablist" style="margin-right: 8px;">
+                <span class="admin-toggle-opt client active" data-mode-set="client">Client</span>
+                <span class="admin-toggle-opt admin" data-mode-set="admin">Admin</span>
+              </div>
               <button class="modal-close" data-modal-close><i data-lucide="x"></i></button>
             </header>
             <div class="modal-body">
@@ -3220,6 +3224,14 @@
                   <div class="plan-feat-detail">1.5B / yr</div>
                   <div class="plan-feat-icon on">✓</div>
                 </div>
+              </div>
+
+              <div class="modal-actions client-only">
+                <button class="insight-btn primary">Request plan change</button>
+              </div>
+              <div class="modal-actions admin-only">
+                <button class="insight-btn primary">Edit plan</button>
+                <button class="insight-btn secondary">Compare with peers</button>
               </div>
 
             </div>
