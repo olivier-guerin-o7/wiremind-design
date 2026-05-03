@@ -231,6 +231,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .wa-ref-val { color: var(--ink); font-weight: 600; }
 
 /* ── Macro bar dark variants ── */
+.w-header.variant-muted { background: #e4ecf4; border-bottom-color: rgba(0,0,0,.09); }
+.w-header.variant-muted .w-logo,
+.w-header.variant-muted .w-flight,
+.w-header.variant-muted .wk { border-right-color: rgba(0,0,0,.1); }
+.w-header.variant-muted .wk { background: rgba(0,0,0,.03); }
+.w-header.variant-muted .wk:hover { background: rgba(0,0,0,.06); }
 .w-header.variant-blue { background: #1a7a96; border-bottom-color: rgba(255,255,255,.15); }
 .w-header.variant-dark { background: #1e293b; border-bottom-color: rgba(255,255,255,.07); }
 .w-header.variant-blue .w-logo,
@@ -1525,6 +1531,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Error prevention</span></div>
         <span class="dd-title">Alerts</span>
         <span class="dd-desc">The alert bell sits deliberately outside the KPI strip, at the right edge. The badge tells the analyst in one glance whether anything is urgent. Clicking it opens a compact popover anchored to the trigger — a quick scan without leaving the current panel. Its separation from the routine check is intentional: it is reactive, not part of the left-to-right read. When the badge is empty, the analyst never needs to look at it.</span>
+        <div class="mvt-row">
+          <button class="mvt-btn" id="alertToggleBtn" onclick="toggleAlertBadge()">Hide badge</button>
+        </div>
       </div>
       <div class="dd-item">
         <div class="dd-meta"><span class="dd-status-tag question">question</span><span class="dd-criteria-tag">Cognitive load</span></div>
@@ -1532,6 +1541,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <span class="dd-desc">The macro bar carries always-present context — it never changes, never requires action. Giving it a dark background visually separates it from the active panels below. The eye can't simultaneously process two different contrast registers, which may help focus attention on the decision area. Try the three variants and compare.</span>
         <div class="mvt-row">
           <button class="mvt-btn active" data-variant="default" onclick="setMacroVariant('default')">Default</button>
+          <button class="mvt-btn" data-variant="muted" onclick="setMacroVariant('muted')">Muted</button>
           <button class="mvt-btn" data-variant="blue" onclick="setMacroVariant('blue')">Blue</button>
           <button class="mvt-btn" data-variant="dark" onclick="setMacroVariant('dark')">Dark</button>
         </div>
@@ -1762,11 +1772,19 @@ if (alertBtn && alertsPopover) {
 
 function setMacroVariant(v) {
   const h = document.getElementById('widget-header');
-  h.classList.remove('variant-blue', 'variant-dark');
+  h.classList.remove('variant-muted', 'variant-blue', 'variant-dark');
   if (v !== 'default') h.classList.add('variant-' + v);
   document.querySelectorAll('.mvt-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.variant === v)
   );
+}
+
+function toggleAlertBadge() {
+  const badge = document.querySelector('#kpi-alerts .wa-badge');
+  if (!badge) return;
+  const hidden = badge.style.display === 'none';
+  badge.style.display = hidden ? '' : 'none';
+  document.getElementById('alertToggleBtn').textContent = hidden ? 'Hide badge' : 'Show badge';
 }
 </script>
 </body>
