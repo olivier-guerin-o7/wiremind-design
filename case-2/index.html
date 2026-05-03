@@ -705,6 +705,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .tip.on { opacity: 1; }
 
+/* ── Page byline ── */
+.dn-byline {
+  font-size: 11px; font-weight: 500; color: var(--text-3);
+  letter-spacing: 0.01em; flex-shrink: 0;
+}
+
 /* ── Design decisions button + modal ── */
 .dd-btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -1432,6 +1438,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <p>How to improve this widget? This prototype is my answer. Incomplete by design, but grounded in a short analysis and built with analysts in mind: how they navigate dense data under time pressure.</p>
     <p>These notes are a mix of recommendations and solutions, either partially or fully implemented in this prototype.</p>
     <span class="dn-intro-link" onclick="document.getElementById('origOverlay').classList.add('open')">See original</span>
+    <span class="dn-byline" style="margin-top:auto; align-self:flex-end; padding-bottom:8px">Olivier Guérin — May 2026</span>
   </div>
   <div class="dn-main">
   <div class="dn-tabbar">
