@@ -230,6 +230,63 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .wa-ref-lbl { color: var(--text-4); font-weight: 500; }
 .wa-ref-val { color: var(--ink); font-weight: 600; }
 
+/* ── Macro bar dark variants ── */
+.w-header.variant-blue { background: #1d4ed8; border-bottom-color: rgba(255,255,255,.12); }
+.w-header.variant-dark { background: #1e293b; border-bottom-color: rgba(255,255,255,.07); }
+.w-header.variant-blue .w-logo,
+.w-header.variant-dark .w-logo { border-right-color: rgba(255,255,255,.18); }
+.w-header.variant-blue .w-logo [data-lucide],
+.w-header.variant-dark .w-logo [data-lucide] { color: #fff; }
+.w-header.variant-blue .w-flight,
+.w-header.variant-dark .w-flight { border-right-color: rgba(255,255,255,.18); }
+.w-header.variant-blue .w-flight-sub,
+.w-header.variant-dark .w-flight-sub { color: rgba(255,255,255,.55); }
+.w-header.variant-blue .w-flight-num,
+.w-header.variant-dark .w-flight-num { color: #fff; }
+.w-header.variant-blue .wk,
+.w-header.variant-dark .wk { background: rgba(255,255,255,.04); border-right-color: rgba(255,255,255,.18); }
+.w-header.variant-blue .wk:hover,
+.w-header.variant-dark .wk:hover { background: rgba(255,255,255,.1); }
+.w-header.variant-blue .wk-l,
+.w-header.variant-dark .wk-l { color: rgba(255,255,255,.5); }
+.w-header.variant-blue .wk-v,
+.w-header.variant-dark .wk-v { color: #fff; }
+.w-header.variant-blue .gap-badge,
+.w-header.variant-dark .gap-badge { color: #fff; }
+.w-header.variant-blue .wa-btn,
+.w-header.variant-dark .wa-btn { color: rgba(255,255,255,.6); }
+.w-header.variant-blue .wa-btn:hover,
+.w-header.variant-dark .wa-btn:hover { background: rgba(255,255,255,.1); }
+.w-header.variant-blue .wa-btn.primary,
+.w-header.variant-dark .wa-btn.primary { background: rgba(255,255,255,.2); color: #fff; }
+.w-header.variant-blue .wa-btn.primary:hover,
+.w-header.variant-dark .wa-btn.primary:hover { background: rgba(255,255,255,.28); }
+.w-header.variant-blue .wa-btn.alert,
+.w-header.variant-dark .wa-btn.alert { background: rgba(239,68,68,.25); color: #fca5a5; }
+.w-header.variant-blue .wa-btn.alert:hover,
+.w-header.variant-dark .wa-btn.alert:hover { background: rgba(239,68,68,.35); }
+.w-header.variant-blue .wa-ref-sel,
+.w-header.variant-dark .wa-ref-sel { color: rgba(255,255,255,.6); }
+.w-header.variant-blue .wa-ref-sel:hover,
+.w-header.variant-dark .wa-ref-sel:hover { background: rgba(255,255,255,.1); }
+.w-header.variant-blue .wa-ref-sel [data-lucide],
+.w-header.variant-dark .wa-ref-sel [data-lucide] { color: rgba(255,255,255,.4); }
+.w-header.variant-blue .wa-ref-lbl,
+.w-header.variant-dark .wa-ref-lbl { color: rgba(255,255,255,.4); }
+.w-header.variant-blue .wa-ref-val,
+.w-header.variant-dark .wa-ref-val { color: #fff; }
+/* variant-dark only: slightly cooler tone */
+.w-header.variant-dark { background: #1e293b; }
+/* variant toggle — embedded in card */
+.mvt-row { display: flex; gap: 4px; margin-top: 10px; }
+.mvt-btn {
+  font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 3px;
+  cursor: pointer; transition: background .12s, color .12s;
+  color: var(--text-3); background: var(--bg-tint); border: 1px solid var(--border);
+}
+.mvt-btn:hover { background: var(--border); }
+.mvt-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
 /* ── Controls toolbar ── */
 .w-toolbar {
   display: flex; align-items: center; height: 44px;
@@ -1465,6 +1522,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <span class="dd-title">Alerts</span>
         <span class="dd-desc">The alert bell sits deliberately outside the KPI strip, at the right edge. The badge tells the analyst in one glance whether anything is urgent. Clicking it opens a compact popover anchored to the trigger — a quick scan without leaving the current panel. Its separation from the routine check is intentional: it is reactive, not part of the left-to-right read. When the badge is empty, the analyst never needs to look at it.</span>
       </div>
+      <div class="dd-item" data-spotlight="widget-header">
+        <div class="dd-meta"><span class="dd-status-tag question">question</span><span class="dd-criteria-tag">Cognitive load</span></div>
+        <span class="dd-title">Inverted contrast — test</span>
+        <span class="dd-desc">The macro bar carries always-present context — it never changes, never requires action. Giving it a dark background visually separates it from the active panels below. The eye can't simultaneously process two different contrast registers, which may help focus attention on the decision area. Try the three variants and compare.</span>
+        <div class="mvt-row">
+          <button class="mvt-btn active" data-variant="default" onclick="setMacroVariant('default')">Default</button>
+          <button class="mvt-btn" data-variant="blue" onclick="setMacroVariant('blue')">Blue</button>
+          <button class="mvt-btn" data-variant="dark" onclick="setMacroVariant('dark')">Dark</button>
+        </div>
+      </div>
     </div>
 
     <!-- Toolbar -->
@@ -1687,6 +1754,15 @@ if (alertBtn && alertsPopover) {
     }
   });
   document.addEventListener('click', () => alertsPopover.classList.remove('open'));
+}
+
+function setMacroVariant(v) {
+  const h = document.getElementById('widget-header');
+  h.classList.remove('variant-blue', 'variant-dark');
+  if (v !== 'default') h.classList.add('variant-' + v);
+  document.querySelectorAll('.mvt-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.variant === v)
+  );
 }
 </script>
 </body>
