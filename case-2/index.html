@@ -242,6 +242,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   content: ''; position: absolute; inset: 0;
   border: 2px solid var(--primary); pointer-events: none; z-index: 10;
 }
+#p2-stats.kpi-spotlight::after {
+  content: ''; position: absolute; inset: 0;
+  border: 2px solid var(--primary); border-radius: 4px; pointer-events: none; z-index: 10;
+}
+#p2-chart.kpi-spotlight::after {
+  content: ''; position: absolute; inset: 0;
+  border: 2px solid var(--primary); border-radius: 4px; pointer-events: none; z-index: 10;
+}
+#p2-mode-tgl.kpi-spotlight { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 6px; }
+#p2-ctrl-right.kpi-spotlight { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 6px; }
+#ticker-counts.kpi-spotlight { box-shadow: inset 0 0 0 2px var(--primary); border-radius: 4px; }
+#radar-zones.kpi-spotlight { box-shadow: inset 0 0 0 2px var(--primary); }
+#radarEyeBtn.kpi-spotlight { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 6px; }
 .wt-group { display: flex; align-items: center; gap: 3px; }
 .wt-divider { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; margin: 0 3px; }
 .wt-tabs { display: flex; align-self: stretch; gap: 0; }
@@ -396,11 +409,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .p2-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .p2-stats {
   display: flex; padding: 12px 10px 6px 10px; gap: 0;
-  flex-shrink: 0;
+  flex-shrink: 0; position: relative;
+}
+.p2-stats-overlay-btn {
+  position: absolute; top: 8px; right: 8px;
 }
 .p2s { flex: 1; display: flex; flex-direction: column; gap: 0; padding: 0 8px; border-right: 1px solid var(--border-light); }
 .p2s:first-child { padding-left: 0; }
-.p2s:last-child { border-right: none; }
+.p2s:last-of-type { border-right: none; }
 .p2s-l { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: .5px; font-weight: 500; margin-bottom: 5px; }
 .p2s-v { font-size: 24px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 5px; }
 .p2s-v.blue { color: var(--primary); }
@@ -472,7 +488,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .threat-eye { margin-left: auto; flex-shrink: 0; color: var(--ink); transition: color .15s; }
 .threat-eye.active { color: var(--primary); }
 .threat-overflow { margin-right: 2px; flex-shrink: 0; color: var(--ink); }
-.radar-zones.labels-mode .rplane-icon { transform: none; font-size: 12px; font-weight: 900; }
+.radar-zones.labels-mode .rplane-icon { transform: none; font-size: 14px; font-weight: 900; letter-spacing: -.5px; }
 .radar-menu-row { display: flex; justify-content: flex-end; padding: 2px 8px 0; flex-shrink: 0; }
 /* Fares overlay — drops DOWN from below the ticker */
 .p3-fares-overlay {
@@ -494,7 +510,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   text-transform: uppercase; letter-spacing: .6px; padding: 7px 8px 3px;
 }
 .frow {
-  display: flex; align-items: center; gap: 6px; padding: 5px 8px;
+  display: flex; align-items: center; gap: 6px; padding: 5px 10px;
   border-top: 1px solid var(--border-light); cursor: pointer; transition: background .1s;
 }
 .frow:hover { background: rgba(0,157,220,.04); }
@@ -502,13 +518,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .fi { flex: 1; min-width: 0; }
 .fi-n { font-size: 11px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fi-t { font-size: 10px; color: var(--text-3); }
-.fp { text-align: right; flex-shrink: 0; }
+.fp { flex: 0 0 auto; text-align: right; min-width: 40px; }
 .fp-v { font-size: 12px; font-weight: 600; color: var(--ink); }
 .fp-d { font-size: 9px; }
 .fdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 .favl { text-align: center; flex-shrink: 0; width: 26px; }
 .favl-n { font-size: 11px; font-weight: 600; color: var(--ink); line-height: 1.1; }
 .favl-l { font-size: 8px; color: var(--text-4); text-transform: uppercase; letter-spacing: .3px; }
+.ftrend { font-size: 11px; font-weight: 700; flex-shrink: 0; width: 18px; text-align: center; }
+.ftrend.up { color: #16a34a; }
+.ftrend.dn { color: #dc2626; }
+.ftrend.eq { color: var(--text-4); }
+.fstops { font-size: 8px; flex-shrink: 0; width: 38px; text-align: center;
+  border: 1px solid var(--border); border-radius: 3px;
+  padding: 2px 4px; color: var(--text-3); white-space: nowrap; }
+.fstops.direct { color: var(--text-2); border-color: transparent; background: var(--bg-tint); }
 
 /* ── P3 body layout ── */
 .p3-body { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
@@ -518,7 +542,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ── P3 Radar vertical zone dividers ── */
 .rzone-vline {
   position: absolute; top: 0; bottom: 0; width: 0;
-  border-left: 1px dashed rgba(15,23,42,.18);
+  border-left: 1px dashed rgba(15,23,42,.38);
   pointer-events: none; z-index: 1;
 }
 
@@ -670,15 +694,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dd-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
 .dd-status-tag {
   display: inline-flex; align-items: center; gap: 4px;
-  font-size: 12px; font-weight: 600;
+  font-size: 12px; font-weight: 600; text-transform: capitalize;
   padding: 2px 7px; border-radius: 3px;
 }
 .dd-status-tag.proposal      { background: rgba(245,158,11,.12); color: #d97706; }
-.dd-status-tag.recommendation{ background: rgba(100,116,139,.1); color: #475569; }
+.dd-status-tag.recommendation{ background: rgba(99,102,241,.1);  color: #4f46e5; }
 .dd-status-tag.done          { background: rgba(34,197,94,.12);  color: #16a34a; }
 .dd-status-tag.note          { background: rgba(239,68,68,.1);   color: #dc2626; }
 .dd-status-tag.question      { background: rgba(99,102,241,.1);  color: #4f46e5; }
+.dd-status-tag.partial       { background: rgba(234,179,8,.15);  color: #a16207; }
+.dd-criteria-tag {
+  display: inline-flex; align-items: center;
+  font-size: 12px; font-weight: 600; padding: 2px 7px; border-radius: 3px;
+  background: var(--bg-tint); color: var(--text-3); white-space: nowrap;
+}
+.dd-criteria-tag::before { content: '# '; }
+.dn-tab .tab-icon { width: 13px; height: 13px; margin-right: 5px; flex-shrink: 0; }
 .dd-title { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 3px; }
+#dn-user .dd-item:not(:first-child) .dd-title::before { content: '# '; color: var(--text-3); font-weight: 500; }
 .dd-desc { font-size: 14px; color: var(--text-2); line-height: 1.5; display: block; }
 .dd-desc strong { font-weight: 600; }
 
@@ -718,17 +751,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding-left: 52px;
 }
 .dn-tabbar {
-  display: flex; align-items: center;
-  padding: 8px 0; flex-shrink: 0; gap: 0;
+  display: flex; align-items: flex-end;
+  padding: 8px 0 0; flex-shrink: 0; gap: 0;
   border-bottom: 1px solid var(--border);
 }
 .dn-bar-tabs {
-  flex: 1; display: flex; align-items: center;
+  flex: 1; display: flex; align-items: flex-end;
 }
 .dn-tab {
   height: 38px; padding: 0 14px;
   font-size: 14px; font-weight: 500; color: var(--text-3);
   border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
   display: flex; align-items: center;
   cursor: pointer; transition: color .15s; background: none;
 }
@@ -1012,7 +1046,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- P2: Loading Curves -->
     <div class="col col-p2">
       <div class="p2-body">
-        <div class="p2-stats">
+        <div class="p2-stats" id="p2-stats">
           <div class="p2s">
             <span class="p2s-l">Current Pax</span>
             <span class="p2s-v" style="color:var(--text-3)">172</span>
@@ -1033,6 +1067,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
             <span class="p2s-v">–8</span>
             <span class="p2s-d">below optim</span>
           </div>
+          <button class="wt-btn p2-stats-overlay-btn" title="Show all overlays"><i data-lucide="layers"></i></button>
         </div>
 
         <div class="p2-chart" id="p2-chart">
@@ -1179,7 +1214,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         </div>
 
         <div class="p2-ctrl">
-          <div class="mode-tgl">
+          <div class="mode-tgl" id="p2-mode-tgl">
             <button class="mode-btn active" onclick="setMode('history',this)">History</button>
             <button class="mode-btn" onclick="setMode('forecast',this)">Forecast</button>
           </div>
@@ -1191,7 +1226,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
             <div class="leg"><div class="leg-ln" style="background:#009DDC"></div>Forecast</div>
             <div class="leg"><div class="leg-ln dash" style="color:var(--ink)"></div>Optim</div>
           </div>
-          <div class="p2-ctrl-right">
+          <div class="p2-ctrl-right" id="p2-ctrl-right">
             <button class="wt-btn active" title="Bookings"><i data-lucide="ticket"></i></button>
             <button class="wt-btn" title="Daily pick-up"><i data-lucide="bar-chart-3"></i></button>
             <button class="wt-btn" title="Live sales"><i data-lucide="plane-takeoff"></i></button>
@@ -1208,14 +1243,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
         <!-- Competition ticker: zone counts, click to expand full fares list -->
         <div class="threat-pill" id="threat-toggle" onclick="toggleFares()">
-          <i data-lucide="chevron-down" class="threat-chevron"></i>
-          <span class="tick-stat threat"><span class="tick-dot"></span><strong>3</strong>&nbsp;threat</span>
-          <span class="tick-div"></span>
-          <span class="tick-stat watch"><span class="tick-dot"></span><strong>8</strong>&nbsp;watch</span>
-          <span class="tick-div"></span>
-          <span class="tick-stat ok"><span class="tick-dot"></span><strong>8</strong>&nbsp;ok</span>
-          <span class="tick-div"></span>
-          <span class="tick-stat safe"><span class="tick-dot"></span><strong>2</strong>&nbsp;safe</span>
+          <div id="ticker-counts" style="display:flex;align-items:center;gap:0;flex:1;border-radius:4px">
+            <i data-lucide="chevron-down" class="threat-chevron"></i>
+            <span class="tick-stat threat"><span class="tick-dot"></span><strong>3</strong>&nbsp;threat</span>
+            <span class="tick-div"></span>
+            <span class="tick-stat watch"><span class="tick-dot"></span><strong>8</strong>&nbsp;watch</span>
+            <span class="tick-div"></span>
+            <span class="tick-stat ok"><span class="tick-dot"></span><strong>8</strong>&nbsp;ok</span>
+            <span class="tick-div"></span>
+            <span class="tick-stat safe"><span class="tick-dot"></span><strong>2</strong>&nbsp;safe</span>
+          </div>
           <button class="wt-btn threat-eye" id="radarEyeBtn" onclick="event.stopPropagation();toggleRadarLabels()" title="Show airline labels"><i data-lucide="eye"></i></button>
           <button class="wt-btn threat-overflow" onclick="event.stopPropagation()" title="Radar options"><i data-lucide="more-horizontal"></i></button>
         </div>
@@ -1224,7 +1261,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="p3-radar-pane">
           <!-- Zone radar: 3 horizontal bands, planes at time offsets -->
           <!-- x positions: left%=(time+4h)/8h*100 → -4h=0%, -3.5h=6.25%, -2h=25%, -1h=37.5%, 0h=50%, +1h=62.5%, +2h=75%, +3h=87.5%, +4h=100% -->
-          <div class="radar-zones">
+          <div class="radar-zones" id="radar-zones">
             <!-- Safe zone (fares well above £277 — no competitive concern) -->
             <div class="rzone rzone-safe">
               <!-- IB only in safe zone (full-service fares well above ours) -->
@@ -1287,30 +1324,30 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="p3-fares-overlay" id="p3-fares-overlay">
           <div class="fares-ol-title">All competitors · 21 flights</div>
           <!-- THREAT (3) -->
-          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+2h · FR7404</div></div><div class="favl"><div class="favl-n">9</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£218</div><div class="fp-d" style="color:var(--danger-strong)">–£59</div></div><div class="fdot" style="background:#ef4444"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">0h · VY4635</div></div><div class="favl"><div class="favl-n">7</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£226</div><div class="fp-d" style="color:var(--danger-strong)">–£51</div></div><div class="fdot" style="background:#ef4444"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-2h · VY4631</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£232</div><div class="fp-d" style="color:var(--danger-strong)">–£45</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+2h · FR7404</div></div><div class="favl"><div class="favl-n">9</div><div class="favl-l">avl</div></div><div class="ftrend dn">▼</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£218</div><div class="fp-d" style="color:var(--danger-strong)">–£59</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">0h · VY4635</div></div><div class="favl"><div class="favl-n">7</div><div class="favl-l">avl</div></div><div class="ftrend dn">▼</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£226</div><div class="fp-d" style="color:var(--danger-strong)">–£51</div></div><div class="fdot" style="background:#ef4444"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(239,68,68,.1);color:#dc2626">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-2h · VY4631</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£232</div><div class="fp-d" style="color:var(--danger-strong)">–£45</div></div><div class="fdot" style="background:#ef4444"></div></div>
           <!-- WATCH (8) -->
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">+2h · EZY2443</div></div><div class="favl"><div class="favl-n">6</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£241</div><div class="fp-d" style="color:var(--warning)">–£36</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+3h · FR7406</div></div><div class="favl"><div class="favl-n">9</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£248</div><div class="fp-d" style="color:var(--warning)">–£29</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-3h30 · IB3160</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£254</div><div class="fp-d" style="color:var(--warning)">–£23</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-2h · EZY2439</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£258</div><div class="fp-d" style="color:var(--warning)">–£19</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+1h · VY8812</div></div><div class="favl"><div class="favl-n">7</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£262</div><div class="fp-d" style="color:var(--warning)">–£15</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-1h · FR7402</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£267</div><div class="fp-d" style="color:var(--warning)">–£10</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-1h · VY4633</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£271</div><div class="fp-d" style="color:var(--warning)">–£6</div></div><div class="fdot" style="background:#f59e0b"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">0h · EZY2441</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£274</div><div class="fp-d" style="color:var(--warning)">–£3</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">+2h · EZY2443</div></div><div class="favl"><div class="favl-n">6</div><div class="favl-l">avl</div></div><div class="ftrend dn">▼</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£241</div><div class="fp-d" style="color:var(--warning)">–£36</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+3h · FR7406</div></div><div class="favl"><div class="favl-n">9</div><div class="favl-l">avl</div></div><div class="ftrend eq">—</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£248</div><div class="fp-d" style="color:var(--warning)">–£29</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-3h30 · IB3160</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops">1 stop</div><div class="fp"><div class="fp-v">£254</div><div class="fp-d" style="color:var(--warning)">–£23</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-2h · EZY2439</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="ftrend dn">▼</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£258</div><div class="fp-d" style="color:var(--warning)">–£19</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+1h · VY8812</div></div><div class="favl"><div class="favl-n">7</div><div class="favl-l">avl</div></div><div class="ftrend eq">—</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£262</div><div class="fp-d" style="color:var(--warning)">–£15</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-1h · FR7402</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£267</div><div class="fp-d" style="color:var(--warning)">–£10</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-1h · VY4633</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="ftrend eq">—</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£271</div><div class="fp-d" style="color:var(--warning)">–£6</div></div><div class="fdot" style="background:#f59e0b"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(245,158,11,.1);color:#b45309">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">0h · EZY2441</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="ftrend dn">▼</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£274</div><div class="fp-d" style="color:var(--warning)">–£3</div></div><div class="fdot" style="background:#f59e0b"></div></div>
           <!-- OK (8) -->
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-3h · VY4629</div></div><div class="favl"><div class="favl-n">6</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£280</div><div class="fp-d" style="color:var(--success)">+£3</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">0h · IB3164</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£284</div><div class="fp-d" style="color:var(--success)">+£7</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-3h · FR7400</div></div><div class="favl"><div class="favl-n">8</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£289</div><div class="fp-d" style="color:var(--success)">+£12</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-4h · EZY2437</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£293</div><div class="fp-d" style="color:var(--success)">+£16</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+3h · VY4637</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£298</div><div class="fp-d" style="color:var(--success)">+£21</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+1h · IB3166</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£303</div><div class="fp-d" style="color:var(--success)">+£26</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+1h · FR7401</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£307</div><div class="fp-d" style="color:var(--success)">+£30</div></div><div class="fdot" style="background:#22c55e"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+2h · IB3167</div></div><div class="favl"><div class="favl-n">1</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£314</div><div class="fp-d" style="color:var(--success)">+£37</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">-3h · VY4629</div></div><div class="favl"><div class="favl-n">6</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£280</div><div class="fp-d" style="color:var(--success)">+£3</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">0h · IB3164</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops">1 stop</div><div class="fp"><div class="fp-v">£284</div><div class="fp-d" style="color:var(--success)">+£7</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">-3h · FR7400</div></div><div class="favl"><div class="favl-n">8</div><div class="favl-l">avl</div></div><div class="ftrend eq">—</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£289</div><div class="fp-d" style="color:var(--success)">+£12</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">U2</div><div class="fi"><div class="fi-n">easyJet</div><div class="fi-t">-4h · EZY2437</div></div><div class="favl"><div class="favl-n">5</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£293</div><div class="fp-d" style="color:var(--success)">+£16</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">VY</div><div class="fi"><div class="fi-n">Vueling</div><div class="fi-t">+3h · VY4637</div></div><div class="favl"><div class="favl-n">3</div><div class="favl-l">avl</div></div><div class="ftrend eq">—</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£298</div><div class="fp-d" style="color:var(--success)">+£21</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+1h · IB3166</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops">1 stop</div><div class="fp"><div class="fp-v">£303</div><div class="fp-d" style="color:var(--success)">+£26</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">FR</div><div class="fi"><div class="fi-n">Ryanair</div><div class="fi-t">+1h · FR7401</div></div><div class="favl"><div class="favl-n">4</div><div class="favl-l">avl</div></div><div class="ftrend dn">▼</div><div class="fstops direct">direct</div><div class="fp"><div class="fp-v">£307</div><div class="fp-d" style="color:var(--success)">+£30</div></div><div class="fdot" style="background:#22c55e"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(34,197,94,.1);color:#166534">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+2h · IB3167</div></div><div class="favl"><div class="favl-n">1</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops">1 stop</div><div class="fp"><div class="fp-v">£314</div><div class="fp-d" style="color:var(--success)">+£37</div></div><div class="fdot" style="background:#22c55e"></div></div>
           <!-- SAFE (2) -->
-          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+3h · IB3168</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£331</div><div class="fp-d" style="color:var(--text-3)">+£54</div></div><div class="fdot" style="background:#94a3b8"></div></div>
-          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-4h · IB3158</div></div><div class="favl"><div class="favl-n">1</div><div class="favl-l">avl</div></div><div class="fp"><div class="fp-v">£365</div><div class="fp-d" style="color:var(--text-3)">+£88</div></div><div class="fdot" style="background:#94a3b8"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">+3h · IB3168</div></div><div class="favl"><div class="favl-n">2</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops">1 stop</div><div class="fp"><div class="fp-v">£331</div><div class="fp-d" style="color:var(--text-3)">+£54</div></div><div class="fdot" style="background:#94a3b8"></div></div>
+          <div class="frow"><div class="cb" style="background:rgba(148,163,184,.1);color:#475569">IB</div><div class="fi"><div class="fi-n">Iberia</div><div class="fi-t">-4h · IB3158</div></div><div class="favl"><div class="favl-n">1</div><div class="favl-l">avl</div></div><div class="ftrend up">▲</div><div class="fstops">1 stop</div><div class="fp"><div class="fp-v">£365</div><div class="fp-d" style="color:var(--text-3)">+£88</div></div><div class="fdot" style="background:#94a3b8"></div></div>
         </div>
 
       </div>
@@ -1323,14 +1360,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <div class="dn-panel">
   <div class="dn-intro">
     <div class="dn-intro-title">Market view<br><span style="color:var(--text-4); font-weight:600;">Redesign</span></div>
-    <p>How to improve this widget? This prototype is my answer — incomplete by design, but grounded in a short analysis and built with analysts in mind: how they navigate dense data under time pressure.</p>
-    <p>These notes are a mix of recommendations and solutions — either partially or fully implemented in this prototype.</p>
+    <p>How to improve this widget? This prototype is my answer. Incomplete by design, but grounded in a short analysis and built with analysts in mind: how they navigate dense data under time pressure.</p>
+    <p>These notes are a mix of recommendations and solutions, either partially or fully implemented in this prototype.</p>
     <span class="dn-intro-link" onclick="document.getElementById('origOverlay').classList.add('open')">See original</span>
   </div>
   <div class="dn-main">
   <div class="dn-tabbar">
     <div class="dn-bar-tabs">
-      <button class="dn-tab active" data-tab="disclaimer"      onclick="showTab('disclaimer')">Disclaimer</button>
+      <button class="dn-tab active" data-tab="user"            onclick="showTab('user')"><i data-lucide="user" class="tab-icon"></i>User</button>
+      <button class="dn-tab"        data-tab="disclaimer"      onclick="showTab('disclaimer')"><i data-lucide="info" class="tab-icon"></i>Disclaimer</button>
       <button class="dn-tab"        data-tab="global"          onclick="showTab('global')">Global</button>
       <button class="dn-tab"        data-tab="macro-bar"       onclick="showTab('macro-bar')">Macro bar</button>
       <button class="dn-tab"        data-tab="toolbar"         onclick="showTab('toolbar')">Toolbar</button>
@@ -1341,8 +1379,40 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </div>
   <div class="dn-content">
 
+    <!-- User -->
+    <div class="dn-pane active" id="dn-user">
+      <div class="dd-item">
+        <span class="dd-title">Analyst profile</span>
+        <span class="dd-desc">Expert user, not a learner. Works across multiple departures per session under real time pressure — not millisecond speed, but an hours-to-days horizon where every decision is a bet on future demand. Operational decisions are immediately live: visible to customers within minutes, with no default undo. The interface must support someone who already knows the tool deeply, operating under genuine uncertainty about demand, competitor intent, and model reliability. Critically: session length compounds fatigue — a design that works for decision 1 must still work at decision 20.</span>
+      </div>
+      <div class="dd-item">
+        <span class="dd-title">Accuracy</span>
+        <span class="dd-desc">Misreading a signal produces a wrong bet with direct revenue consequences. If the analyst can't trust what they're seeing, they either freeze or act on a bad read — both costly. Every signal must represent reality correctly, and the interface must make the right read the easiest read.</span>
+      </div>
+      <div class="dd-item">
+        <span class="dd-title">Error prevention</span>
+        <span class="dd-desc">In interfaces where actions have immediate, hard-to-reverse real-world consequences, error prevention is structural — not a matter of user carefulness. The interface must make the wrong action harder to reach than the right one, add friction before irreversible commits, and support recovery where possible. The cost of a mistake scales with context: the less reversible the action, the more protection the design must provide.</span>
+      </div>
+      <div class="dd-item">
+        <span class="dd-title">Cognitive load & fatigue</span>
+        <span class="dd-desc">Two distinct dimensions: per-decision (working memory cost in the moment) and cumulative/session (fatigue across many departures). Defaults matter more than options: the analyst should not have to reconfigure the view per market. Computed indicators reduce per-decision load — but too many add a new scanning burden. Balance is required.</span>
+      </div>
+      <div class="dd-item">
+        <span class="dd-title">Relevance</span>
+        <span class="dd-desc">Information not needed for this decision is noise. Noise forces filtering — and filtering is cognitive work. Every element must earn its place in the default view. Removal is often the highest-impact design move.</span>
+      </div>
+      <div class="dd-item">
+        <span class="dd-title">Anti-over-automation & exception visibility</span>
+        <span class="dd-desc">Over-automation disengages the analyst — a passive analyst stops noticing exceptions. Any rule that can be applied 100% consistently should be computed. But raw signal must remain visible alongside indicators: the model can't catch what it didn't compute, and the analyst needs peripheral vision for the unusual case.</span>
+      </div>
+      <div class="dd-item">
+        <span class="dd-title">Trust calibration</span>
+        <span class="dd-desc">Signals should communicate how much to trust them. A forecast with no confidence range is more dangerous than no forecast — the analyst may treat a rough estimate as a reliable target. Not covered in this prototype.</span>
+      </div>
+    </div>
+
     <!-- Disclaimer -->
-    <div class="dn-pane active" id="dn-disclaimer">
+    <div class="dn-pane" id="dn-disclaimer">
       <div class="dd-item">
         <span class="dd-title">Non-expert perspective</span>
         <span class="dd-desc">This redesign was approached without deep domain expertise in revenue management. I invested enough time in the widget to form meaningful design hypotheses — but almost certainly missed important context or misread some mechanics. Each proposal should be validated against real operational knowledge before acting on it.</span>
@@ -1360,14 +1430,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Global -->
     <div class="dn-pane" id="dn-global">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag recommendation">recommendation</span></div>
+        <div class="dd-meta"><span class="dd-status-tag recommendation">recommendation</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Error prevention</span></div>
         <span class="dd-title">Color system audit</span>
         <span class="dd-desc">AU Grid and Competition both use red — one for price tier, one for threat level. We identified the conflict but scoped out a full remap. The fix would require a shared color token system across both panels, separating encoding by hue family or shape.</span>
       </div>
 
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag question">question</span></div>
-        <span class="dd-title">Should Loading Curves and Competition indicators move into the AU Grid?</span>
+        <div class="dd-meta"><span class="dd-status-tag recommendation">recommendation</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Relevance</span></div>
+        <span class="dd-title">Information density vs. cognitive load — find the right balance</span>
+        <span class="dd-desc">Every indicator added to the widget is a bet: that it will be used often enough to justify the scanning cost it imposes on every session, including the ones where it's irrelevant. The tension is real — analysts need enough signal to act with confidence, but too many signals force filtering, and filtering is cognitive work. Design can help stretch that balance: strong visual hierarchy, disciplined use of color, and progressive disclosure can fit more information into the same space while keeping it readable. This prototype explores that direction. But design alone cannot resolve it — only user testing with real analysts across real sessions can tell Wiremind where the threshold actually sits. Strong design choices made without validation remain hypotheses. They should be treated as such until tested.</span>
+      </div>
+
+      <div class="dd-item">
+        <div class="dd-meta"><span class="dd-status-tag question">question</span><span class="dd-criteria-tag">Relevance</span><span class="dd-criteria-tag">Cognitive load</span></div>
+        <span class="dd-title">Should some Loading Curves and Competition indicators move into the AU Grid?</span>
         <span class="dd-desc">The AU Grid currently shows ground truth and controls only. But both Loading Curves and Competition produce signals the analyst uses to decide per bucket. If those were computed and surfaced directly in each AU Grid row — a threat badge ("2 red competitors at −£15"), a gap vs. Forecast target per bucket — the analyst could make a per-row decision without cross-referencing the other panels. If that enrichment happens, the AU Grid earns more horizontal space. Without it, the resize has no justification.</span>
       </div>
     </div>
@@ -1375,17 +1451,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Macro bar -->
     <div class="dn-pane" id="dn-macro-bar">
       <div class="dd-item" data-spotlight="kpi-core-strip">
-        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Relevance</span></div>
         <span class="dd-title">Persistent context layer</span>
         <span class="dd-desc">The original top bar held only a flight reference — no data before opening a panel. Six KPIs now form the macro bar in a deliberate left-to-right order that mirrors how an analyst naturally assesses a flight: Dep. in (how much time?), Load % (how full?), Max Leg (what's the capacity ceiling?), Open bucket (what am I selling and at what price?), Fcst / Optim gap (what is the model recommending?), Demand index (what is the market doing?). The analyst arrives at any panel already oriented — no hunting, no context switch.</span>
       </div>
       <div class="dd-item" data-spotlight="widget-header">
-        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Error prevention</span></div>
         <span class="dd-title">Calm strip</span>
         <span class="dd-desc">The six KPIs share a single neutral typographic register — no status colors, no icons competing for attention. Color is reserved for genuine signals only: the departure countdown turns colored as departure approaches, and the alerts badge activates when there is something to act on. Everything else stays neutral by design, so when color appears, it carries weight.</span>
       </div>
       <div class="dd-item" data-spotlight="kpi-alerts">
-        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Error prevention</span></div>
         <span class="dd-title">Alerts</span>
         <span class="dd-desc">The alert bell sits deliberately outside the KPI strip, at the right edge. The badge tells the analyst in one glance whether anything is urgent. Clicking it opens a compact popover anchored to the trigger — a quick scan without leaving the current panel. Its separation from the routine check is intentional: it is reactive, not part of the left-to-right read. When the badge is empty, the analyst never needs to look at it.</span>
       </div>
@@ -1394,7 +1470,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Toolbar -->
     <div class="dn-pane" id="dn-toolbar">
       <div class="dd-item" data-spotlight="widget-toolbar">
-        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Relevance</span></div>
         <span class="dd-title">Visual de-emphasis — structure unchanged</span>
         <span class="dd-desc">The toolbar content is kept as-is. The only change is visual: a grey background distinguishes it from the macro bar above and the panels below — the same logic as zebra rows in a dense table, where alternating registers reduce visual fatigue and lower error risk. Within the toolbar, two values still stand out: £277 (current open bucket price) and £204 (LLM reference fare). Together they frame the core pricing question at a glance — where am I vs. where the model thinks I should be. They are less prominent than in the original, but still the first things the analyst's eye finds in the toolbar.</span>
       </div>
@@ -1403,62 +1479,63 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- AU Grid -->
     <div class="dn-pane" id="dn-au-grid">
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Error prevention</span></div>
         <span class="dd-title">Scannability & error prevention</span>
         <span class="dd-desc">Three targeted changes:<ul style="margin:.4em 0 0 1.2em;display:flex;flex-direction:column;gap:.25em"><li><strong>Header background removed</strong> — white header reduces noise for experts; still readable for newcomers.</li><li><strong>Selected row: white bg + top/bottom border</strong> — lifts the active row without washing over values. Price and B columns darken to close the visual loop. Error prevention.</li><li><strong>Zebra striping removed</strong> — too few columns to justify it. Row hover (light blue tint on data columns) handles scannability instead, keeping the resting state clean.</li></ul></span>
       </div>
       <div class="dd-item" data-spotlight="au-table-wrap">
-        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Error prevention</span></div>
         <span class="dd-title">Lightweight friction for bucket commits</span>
         <span class="dd-desc">A and Au are the only editable columns — direct commits to the live system, visible to customers within minutes, with no default undo. Changing a value triggers a brief undo toast, giving the analyst a short window to catch a mis-entry before it lands. The toast duration should be user-configurable in settings: an experienced analyst may want a shorter window to stay in flow, while a less confident one may need more time.</span>
       </div>
       <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Computed threat indicators per bucket row</span>
-        <span class="dd-desc">Per bucket row: badge showing "3 red competitors", cheapest competitor delta vs. current bucket price. Analyst doesn't need to cross-reference Competition for a routine threat check — one decision, one place to look.</span>
+        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Relevance</span><span class="dd-criteria-tag">Cognitive load</span></div>
+        <span class="dd-title">Add a competition column — computed threat per bucket row</span>
+        <span class="dd-desc">A new column in the AU Grid table, one cell per bucket row: a badge showing threat count ("3 red competitors") and cheapest competitor delta vs. the current bucket price. The analyst gets the competitive read inline, without cross-referencing the Competition panel — one decision, one place to look.</span>
       </div>
     </div>
 
     <!-- Loading Curves -->
     <div class="dn-pane" id="dn-loading-curves">
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag done">done</span></div>
-        <span class="dd-title">Forecast &amp; Optim lines visually dominant</span>
-        <span class="dd-desc">In the original, Forecast and Optim were dotted and grey — the dataviz convention for "uncertain" accidentally suppressed the most actionable signals in the panel. In Forecast mode, both lines are now foregrounded: Forecast as a thick solid blue (matching the weight of the Current curve), Optim as a strong dashed red. The gap between them is made explicit with a coloured band and a bracket — so the revenue opportunity on the table is impossible to miss.</span>
+      <div class="dd-item" data-spotlight="p2-chart">
+        <div class="dd-meta"><span class="dd-status-tag partial">partially done</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Relevance</span><span class="dd-criteria-tag">Accuracy</span></div>
+        <span class="dd-title">Fewer lines, clearer signal</span>
+        <span class="dd-desc">The original had 7+ overlays competing visually — a line for every model layer, all visible by default. We reduced to 2 lines per mode: Current + Reference in History mode (what happened), Forecast + Optim in Forecast mode (where it's going). The most important signals are now the only ones on screen. Other overlays remain accessible on demand via the icon button top-right of the strip — not implemented in this prototype, but the affordance is present.</span>
       </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Reduce default overlay set</span>
-        <span class="dd-desc">10+ toggles always visible creates decision overhead before reading the chart. Default: Current + Reference + Forecast + Optim. Everything else off by default, accessible via toggle.</span>
+
+      <div class="dd-item" data-spotlight="p2-stats">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Cognitive load</span></div>
+        <span class="dd-title">Gap made explicit — numbers above the chart</span>
+        <span class="dd-desc">The Forecast↔Optim gap is the decision. Rather than making the analyst read it off two lines on a graph, the KPI strip above surfaces it directly: Current PAX / Forecast D-0 / Optim D-0 / Gap −8. The left-to-right order is deliberate — it mirrors the analyst's mental model: where am I now, where am I projected to end up, where could I go if I follow the algorithm, and what is the gap between those two? Each value earns its position. The number is impossible to miss. The chart stays for pattern reading and price elasticity; the strip handles the fast scan.</span>
       </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
+      <div class="dd-item" data-spotlight="p2-mode-tgl">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Relevance</span></div>
         <span class="dd-title">Split into two explicit modes: History vs. Forecast</span>
-        <span class="dd-desc">History mode: Current + Reference (what happened). Forecast mode: Forecast + Optim (where it's going). Separates past fact from future projection — reduces visual competition and cognitive load per read.</span>
+        <span class="dd-desc">History mode: Current + Reference (what happened). Forecast mode: Forecast + Optim (where it's going). Separates past fact from future projection — reduces visual competition and cognitive load per read. The deeper intent is a zoom effect: by stripping away the historical curve, Forecast mode focuses the entire graph on the D-0 projection window — the part where the analyst's decision actually lives. The signal density stays the same; the noise floor drops. The toggle (bottom left) keeps the switch effortless and the full picture always one click away.</span>
       </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Most overlay toggles from default view</span>
-        <span class="dd-desc">Always-visible toggles create decision overhead before the analyst even reads the chart. Move non-default overlays behind "more" — reduce the default visual menu to what's needed for 95% of sessions.</span>
+      <div class="dd-item" data-spotlight="p2-ctrl-right">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Relevance</span></div>
+        <span class="dd-title">Overlay controls moved to the bottom right</span>
+        <span class="dd-desc">In the original, overlay toggles sat at the top right of the panel — visible before the analyst had even looked at the chart, creating a decision about configuration before a decision about data. Moving them to the bottom right reverses that order: the analyst reads the chart first, then reaches for more if needed. Position earns its meaning here — bottom signals secondary, right signals optional. The controls are still one click away (Bookings, Daily pick-up, Live sales, Pax type, and a "more" overflow), but they no longer compete with the chart for first attention. This is the "depth on demand" principle made spatial.</span>
       </div>
     </div>
 
     <!-- Competition -->
     <div class="dn-pane" id="dn-competition">
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Radar annotated in situ</span>
-        <span class="dd-desc">Keep the radar's spatial dimension (time proximity is irreplaceable). Overlay computed indicators directly: threat count badges by level, cheapest competitor delta vs. your price, carrier flags. Radar becomes annotated rather than raw — talkative without being a table.</span>
+      <div class="dd-item" data-spotlight="ticker-counts">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Accuracy</span><span class="dd-criteria-tag">Anti-automation</span></div>
+        <span class="dd-title">Threat ticker + expandable fares table</span>
+        <span class="dd-desc">The ticker strip at the top of the Competition panel surfaces computed threat counts at a glance — 3 threat, 8 watch, 8 ok, 2 safe — without requiring the analyst to count planes on the radar. Each level is color-coded and always visible. For the analyst who needs precision (exact prices, flight numbers, availability), clicking the ticker opens a structured table of all 21 competitor flights, sorted by threat level. Each row shows carrier, flight, time offset, seats available, 7-day price trend, route type (direct vs. stop), price, and delta vs. the current open bucket. The radar stays for spatial context; the ticker handles the fast read; the table handles the deep dive. Three layers, one interaction.</span>
       </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Computed indicators (automated threat rules)</span>
-        <span class="dd-desc">Any rule readable deterministically from the radar can be computed: threat count by colour, cheapest competitor, carrier flags, "more aggressive this week" trend. Automate what is 100% consistent — human judgment reserved for ambiguous cases.</span>
+      <div class="dd-item" data-spotlight="radar-zones">
+        <div class="dd-meta"><span class="dd-status-tag partial">partially done</span><span class="dd-criteria-tag">Cognitive load</span><span class="dd-criteria-tag">Relevance</span></div>
+        <span class="dd-title">Radar readability — zones removed, lines in</span>
+        <span class="dd-desc">The original radar used colored background zones (red/orange/green bands) to encode threat level spatially. These were visually heavy and introduced a second color system that conflicted with the price sphere colors in the AU Grid. In this redesign, zones are replaced with horizontal dotted line separators per level and vertical dashed dividers for time proximity — lighter, less intrusive, and sufficient for orientation once the analyst knows the layout. This is a deliberate bet: that experienced analysts navigating the radar daily will orient by the lines without needing the filled zones. It may not hold for new users or low-frequency analysts — only user testing can confirm whether the lines are readable enough on their own.</span>
       </div>
-      <div class="dd-item">
-        <div class="dd-meta"><span class="dd-status-tag proposal">proposal</span></div>
-        <span class="dd-title">Competitor data as collapsible table (drawer)</span>
-        <span class="dd-desc">The radar gives spatial context; the fares history gives temporal context. A structured table of competitor fares — available on demand via a drawer — gives precision for the analyst who needs exact values, not just visual position.</span>
+      <div class="dd-item" data-spotlight="radarEyeBtn">
+        <div class="dd-meta"><span class="dd-status-tag done">done</span><span class="dd-criteria-tag">Accuracy</span></div>
+        <span class="dd-title">Airline labels — an accessible alternative</span>
+        <span class="dd-desc">The radar uses plane icons colored by carrier. For analysts who are color-blind or in contexts where color differentiation is unreliable, the eye button (top right of the radar) switches icons to 2-letter IATA carrier codes — FR, VY, U2, IB. Identification by shape rather than hue: fully legible without any color perception. A small toggle, a meaningful inclusion.</span>
       </div>
     </div>
 
@@ -1526,10 +1603,10 @@ document.getElementById('origOverlay').addEventListener('click', e => { if (e.ta
 
 // Design notes tabs
 const _airlineLetters = {
-  'rgb(124, 58, 237)': 'I',   // IB — Iberia
-  'rgb(245, 158, 11)': 'V',   // VY — Vueling
-  'rgb(2, 132, 199)': 'R',    // FR — Ryanair
-  'rgb(249, 115, 22)': 'E',   // U2 — easyJet
+  'rgb(124, 58, 237)': 'IB',  // Iberia
+  'rgb(245, 158, 11)': 'VY',  // Vueling
+  'rgb(2, 132, 199)': 'FR',   // Ryanair
+  'rgb(249, 115, 22)': 'U2',  // easyJet
 };
 function toggleRadarLabels() {
   const zones = document.querySelector('.radar-zones');
@@ -1550,7 +1627,10 @@ function toggleRadarLabels() {
 
 function showTab(name) {
   document.querySelectorAll('.dn-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.dn-pane').forEach(p => p.classList.toggle('active', p.id === 'dn-' + name));
+  document.querySelectorAll('.dn-pane').forEach(p => {
+    p.classList.toggle('active', p.id === 'dn-' + name);
+    if (p.id === 'dn-' + name) p.scrollTop = 0;
+  });
 }
 
 
