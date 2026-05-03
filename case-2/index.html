@@ -238,6 +238,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .w-header.variant-muted .wk { background: rgba(0,0,0,.03); }
 .w-header.variant-muted .wk:hover { background: rgba(0,0,0,.06); }
 .w-header.variant-muted .wk-l { color: var(--text-2); }
+.w-header.variant-muted .w-flight-sub { color: var(--text-3); }
+.w-header.variant-muted .wa-ref-lbl { color: var(--text-3) !important; }
+.w-header.variant-muted .wa-ref-val { color: var(--ink) !important; }
 .w-header.variant-blue { background: #1a7a96; border-bottom-color: rgba(255,255,255,.15); }
 .w-header.variant-dark { background: #334155; border-bottom-color: rgba(255,255,255,.09); }
 .w-header.variant-blue .w-logo,
@@ -264,8 +267,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .w-header.variant-blue .wa-ref-sel { color: rgba(255,255,255,.65); }
 .w-header.variant-blue .wa-ref-sel:hover { background: rgba(255,255,255,.12); }
 .w-header.variant-blue .wa-ref-sel [data-lucide] { color: rgba(255,255,255,.4); }
-.w-header.variant-blue .wa-ref-lbl { color: rgba(255,255,255,.45); }
-.w-header.variant-blue .wa-ref-val { color: rgba(255,255,255,.9); }
+.w-header.variant-blue .wa-ref-lbl { color: rgba(255,255,255,.45) !important; }
+.w-header.variant-blue .wa-ref-val { color: rgba(255,255,255,.9) !important; }
 /* dark — high contrast */
 .w-header.variant-dark .w-flight-sub { color: rgba(255,255,255,.38); }
 .w-header.variant-dark .w-flight-num { color: #fff; }
@@ -284,10 +287,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .w-header.variant-dark .wa-ref-sel { color: rgba(255,255,255,.5); }
 .w-header.variant-dark .wa-ref-sel:hover { background: rgba(255,255,255,.08); }
 .w-header.variant-dark .wa-ref-sel [data-lucide] { color: rgba(255,255,255,.3); }
-.w-header.variant-dark .wa-ref-lbl { color: rgba(255,255,255,.3); }
-.w-header.variant-dark .wa-ref-val { color: #fff; }
-/* variant-dark only: slightly cooler tone */
-.w-header.variant-dark { background: #1e293b; }
+.w-header.variant-dark .wa-ref-lbl { color: rgba(255,255,255,.3) !important; }
+.w-header.variant-dark .wa-ref-val { color: #fff !important; }
 /* variant toggle — embedded in card */
 .mvt-row { display: flex; gap: 4px; margin-top: 10px; }
 .mvt-btn {
